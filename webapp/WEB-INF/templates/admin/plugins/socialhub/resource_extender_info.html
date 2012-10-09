@@ -1,0 +1,31 @@
+<div id="left">
+	<div class="content-box">
+		<table>
+			<tr>
+				<th>#i18n{socialhub.resource_extender_info.labelExtenderType}</th>
+				<th>#i18n{socialhub.resource_extender_info.labelIdExtendableResource}</th>
+				<th>#i18n{socialhub.resource_extender_info.labelExtendableResourceType}</th>
+			</tr>
+			<tr>
+				<td>${resourceExtender.extenderType!}</td>
+				<td>${resourceExtender.idExtendableResource!}</td>
+				<td>${resourceExtender.extendableResourceType!}</td>
+			</tr>
+		</table>
+		<form action="jsp/admin/plugins/socialhub/ManageResourceExtendersByResource.jsp" method="post">
+			<input type="hidden" name="session" value="session" />
+			<p>
+				<input type="submit" name="back" value="#i18n{socialhub.button.back}" class="button" />
+			</p>
+		</form>
+	</div>
+</div>
+
+<div id="right">
+	<div class="content-box">
+		<h2>#i18n{socialhub.resource_extender_info.pageTitle}</h2>
+		<#-- BEGIN RESOURCE EXTENDER INFO -->
+		${resourceExtenderInfo!}
+		<#-- END RESOURCE EXTENDER INFO -->
+	</div>
+</div>

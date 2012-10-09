@@ -1,0 +1,26 @@
+<#if resourceTypes?? && resourceTypes?has_content && extenderTypes?? && extenderTypes?has_content>
+	<div class="highlight-box">
+		<p>
+			#i18n{socialhub.create_resource_extender.labelCreateResourceExtender}
+		</p>
+		<p>
+			<label for="extenderType">#i18n{socialhub.create_resource_extender.labelExtenderType} * :</label>
+			<@combo name="extenderType" default_value="" items=extenderTypes />
+		</p>
+		<#if manageByResource>
+			<p>
+				<label for="idExtendableResource">#i18n{socialhub.create_resource_extender.labelIdExtendableResource} * :</label>
+				<input type="text" name="idExtendableResource" value="" maxlength="255" size="20" />
+			</p>
+		<#else>
+			<input type="hidden" name="idExtendableResource" value="*" />
+		</#if>
+		<p>
+			<label for="extendableResourceType">#i18n{socialhub.create_resource_extender.labelResourceType} * :</label>
+			<@combo name="extendableResourceType" default_value="" items=resourceTypes />
+		</p>
+		<p>
+			<input type="submit" name="createResourceExtender" value="#i18n{portal.util.labelCreate}" title="#i18n{portal.util.labelCreate}" class="button" />
+		</p>
+	</div>
+</#if>

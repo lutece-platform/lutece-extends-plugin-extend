@@ -1,0 +1,92 @@
+<form action="jsp/admin/plugins/socialhub/ManageResourceExtendersByResource.jsp" method="post">
+	<div id="content-box-actions">
+		<#list resourceTypeActions as resourceTypeAction>
+			<#if resourceTypeAction.buttonTemplate?has_content>
+				<#include resourceTypeAction.buttonTemplate />
+			</#if>
+		</#list>
+	</div>
+	<div class="content-box">
+		<h2> #i18n{socialhub.manage_resource_extenders_by_resource.pageTitle}</h2>
+		<div class="content-box-content">
+			<#list resourceExtenderActions as resourceExtenderAction>
+				<#if resourceExtenderAction.buttonTemplate?has_content>
+					<#include resourceExtenderAction.buttonTemplate />
+				</#if>
+			</#list>
+			<div class="highlight-box">
+				<p>
+					#i18n{socialhub.manage_resource_extenders_by_resource.labelSearchExtender}
+				</p>
+				<p>
+					<label for="filterExtenderType">#i18n{socialhub.manage_resource_extenders_by_resource.labelExtenderType} :</label>
+					<@combo name="filterExtenderType" default_value=filter.filterExtenderType! items=extenderTypesForFilter />
+				</p>
+				<p>
+					<label for="filterIdExtendableResource">#i18n{socialhub.manage_resource_extenders_by_resource.labelIdExtendableResource} :</label>
+					<input type="text" name="filterIdExtendableResource" value="${filter.filterIdExtendableResource!}" maxlength="255" size="20" />
+				</p>
+				<p>
+					<label for="filterExtendableResourceType">#i18n{socialhub.manage_resource_extenders_by_resource.labelExtendableResourceType} :</label>
+					<@combo name="filterExtendableResourceType" default_value=filter.filterExtendableResourceType! items=resourceTypesForFilter />
+				</p>
+				<input type="submit" name="search" value="#i18n{socialhub.button.search}" class="button" />
+				<input type="submit" name="reset" value="#i18n{portal.util.labelCancel}" class="button" />
+			</div>
+			<@paginationAdmin paginator=paginator combo=1 />
+			<#assign sortSearchAttribute = buildSortSearchAttribute( filter ) />
+			<table>
+			    <tr>
+			    	<th>
+			    		#i18n{socialhub.manage_resource_extenders_by_resource.labelExtenderType}
+			    		<@sort jsp_url="jsp/admin/plugins/socialhub/ManageResourceExtendersByResource.jsp" attribute="extender_type${sortSearchAttribute!}" />
+			    	</th>
+			    	<th>
+			    		#i18n{socialhub.manage_resource_extenders_by_resource.labelIdExtendableResource}
+			    		<@sort jsp_url="jsp/admin/plugins/socialhub/ManageResourceExtendersByResource.jsp" attribute="id_resource${sortSearchAttribute!}" />
+			    	</th>
+			    	<th>
+			    		#i18n{socialhub.manage_resource_extenders_by_resource.labelExtendableResourceType}
+			    		<@sort jsp_url="jsp/admin/plugins/socialhub/ManageResourceExtendersByResource.jsp" attribute="resource_type${sortSearchAttribute!}" />
+			    	</th>
+			    	<th>#i18n{socialhub.manage_resource_extenders_by_resource.labelName}</th>
+			    	<th>#i18n{socialhub.manage_resource_extenders_by_resource.labelActions}</th>
+				</tr>
+				<#if listResourceExtenders?? && listResourceExtenders?has_content>
+					<#list listResourceExtenders as resourceExtender>
+						<tr>
+							<td>${resourceExtender.extenderType!}</td>
+							<td>${resourceExtender.idExtendableResource!}</td>
+							<td>${resourceExtender.extendableResourceType!}</td>
+							<td>${resourceExtender.name!}</td>
+							<td>
+								<#if isExtenderConfigRequired( listExtenders, resourceExtender.extenderType ) && isAuthorized( resourceExtender.idExtender!, 'MODIFY_CONFIG', mapActionPermissions! )>
+									<a href="jsp/admin/plugins/socialhub/ModifyExtenderConfig.jsp?idExtender=${resourceExtender.idExtender!}">
+										<img src="images/admin/skin/actions/modify.png" alt="#i18n{socialhub.button.modifyConfig}" title="#i18n{socialhub.button.modifyConfig}" />
+									</a>
+								</#if>
+								<#if resourceExtender.idExtendableResource != '*' && isAuthorized( resourceExtender.idExtender!, 'VIEW_INFO', mapActionPermissions! )>
+									<a href="jsp/admin/plugins/socialhub/ViewExtenderInfo.jsp?idExtender=${resourceExtender.idExtender!}">
+										<img src="images/admin/skin/plugins/socialhub/actions/info.png" alt="#i18n{socialhub.button.info}" title="#i18n{socialhub.button.info}" />
+									</a>
+								</#if>
+								<#if isExtenderHistoryEnable( listExtenders, resourceExtender.extenderType ) && resourceExtender.idExtendableResource?? && resourceExtender.idExtendableResource != '*' && isAuthorized( resourceExtender.idExtender!, 'VIEW_HISTORY', mapActionPermissions! )>
+									<a href="jsp/admin/plugins/socialhub/ViewExtenderHistory.jsp?idExtender=${resourceExtender.idExtender!}">
+										<img src="images/admin/skin/plugins/socialhub/actions/history.png" alt="#i18n{socialhub.button.history}" title="#i18n{socialhub.button.history}" />
+									</a>
+								</#if>
+								<#if isAuthorized( resourceExtender.idExtender!, 'DELETE', mapActionPermissions! )>
+									<a href="jsp/admin/plugins/socialhub/ConfirmRemoveResourceExtender.jsp?idExtender=${resourceExtender.idExtender!}">
+										<img src="images/admin/skin/actions/delete.png" alt="#i18n{portal.util.labelDelete}" title="#i18n{portal.util.labelDelete}" />
+									</a>
+								</#if>
+							</td>
+						</tr>
+					</#list>
+				</#if>
+			</table>
+			<@paginationAdmin paginator=paginator />
+		</div>
+	</div>
+</form>
+<br />

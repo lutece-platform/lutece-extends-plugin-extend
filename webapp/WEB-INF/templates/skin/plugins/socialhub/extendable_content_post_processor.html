@@ -1,0 +1,47 @@
+<script type="text/javascript">
+	$( document ).ready( function(  ) {
+		<#--
+		 - Replace all @Extendable[<idResource>,<resourceType>,<extenderType>,<params>]@ to the according social
+		 - content.
+		 - 1) Fetch all markers
+		 - 2) For each marker :
+		 - 2A) Build the parameters <idResource>, <resourceType>, <extenderType>, <params>
+		 - 2B) Build the social content given the previous parameters
+		 - 2C) Replace the marker by the content
+		-->
+		 
+		<#-- 1) Fetch all markers -->
+		var matches = $( 'body' ).html(  ).match( /${socialhubRegexPattern!}/ );
+		if ( matches ) {
+			var params = matches[1].split( ',' );
+			<#-- 2A) Build the parameters <idResource>, <resourceType>, <extenderType>, <params> -->
+			if ( params.length >= 3 ) {
+				var idExtendableResource = params[0];
+				var extendableResourceType = params[1];
+				var extenderType = params[2];
+				var parameters = '';
+				if ( params.length > 3 ) {
+					parameters = params[3];
+				}
+				
+				<#-- 2B) Build the social content given the previous parameters -->
+				var request = $.ajax( { 
+					url : '${baseUrl}' + 'servlet/plugins/socialhub',
+					type : 'GET',
+					data : { idExtendableResource : idExtendableResource, extendableResourceType : extendableResourceType, extenderType : extenderType, parameters : parameters },
+					dataType : 'html'
+				} );
+				
+				request.done( function ( socialContent ) { 
+					<#-- 2C) Replace the marker by the content -->
+					$( 'body' ).html( $( 'body' ).html(  ).replace( matches[0], socialContent ) );
+				} );
+				
+				request.fail( function ( jqXHR, textStatus ) {
+					<#-- Replace as an empty string in case of error -->
+					$( 'body' ).html( $( 'body' ).html(  ).replace( matches[0], '' ) );
+				} ) ;
+			}
+		}
+	} );
+</script>

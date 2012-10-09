@@ -1,0 +1,70 @@
+<#--
+-- Build the attribute for sorting table
+-- @param filter the filter
+-- @return the attributes used in the URL
+-->
+<#function buildSortSearchAttribute filter>
+	<#assign sortSearchAttribute = "" />
+	<#if filter??>
+		<#if filter.filterExtenderType?? && filter.filterExtenderType != "">
+			<#assign sortSearchAttribute = sortSearchAttribute + "&amp;filterExtenderType=" + filter.filterExtenderType />
+		</#if>
+		<#if filter.filterIdExtendableResource?? && filter.filterIdExtendableResource != "">
+			<#assign sortSearchAttribute = sortSearchAttribute + "&amp;filterIdExtendableResource=" + filter.filterIdExtendableResource />
+		</#if>
+		<#if filter.filterExtendableResourceType?? && filter.filterExtendableResourceType != "">
+			<#assign sortSearchAttribute = sortSearchAttribute + "&amp;filterExtendableResourceType=" + filter.filterExtendableResourceType />
+		</#if>
+	</#if>
+	<#return sortSearchAttribute />
+</#function>
+
+<#--
+-- Check if the given extender type has a config or not
+-- @param listExtender the list of extenders
+-- @param extenderType the extender type
+-- @return true if it has a config, false otherwise
+-->
+<#function isExtenderConfigRequired listExtenders extenderType>
+	<#if listExtenders?? && listExtenders?has_content>
+		<#list listExtenders as extender>
+			<#if extender.key = extenderType>
+				<#return extender.configRequired />
+			</#if>
+		</#list>
+	</#if>
+	<#return false />
+</#function>
+
+<#--
+-- Check if the given extender type has a history or not
+-- @param listExtender the list of extenders
+-- @param extenderType the extender type
+-- @return true if it has a history, false otherwise
+-->
+<#function isExtenderHistoryEnable listExtenders extenderType>
+	<#if listExtenders?? && listExtenders?has_content>
+		<#list listExtenders as extender>
+			<#if extender.key = extenderType>
+				<#return extender.historyEnable />
+			</#if>
+		</#list>
+	</#if>
+	<#return false />
+</#function>
+
+<#--
+-- Check if the user has the permission to see the button
+-- @param idExtender the id extender
+-- @param permission the permission key
+-- @param mapActionsPermissions the map of permission
+-- @return true if he has the permission, false otherwise
+-->
+<#function isAuthorized idExtender permission mapActionPermissions>
+	<#if mapActionPermissions?? && mapActionPermissions?has_content>
+		<#if mapActionPermissions["" + idExtender]??>
+			<#return mapActionPermissions["" + idExtender][permission] />
+		</#if>
+	</#if>
+	<#return false />
+</#function>

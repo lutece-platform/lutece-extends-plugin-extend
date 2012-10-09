@@ -1,0 +1,17 @@
+<div class="content-box">
+	<h2>#i18n{socialhub.resource_extender_config.pageTitle}</h2>
+	<div id="form-content">
+		<form method="post" action="jsp/admin/plugins/socialhub/DoModifyExtenderConfig.jsp">
+		
+			<#-- BEGIN RESOURCE EXTENDER CONFIG -->
+			${resourceExtenderConfig!}
+			<#-- END RESOURCE EXTENDER CONFIG -->
+			
+			<p>
+				<input type="hidden" name="idExtender" value="${resourceExtender.idExtender!}" />
+				<input type="submit" name="modify" value="#i18n{portal.util.labelModify}" class="button" />
+				<input type="submit" name="cancel" value="#i18n{portal.util.labelCancel}" class="button" />
+			</p>
+		</form>
+	</div>
+</div>

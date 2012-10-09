@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<!-- DAO -->
+	<bean id="socialhub.transactionManager" class="fr.paris.lutece.portal.service.database.DAOUtilTransactionManager">
+		<property name="pluginName" value="socialhub" />
+	</bean>
+	<bean id="socialhub.resourceExtenderDAO" class="fr.paris.lutece.plugins.socialhub.business.extender.ResourceExtenderDAO" />
+	<bean id="socialhub.extendableResourceTypeDAO" class="fr.paris.lutece.plugins.socialhub.business.type.ExtendableResourceTypeDAO" />
+	<bean id="socialhub.defaultExtendableResourceDAO" class="fr.paris.lutece.plugins.socialhub.business.DefaultExtendableResourceDAO" />
+	<bean id="socialhub.resourceExtenderHistoryDAO" class="fr.paris.lutece.plugins.socialhub.business.extender.history.ResourceExtenderHistoryDAO" />
+	
+	<!-- Actions -->
+	<bean id="socialhub.createResourceTypeAction" class="fr.paris.lutece.plugins.socialhub.web.action.CreateResourceTypePluginAction" />
+	<bean id="socialhub.removeResourceTypeAction" class="fr.paris.lutece.plugins.socialhub.web.action.RemoveResourceTypePluginAction" />
+	<bean id="socialhub.createResourceExtenderAction" class="fr.paris.lutece.plugins.socialhub.web.action.CreateResourceExtenderPluginAction" />
+	<bean id="socialhub.createExtenderFromResourceAction" class="fr.paris.lutece.plugins.socialhub.web.action.CreateExtenderFromResourcePluginAction" />
+	
+	<!-- Services -->
+	<bean id="socialhub.resourceExtenderService" class="fr.paris.lutece.plugins.socialhub.service.extender.ResourceExtenderService" />
+	<bean id="socialhub.extendableResourceTypeService" class="fr.paris.lutece.plugins.socialhub.service.type.ExtendableResourceTypeService" />
+	<bean id="socialhub.extenderStringMapper" class="fr.paris.lutece.plugins.socialhub.service.converter.ExtenderStringMapper"
+		p:delimeter="," />
+	<bean id="socialhub.defaultExtendableResourceService" class="fr.paris.lutece.plugins.socialhub.service.DefaultExtendableResourceService" />
+	<bean id="socialhub.extendableResourceManager" class="fr.paris.lutece.plugins.socialhub.service.ExtendableResourceManager" />
+	<bean id="socialhub.resourceExtenderHistoryService" class="fr.paris.lutece.plugins.socialhub.service.extender.history.ResourceExtenderHistoryService" />
+	
+	<!-- Components -->
+	<bean id="socialhub.resourceExtenderComponentManager" class="fr.paris.lutece.plugins.socialhub.web.component.ResourceExtenderComponentManager" />
+	
+	<!-- ContentPostProcessor -->
+	<bean id="socialhub.extendableContentPostProcessor" class="fr.paris.lutece.plugins.socialhub.service.content.ExtendableContentPostProcessor" 
+		p:regexPattern="@Extender\[([^\]@]*)\]@" />
+	
+	<!-- ************************************* -->
+	<!-- ******* Module SocialHub HIT ******** -->
+	<!-- ************************************* -->
+	
+	<!-- DAO -->
+	<bean id="socialhub.hitDAO" class="fr.paris.lutece.plugins.socialhub.modules.hit.business.HitDAO" />
+	
+	<!-- Services -->
+	<bean id="socialhub.hitService" class="fr.paris.lutece.plugins.socialhub.modules.hit.service.HitService" />
+	
+	<!-- Resource extender -->
+	<bean id="socialhub.hitResourceExtender" class="fr.paris.lutece.plugins.socialhub.modules.hit.service.extender.HitResourceExtender" 
+		p:key="hit"
+		p:i18nTitleKey="module.socialhub.hit.extender.labelHit"
+		p:historyEnable="true"
+		p:resourceExtenderComponent-ref="socialhub.hitResourceExtenderComponent" />
+		
+	<!-- Components -->
+	<bean id="socialhub.hitResourceExtenderComponent" class="fr.paris.lutece.plugins.socialhub.modules.hit.web.component.HitResourceExtenderComponent" 
+		p:resourceExtender-ref="socialhub.hitResourceExtender" />
+</beans>

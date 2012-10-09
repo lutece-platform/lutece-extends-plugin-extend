@@ -1,0 +1,4 @@
+<#if resourceTypes?? && resourceTypes?has_content>
+	<input type="image" src="images/admin/skin/actions/delete.png" name="removeResourceType" title="#i18n{socialhub.remove_resource_type.labelDelete}" value="#i18n{socialhub.remove_resource_type.labelDelete}" class="bt-toolbar" />
+	<@comboWithParams name="resourceType" default_value="" additionalParameters="class='bt-toolbar'" items=resourceTypes />
+</#if>

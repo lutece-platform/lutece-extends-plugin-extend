@@ -1,0 +1,22 @@
+<div class="content-box">
+	<h2>#i18n{socialhub.create_resource_type.pageTitle}</h2>
+	<div id="form-content">
+		<form action="jsp/admin/plugins/socialhub/DoCreateResourceType.jsp" method="post">
+			<p>
+				<label for="key">#i18n{socialhub.create_resource_type.labelKey} * :</label>
+				<input type="text" name="key" value="" maxlength="255" size="20" />
+				<br />
+				<label for="">&nbsp;</label>
+				#i18n{socialhub.create_resource_type.labelKeyComment}
+			</p>
+			<p>
+				<label for="description">#i18n{socialhub.create_resource_type.labelDescription} :</label>
+				<input type="text" name="description" value="" maxlength="255" size="30" />
+			</p>
+			<p>
+				<input type="submit" name="save" value="#i18n{portal.util.labelCreate}" class="button" />
+				<input type="submit" name="cancel" value="#i18n{portal.util.labelCancel}" class="button" />
+			</p>
+		</form>
+	</div>
+</div>
