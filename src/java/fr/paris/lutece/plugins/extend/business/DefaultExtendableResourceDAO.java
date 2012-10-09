@@ -45,10 +45,10 @@ import fr.paris.lutece.util.sql.DAOUtil;
  */
 public class DefaultExtendableResourceDAO implements IDefaultExtendableResourceDAO
 {
-    private static final String SQL_QUERY_INSERT = " INSERT INTO socialhub_default_extendable_resource (id_resource, resource_type, name) VALUES ( ?,?,? ) ";
-    private static final String SQL_QUERY_UPDATE = " UPDATE socialhub_default_extendable_resource SET name = ? WHERE id_resource = ? AND resource_type = ? ";
-    private static final String SQL_QUERY_DELETE = " DELETE FROM socialhub_default_extendable_resource WHERE id_resource = ? AND resource_type = ? ";
-    private static final String SQL_QUERY_SELECT = " SELECT id_resource, resource_type, name FROM socialhub_default_extendable_resource WHERE id_resource = ? AND resource_type = ? ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO extend_default_extendable_resource (id_resource, resource_type, name) VALUES ( ?,?,? ) ";
+    private static final String SQL_QUERY_UPDATE = " UPDATE extend_default_extendable_resource SET name = ? WHERE id_resource = ? AND resource_type = ? ";
+    private static final String SQL_QUERY_DELETE = " DELETE FROM extend_default_extendable_resource WHERE id_resource = ? AND resource_type = ? ";
+    private static final String SQL_QUERY_SELECT = " SELECT id_resource, resource_type, name FROM extend_default_extendable_resource WHERE id_resource = ? AND resource_type = ? ";
 
     /**
      * {@inheritDoc}

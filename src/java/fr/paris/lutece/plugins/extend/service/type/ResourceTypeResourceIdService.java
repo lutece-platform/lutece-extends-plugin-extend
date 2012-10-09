@@ -60,9 +60,9 @@ public class ResourceTypeResourceIdService extends ResourceIdService
     public static final String PERMISSION_DELETE = "DELETE";
 
     // PROPERTIES
-    private static final String PROPERTY_LABEL_RESOURCE_TYPE = "socialhub.permission.label.resourceType";
-    private static final String PROPERTY_LABEL_CREATE = "socialhub.permission.label.create";
-    private static final String PROPERTY_LABEL_DELETE = "socialhub.permission.label.delete";
+    private static final String PROPERTY_LABEL_RESOURCE_TYPE = "extend.permission.label.resourceType";
+    private static final String PROPERTY_LABEL_CREATE = "extend.permission.label.create";
+    private static final String PROPERTY_LABEL_DELETE = "extend.permission.label.delete";
 
     /**
      * Instantiates a new resource type resource id service.

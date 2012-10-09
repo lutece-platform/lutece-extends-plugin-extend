@@ -44,7 +44,7 @@ import junit.framework.TestSuite;
 
 
 /**
- * This class is the main test suite for the package fr.paris.lutece.plugins.socialhub
+ * This class is the main test suite for the package fr.paris.lutece.plugins.extend
  */
 public final class AllTests
 {
@@ -54,7 +54,7 @@ public final class AllTests
      */
     public static Test suite(  )
     {
-        TestSuite suite = new TestSuite( "*** Tests Plugin SocialHub " );
+        TestSuite suite = new TestSuite( "*** Tests Plugin Extend " );
 
         //$JUnit-BEGIN$
         suite.addTest( new TestSuite( ResourceExtenderTest.class ) );

@@ -48,13 +48,13 @@ import java.util.List;
  */
 public class ResourceExtenderDAO implements IResourceExtenderDAO
 {
-    private static final String SQL_QUERY_NEW_PK = " SELECT max( id_extender ) FROM socialhub_resource_extender ";
-    private static final String SQL_QUERY_SELECT_ALL = " SELECT id_extender, extender_type, id_resource, resource_type FROM socialhub_resource_extender ";
-    private static final String SQL_QUERY_SELECT_ID_EXTENDER = " SELECT id_extender FROM socialhub_resource_extender ";
+    private static final String SQL_QUERY_NEW_PK = " SELECT max( id_extender ) FROM extend_resource_extender ";
+    private static final String SQL_QUERY_SELECT_ALL = " SELECT id_extender, extender_type, id_resource, resource_type FROM extend_resource_extender ";
+    private static final String SQL_QUERY_SELECT_ID_EXTENDER = " SELECT id_extender FROM extend_resource_extender ";
     private static final String SQL_QUERY_SELECT = SQL_QUERY_SELECT_ALL + " WHERE id_extender = ? ";
-    private static final String SQL_QUERY_UPDATE = " UPDATE socialhub_resource_extender SET extender_type = ?, id_resource = ?, resource_type = ? WHERE id_extender = ? ";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO socialhub_resource_extender (id_extender, extender_type, id_resource, resource_type) VALUES ( ?,?,?,? ) ";
-    private static final String SQL_QUERY_DELETE = " DELETE FROM socialhub_resource_extender where id_extender = ? ";
+    private static final String SQL_QUERY_UPDATE = " UPDATE extend_resource_extender SET extender_type = ?, id_resource = ?, resource_type = ? WHERE id_extender = ? ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO extend_resource_extender (id_extender, extender_type, id_resource, resource_type) VALUES ( ?,?,?,? ) ";
+    private static final String SQL_QUERY_DELETE = " DELETE FROM extend_resource_extender where id_extender = ? ";
 
     // FILTERS
     private static final String SQL_WHERE = " WHERE ";

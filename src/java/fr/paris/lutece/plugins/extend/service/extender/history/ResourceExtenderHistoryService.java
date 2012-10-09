@@ -59,7 +59,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ResourceExtenderHistoryService implements IResourceExtenderHistoryService
 {
     /** The Constant BBEAN_SERVICE. */
-    public static final String BEAN_SERVICE = "socialhub.resourceExtenderHistoryService";
+    public static final String BEAN_SERVICE = "extend.resourceExtenderHistoryService";
     @Inject
     private IResourceExtenderHistoryDAO _resourceExtenderHistoryDAO;
 

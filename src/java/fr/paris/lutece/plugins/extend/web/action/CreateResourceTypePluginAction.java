@@ -71,7 +71,7 @@ public class CreateResourceTypePluginAction extends AbstractPluginAction<IResour
     private static final String TEMPLATE_BUTTON = "actions/create_resource_type.html";
 
     // JSP
-    private static final String JSP_URL = "jsp/admin/plugins/socialhub/CreateResourceType.jsp";
+    private static final String JSP_URL = "jsp/admin/plugins/extend/CreateResourceType.jsp";
 
     /**
      * {@inheritDoc}

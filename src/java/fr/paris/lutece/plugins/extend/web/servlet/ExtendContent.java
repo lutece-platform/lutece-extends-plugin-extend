@@ -54,7 +54,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * SocialHubContent
+ * ExtendContent
  *
  */
 public class ExtendContent extends HttpServlet

@@ -64,7 +64,7 @@ public class HitTest extends LuteceTestCase
     public void testBusiness(  )
     {
         Plugin plugin = PluginService.getPlugin( ExtendPlugin.PLUGIN_NAME );
-        IHitDAO dao = SpringContextService.getBean( "socialhub.hitDAO" );
+        IHitDAO dao = SpringContextService.getBean( "extend.hitDAO" );
 
         // Init object
         Hit hit = new Hit(  );

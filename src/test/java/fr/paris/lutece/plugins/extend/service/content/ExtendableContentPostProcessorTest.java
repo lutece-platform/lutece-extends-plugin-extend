@@ -49,7 +49,7 @@ import org.junit.Test;
 public class ExtendableContentPostProcessorTest extends LuteceTestCase
 {
     private static final String HTML = "<html><head><base href=\"http://localhost:8080/lutece\"/></head><body><h1>Test</h1>@extendable[1,resourceType,hit,parameters]@<p>@extendable[2,resourceType-2,extenderType 2,{parameter_A = 2, parameter_B = 3}]@</p></body></html>";
-    private static final String BEAN_CONTENT_POST_PROCESS = "socialhub.extendableContentPostProcessor";
+    private static final String BEAN_CONTENT_POST_PROCESS = "extend.extendableContentPostProcessor";
 
     /**
      * Test process.

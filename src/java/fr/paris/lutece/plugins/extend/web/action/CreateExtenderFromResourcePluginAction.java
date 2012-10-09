@@ -75,10 +75,10 @@ public class CreateExtenderFromResourcePluginAction extends AbstractPluginAction
     private static final String MARK_EXTENDER_TYPES = "extenderTypes";
 
     // TEMPLATE
-    private static final String TEMPLATE_BUTTON = "../plugins/socialhub/actions/create_extender_from_resource.html";
+    private static final String TEMPLATE_BUTTON = "../plugins/extend/actions/create_extender_from_resource.html";
 
     // JSP
-    private static final String JSP_URL = "jsp/admin/plugins/socialhub/DoCreateResourceExtender.jsp";
+    private static final String JSP_URL = "jsp/admin/plugins/extend/DoCreateResourceExtender.jsp";
     @Inject
     private IResourceExtenderService _resourceExtenderService;
 

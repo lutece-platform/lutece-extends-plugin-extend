@@ -48,7 +48,7 @@ import org.junit.Test;
  */
 public class ExtenderStringMapperTest extends LuteceTestCase
 {
-    private static final String BEAN_MAPPER = "socialhub.extenderStringMapper";
+    private static final String BEAN_MAPPER = "extend.extenderStringMapper";
 
     // <idResource, resourceType, extenderType, parameters>
     private static final String STRING_TO_MAP = "2,resourceType-2,extenderType 2,{parameter_A = 2, parameter_B = 3}";

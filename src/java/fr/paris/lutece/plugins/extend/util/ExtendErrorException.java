@@ -33,11 +33,10 @@
  */
 package fr.paris.lutece.plugins.extend.util;
 
-
 /**
- *
- * SocialhubException
- *
+ * 
+ * ExtendErrorException
+ * 
  */
 public class ExtendErrorException extends Exception
 {

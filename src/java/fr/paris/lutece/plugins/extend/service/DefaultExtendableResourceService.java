@@ -55,7 +55,7 @@ import javax.inject.Inject;
 public class DefaultExtendableResourceService implements IDefaultExtendableResourceService
 {
     /** The Constant BEAN_SERVICE. */
-    public static final String BEAN_SERVICE = "socialhub.defaultExtendableResourceService";
+    public static final String BEAN_SERVICE = "extend.defaultExtendableResourceService";
     @Inject
     private IDefaultExtendableResourceDAO _extendableResourceDAO;
 

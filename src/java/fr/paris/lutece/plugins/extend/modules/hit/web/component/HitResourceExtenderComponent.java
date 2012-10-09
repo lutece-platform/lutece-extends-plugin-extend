@@ -69,8 +69,8 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
     private static final String MARK_HIT = "hit";
 
     // TEMPLATES
-    private static final String TEMPLATE_HIT = "skin/plugins/socialhub/modules/hit/hit.html";
-    private static final String TEMPLATE_INFO = "admin/plugins/socialhub/modules/hit/hit_info.html";
+    private static final String TEMPLATE_HIT = "skin/plugins/extend/modules/hit/hit.html";
+    private static final String TEMPLATE_INFO = "admin/plugins/extend/modules/hit/hit_info.html";
 
     // CONSTANTS
     private static final String JSON_KEY_SHOW = "show";

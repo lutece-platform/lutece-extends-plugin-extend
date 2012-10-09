@@ -64,7 +64,7 @@ public class ResourceExtenderTest extends LuteceTestCase
     public void testBusiness(  )
     {
         Plugin plugin = PluginService.getPlugin( ExtendPlugin.PLUGIN_NAME );
-        IResourceExtenderDAO dao = SpringContextService.getBean( "socialhub.resourceExtenderDAO" );
+        IResourceExtenderDAO dao = SpringContextService.getBean( "extend.resourceExtenderDAO" );
 
         // Init object
         ResourceExtenderDTO extender = new ResourceExtenderDTO(  );

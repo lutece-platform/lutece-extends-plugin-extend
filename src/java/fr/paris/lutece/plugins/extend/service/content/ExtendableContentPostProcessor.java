@@ -69,14 +69,14 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
     private static final String END_BODY = "</body>";
 
     // PROPERTIES
-    private static final String PROPERTY_CLIENT_SIDE = "socialhub.contentPostProcessor.clientSide";
+    private static final String PROPERTY_CLIENT_SIDE = "extend.contentPostProcessor.clientSide";
 
     // MARKS
-    private static final String MARK_REGEX_PATTERN = "socialhubRegexPattern";
+    private static final String MARK_REGEX_PATTERN = "extendRegexPattern";
     private static final String MARK_BASE_URL = "baseUrl";
 
     // TEMPLATES
-    private static final String TEMPLATE_CONTENT_POST_PROCESSOR = "skin/plugins/socialhub/extendable_content_post_processor.html";
+    private static final String TEMPLATE_CONTENT_POST_PROCESSOR = "skin/plugins/extend/extendable_content_post_processor.html";
     @Inject
     private IResourceExtenderService _extenderService;
     @Inject

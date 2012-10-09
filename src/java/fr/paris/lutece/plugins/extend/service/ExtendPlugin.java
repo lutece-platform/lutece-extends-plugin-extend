@@ -40,13 +40,13 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 
 /**
  *
- * SocialHubPlugin.
+ * ExtendPlugin.
  *
  */
 public class ExtendPlugin extends PluginDefaultImplementation
 {
     /** The Constant PLUGIN_NAME. */
-    public static final String PLUGIN_NAME = "socialhub";
+    public static final String PLUGIN_NAME = "extend";
 
     /** The Constant TRANSACTION_MANAGER. */
     public static final String TRANSACTION_MANAGER = PLUGIN_NAME + ".transactionManager";

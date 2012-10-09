@@ -99,24 +99,24 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     public static final String RIGHT_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE = "RESOURCE_EXTENDER_MANAGEMENT_BY_RESOURCE";
 
     // PROPERTIES
-    private static final String PROPERTY_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_TYPE_PAGE_TITLE = "socialhub.manage_resource_extenders_by_resource_type.pageTitle";
-    private static final String PROPERTY_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_PAGE_TITLE = "socialhub.manage_resource_extenders_by_resource.pageTitle";
-    private static final String PROPERTY_CREATE_RESOURCE_TYPE_PAGE_TITLE = "socialhub.create_resource_type.pageTitle";
-    private static final String PROPERTY_MODIFY_RESOURCE_TYPE_PAGE_TITLE = "socialhub.modify_resource_type.pageTitle";
-    private static final String PROPERTY_EXTENDER_CONFIG_PAGE_TITLE = "socialhub.resource_extender_config.pageTitle";
-    private static final String PROPERTY_EXTENDER_INFO_PAGE_TITLE = "socialhub.resource_extender_info.pageTitle";
-    private static final String PROPERTY_EXTENDER_HISTORY_PAGE_TITLE = "socialhub.resource_extender_history.pageTitle";
-    private static final String PROPERTY_CREATE_DEFAULT_RESOURCE_PAGE_TITLE = "socialhub.create_default_resource_extender.pageTitle";
+    private static final String PROPERTY_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_TYPE_PAGE_TITLE = "extend.manage_resource_extenders_by_resource_type.pageTitle";
+    private static final String PROPERTY_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_PAGE_TITLE = "extend.manage_resource_extenders_by_resource.pageTitle";
+    private static final String PROPERTY_CREATE_RESOURCE_TYPE_PAGE_TITLE = "extend.create_resource_type.pageTitle";
+    private static final String PROPERTY_MODIFY_RESOURCE_TYPE_PAGE_TITLE = "extend.modify_resource_type.pageTitle";
+    private static final String PROPERTY_EXTENDER_CONFIG_PAGE_TITLE = "extend.resource_extender_config.pageTitle";
+    private static final String PROPERTY_EXTENDER_INFO_PAGE_TITLE = "extend.resource_extender_info.pageTitle";
+    private static final String PROPERTY_EXTENDER_HISTORY_PAGE_TITLE = "extend.resource_extender_history.pageTitle";
+    private static final String PROPERTY_CREATE_DEFAULT_RESOURCE_PAGE_TITLE = "extend.create_default_resource_extender.pageTitle";
 
     // MESSAGES
-    private static final String MESSAGE_ERROR_GENERIC_MESSAGE = "socialhub.message.error.genericMessage";
-    private static final String MESSAGE_CONFIRM_REMOVE_RESOURCE_EXTENDER = "socialhub.message.confirm.removeResourceExtender";
-    private static final String MESSAGE_CONFIRM_REMOVE_RESOURCE_TYPE = "socialhub.message.confirm.removeResourceType";
-    private static final String MESSAGE_STOP_GENERIC_MESSAGE = "socialhub.message.stop.genericMessage";
-    private static final String MESSAGE_CANNOT_DUPLICATE_RESOURCE_TYPE = "socialhub.message.cannotDuplicateResourceType";
-    private static final String MESSAGE_EXTENDER_TO_ALL_RESOURCES_ALREADY_EXISTS = "socialhub.message.extenderToAllResourcesAlreadyExists";
-    private static final String MESSAGE_EXTENDER_WITH_ID_RESOURCES_ALREADY_EXISTS = "socialhub.message.extenderWithIdAlreadyExists";
-    private static final String MESSAGE_UNAUTHORIZED_ACTION = "socialhub.message.unauthorizedAction";
+    private static final String MESSAGE_ERROR_GENERIC_MESSAGE = "extend.message.error.genericMessage";
+    private static final String MESSAGE_CONFIRM_REMOVE_RESOURCE_EXTENDER = "extend.message.confirm.removeResourceExtender";
+    private static final String MESSAGE_CONFIRM_REMOVE_RESOURCE_TYPE = "extend.message.confirm.removeResourceType";
+    private static final String MESSAGE_STOP_GENERIC_MESSAGE = "extend.message.stop.genericMessage";
+    private static final String MESSAGE_CANNOT_DUPLICATE_RESOURCE_TYPE = "extend.message.cannotDuplicateResourceType";
+    private static final String MESSAGE_EXTENDER_TO_ALL_RESOURCES_ALREADY_EXISTS = "extend.message.extenderToAllResourcesAlreadyExists";
+    private static final String MESSAGE_EXTENDER_WITH_ID_RESOURCES_ALREADY_EXISTS = "extend.message.extenderWithIdAlreadyExists";
+    private static final String MESSAGE_UNAUTHORIZED_ACTION = "extend.message.unauthorizedAction";
 
     // PARAMETERS
     private static final String PARAMETER_RESOURCE_TYPE = "resourceType";
@@ -141,21 +141,21 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     // JSP
     private static final String JSP_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE = "ManageResourceExtendersByResource.jsp";
     private static final String JSP_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE_TYPE = "ManageResourceExtendersByResourceType.jsp";
-    private static final String JSP_URL_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_TYPE = "jsp/admin/plugins/socialhub/" +
+    private static final String JSP_URL_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_TYPE = "jsp/admin/plugins/extend/" +
         JSP_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE_TYPE;
-    private static final String JSP_URL_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE = "jsp/admin/plugins/socialhub/" +
+    private static final String JSP_URL_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE = "jsp/admin/plugins/extend/" +
         JSP_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE;
-    private static final String JSP_URL_DO_REMOVE_RESOURCE_EXTENDER = "jsp/admin/plugins/socialhub/DoRemoveResourceExtender.jsp";
-    private static final String JSP_URL_DO_REMOVE_RESOURCE_TYPE = "jsp/admin/plugins/socialhub/DoRemoveResourceType.jsp";
-    private static final String JSP_URL_CREATE_DEFAULT_RESOURCE_EXTENDER = "jsp/admin/plugins/socialhub/CreateDefaultResourceExtender.jsp";
-    private static final String JSP_URL_MODIFY_RESOURCE_EXTENDER_CONFIG = "jsp/admin/plugins/socialhub/ModifyExtenderConfig.jsp";
+    private static final String JSP_URL_DO_REMOVE_RESOURCE_EXTENDER = "jsp/admin/plugins/extend/DoRemoveResourceExtender.jsp";
+    private static final String JSP_URL_DO_REMOVE_RESOURCE_TYPE = "jsp/admin/plugins/extend/DoRemoveResourceType.jsp";
+    private static final String JSP_URL_CREATE_DEFAULT_RESOURCE_EXTENDER = "jsp/admin/plugins/extend/CreateDefaultResourceExtender.jsp";
+    private static final String JSP_URL_MODIFY_RESOURCE_EXTENDER_CONFIG = "jsp/admin/plugins/extend/ModifyExtenderConfig.jsp";
 
     // TEMPLATES
-    private static final String TEMPLATE_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_TYPE = "admin/plugins/socialhub/manage_resource_extenders_by_resource_type.html";
-    private static final String TEMPLATE_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE = "admin/plugins/socialhub/manage_resource_extenders_by_resource.html";
-    private static final String TEMPLATE_CREATE_RESOURCE_TYPE = "admin/plugins/socialhub/create_resource_type.html";
-    private static final String TEMPLATE_MODIFY_RESOURCE_TYPE = "admin/plugins/socialhub/modify_resource_type.html";
-    private static final String TEMPLATE_CREATE_DEFAULT_RESOURCE_EXTENDER = "admin/plugins/socialhub/create_default_resource_extender.html";
+    private static final String TEMPLATE_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_TYPE = "admin/plugins/extend/manage_resource_extenders_by_resource_type.html";
+    private static final String TEMPLATE_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE = "admin/plugins/extend/manage_resource_extenders_by_resource.html";
+    private static final String TEMPLATE_CREATE_RESOURCE_TYPE = "admin/plugins/extend/create_resource_type.html";
+    private static final String TEMPLATE_MODIFY_RESOURCE_TYPE = "admin/plugins/extend/modify_resource_type.html";
+    private static final String TEMPLATE_CREATE_DEFAULT_RESOURCE_EXTENDER = "admin/plugins/extend/create_default_resource_extender.html";
 
     // VARIABLES
     private IResourceExtenderSearchFields _resourceExtenderSearchFields = new ResourceExtenderSearchFields(  );

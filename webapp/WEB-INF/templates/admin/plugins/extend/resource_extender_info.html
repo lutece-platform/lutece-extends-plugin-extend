@@ -2,9 +2,9 @@
 	<div class="well span3">
 		<table class="table table-condensed">
 			<tr>
-				<th scope="col">#i18n{socialhub.resource_extender_info.labelExtenderType}</th>
-				<th scope="col">#i18n{socialhub.resource_extender_info.labelIdExtendableResource}</th>
-				<th scope="col">#i18n{socialhub.resource_extender_info.labelExtendableResourceType}</th>
+				<th scope="col">#i18n{extend.resource_extender_info.labelExtenderType}</th>
+				<th scope="col">#i18n{extend.resource_extender_info.labelIdExtendableResource}</th>
+				<th scope="col">#i18n{extend.resource_extender_info.labelExtendableResourceType}</th>
 			</tr>
 			<tr>
 				<td>${resourceExtender.extenderType!}</td>
@@ -12,16 +12,16 @@
 				<td>${resourceExtender.extendableResourceType!}</td>
 			</tr>
 		</table>
-		<form action="jsp/admin/plugins/socialhub/ManageResourceExtendersByResource.jsp" method="post">
+		<form action="jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp" method="post">
 			<input type="hidden" name="session" value="session" />
 			<p>
-				<input type="submit" name="back" value="#i18n{socialhub.button.back}" class="btn btn-primary" />
+				<input type="submit" name="back" value="#i18n{extend.button.back}" class="btn btn-primary" />
 			</p>
 		</form>
 	</div>
 	<div class="row-fluid span9">
 		<div class="content-box">
-			<p class="lead">#i18n{socialhub.resource_extender_info.pageTitle}</p>
+			<p class="lead">#i18n{extend.resource_extender_info.pageTitle}</p>
 			<#-- BEGIN RESOURCE EXTENDER INFO -->
 			${resourceExtenderInfo!}
 			<#-- END RESOURCE EXTENDER INFO -->

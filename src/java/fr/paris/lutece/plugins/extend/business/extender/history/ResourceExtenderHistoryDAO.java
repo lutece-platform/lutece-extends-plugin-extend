@@ -47,14 +47,14 @@ import java.util.List;
  */
 public class ResourceExtenderHistoryDAO implements IResourceExtenderHistoryDAO
 {
-    private static final String SQL_QUERY_NEW_PK = " SELECT max( id_history ) FROM socialhub_resource_extender_history ";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO socialhub_resource_extender_history ( id_history, extender_type, id_resource, resource_type, user_guid, ip_address ) " +
+    private static final String SQL_QUERY_NEW_PK = " SELECT max( id_history ) FROM extend_resource_extender_history ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO extend_resource_extender_history ( id_history, extender_type, id_resource, resource_type, user_guid, ip_address ) " +
         " VALUES ( ?, ?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_SELECT_ALL = " SELECT id_history, extender_type, id_resource, resource_type, user_guid, ip_address, date_creation " +
-        " FROM socialhub_resource_extender_history ";
+        " FROM extend_resource_extender_history ";
     private static final String SQL_QUERY_SELECT = SQL_QUERY_SELECT_ALL + " WHERE id_history = ? ";
-    private static final String SQL_QUERY_DELETE = " DELETE FROM socialhub_resource_extender_history WHERE id_history = ? ";
-    private static final String SQL_QUERY_DELETE_BY_RESOURCE = " DELETE FROM socialhub_resource_extender_history WHERE extender_type = ? AND id_resource = ? AND resource_type = ? ";
+    private static final String SQL_QUERY_DELETE = " DELETE FROM extend_resource_extender_history WHERE id_history = ? ";
+    private static final String SQL_QUERY_DELETE_BY_RESOURCE = " DELETE FROM extend_resource_extender_history WHERE extender_type = ? AND id_resource = ? AND resource_type = ? ";
 
     /**
     * Generates a new primary key.

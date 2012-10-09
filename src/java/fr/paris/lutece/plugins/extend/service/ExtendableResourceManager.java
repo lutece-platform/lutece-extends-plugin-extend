@@ -50,7 +50,7 @@ import javax.inject.Inject;
 public class ExtendableResourceManager implements IExtendableResourceManager
 {
     /** The Constant BEAN_MANAGER. */
-    public static final String BEAN_MANAGER = "socialhub.extendableResourceManager";
+    public static final String BEAN_MANAGER = "extend.extendableResourceManager";
     @Inject
     private IDefaultExtendableResourceService _defaultService;
 

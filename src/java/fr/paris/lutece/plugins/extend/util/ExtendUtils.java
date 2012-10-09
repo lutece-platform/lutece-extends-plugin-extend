@@ -51,7 +51,7 @@ import javax.validation.ConstraintViolation;
 
 /**
  *
- * SocialHubUtils
+ * ExtendUtils
  *
  */
 public final class ExtendUtils
@@ -60,7 +60,7 @@ public final class ExtendUtils
     private static final String HTML_BR = "<br />";
 
     // MESSAGES
-    private static final String MESSAGE_STOP_GENERIC_MESSAGE = "socialhub.message.stop.genericMessage";
+    private static final String MESSAGE_STOP_GENERIC_MESSAGE = "extend.message.stop.genericMessage";
 
     /**
      * Instantiates a new social hub utils.

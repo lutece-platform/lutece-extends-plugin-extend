@@ -60,7 +60,7 @@ public class ExtendableResourceTypeTest extends LuteceTestCase
     public void testBusiness(  )
     {
         Plugin plugin = PluginService.getPlugin( ExtendPlugin.PLUGIN_NAME );
-        IExtendableResourceTypeDAO dao = SpringContextService.getBean( "socialhub.extendableResourceTypeDAO" );
+        IExtendableResourceTypeDAO dao = SpringContextService.getBean( "extend.extendableResourceTypeDAO" );
 
         // Init object
         ExtendableResourceType resourceType = new ExtendableResourceType(  );

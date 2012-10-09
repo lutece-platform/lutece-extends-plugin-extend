@@ -79,13 +79,13 @@ import javax.validation.ConstraintViolation;
 public class ResourceExtenderComponentManager implements IResourceExtenderComponentManager
 {
     /** The Constant BEAN_MANAGER. */
-    public static final String BEAN_MANAGER = "socialhub.resourceExtenderComponentManager";
+    public static final String BEAN_MANAGER = "extend.resourceExtenderComponentManager";
 
     // CONSTANTS
     private static final String ORDER_BY_DATE_CREATION = " date_creation ";
 
     // PROPERTIES
-    private static final String PROPERTY_DEFAULT_LIST_HISTORIES_PER_PAGE = "socialhub.listHistories.itemsPerPage";
+    private static final String PROPERTY_DEFAULT_LIST_HISTORIES_PER_PAGE = "extend.listHistories.itemsPerPage";
 
     // PARAMETERS
     private static final String PARAMETER_ID_EXTENDER = "idExtender";
@@ -100,15 +100,15 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
 
     // TEMPLATES
-    private static final String TEMPLATE_RESOURCE_EXTENDER_CONFIG = "admin/plugins/socialhub/resource_extender_config.html";
-    private static final String TEMPLATE_RESOURCE_EXTENDER_INFO = "admin/plugins/socialhub/resource_extender_info.html";
-    private static final String TEMPLATE_RESOURCE_EXTENDER_HISTORY = "admin/plugins/socialhub/resource_extender_history.html";
+    private static final String TEMPLATE_RESOURCE_EXTENDER_CONFIG = "admin/plugins/extend/resource_extender_config.html";
+    private static final String TEMPLATE_RESOURCE_EXTENDER_INFO = "admin/plugins/extend/resource_extender_info.html";
+    private static final String TEMPLATE_RESOURCE_EXTENDER_HISTORY = "admin/plugins/extend/resource_extender_history.html";
 
     // JSP
-    private static final String JSP_URL_VIEW_EXTENDER_HISTORY = "jsp/admin/plugins/socialhub/ViewExtenderHistory.jsp";
+    private static final String JSP_URL_VIEW_EXTENDER_HISTORY = "jsp/admin/plugins/extend/ViewExtenderHistory.jsp";
 
     // MESSAGES
-    private static final String MESSAGE_STOP_GENERIC_MESSAGE = "socialhub.message.stop.genericMessage";
+    private static final String MESSAGE_STOP_GENERIC_MESSAGE = "extend.message.stop.genericMessage";
 
     // SERVICES
     @Inject

@@ -75,7 +75,7 @@ public class CreateResourceExtenderPluginAction extends AbstractPluginAction<IRe
     private static final String TEMPLATE_BUTTON = "actions/create_resource_extender.html";
 
     // JSP
-    private static final String JSP_URL = "jsp/admin/plugins/socialhub/DoCreateResourceExtender.jsp";
+    private static final String JSP_URL = "jsp/admin/plugins/extend/DoCreateResourceExtender.jsp";
     @Inject
     private IExtendableResourceTypeService _resourceTypeService;
     @Inject

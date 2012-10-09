@@ -46,7 +46,7 @@ import javax.validation.constraints.NotNull;
 public class ResourceExtenderDTO implements RBACResource
 {
     /** The Constant RESOURCE_TYPE. */
-    public static final String RESOURCE_TYPE = "SOCIALHUB_EXTENDABLE_RESOURCE";
+	public static final String RESOURCE_TYPE = "EXTEND_EXTENDABLE_RESOURCE";
     private int _nIdExtender;
     @NotNull
     private String _strExtenderType;

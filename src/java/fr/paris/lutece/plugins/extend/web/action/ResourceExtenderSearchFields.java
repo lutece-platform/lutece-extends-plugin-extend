@@ -70,8 +70,8 @@ public class ResourceExtenderSearchFields implements IResourceExtenderSearchFiel
     private static final long serialVersionUID = 5171135962785175642L;
 
     // PROPERTIES
-    private static final String PROPERTY_DEFAULT_LIST_RESOURCES_EXTENDERS_PER_PAGE = "socialhub.listResourceExtenders.itemsPerPage";
-    private static final String PROPERTY_LABEL_ALL = "socialhub.labelAll";
+    private static final String PROPERTY_DEFAULT_LIST_RESOURCES_EXTENDERS_PER_PAGE = "extend.listResourceExtenders.itemsPerPage";
+    private static final String PROPERTY_LABEL_ALL = "extend.labelAll";
 
     // PARAMETERS
     private static final String PARAMETER_SESSION = "session";

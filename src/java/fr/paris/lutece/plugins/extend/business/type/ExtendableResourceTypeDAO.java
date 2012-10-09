@@ -47,10 +47,10 @@ import java.util.List;
  */
 public class ExtendableResourceTypeDAO implements IExtendableResourceTypeDAO
 {
-    private static final String SQL_QUERY_INSERT = " INSERT INTO socialhub_resource_type (resource_type, description) VALUES ( ?,? ) ";
-    private static final String SQL_QUERY_UPDATE = " UPDATE socialhub_resource_type SET description = ? WHERE resource_type = ? ";
-    private static final String SQL_QUERY_DELETE = " DELETE FROM socialhub_resource_type WHERE resource_type = ? ";
-    private static final String SQL_QUERY_SELECT_ALL = " SELECT resource_type, description FROM socialhub_resource_type ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO extend_resource_type (resource_type, description) VALUES ( ?,? ) ";
+    private static final String SQL_QUERY_UPDATE = " UPDATE extend_resource_type SET description = ? WHERE resource_type = ? ";
+    private static final String SQL_QUERY_DELETE = " DELETE FROM extend_resource_type WHERE resource_type = ? ";
+    private static final String SQL_QUERY_SELECT_ALL = " SELECT resource_type, description FROM extend_resource_type ";
     private static final String SQL_QUERY_SELECT = SQL_QUERY_SELECT_ALL + " WHERE resource_type = ? ";
 
     /**

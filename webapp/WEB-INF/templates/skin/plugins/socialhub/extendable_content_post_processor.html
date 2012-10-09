@@ -11,7 +11,7 @@
 		-->
 		 
 		<#-- 1) Fetch all markers -->
-		var matches = $( 'body' ).html(  ).match( /${socialhubRegexPattern!}/ );
+		var matches = $( 'body' ).html(  ).match( /${extendRegexPattern!}/ );
 		if ( matches ) {
 			var params = matches[1].split( ',' );
 			<#-- 2A) Build the parameters <idResource>, <resourceType>, <extenderType>, <params> -->
@@ -26,7 +26,7 @@
 				
 				<#-- 2B) Build the social content given the previous parameters -->
 				var request = $.ajax( { 
-					url : '${baseUrl}' + 'servlet/plugins/socialhub',
+					url : '${baseUrl}' + 'servlet/plugins/extend',
 					type : 'GET',
 					data : { idExtendableResource : idExtendableResource, extendableResourceType : extendableResourceType, extenderType : extenderType, parameters : parameters },
 					dataType : 'html'

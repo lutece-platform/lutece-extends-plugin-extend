@@ -77,7 +77,7 @@ public class RemoveResourceTypePluginAction extends AbstractPluginAction<IResour
     private static final String ATTRIBUTE_KEY = "key";
 
     // JSP
-    private static final String JSP_URL = "jsp/admin/plugins/socialhub/ConfirmRemoveResourceType.jsp";
+    private static final String JSP_URL = "jsp/admin/plugins/extend/ConfirmRemoveResourceType.jsp";
     @Inject
     private IExtendableResourceTypeService _resourceTypeService;
 

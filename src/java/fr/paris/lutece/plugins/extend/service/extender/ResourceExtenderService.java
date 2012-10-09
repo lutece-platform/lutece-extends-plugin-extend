@@ -68,7 +68,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ResourceExtenderService implements IResourceExtenderService
 {
     /** The Constant BEAN_SERVICE. */
-    public static final String BEAN_SERVICE = "socialhub.resourceExtenderService";
+    public static final String BEAN_SERVICE = "extend.resourceExtenderService";
     @Inject
     private IResourceExtenderDAO _extenderDAO;
     @Inject

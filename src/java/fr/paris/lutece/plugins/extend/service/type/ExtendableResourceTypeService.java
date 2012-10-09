@@ -57,7 +57,7 @@ import javax.inject.Inject;
 public class ExtendableResourceTypeService implements IExtendableResourceTypeService
 {
     /** The Constant BEAN_SERVICE. */
-    public static final String BEAN_SERVICE = "socialhub.extendableResourceTypeService";
+    public static final String BEAN_SERVICE = "extend.extendableResourceTypeService";
     @Inject
     private IExtendableResourceTypeDAO _resourceTypeDAO;
     @Inject
