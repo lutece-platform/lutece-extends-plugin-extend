@@ -1,6 +1,0 @@
-<#if extendableResourceType?? && idExtendableResource?? && extenderTypes?? && extenderTypes?has_content>
-	<input type="hidden" name="extendableResourceType" value="${extendableResourceType!}" />
-	<input type="hidden" name="idExtendableResource" value="${idExtendableResource!}" />
-	<input type="image" src="images/admin/skin/plugins/socialhub/actions/add.png" name="createExtenderFromResource" title="#i18n{socialhub.create_extender_from_resource.labelAddExtender}" value="#i18n{socialhub.create_extender_from_resource.labelAddExtender}" class="bt-toolbar" />
-	<@comboWithParams name="extenderType" default_value="" additionalParameters="class='bt-toolbar'" items=extenderTypes! />
-</#if>

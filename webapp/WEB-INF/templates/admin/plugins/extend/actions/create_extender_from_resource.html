@@ -1,0 +1,8 @@
+<#if extendableResourceType?? && idExtendableResource?? && extenderTypes?? && extenderTypes?has_content>
+	<input type="hidden" name="extendableResourceType" value="${extendableResourceType!}" />
+	<input type="hidden" name="idExtendableResource" value="${idExtendableResource!}" />
+	<button type="submit" name="createExtenderFromResource" title="#i18n{socialhub.create_extender_from_resource.labelAddExtender}" value="createExtenderFromResource" class="btn" >
+		<i class="icon-plus-sign icon-white">&nbsp;</i>&nbsp;#i18n{socialhub.create_extender_from_resource.labelAddExtender}
+	</button>
+	<@comboWithParams name="extenderType" default_value="" items=extenderTypes! />
+</#if>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><plug-in>
+
+    <!-- Plugin Informations -->
+    <name>extend</name>
+    <class>fr.paris.lutece.plugins.extend.service.ExtendPlugin</class>
+    <version>1.0.1</version>
+    <description>extend.plugin.description</description>
+    <provider>extend.plugin.provider</provider>
+    <documentation/>
+    <installation/>
+    <changes/>
+    <user-guide/>
+    <provider-url>http://lutece.paris.fr</provider-url>
+    <icon-url>images/admin/skin/plugins/extend/extend.png</icon-url>
+    <copyright>Copyright 2001-2012 Mairie de Paris</copyright>
+    <core-version-dependency>
+        <min-core-version>4.0.0-SNAPSHOT</min-core-version>
+        <max-core-version/>
+    </core-version-dependency>
+
+    <!-- if the plugin must have a connection pool with parameter : 1 - yes, 0 - no -->
+    <db-pool-required>1</db-pool-required>
+
+	<!--Administration interface parameters -->
+    <admin-features>
+        <admin-feature>
+            <feature-id>RESOURCE_EXTENDER_MANAGEMENT_BY_RESOURCE_TYPE</feature-id>
+            <feature-title>extend.adminFeature.resource_extenders_management_by_resource_type.name</feature-title>
+            <feature-description>extend.adminFeature.resource_extenders_management_by_resource_type.description</feature-description>
+            <feature-level>2</feature-level>
+            <feature-url>jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp</feature-url>
+            <feature-icon-url>images/admin/skin/plugins/extend/extend.png</feature-icon-url>
+            <feature-documentation-url>jsp/admin/documentation/AdminDocumentation.jsp?doc=admin-extend</feature-documentation-url>
+        </admin-feature>
+        <admin-feature>
+            <feature-id>RESOURCE_EXTENDER_MANAGEMENT_BY_RESOURCE</feature-id>
+            <feature-title>extend.adminFeature.resource_extenders_management_by_resource.name</feature-title>
+            <feature-description>extend.adminFeature.resource_extenders_management_by_resource.description</feature-description>
+            <feature-level>2</feature-level>
+            <feature-url>jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp</feature-url>
+            <feature-icon-url>images/admin/skin/plugins/extend/extend.png</feature-icon-url>
+            <feature-documentation-url>jsp/admin/documentation/AdminDocumentation.jsp?doc=admin-extend</feature-documentation-url>
+        </admin-feature>
+    </admin-features>
+    
+    <!-- RBAC Resources -->
+    <rbac-resource-types>
+        <rbac-resource-type>
+            <rbac-resource-type-class>
+                fr.paris.lutece.plugins.extend.service.type.ResourceTypeResourceIdService
+			</rbac-resource-type-class>
+        </rbac-resource-type>
+        <rbac-resource-type>
+            <rbac-resource-type-class>
+                fr.paris.lutece.plugins.extend.service.ExtendableResourceResourceIdService
+			</rbac-resource-type-class>
+        </rbac-resource-type>
+    </rbac-resource-types>
+    
+    <!-- Servlets -->
+    <servlets>
+    	<servlet>
+    		<servlet-name>ExtendContent</servlet-name>
+    		<servlet-class>fr.paris.lutece.plugins.extend.web.servlet.ExtendContent</servlet-class>
+    		<url-pattern>/servlet/plugins/extend</url-pattern>
+    	</servlet>
+    </servlets>
+    
+    <!-- Freemarker -->
+    <freemarker-macro-files>
+		<freemarker-macro-file>/admin/plugins/extend/extend_commons.html</freemarker-macro-file>
+	</freemarker-macro-files>
+</plug-in>

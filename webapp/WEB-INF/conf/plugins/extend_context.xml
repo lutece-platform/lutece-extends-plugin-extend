@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<!-- DAO -->
+	<bean id="extend.transactionManager" class="fr.paris.lutece.portal.service.database.DAOUtilTransactionManager">
+		<property name="pluginName" value="extend" />
+	</bean>
+	<bean id="extend.resourceExtenderDAO" class="fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDAO" />
+	<bean id="extend.extendableResourceTypeDAO" class="fr.paris.lutece.plugins.extend.business.type.ExtendableResourceTypeDAO" />
+	<bean id="extend.defaultExtendableResourceDAO" class="fr.paris.lutece.plugins.extend.business.DefaultExtendableResourceDAO" />
+	<bean id="extend.resourceExtenderHistoryDAO" class="fr.paris.lutece.plugins.extend.business.extender.history.ResourceExtenderHistoryDAO" />
+	
+	<!-- Actions -->
+	<bean id="extend.createResourceTypeAction" class="fr.paris.lutece.plugins.extend.web.action.CreateResourceTypePluginAction" />
+	<bean id="extend.removeResourceTypeAction" class="fr.paris.lutece.plugins.extend.web.action.RemoveResourceTypePluginAction" />
+	<bean id="extend.createResourceExtenderAction" class="fr.paris.lutece.plugins.extend.web.action.CreateResourceExtenderPluginAction" />
+	<bean id="extend.createExtenderFromResourceAction" class="fr.paris.lutece.plugins.extend.web.action.CreateExtenderFromResourcePluginAction" />
+	
+	<!-- Services -->
+	<bean id="extend.resourceExtenderService" class="fr.paris.lutece.plugins.extend.service.extender.ResourceExtenderService" />
+	<bean id="extend.extendableResourceTypeService" class="fr.paris.lutece.plugins.extend.service.type.ExtendableResourceTypeService" />
+	<bean id="extend.extenderStringMapper" class="fr.paris.lutece.plugins.extend.service.converter.ExtenderStringMapper"
+		p:delimeter="," />
+	<bean id="extend.defaultExtendableResourceService" class="fr.paris.lutece.plugins.extend.service.DefaultExtendableResourceService" />
+	<bean id="extend.extendableResourceManager" class="fr.paris.lutece.plugins.extend.service.ExtendableResourceManager" />
+	<bean id="extend.resourceExtenderHistoryService" class="fr.paris.lutece.plugins.extend.service.extender.history.ResourceExtenderHistoryService" />
+	
+	<!-- Components -->
+	<bean id="extend.resourceExtenderComponentManager" class="fr.paris.lutece.plugins.extend.web.component.ResourceExtenderComponentManager" />
+	
+	<!-- ContentPostProcessor -->
+	<bean id="extend.extendableContentPostProcessor" class="fr.paris.lutece.plugins.extend.service.content.ExtendableContentPostProcessor" 
+		p:regexPattern="@Extender\[([^\]@]*)\]@" />
+	
+	<!-- ************************************* -->
+	<!-- ******* Module extend HIT ******** -->
+	<!-- ************************************* -->
+	
+	<!-- DAO -->
+	<bean id="extend.hitDAO" class="fr.paris.lutece.plugins.extend.modules.hit.business.HitDAO" />
+	
+	<!-- Services -->
+	<bean id="extend.hitService" class="fr.paris.lutece.plugins.extend.modules.hit.service.HitService" />
+	
+	<!-- Resource extender -->
+	<bean id="extend.hitResourceExtender" class="fr.paris.lutece.plugins.extend.modules.hit.service.extender.HitResourceExtender" 
+		p:key="hit"
+		p:i18nTitleKey="module.extend.hit.extender.labelHit"
+		p:historyEnable="true"
+		p:resourceExtenderComponent-ref="extend.hitResourceExtenderComponent" />
+		
+	<!-- Components -->
+	<bean id="extend.hitResourceExtenderComponent" class="fr.paris.lutece.plugins.extend.modules.hit.web.component.HitResourceExtenderComponent" 
+		p:resourceExtender-ref="extend.hitResourceExtender" />
+</beans>

@@ -8,9 +8,9 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.paris.lutece.plugins</groupId>
-	<artifactId>plugin-socialhub</artifactId>
+	<artifactId>plugin-extend</artifactId>
 	<packaging>lutece-plugin</packaging>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>Lutece Social Hub plugin</name>
 
 	<repositories>
@@ -34,20 +34,20 @@
  		<dependency>
 	    	<groupId>fr.paris.lutece</groupId>
 	    	<artifactId>lutece-core</artifactId>
-	    	<version>[3.1.5,5.0.0-SNAPSHOT)</version>
+	    	<version>[4.0.0-SNAPSHOT,5.0.0-SNAPSHOT)</version>
 	    	<type>lutece-core</type>
 	  	</dependency>
 	</dependencies>
 	
 	<properties>
-		<componentName>socialhub</componentName>
-		<jiraProjectName>SOCIALHUB</jiraProjectName>
+		<componentName>extend</componentName>
+		<jiraProjectName>EXTEND</jiraProjectName>
 		<jiraComponentId>10690</jiraComponentId>
 	</properties>
     
     <scm>
-        <connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/collaboration/plugin-socialhub</connection>
-        <developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/collaboration/plugin-socialhub</developerConnection>
-        <url>http://dev.lutece.paris.fr/viewvc/lutece/portal/trunk/plugins/collaboration/plugin-socialhub</url>
+        <connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/extends/plugin-extend</connection>
+        <developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/extends/plugin-extend</developerConnection>
+        <url>http://dev.lutece.paris.fr/viewvc/lutece/portal/trunk/plugins/extends/plugin-extend</url>
     </scm>
 </project>

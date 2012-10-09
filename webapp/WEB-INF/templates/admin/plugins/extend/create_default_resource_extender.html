@@ -1,0 +1,40 @@
+<div class="row">
+	<div class="container" id="form-content">
+		<form class="form-horizontal" action="jsp/admin/plugins/socialhub/DoCreateDefaultResourceExtender.jsp" method="post">
+			<fieldset>
+				<legend>#i18n{socialhub.create_default_resource_extender.pageTitle}</legend>
+				<div class="control-group" >
+					<label class="control-label" for="extenderType">#i18n{socialhub.create_default_resource_extender.labelExtenderType} :</label>
+					<div class="controls">
+						<input type="hidden" name="extenderType" value="${resourceExtender.extenderType!}" />
+						${resourceExtender.extenderType!}
+					</div>
+				</div>
+				<div class="control-group" >
+					<label class="control-label" for="idExtendableResource">#i18n{socialhub.create_default_resource_extender.labelIdExtendableResource} :</label>
+					<div class="controls">
+						<input type="hidden" name="idExtendableResource" value="${resourceExtender.idExtendableResource!}" />
+						${resourceExtender.idExtendableResource!}
+					</div>
+				</div>
+				<div class="control-group" >
+					<label class="control-label" for="extendableResourceType">#i18n{socialhub.create_default_resource_extender.labelExtendableResourceType} :</label>
+					<div class="controls">
+						<input type="hidden" name="extendableResourceType" value="${resourceExtender.extendableResourceType!}" />
+						${resourceExtender.extendableResourceType!}
+					</div>
+				</div>
+				<div class="control-group" >
+					<label class="control-label" for="name">#i18n{socialhub.create_default_resource_extender.labelName} * :</label>
+					<div class="controls">
+						<input type="text" name="name" value="" maxlength="255" size="20" />
+					</div>
+				</div>
+				<div class="form-actions" >
+					<button type="submit" name="save" value="save" class="btn btn-primary"><i class="icon-ok icon-white"></i>&nbsp;#i18n{portal.util.labelCreate}</button>
+					<button type="submit" name="cancel" value="cancel" class="btn" ><i class="icon-remove-circle icon-white"></i>&nbsp;#i18n{portal.util.labelCancel}</button>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>
