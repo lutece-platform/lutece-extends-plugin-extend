@@ -76,22 +76,22 @@
 								<td>${resourceExtender.name!}</td>
 								<td>
 								<#if isExtenderConfigRequired( listExtenders, resourceExtender.extenderType ) && isAuthorized( resourceExtender.idExtender!, 'MODIFY_CONFIG', mapActionPermissions! )>
-										<a class="btn btn-mini btn-primary" href="jsp/admin/plugins/extend/ModifyExtenderConfig.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{extend.button.modifyConfig}">
+										<a class="btn btn-small btn-primary" href="jsp/admin/plugins/extend/ModifyExtenderConfig.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{extend.button.modifyConfig}">
 											<i class="icon-edit icon-white">&nbsp;</i>
 										</a>
 									</#if>
 								<#if resourceExtender.idExtendableResource != '*' && isAuthorized( resourceExtender.idExtender!, 'VIEW_INFO', mapActionPermissions! )>
-										<a class="btn btn-mini btn-primary" href="jsp/admin/plugins/extend/ViewExtenderInfo.jsp?idExtender=${resourceExtender.idExtender!}"  title="#i18n{extend.button.info}">
+										<a class="btn btn-small btn-primary" href="jsp/admin/plugins/extend/ViewExtenderInfo.jsp?idExtender=${resourceExtender.idExtender!}"  title="#i18n{extend.button.info}">
 											<i class="icon-eye-open icon-white">&nbsp;</i>
 										</a>
 									</#if>
 								<#if isExtenderHistoryEnable( listExtenders, resourceExtender.extenderType ) && resourceExtender.idExtendableResource?? && resourceExtender.idExtendableResource != '*' && isAuthorized( resourceExtender.idExtender!, 'VIEW_HISTORY', mapActionPermissions! )>
-										<a class="btn btn-mini btn-primary" href="jsp/admin/plugins/extend/ViewExtenderHistory.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{extend.button.history}">
+										<a class="btn btn-small btn-primary" href="jsp/admin/plugins/extend/ViewExtenderHistory.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{extend.button.history}">
 											<i class="icon-list icon-white">&nbsp;</i>
 										</a>
 									</#if>
 									<#if isAuthorized( resourceExtender.idExtender!, 'DELETE', mapActionPermissions! )>
-										<a class="btn btn-mini btn-danger" href="jsp/admin/plugins/extend/ConfirmRemoveResourceExtender.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{portal.util.labelDelete}">
+										<a class="btn btn-small btn-danger" href="jsp/admin/plugins/extend/ConfirmRemoveResourceExtender.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{portal.util.labelDelete}">
 											<i class="icon-trash icon-white">&nbsp;</i>
 										</a>
 									</#if>
