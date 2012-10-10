@@ -1,10 +1,8 @@
 <#if extendableResourceType?? && idExtendableResource?? && extenderTypes?? && extenderTypes?has_content>
-	<div class="well">
-		<input type="hidden" name="extendableResourceType" value="${extendableResourceType!}" />
-		<input type="hidden" name="idExtendableResource" value="${idExtendableResource!}" />
-		<button type="submit" name="createExtenderFromResource" title="#i18n{extend.create_extender_from_resource.labelAddExtender}" value="createExtenderFromResource" class="btn" >
-			<i class="icon-plus icon-white">&nbsp;</i><span class="hidden-phone">&nbsp;#i18n{extend.create_extender_from_resource.labelAddExtender}</span>
-		</button>
-		<@combo name="extenderType" default_value="" items=extenderTypes! />
-	</div>
+	<input type="hidden" name="extendableResourceType" value="${extendableResourceType!}" />
+	<input type="hidden" name="idExtendableResource" value="${idExtendableResource!}" />
+	<button type="submit" name="createExtenderFromResource" title="#i18n{extend.create_extender_from_resource.labelAddExtender}" value="createExtenderFromResource" class="btn btn-small btn-primary" >
+		<i class="icon-plus icon-white">&nbsp;</i><span class="hidden-phone">&nbsp;#i18n{extend.create_extender_from_resource.labelAddExtender}</span>
+	</button>
+	<@combo name="extenderType" default_value="" items=extenderTypes! />
 </#if>
