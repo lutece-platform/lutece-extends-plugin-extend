@@ -75,14 +75,14 @@ import fr.paris.lutece.portal.web.pluginaction.PluginActionManager;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -896,6 +896,7 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         {
             try
             {
+				_extenderService.doDeleteResourceAddOn( resourceExtender );
                 _extenderService.remove( nIdExtender );
             }
             catch ( Exception ex )
