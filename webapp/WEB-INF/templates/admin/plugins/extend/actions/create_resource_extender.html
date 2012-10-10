@@ -1,18 +1,20 @@
 <#if resourceTypes?? && resourceTypes?has_content && extenderTypes?? && extenderTypes?has_content>
-	<p class="lead">#i18n{extend.create_resource_extender.labelCreateResourceExtender}</p>
-	<div class="control-group" >
-		<label class="control-label" for="extenderType">#i18n{extend.create_resource_extender.labelExtenderType} * :</label>
-			<@comboWithParams name="extenderType" additionalParameters="class='input-medium'" default_value="" items=extenderTypes />
-	<#if manageByResource>
-			<label class="control-label" for="idExtendableResource">#i18n{extend.create_resource_extender.labelIdExtendableResource} * :</label>
-			<input type="text" class="input-medium" name="idExtendableResource" value="" maxlength="255" size="20" />
-	<#else>
-		<input type="hidden" name="idExtendableResource" value="*" />
-	</#if>
-		<label class="control-label" for="extendableResourceType">#i18n{extend.create_resource_extender.labelResourceType} * :</label>
-		<@comboWithParams name="extendableResourceType" additionalParameters="class='input-medium'" default_value="" items=resourceTypes />
+	<div class="well">
+		<p class="lead">#i18n{extend.create_resource_extender.labelCreateResourceExtender}</p>
+		<div class="control-group" >
+			<label class="control-label" for="extenderType">#i18n{extend.create_resource_extender.labelExtenderType} * :</label>
+				<@comboWithParams name="extenderType" additionalParameters="class='input-medium'" default_value="" items=extenderTypes />
+		<#if manageByResource>
+				<label class="control-label" for="idExtendableResource">#i18n{extend.create_resource_extender.labelIdExtendableResource} * :</label>
+				<input type="text" class="input-medium" name="idExtendableResource" value="" maxlength="255" size="20" />
+		<#else>
+			<input type="hidden" name="idExtendableResource" value="*" />
+		</#if>
+			<label class="control-label" for="extendableResourceType">#i18n{extend.create_resource_extender.labelResourceType} * :</label>
+			<@comboWithParams name="extendableResourceType" additionalParameters="class='input-medium'" default_value="" items=resourceTypes />
+		</div>
+		<button type="submit" name="createResourceExtender" value="createResourceExtender" title="#i18n{portal.util.labelCreate}" class="btn btn-small btn-primary" >
+			<i class="icon-plus icon-white">&nbsp;</i>&nbsp;#i18n{portal.util.labelCreate}
+		</button>
 	</div>
-	<button type="submit" name="createResourceExtender" value="createResourceExtender" title="#i18n{portal.util.labelCreate}" class="btn btn-small btn-primary" >
-		<i class="icon-plus icon-white">&nbsp;</i>&nbsp;#i18n{portal.util.labelCreate}
-	</button>
 </#if>

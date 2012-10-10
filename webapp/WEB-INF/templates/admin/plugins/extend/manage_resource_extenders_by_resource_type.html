@@ -11,16 +11,22 @@
 			</div>	
 		</legend>
 		<div class="row-fluid">
-			<#if resourceExtenderActions?? && 0 < resourceExtenderActions?size> 
-				<div class="span3 well">
+			<#if resourceExtenderActions?? && 0 < resourceExtenderActions?size>
+				<#if resourceTypes?? && resourceTypes?has_content && extenderTypes?? && extenderTypes?has_content> 
+				<div class="span3">
+				</#if>
 					<#list resourceExtenderActions as resourceExtenderAction>
 						<#if resourceExtenderAction.buttonTemplate?has_content>
 							<#include resourceExtenderAction.buttonTemplate />
 						</#if>
 					</#list>
+				<#if resourceTypes?? && resourceTypes?has_content && extenderTypes?? && extenderTypes?has_content> 
 				</div>
+				</#if>
 			</#if>
+			<#if resourceTypes?? && resourceTypes?has_content && extenderTypes?? && extenderTypes?has_content> 
 			<div class="span9">
+			</#if>
 				<@paginationAdmin paginator=paginator combo=1 />
 				<table class="table table-striped table-condensed" summary="#i18n{extend.manage_resource_extenders_by_resource_type.pageTitle}">
 				    <tr>
@@ -56,7 +62,9 @@
 					</#if>
 				</table>
 				<@paginationAdmin paginator=paginator />
+			<#if resourceTypes?? && resourceTypes?has_content && extenderTypes?? && extenderTypes?has_content> 
 			</div>
+			</#if>
 		</div>
 	</fieldset>
 </form>
