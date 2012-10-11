@@ -42,7 +42,7 @@
 	<properties>
 		<componentName>extend</componentName>
 		<jiraProjectName>EXTEND</jiraProjectName>
-		<jiraComponentId>10690</jiraComponentId>
+		<jiraComponentId>10851</jiraComponentId>
 	</properties>
     
     <scm>
