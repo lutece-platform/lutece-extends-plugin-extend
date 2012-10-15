@@ -1129,6 +1129,7 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         {
             resourceType = new ExtendableResourceType(  );
             resourceType.setKey( resourceExtender.getExtendableResourceType(  ) );
+			resourceType.setDescription( resourceExtender.getExtendableResourceType( ) );
             _resourceTypeService.create( resourceType );
         }
 
