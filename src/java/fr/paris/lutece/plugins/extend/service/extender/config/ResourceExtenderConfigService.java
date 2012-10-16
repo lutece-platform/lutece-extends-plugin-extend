@@ -125,7 +125,7 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
 
         if ( resourceExtender != null )
         {
-            return find( resourceExtender.getIdExtender(  ) );
+            return (T) find( resourceExtender.getIdExtender(  ) );
         }
 
         return null;
