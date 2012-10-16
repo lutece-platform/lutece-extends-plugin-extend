@@ -37,15 +37,16 @@ import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilter;
 import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.ReferenceList;
-
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -145,14 +146,23 @@ public interface IResourceExtenderService
      */
     ReferenceList getExtenderTypes( Locale locale );
 
-    /**
-     * Checks if is authorized.
-     *
-     * @param strIdExtendableResource the str id extendable resource
-     * @param strExtendableResourceType the str extendable resource type
-     * @param strExtenderType the str extender type
-     * @return true, if is authorized
-     */
+	/**
+	 * Get the list of installed extenders for a given resource id and a given resource type.
+	 * @param strIdExtendableResource Id of the resource
+	 * @param strExtendableResourceType Type of the resource
+	 * @param plugin the plugin
+	 * @return A map of associations of string / boolean. Only installed extender types are considered.
+	 */
+	Map<String, Boolean> getExtenderTypesInstalled( String strIdExtendableResource, String strExtendableResourceType, Plugin plugin );
+
+	/**
+	 * Checks if is authorized.
+	 * 
+	 * @param strIdExtendableResource the str id extendable resource
+	 * @param strExtendableResourceType the str extendable resource type
+	 * @param strExtenderType the str extender type
+	 * @return true, if is authorized
+	 */
     boolean isAuthorized( String strIdExtendableResource, String strExtendableResourceType, String strExtenderType );
 
     /**

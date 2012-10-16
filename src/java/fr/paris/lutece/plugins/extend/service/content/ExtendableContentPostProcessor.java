@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.extend.service.content;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.service.converter.IStringMapper;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
+import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.service.content.ContentPostProcessor;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -43,18 +44,17 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
-import org.springframework.beans.factory.InitializingBean;
-
-import org.springframework.util.Assert;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
-
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.Assert;
 
 
 /**
@@ -74,6 +74,8 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
     // MARKS
     private static final String MARK_REGEX_PATTERN = "extendRegexPattern";
     private static final String MARK_BASE_URL = "baseUrl";
+
+	private static final String PARAM_PAGE = "page";
 
     // TEMPLATES
     private static final String TEMPLATE_CONTENT_POST_PROCESSOR = "skin/plugins/extend/extendable_content_post_processor.html";
@@ -163,9 +165,13 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
                 ResourceExtenderDTO resourceExtender = _mapper.map( match.group( 1 ) );
 
                 // 3) Get the html content from the given information
-                String strHtml = _extenderService.getContent( resourceExtender.getIdExtendableResource(  ),
+				String strHtml = StringUtils.EMPTY;
+				if ( !StringUtils.equals( resourceExtender.getExtendableResourceType( ), Page.RESOURCE_TYPE ) || StringUtils.isBlank( request.getParameter( PARAM_PAGE ) ) )
+				{
+					strHtml = _extenderService.getContent( resourceExtender.getIdExtendableResource( ),
                         resourceExtender.getExtendableResourceType(  ), resourceExtender.getExtenderType(  ),
                         resourceExtender.getParameters(  ), request );
+				}
 
                 // 4) Replace the markers by the html content
                 strHtmlContent = strHtmlContent.replaceAll( Pattern.quote( strMarker ), strHtml );

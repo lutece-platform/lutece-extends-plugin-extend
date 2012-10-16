@@ -53,11 +53,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang.StringUtils;
-
 import java.lang.reflect.InvocationTargetException;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -65,10 +61,11 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
-
 import javax.servlet.http.HttpServletRequest;
-
 import javax.validation.ConstraintViolation;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -89,6 +86,7 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
 
     // PARAMETERS
     private static final String PARAMETER_ID_EXTENDER = "idExtender";
+	private static final String PARAMETER_FROM_URL = "from_url";
 
     // MARKS
     private static final String MARK_RESOURCE_EXTENDER = "resourceExtender";
@@ -98,6 +96,7 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
     private static final String MARK_LIST_HISTORIES = "listHistories";
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
+	private static final String MARK_FROM_URL = "from_url";
 
     // TEMPLATES
     private static final String TEMPLATE_RESOURCE_EXTENDER_CONFIG = "admin/plugins/extend/resource_extender_config.html";
@@ -109,6 +108,10 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
 
     // MESSAGES
     private static final String MESSAGE_STOP_GENERIC_MESSAGE = "extend.message.stop.genericMessage";
+
+	// CONSTANT
+	private static final String CONSTANT_AND = "&";
+	private static final String CONSTANT_AND_HTML = "%26";
 
     // SERVICES
     @Inject
@@ -196,6 +199,7 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
                 model.put( MARK_RESOURCE_EXTENDER, resourceExtender );
                 model.put( MARK_LOCALE, locale );
                 model.put( MARK_RESOURCE_EXTENDER_CONFIG, component.getConfigHtml( resourceExtender, locale, request ) );
+				model.put( MARK_FROM_URL, StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND, CONSTANT_AND_HTML ) );
 
                 HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESOURCE_EXTENDER_CONFIG, locale, model );
 
@@ -222,6 +226,7 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
                 model.put( MARK_RESOURCE_EXTENDER, resourceExtender );
                 model.put( MARK_LOCALE, locale );
                 model.put( MARK_RESOURCE_EXTENDER_INFO, component.getInfoHtml( resourceExtender, locale, request ) );
+				model.put( MARK_FROM_URL, StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND_HTML, CONSTANT_AND ) );
 
                 HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESOURCE_EXTENDER_INFO, locale, model );
 

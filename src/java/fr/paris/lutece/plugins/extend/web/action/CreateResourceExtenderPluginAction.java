@@ -46,7 +46,6 @@ import fr.paris.lutece.util.url.UrlItem;
 import java.util.Map;
 
 import javax.inject.Inject;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -87,8 +86,9 @@ public class CreateResourceExtenderPluginAction extends AbstractPluginAction<IRe
     @Override
     public void fillModel( HttpServletRequest request, AdminUser adminUser, Map<String, Object> model )
     {
-        model.put( MARK_RESOURCE_TYPES, _resourceTypeService.findAllAsRef(  ) );
+    	model.put( MARK_RESOURCE_TYPES, _resourceTypeService.findAllAsRef(  ) );
         model.put( MARK_EXTENDER_TYPES, _extenderService.getExtenderTypes( request.getLocale(  ) ) );
+        
     }
 
     /**

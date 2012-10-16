@@ -36,19 +36,16 @@ package fr.paris.lutece.plugins.extend.service.extender;
 import fr.paris.lutece.plugins.extend.business.extender.IResourceExtenderDAO;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilter;
+import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 import fr.paris.lutece.plugins.extend.service.ExtendableResourceResourceIdService;
 import fr.paris.lutece.plugins.extend.service.IExtendableResourceManager;
-import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 import fr.paris.lutece.plugins.extend.service.type.IExtendableResourceTypeService;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
-
-import org.apache.commons.lang.StringUtils;
-
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -56,14 +53,21 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
-
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
  *
  * ResourceExtenderService
  *
+ */
+/**
+ * 
+ * ResourceExtenderService
+ * 
  */
 public class ResourceExtenderService implements IResourceExtenderService
 {
@@ -307,6 +311,35 @@ public class ResourceExtenderService implements IResourceExtenderService
 
         return refExtenderTypes;
     }
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Map<String, Boolean> getExtenderTypesInstalled( String strIdExtendableResource, String strExtendableResourceType, Plugin plugin )
+	{
+		Map<String, Boolean> mapExtenderTypesInstalled = new HashMap<String, Boolean>( );
+
+		ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( );
+		filter.setFilterIdExtendableResource( strIdExtendableResource );
+		filter.setFilterExtendableResourceType( strExtendableResourceType );
+		List<ResourceExtenderDTO> listResourceExtender = _extenderDAO.loadByFilter( filter, plugin );
+
+		for ( ResourceExtenderDTO extender : listResourceExtender )
+		{
+			mapExtenderTypesInstalled.put( extender.getExtenderType( ), Boolean.FALSE );
+		}
+
+		filter.setFilterIdExtendableResource( ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE );
+		filter.setFilterExtendableResourceType( strExtendableResourceType );
+		listResourceExtender = _extenderDAO.loadByFilter( filter, plugin );
+		for ( ResourceExtenderDTO extender : listResourceExtender )
+		{
+			mapExtenderTypesInstalled.put( extender.getExtenderType( ), Boolean.TRUE );
+		}
+
+		return mapExtenderTypesInstalled;
+	}
 
     /**
      * {@inheritDoc}

@@ -61,4 +61,8 @@
 	<!-- Components -->
 	<bean id="extend.hitResourceExtenderComponent" class="fr.paris.lutece.plugins.extend.modules.hit.web.component.HitResourceExtenderComponent" 
 		p:resourceExtender-ref="extend.hitResourceExtender" />
+	
+	<!-- Actions -->
+	<bean id="extend.hitInstallerAction" class="fr.paris.lutece.plugins.extend.modules.hit.web.action.HitInstallerPluginAction" />
+	
 </beans>

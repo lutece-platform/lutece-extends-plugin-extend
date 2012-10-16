@@ -1,10 +1,19 @@
-<#if extendableResourceType?? && idExtendableResource?? && extenderTypes?? && extenderTypes?has_content>
-	<div class="form-inline">
-		<input type="hidden" name="extendableResourceType" value="${extendableResourceType!}" />
-		<input type="hidden" name="idExtendableResource" value="${idExtendableResource!}" />
-		<button type="submit" name="createExtenderFromResource" title="#i18n{extend.create_extender_from_resource.labelAddExtender}" value="createExtenderFromResource" class="btn btn-small btn-primary" >
-			<i class="icon-plus icon-white">&nbsp;</i><span class="hidden-phone">&nbsp;#i18n{extend.create_extender_from_resource.labelAddExtender}</span>
+<#macro createExtenderFromResource extenderType installed unremovable labelAdd labelRemove >
+	<input type="hidden" name="extenderType" value="${extenderType}" />
+	<input type="hidden" name="extendableResourceType" value="${extendableResourceType!}" />
+	<input type="hidden" name="idExtendableResource" value="${idExtendableResource!}" />
+	<input type="hidden" name="remove" value="${installed?string}" />
+	<#if installed>
+		<#if unremovable?? && unremovable>
+			<p>#i18n{extend.create_extender_from_resource.unremovableExtender}</p>
+		<#else>
+			<button type="submit" name="createExtenderFromResource" title="${labelRemove}" value="createExtenderFromResource"  class="btn btn-small btn-link" >
+				<span class="badge badge-important"><i class="icon-remove icon-white">&nbsp;</i></span><span class="hidden-phone">&nbsp;${labelRemove}</span>
+			</button>
+		</#if>
+	<#else>
+		<button type="submit" name="createExtenderFromResource" title="${labelAdd}" value="createExtenderFromResource"  class="btn btn-small btn-link" >
+			<span class="badge badge-info"><i class="icon-plus icon-white">&nbsp;</i></span><span class="hidden-phone">&nbsp;${labelAdd}</span>
 		</button>
-		<@comboWithParams name="extenderType" additionalParameters="class=\"dropdown\"" default_value="" items=extenderTypes! />
-	</div>
-</#if>
+	</#if>
+</#macro>

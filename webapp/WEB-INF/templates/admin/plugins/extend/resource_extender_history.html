@@ -1,4 +1,4 @@
-<form action="jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp" method="post">
+<form action="<#if from_url?? && from_url?has_content && from_url != "null">${from_url}<#else>jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp</#if>" method="post">
 	<fieldset>
 		<legend>#i18n{extend.resource_extender_history.pageTitle}</legend>
 		<div class="row-fluid">

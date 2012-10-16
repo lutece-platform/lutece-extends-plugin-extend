@@ -130,6 +130,7 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_EXTENDER_TYPE = "extenderType";
     private static final String PARAMETER_ID_EXTENDABLE_RESOURCE = "idExtendableResource";
     private static final String PARAMETER_EXTENDABLE_RESOURCE_TYPE = "extendableResourceType";
+	private static final String PARAMETER_FROM_URL = "from_url";
 
     // MARKS
     private static final String MARK_RESOURCE_TYPE_ACTIONS = "resourceTypeActions";
@@ -156,6 +157,10 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     private static final String TEMPLATE_CREATE_RESOURCE_TYPE = "admin/plugins/extend/create_resource_type.html";
     private static final String TEMPLATE_MODIFY_RESOURCE_TYPE = "admin/plugins/extend/modify_resource_type.html";
     private static final String TEMPLATE_CREATE_DEFAULT_RESOURCE_EXTENDER = "admin/plugins/extend/create_default_resource_extender.html";
+
+	// CONSTANT
+	private static final String CONSTANT_AND = "&";
+	private static final String CONSTANT_AND_HTML = "%26";
 
     // VARIABLES
     private IResourceExtenderSearchFields _resourceExtenderSearchFields = new ResourceExtenderSearchFields(  );
@@ -361,6 +366,7 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 
         UrlItem url = new UrlItem( JSP_URL_DO_REMOVE_RESOURCE_EXTENDER );
         url.addParameter( PARAMETER_ID_EXTENDER, strIdExtender );
+		url.addParameter( PARAMETER_FROM_URL, StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND, CONSTANT_AND_HTML ) );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_RESOURCE_EXTENDER, url.getUrl(  ),
             AdminMessage.TYPE_CONFIRMATION );
@@ -1062,6 +1068,11 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     {
         UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_RESOURCE_EXTENDER_CONFIG );
         url.addParameter( PARAMETER_ID_EXTENDER, resourceExtender.getIdExtender(  ) );
+		String strUrl = StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND, CONSTANT_AND_HTML );
+		if ( StringUtils.isNotEmpty( strUrl ) )
+		{
+			url.addParameter( PARAMETER_FROM_URL, strUrl );
+		}
 
         return url;
     }
@@ -1093,6 +1104,11 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
      */
     private UrlItem getLastUrl( HttpServletRequest request )
     {
+		String strUrl = StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND_HTML, CONSTANT_AND );
+		if ( StringUtils.isNotEmpty( strUrl ) )
+		{
+			return new UrlItem( strUrl );
+		}
         // if parameter search is not blank => force search
         if ( StringUtils.isNotBlank( request.getParameter( PARAMETER_SEARCH ) ) )
         {
