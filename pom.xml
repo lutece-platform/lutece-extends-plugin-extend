@@ -11,7 +11,7 @@
 	<artifactId>plugin-extend</artifactId>
 	<packaging>lutece-plugin</packaging>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>Lutece Extend plugin</name>
+	<name>Lutece extend plugin</name>
 
 	<repositories>
 	  <repository>
