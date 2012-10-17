@@ -105,7 +105,7 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
     @Override
     public <T> T find( int nIdExtender )
     {
-        return getConfigBean( _extenderConfigDAO.load( nIdExtender ) );
+        return (T) getConfigBean( _extenderConfigDAO.load( nIdExtender ) );
     }
 
     /**
