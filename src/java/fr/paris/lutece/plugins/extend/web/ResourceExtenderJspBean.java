@@ -1106,7 +1106,7 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     private UrlItem getLastUrl( HttpServletRequest request )
     {
 		String strUrl = StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND_HTML, CONSTANT_AND );
-        if ( StringUtils.isNotEmpty( strUrl ) && StringUtils.equalsIgnoreCase( strUrl, CONSTANT_NULL ) )
+        if ( StringUtils.isNotEmpty( strUrl ) && !StringUtils.equalsIgnoreCase( strUrl, CONSTANT_NULL ) )
 		{
 			return new UrlItem( strUrl );
 		}
