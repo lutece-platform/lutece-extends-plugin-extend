@@ -161,6 +161,7 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 	// CONSTANT
 	private static final String CONSTANT_AND = "&";
 	private static final String CONSTANT_AND_HTML = "%26";
+    private static final String CONSTANT_NULL = "null";
 
     // VARIABLES
     private IResourceExtenderSearchFields _resourceExtenderSearchFields = new ResourceExtenderSearchFields(  );
@@ -1105,7 +1106,7 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     private UrlItem getLastUrl( HttpServletRequest request )
     {
 		String strUrl = StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND_HTML, CONSTANT_AND );
-		if ( StringUtils.isNotEmpty( strUrl ) )
+        if ( StringUtils.isNotEmpty( strUrl ) && StringUtils.equalsIgnoreCase( strUrl, CONSTANT_NULL ) )
 		{
 			return new UrlItem( strUrl );
 		}
