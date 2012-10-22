@@ -1,0 +1,27 @@
+<div class="content-box">
+	<h2></h2>
+	<div id="form-content">
+		<form class="form-horizontal" method="post" action="jsp/admin/plugins/extend/DoModifyDefaultConfig.jsp">
+			<fieldset>
+				<legend>#i18n{extend.resource_extender_default_config.pageTitle}</legend>
+				<#-- BEGIN RESOURCE EXTENDER CONFIG -->
+				${resourceExtenderConfig!}
+				<#-- END RESOURCE EXTENDER CONFIG -->
+				
+				<div class="form-actions">
+					<input type="hidden" name="idExtender" value="-1" />
+					<input type="hidden" name="extenderType" value="${resourceExtender.extenderType!}" />
+					<#if from_url?? && from_url?has_content && from_url != "null">
+						<input type="hidden" name="from_url" value="${from_url!}" />
+					</#if>
+					<button type="submit" name="modify" value="#i18n{portal.util.labelModify}" class="btn btn-primary btn-small" >
+						<i class="icon-ok icon-white">&nbsp;</i>&nbsp;#i18n{portal.util.labelModify}
+					</button>
+					<button type="submit" name="cancel" value="#i18n{portal.util.labelCancel}" class="btn btn-small" >
+						#i18n{portal.util.labelCancel}
+					</button>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>

@@ -131,6 +131,7 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_ID_EXTENDABLE_RESOURCE = "idExtendableResource";
     private static final String PARAMETER_EXTENDABLE_RESOURCE_TYPE = "extendableResourceType";
 	private static final String PARAMETER_FROM_URL = "from_url";
+    private static final String PARAMETER_EXTENDER_TYPE_DEFAULT_CONFIG = "extenderTypeModifyConfig";
 
     // MARKS
     private static final String MARK_RESOURCE_TYPE_ACTIONS = "resourceTypeActions";
@@ -421,6 +422,40 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         return result;
     }
 
+    public IPluginActionResult getModifyDefaultConfig( HttpServletRequest request )
+    {
+        setPageTitleProperty( PROPERTY_EXTENDER_CONFIG_PAGE_TITLE );
+        String strExtenderType = request.getParameter( PARAMETER_EXTENDER_TYPE_DEFAULT_CONFIG );
+
+        // Check permission
+        if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, null,
+                ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, getUser( ) ) )
+        {
+            IPluginActionResult result = new DefaultPluginActionResult( );
+            result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION,
+                    AdminMessage.TYPE_STOP ) );
+
+            return result;
+        }
+        if ( StringUtils.isEmpty( strExtenderType ) )
+        {
+            IPluginActionResult result = new DefaultPluginActionResult( );
+
+            result.setRedirect( AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS,
+                    AdminMessage.TYPE_STOP ) );
+
+            return result;
+        }
+
+        IPluginActionResult result = new DefaultPluginActionResult( );
+
+        result.setHtmlContent( getAdminPage( _extenderComponentManager.getDefaultConfigHtml( strExtenderType,
+                getLocale( ),
+                request ) ) );
+
+        return result;
+    }
+
     /**
      * Gets the view extender info.
      *
@@ -698,12 +733,16 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
             return strJspError;
         }
 
-        // If the extender needs a config, then redirect the user to the config modification page
-        IResourceExtender extender = _extenderService.getResourceExtender( resourceExtender.getExtenderType(  ) );
-
-        if ( ( extender != null ) && extender.isConfigRequired(  ) )
+        // If the extender needs a config, then redirect the user to the config modification page if he is authorized to access it
+        boolean bAuthorizedUser = RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, null,
+                ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, getUser( ) );
+        if ( bAuthorizedUser )
         {
-            return getUrlModifyResourceExtenderConfig( request, resourceExtender ).getUrl(  );
+            IResourceExtender extender = _extenderService.getResourceExtender( resourceExtender.getExtenderType( ) );
+            if ( ( extender != null ) && extender.isConfigRequired( ) )
+            {
+                return getUrlModifyResourceExtenderConfig( request, resourceExtender ).getUrl( );
+            }
         }
 
         return getLastUrl( request ).getUrl(  );
@@ -765,12 +804,16 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
             return strJspError;
         }
 
-        // If the extender needs a config, then redirect the user to the config modification page
-        IResourceExtender extender = _extenderService.getResourceExtender( resourceExtender.getExtenderType(  ) );
-
-        if ( ( extender != null ) && extender.isConfigRequired(  ) )
+        // If the extender needs a config, then redirect the user to the config modification page if he is authorized to access it
+        boolean bAuthorizedUser = RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, null,
+                ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, getUser( ) );
+        if ( bAuthorizedUser )
         {
-            return getUrlModifyResourceExtenderConfig( request, resourceExtender ).getUrl(  );
+            IResourceExtender extender = _extenderService.getResourceExtender( resourceExtender.getExtenderType( ) );
+            if ( ( extender != null ) && extender.isConfigRequired( ) )
+            {
+                return getUrlModifyResourceExtenderConfig( request, resourceExtender ).getUrl( );
+            }
         }
 
         return getLastUrl( request ).getUrl(  );
@@ -995,6 +1038,53 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         }
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_GENERIC_MESSAGE, AdminMessage.TYPE_STOP );
+    }
+
+    /**
+     * Do modify default extender config.
+     * 
+     * @param request the request
+     * @return The URL of the result page
+     */
+    public String doModifyDefaultConfig( HttpServletRequest request )
+    {
+        String strCancel = request.getParameter( PARAMETER_CANCEL );
+        if ( StringUtils.isBlank( strCancel ) )
+        {
+            String strExtenderType = request.getParameter( PARAMETER_EXTENDER_TYPE );
+
+            if ( StringUtils.isBlank( strExtenderType ) )
+            {
+                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            }
+
+            // Check permission
+            if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, null,
+                    ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, getUser( ) ) )
+            {
+                return AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP );
+            }
+
+            ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO( );
+            resourceExtender.setIdExtender( -1 );
+            resourceExtender.setExtenderType( strExtenderType );
+
+            try
+            {
+                _extenderComponentManager.doSaveConfig( resourceExtender, request );
+            }
+            catch ( ExtendErrorException e )
+            {
+                AppLogService.debug( e.getErrorMessage( ), e );
+
+                Object[] params = { e.getErrorMessage( ) };
+
+                return AdminMessageService.getMessageUrl( request, MESSAGE_STOP_GENERIC_MESSAGE, params,
+                        AdminMessage.TYPE_STOP );
+            }
+        }
+
+        return getLastUrl( request ).getUrl( );
     }
 
     // PRIVATE METHODS

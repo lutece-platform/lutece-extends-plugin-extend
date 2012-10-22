@@ -82,8 +82,18 @@ public interface IResourceExtenderComponentManager
     String getConfigHtml( ResourceExtenderDTO resourceExtender, Locale locale, HttpServletRequest request );
 
     /**
+     * Gets the default config html of an extender type.
+     * 
+     * @param strExtenderType the resource extender type
+     * @param locale the locale
+     * @param request the request
+     * @return the config html
+     */
+    String getDefaultConfigHtml( String strExtenderType, Locale locale, HttpServletRequest request );
+
+    /**
      * Gets the info html.
-     *
+     * 
      * @param resourceExtender the resource extender
      * @param locale the locale
      * @param request the request

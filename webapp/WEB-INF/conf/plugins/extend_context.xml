@@ -23,6 +23,7 @@
 	<bean id="extend.createResourceTypeAction" class="fr.paris.lutece.plugins.extend.web.action.CreateResourceTypePluginAction" />
 	<bean id="extend.removeResourceTypeAction" class="fr.paris.lutece.plugins.extend.web.action.RemoveResourceTypePluginAction" />
 	<bean id="extend.createResourceExtenderAction" class="fr.paris.lutece.plugins.extend.web.action.CreateResourceExtenderPluginAction" />
+	<bean id="extend.ModifyDefaultConfigResourceExtenderAction" class="fr.paris.lutece.plugins.extend.web.action.ModifyDefaultConfigPluginAction" />
 	<bean id="extend.createExtenderFromResourceAction" class="fr.paris.lutece.plugins.extend.web.action.CreateExtenderFromResourcePluginAction" />
 	
 	<!-- Services -->

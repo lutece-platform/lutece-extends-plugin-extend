@@ -100,6 +100,7 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
 
     // TEMPLATES
     private static final String TEMPLATE_RESOURCE_EXTENDER_CONFIG = "admin/plugins/extend/resource_extender_config.html";
+    private static final String TEMPLATE_RESOURCE_EXTENDER_DEFAULT_CONFIG = "admin/plugins/extend/resource_extender_default_config.html";
     private static final String TEMPLATE_RESOURCE_EXTENDER_INFO = "admin/plugins/extend/resource_extender_info.html";
     private static final String TEMPLATE_RESOURCE_EXTENDER_HISTORY = "admin/plugins/extend/resource_extender_history.html";
 
@@ -204,6 +205,39 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
                 HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESOURCE_EXTENDER_CONFIG, locale, model );
 
                 return template.getHtml(  );
+            }
+        }
+
+        return StringUtils.EMPTY;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getDefaultConfigHtml( String strExtenderType, Locale locale, HttpServletRequest request )
+    {
+        ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO( );
+        resourceExtender.setIdExtender( -1 );
+        resourceExtender.setExtenderType( strExtenderType );
+
+        if ( resourceExtender != null )
+        {
+            IResourceExtenderComponent component = getResourceExtenderComponent( resourceExtender.getExtenderType( ) );
+
+            if ( component != null )
+            {
+                Map<String, Object> model = new HashMap<String, Object>( );
+                model.put( MARK_RESOURCE_EXTENDER, resourceExtender );
+                model.put( MARK_LOCALE, locale );
+                model.put( MARK_RESOURCE_EXTENDER_CONFIG, component.getConfigHtml( resourceExtender, locale, request ) );
+                model.put( MARK_FROM_URL, StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ),
+                        CONSTANT_AND, CONSTANT_AND_HTML ) );
+
+                HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESOURCE_EXTENDER_DEFAULT_CONFIG,
+                        locale, model );
+
+                return template.getHtml( );
             }
         }
 
