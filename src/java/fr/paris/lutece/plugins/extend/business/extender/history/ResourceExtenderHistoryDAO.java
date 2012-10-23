@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.extend.business.extender.history;
 
+import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilter;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.sql.DAOUtil;
 
@@ -54,7 +55,8 @@ public class ResourceExtenderHistoryDAO implements IResourceExtenderHistoryDAO
         " FROM extend_resource_extender_history ";
     private static final String SQL_QUERY_SELECT = SQL_QUERY_SELECT_ALL + " WHERE id_history = ? ";
     private static final String SQL_QUERY_DELETE = " DELETE FROM extend_resource_extender_history WHERE id_history = ? ";
-    private static final String SQL_QUERY_DELETE_BY_RESOURCE = " DELETE FROM extend_resource_extender_history WHERE extender_type = ? AND id_resource = ? AND resource_type = ? ";
+    private static final String SQL_QUERY_DELETE_BY_RESOURCE = " DELETE FROM extend_resource_extender_history WHERE extender_type = ? AND resource_type = ? ";
+    private static final String SQL_QUERY_FILTER_BY_ID_RESOURCE = " AND id_resource = ? ";
 
     /**
     * Generates a new primary key.
@@ -184,11 +186,19 @@ public class ResourceExtenderHistoryDAO implements IResourceExtenderHistoryDAO
     public void deleteByResource( String strExtenderType, String strIdExtendableResource,
         String strExtendableResourceType, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_RESOURCE, plugin );
+        StringBuilder sbSql = new StringBuilder( SQL_QUERY_DELETE_BY_RESOURCE );
+        if ( !ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE.equals( strIdExtendableResource ) )
+        {
+            sbSql.append( SQL_QUERY_FILTER_BY_ID_RESOURCE );
+        }
+        DAOUtil daoUtil = new DAOUtil( sbSql.toString( ), plugin );
         int nIndex = 1;
         daoUtil.setString( nIndex++, strExtenderType );
-        daoUtil.setString( nIndex++, strIdExtendableResource );
-        daoUtil.setString( nIndex, strExtendableResourceType );
+        daoUtil.setString( nIndex++, strExtendableResourceType );
+        if ( !ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE.equals( strIdExtendableResource ) )
+        {
+            daoUtil.setString( nIndex, strIdExtendableResource );
+        }
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );

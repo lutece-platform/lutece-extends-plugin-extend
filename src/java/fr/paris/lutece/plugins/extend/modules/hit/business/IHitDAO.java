@@ -66,8 +66,17 @@ public interface IHitDAO
     void delete( int nIdHit, Plugin plugin );
 
     /**
+     * Delete hits of a given resource
+     * 
+     * @param strIdResource the id of the resource, or a wildcare to remove all
+     * @param strResourceType The resource type to delete
+     * @param plugin the plugin
+     */
+    void deleteByResource( String strIdResource, String strResourceType, Plugin plugin );
+
+    /**
      * Load.
-     *
+     * 
      * @param nIdHit the n id hit
      * @param plugin the plugin
      * @return the hit

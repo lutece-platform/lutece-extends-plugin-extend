@@ -65,8 +65,15 @@ public interface IHitService
     void remove( int nIdHit );
 
     /**
+     * Removes.
+     * 
+     * @param nIdHit the n id hit
+     */
+    void removeByResource( String strIdResource, String strResourceType );
+
+    /**
      * Increment hit.
-     *
+     * 
      * @param hit the hit
      */
     void incrementHit( Hit hit );

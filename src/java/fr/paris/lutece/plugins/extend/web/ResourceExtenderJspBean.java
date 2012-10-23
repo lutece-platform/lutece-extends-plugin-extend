@@ -45,6 +45,8 @@ import fr.paris.lutece.plugins.extend.service.IExtendableResourceManager;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtender;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
 import fr.paris.lutece.plugins.extend.service.extender.ResourceExtenderService;
+import fr.paris.lutece.plugins.extend.service.extender.history.IResourceExtenderHistoryService;
+import fr.paris.lutece.plugins.extend.service.extender.history.ResourceExtenderHistoryService;
 import fr.paris.lutece.plugins.extend.service.type.ExtendableResourceTypeService;
 import fr.paris.lutece.plugins.extend.service.type.IExtendableResourceTypeService;
 import fr.paris.lutece.plugins.extend.service.type.ResourceTypeResourceIdService;
@@ -171,6 +173,8 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     private IResourceExtenderComponentManager _extenderComponentManager = SpringContextService.getBean( ResourceExtenderComponentManager.BEAN_MANAGER );
     private IExtendableResourceManager _resourceManager = SpringContextService.getBean( ExtendableResourceManager.BEAN_MANAGER );
     private IDefaultExtendableResourceService _defaultResourceService = SpringContextService.getBean( DefaultExtendableResourceService.BEAN_SERVICE );
+    private IResourceExtenderHistoryService _resourceExtenderHistoryService = SpringContextService
+            .getBean( ResourceExtenderHistoryService.BEAN_SERVICE );
     private UrlItem _lastUrl;
 
     /**
@@ -946,7 +950,6 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         {
             try
             {
-				_extenderService.doDeleteResourceAddOn( resourceExtender );
                 _extenderService.remove( nIdExtender );
             }
             catch ( Exception ex )
@@ -959,6 +962,8 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
             }
 
             _extenderService.doDeleteResourceAddOn( resourceExtender );
+            _resourceExtenderHistoryService.removeByResource( resourceExtender.getExtenderType( ),
+                    resourceExtender.getIdExtendableResource( ), resourceExtender.getExtendableResourceType( ) );
 
             // Remove the default resource if there are no resource extender associated to the given id resource and resource type
             ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter(  );

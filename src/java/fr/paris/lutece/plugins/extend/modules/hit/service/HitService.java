@@ -78,8 +78,17 @@ public class HitService implements IHitService
     }
 
     /**
-         * {@inheritDoc}
-         */
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeByResource( String strIdResource, String strResourceType )
+    {
+        _hitDAO.deleteByResource( strIdResource, strResourceType, ExtendPlugin.getPlugin( ) );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void incrementHit( Hit hit )
     {

@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.extend.modules.hit.business;
 
+import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilter;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.sql.DAOUtil;
 
@@ -48,6 +49,9 @@ public class HitDAO implements IHitDAO
     private static final String SQL_QUERY_INSERT = " INSERT INTO extend_extender_hit (id_hit, id_resource, resource_type, nb_hits) VALUES ( ?,?,?,? ) ";
     private static final String SQL_QUERY_UPDATE = " UPDATE extend_extender_hit SET id_resource = ?, resource_type = ?, nb_hits = ? WHERE id_hit = ? ";
     private static final String SQL_QUERY_DELETE = " DELETE FROM extend_extender_hit WHERE id_hit = ? ";
+    private static final String SQL_QUERY_DELETE_BY_RESOURCE = " DELETE FROM extend_extender_hit WHERE resource_type = ? ";
+    private static final String SQL_QUERY_FILTER_BY_ID_RESOURCE = " AND id_resource = ? ";
+
     private static final String SQL_QUERY_SELECT_ALL = " SELECT id_hit, id_resource, resource_type, nb_hits FROM extend_extender_hit ";
     private static final String SQL_QUERY_SELECT = SQL_QUERY_SELECT_ALL + " WHERE id_hit = ? ";
     private static final String SQL_QUERY_SELECT_BY_PARAMETERS = SQL_QUERY_SELECT_ALL +
@@ -126,6 +130,30 @@ public class HitDAO implements IHitDAO
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deleteByResource( String strIdResource, String strResourceType, Plugin plugin )
+    {
+        StringBuilder sbSql = new StringBuilder( SQL_QUERY_DELETE_BY_RESOURCE );
+        if ( !ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE.equals( strIdResource ) )
+        {
+            sbSql.append( SQL_QUERY_FILTER_BY_ID_RESOURCE );
+        }
+        DAOUtil daoUtil = new DAOUtil( sbSql.toString( ), plugin );
+
+        int nIndex = 0;
+        daoUtil.setString( ++nIndex, strResourceType );
+        if ( !ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE.equals( strIdResource ) )
+        {
+            daoUtil.setString( ++nIndex, strIdResource );
+        }
+
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
