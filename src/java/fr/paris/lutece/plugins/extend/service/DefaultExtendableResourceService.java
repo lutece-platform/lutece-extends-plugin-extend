@@ -36,9 +36,11 @@ package fr.paris.lutece.plugins.extend.service;
 import fr.paris.lutece.plugins.extend.business.IDefaultExtendableResourceDAO;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 
-import org.springframework.transaction.annotation.Transactional;
+import java.util.Locale;
 
 import javax.inject.Inject;
+
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -106,5 +108,23 @@ public class DefaultExtendableResourceService implements IDefaultExtendableResou
     public void remove( String strIdResource, String strResourceType )
     {
         _extendableResourceDAO.delete( strIdResource, strResourceType, ExtendPlugin.getPlugin(  ) );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getResourceType( )
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getResourceTypeDescription( Locale locale )
+    {
+        return null;
     }
 }

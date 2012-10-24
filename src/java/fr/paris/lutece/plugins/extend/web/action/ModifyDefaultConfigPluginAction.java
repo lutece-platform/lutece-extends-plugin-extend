@@ -59,7 +59,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mysql.jdbc.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -74,6 +74,8 @@ public class ModifyDefaultConfigPluginAction extends AbstractPluginAction<IResou
 
     // PARAMETERS
     private static final String PARAMETER_MODIFY_DEFAULT_CONFIG = "modifyDefaultConfig";
+    private static final String PARAMETER_FROM_URL = "from_url";
+    private static final String PARAMETER_REFERER = "referer";
     private static final String PARAM_EXTENDER_TYPE = "extenderTypeModifyConfig";
 
     // MARKS
@@ -88,6 +90,10 @@ public class ModifyDefaultConfigPluginAction extends AbstractPluginAction<IResou
 
     // JSP
     private static final String JSP_URL = "jsp/admin/plugins/extend/GetModifyDefaultConfig.jsp";
+
+    // CONSTANT
+    private static final String CONSTANT_AND = "&";
+    private static final String CONSTANT_AND_HTML = "%26";
 
     @Inject
     private IResourceExtenderService _extenderService;
@@ -155,13 +161,23 @@ public class ModifyDefaultConfigPluginAction extends AbstractPluginAction<IResou
         String strExtenderType = request.getParameter( PARAM_EXTENDER_TYPE );
         DefaultPluginActionResult result = new DefaultPluginActionResult( );
 
-        if ( StringUtils.isEmptyOrWhitespaceOnly( strExtenderType ) )
+        if ( StringUtils.isBlank( strExtenderType ) )
         {
             result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_NO_EXTENDER_TYPE_SELECTED,
                     AdminMessage.TYPE_STOP ) );
             return result;
         }
         url.addParameter( PARAM_EXTENDER_TYPE, strExtenderType );
+        String strFromUrl = request.getParameter( PARAMETER_FROM_URL );
+        if ( StringUtils.isBlank( strFromUrl ) )
+        {
+            strFromUrl = request.getHeader( PARAMETER_REFERER );
+        }
+        if ( StringUtils.isNotBlank( strFromUrl ) )
+        {
+            strFromUrl = strFromUrl.replace( CONSTANT_AND, CONSTANT_AND_HTML );
+            url.addParameter( PARAMETER_FROM_URL, strFromUrl );
+        }
         
         result.setRedirect( url.getUrl(  ) );
 

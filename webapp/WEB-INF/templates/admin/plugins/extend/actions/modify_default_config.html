@@ -2,5 +2,6 @@
 	<button type="submit" name="modifyDefaultConfig" title="#i18n{extend.modify_default_config.labelModifyDefaultConfig}" value="modifyDefaultConfig" class="btn btn-small btn-primary" >
 		<i class="icon-edit icon-white">&nbsp;</i><span class="hidden-phone">&nbsp;#i18n{extend.modify_default_config.labelModifyDefaultConfig}</span>
 	</button>
-	<@comboWithParams name="extenderTypeModifyConfig" additionalParameters="class='input-medium'" default_value="" items=configurableExtenderTypes />
+	<#assign extenderTypeItem = configurableExtenderTypes?first />
+	<input type="hidden" name="extenderTypeModifyConfig" value="${extenderTypeItem.code}" />
 </div>

@@ -46,6 +46,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  *
@@ -60,12 +62,18 @@ public class CreateResourceExtenderPluginAction extends AbstractPluginAction<IRe
     // PARAMETERS
     private static final String PARAMETER_CREATE_RESOURCE_EXTENDER = "createResourceExtender";
     private static final String PARAMETER_MANAGE_BY_RESOURCE = "manageByResource";
+    private static final String PARAMETER_FROM_URL = "from_url";
+    private static final String PARAMETER_REFERER = "referer";
 
     // TEMPLATE
     private static final String TEMPLATE_BUTTON = "actions/create_resource_extender.html";
 
     // JSP
     private static final String JSP_URL = "jsp/admin/plugins/extend/GetCreateResourceExtender.jsp";
+
+    // CONSTANT
+    private static final String CONSTANT_AND = "&";
+    private static final String CONSTANT_AND_HTML = "%26";
 
     /**
      * {@inheritDoc}
@@ -111,6 +119,17 @@ public class CreateResourceExtenderPluginAction extends AbstractPluginAction<IRe
     {
         UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL );
         url.addParameter( PARAMETER_MANAGE_BY_RESOURCE, request.getParameter( PARAMETER_MANAGE_BY_RESOURCE ) );
+
+        String strFromUrl = request.getParameter( PARAMETER_FROM_URL );
+        if ( StringUtils.isBlank( strFromUrl ) )
+        {
+            strFromUrl = request.getHeader( PARAMETER_REFERER );
+        }
+        if ( StringUtils.isNotBlank( strFromUrl ) )
+        {
+            strFromUrl = strFromUrl.replace( CONSTANT_AND, CONSTANT_AND_HTML );
+            url.addParameter( PARAMETER_FROM_URL, strFromUrl );
+        }
 
         DefaultPluginActionResult result = new DefaultPluginActionResult(  );
         result.setRedirect( url.getUrl(  ) );

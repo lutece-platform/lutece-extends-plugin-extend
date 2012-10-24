@@ -535,66 +535,67 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
      */
     public String doCreateResourceExtender( HttpServletRequest request )
     {
-        ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO(  );
-
-        // Populate the bean
-        populate( resourceExtender, request );
-
-        // Validate the form
-        String strJspError = ExtendUtils.validateResourceExtender( request, resourceExtender );
-
-        if ( StringUtils.isNotBlank( strJspError ) )
+        String strCancel = request.getParameter( PARAMETER_CANCEL );
+        if ( StringUtils.isBlank( strCancel ) )
         {
-            return strJspError;
-        }
+            ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO( );
 
-        // Checks that the parameters are unique
-        if ( _extenderService.isAuthorizedToAllResources( resourceExtender.getExtendableResourceType(  ),
-                    resourceExtender.getExtenderType(  ) ) )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_EXTENDER_TO_ALL_RESOURCES_ALREADY_EXISTS,
-                AdminMessage.TYPE_INFO );
-        }
+            // Populate the bean
+            populate( resourceExtender, request );
 
-        if ( _extenderService.isAuthorized( resourceExtender.getIdExtendableResource(  ),
-                    resourceExtender.getExtendableResourceType(  ), resourceExtender.getExtenderType(  ) ) )
-        {
-            Object[] params = 
-                {
-                    resourceExtender.getIdExtendableResource(  ), resourceExtender.getExtendableResourceType(  ),
-                };
+            // Validate the form
+            String strJspError = ExtendUtils.validateResourceExtender( request, resourceExtender );
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_EXTENDER_WITH_ID_RESOURCES_ALREADY_EXISTS,
-                params, AdminMessage.TYPE_INFO );
-        }
-
-        // Check if it must use the default resource service or not
-        // If so, then redirect the user to the creation resource extender page
-        if ( _resourceManager.useDefaultExtendableResourceService( resourceExtender.getIdExtendableResource(  ),
-                    resourceExtender.getExtendableResourceType(  ) ) )
-        {
-            return getUrlCreateDefaultResourceExcenter( request, resourceExtender ).getUrl(  );
-        }
-
-        strJspError = doCreateResourceExtender( request, resourceExtender );
-
-        if ( StringUtils.isNotBlank( strJspError ) )
-        {
-            return strJspError;
-        }
-
-        // If the extender needs a config, then redirect the user to the config modification page if he is authorized to access it
-        boolean bAuthorizedUser = RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, null,
-                ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, getUser( ) );
-        if ( bAuthorizedUser )
-        {
-            IResourceExtender extender = _extenderService.getResourceExtender( resourceExtender.getExtenderType( ) );
-            if ( ( extender != null ) && extender.isConfigRequired( ) )
+            if ( StringUtils.isNotBlank( strJspError ) )
             {
-                return getUrlModifyResourceExtenderConfig( request, resourceExtender ).getUrl( );
+                return strJspError;
+            }
+
+            // Checks that the parameters are unique
+            if ( _extenderService.isAuthorizedToAllResources( resourceExtender.getExtendableResourceType( ),
+                    resourceExtender.getExtenderType( ) ) )
+            {
+                return AdminMessageService.getMessageUrl( request, MESSAGE_EXTENDER_TO_ALL_RESOURCES_ALREADY_EXISTS,
+                        AdminMessage.TYPE_INFO );
+            }
+
+            if ( _extenderService.isAuthorized( resourceExtender.getIdExtendableResource( ),
+                    resourceExtender.getExtendableResourceType( ), resourceExtender.getExtenderType( ) ) )
+            {
+                Object[] params = { resourceExtender.getIdExtendableResource( ),
+                        resourceExtender.getExtendableResourceType( ), };
+
+                return AdminMessageService.getMessageUrl( request, MESSAGE_EXTENDER_WITH_ID_RESOURCES_ALREADY_EXISTS,
+                        params, AdminMessage.TYPE_INFO );
+            }
+
+            // Check if it must use the default resource service or not
+            // If so, then redirect the user to the creation resource extender page
+            if ( _resourceManager.useDefaultExtendableResourceService( resourceExtender.getIdExtendableResource( ),
+                    resourceExtender.getExtendableResourceType( ) ) )
+            {
+                return getUrlCreateDefaultResourceExcenter( request, resourceExtender ).getUrl( );
+            }
+
+            strJspError = doCreateResourceExtender( request, resourceExtender );
+
+            if ( StringUtils.isNotBlank( strJspError ) )
+            {
+                return strJspError;
+            }
+
+            // If the extender needs a config, then redirect the user to the config modification page if he is authorized to access it
+            boolean bAuthorizedUser = RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, null,
+                    ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, getUser( ) );
+            if ( bAuthorizedUser )
+            {
+                IResourceExtender extender = _extenderService.getResourceExtender( resourceExtender.getExtenderType( ) );
+                if ( ( extender != null ) && extender.isConfigRequired( ) )
+                {
+                    return getUrlModifyResourceExtenderConfig( request, resourceExtender ).getUrl( );
+                }
             }
         }
-
         return getLastUrl( request ).getUrl(  );
     }
 

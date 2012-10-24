@@ -34,10 +34,7 @@
 package fr.paris.lutece.plugins.extend.business;
 
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
-import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
-
-import java.util.Locale;
 
 
 /**
@@ -45,8 +42,6 @@ import java.util.Locale;
  */
 public class DefaultExtendableResource implements IExtendableResource
 {
-    private static final String MESSAGE_DEFAULT_RESOURCE_TYPE_DESCRIPTION = "extend.resource.defaultResource.resourceTypeDescription";
-
     private String _strIdExtendableResource;
     private String _strResourceType;
     private String _strName;
@@ -125,11 +120,5 @@ public class DefaultExtendableResource implements IExtendableResource
     public void setExtendableResourceName( String strName )
     {
         _strName = strName;
-    }
-
-    @Override
-    public String getExtendableResourceTypeDescription( Locale locale )
-    {
-        return I18nService.getLocalizedString( MESSAGE_DEFAULT_RESOURCE_TYPE_DESCRIPTION, locale );
     }
 }

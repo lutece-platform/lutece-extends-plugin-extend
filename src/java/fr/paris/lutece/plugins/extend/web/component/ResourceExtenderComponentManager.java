@@ -42,12 +42,15 @@ import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
 import fr.paris.lutece.plugins.extend.service.extender.history.IResourceExtenderHistoryService;
 import fr.paris.lutece.plugins.extend.util.ExtendErrorException;
 import fr.paris.lutece.plugins.extend.util.ExtendUtils;
+import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
+import fr.paris.lutece.util.ReferenceItem;
+import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
@@ -87,6 +90,7 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
     // PARAMETERS
     private static final String PARAMETER_ID_EXTENDER = "idExtender";
 	private static final String PARAMETER_FROM_URL = "from_url";
+    private static final String PARAMETER_MANAGE_BY_RESOURCE = "manageByResource";
 
     // MARKS
     private static final String MARK_RESOURCE_EXTENDER = "resourceExtender";
@@ -97,6 +101,8 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
 	private static final String MARK_FROM_URL = "from_url";
+    private static final String MARK_EXTENDER_TYPE_MODIFY_CONFIG = "extenderTypeModifyConfig";
+    private static final String MARK_RESOURCE_EXTENDER_CONFIGURABLE = "configurableExtenderTypes";
 
     // TEMPLATES
     private static final String TEMPLATE_RESOURCE_EXTENDER_CONFIG = "admin/plugins/extend/resource_extender_config.html";
@@ -233,6 +239,23 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
                 model.put( MARK_RESOURCE_EXTENDER_CONFIG, component.getConfigHtml( resourceExtender, locale, request ) );
                 model.put( MARK_FROM_URL, StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ),
                         CONSTANT_AND, CONSTANT_AND_HTML ) );
+                model.put( MARK_EXTENDER_TYPE_MODIFY_CONFIG, strExtenderType );
+                model.put( PARAMETER_MANAGE_BY_RESOURCE,
+                        Boolean.parseBoolean( request.getParameter( PARAMETER_MANAGE_BY_RESOURCE ) ) );
+
+                List<IResourceExtender> listExtenders = _resourceExtenderService.getResourceExtenders( );
+                ReferenceList refListExtenderTypes = new ReferenceList( );
+                for ( IResourceExtender resourceExtenderDto : listExtenders )
+                {
+                    if ( resourceExtenderDto.isConfigRequired( ) )
+                    {
+                        ReferenceItem refItem = new ReferenceItem( );
+                        refItem.setCode( resourceExtenderDto.getKey( ) );
+                        refItem.setName( resourceExtenderDto.getTitle( AdminUserService.getLocale( request ) ) );
+                        refListExtenderTypes.add( refItem );
+                    }
+                }
+                model.put( MARK_RESOURCE_EXTENDER_CONFIGURABLE, refListExtenderTypes );
 
                 HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESOURCE_EXTENDER_DEFAULT_CONFIG,
                         locale, model );

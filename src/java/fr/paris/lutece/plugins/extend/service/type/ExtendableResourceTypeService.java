@@ -34,16 +34,13 @@
 package fr.paris.lutece.plugins.extend.service.type;
 
 import fr.paris.lutece.plugins.extend.business.type.ExtendableResourceType;
-import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
-import fr.paris.lutece.portal.service.resource.IExtendableResource;
+import fr.paris.lutece.portal.service.resource.IExtendableResourceService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -57,8 +54,6 @@ public class ExtendableResourceTypeService implements IExtendableResourceTypeSer
 {
     /** The Constant BEAN_SERVICE. */
     public static final String BEAN_SERVICE = "extend.extendableResourceTypeService";
-    @Inject
-    private IResourceExtenderService _extenderService;
 
     /**
      * {@inheritDoc}
@@ -66,16 +61,16 @@ public class ExtendableResourceTypeService implements IExtendableResourceTypeSer
     @Override
     public ExtendableResourceType findByPrimaryKey( String strKey, Locale locale )
     {
-        List<IExtendableResource> listExtendableResources = SpringContextService
-                .getBeansOfType( IExtendableResource.class );
+        List<IExtendableResourceService> listExtendableResources = SpringContextService
+                .getBeansOfType( IExtendableResourceService.class );
         ExtendableResourceType resourceType = null;
-        for ( IExtendableResource resource : listExtendableResources )
+        for ( IExtendableResourceService resource : listExtendableResources )
         {
-            if ( StringUtils.equals( resource.getExtendableResourceType( ), strKey ) )
+            if ( StringUtils.equals( resource.getResourceType( ), strKey ) )
             {
                 resourceType = new ExtendableResourceType( );
-                resourceType.setKey( resource.getExtendableResourceType( ) );
-                resourceType.setDescription( resource.getExtendableResourceTypeDescription( locale ) );
+                resourceType.setKey( resource.getResourceType( ) );
+                resourceType.setDescription( resource.getResourceTypeDescription( locale ) );
             }
         }
         return resourceType;
@@ -87,15 +82,18 @@ public class ExtendableResourceTypeService implements IExtendableResourceTypeSer
     @Override
     public List<ExtendableResourceType> findAll( Locale locale )
     {
-        List<IExtendableResource> listExtendableResources = SpringContextService
-                .getBeansOfType( IExtendableResource.class );
+        List<IExtendableResourceService> listExtendableResources = SpringContextService
+                .getBeansOfType( IExtendableResourceService.class );
         List<ExtendableResourceType> listResourceTypes = new ArrayList<ExtendableResourceType>( );
-        for ( IExtendableResource resource : listExtendableResources )
+        for ( IExtendableResourceService resource : listExtendableResources )
         {
-            ExtendableResourceType resourceType = new ExtendableResourceType( );
-            resourceType.setKey( resource.getExtendableResourceType( ) );
-            resourceType.setDescription( resource.getExtendableResourceTypeDescription( locale ) );
-            listResourceTypes.add( resourceType );
+            if ( StringUtils.isNotEmpty( resource.getResourceType( ) ) )
+            {
+                ExtendableResourceType resourceType = new ExtendableResourceType( );
+                resourceType.setKey( resource.getResourceType( ) );
+                resourceType.setDescription( resource.getResourceTypeDescription( locale ) );
+                listResourceTypes.add( resourceType );
+            }
         }
         return listResourceTypes;
     }
