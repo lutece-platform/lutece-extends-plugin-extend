@@ -2,13 +2,14 @@
 	<fieldset>
 		<legend>
 			#i18n{extend.manage_resource_extenders_by_resource.pageTitle}
-			<div class="pull-right">
-				<#list resourceTypeActions as resourceTypeAction>
-					<#if resourceTypeAction.buttonTemplate?has_content>
-						<#include resourceTypeAction.buttonTemplate />
-					</#if>
-				</#list>
-			</div>
+			<#list resourceExtenderActions as resourceExtenderAction>
+				<#if resourceExtenderAction.buttonTemplate?has_content>
+					<div class="pull-right">
+						<#include resourceExtenderAction.buttonTemplate />
+					</div>
+				</#if>
+			</#list>
+			<input name="manageByResource" type="hidden" value="true" />
 		</legend>
 		<div class="row-fluid">
 			<div class="span3">
@@ -41,13 +42,6 @@
 				</div>
 			</div>
 			<div class="span9">
-				<div class="form-inline">
-					<#list resourceExtenderActions as resourceExtenderAction>
-						<#if resourceExtenderAction.buttonTemplate?has_content>
-							<#include resourceExtenderAction.buttonTemplate />
-						</#if>
-					</#list>
-				</div>
 				<@paginationAdmin paginator=paginator combo=1 />
 				<#assign sortSearchAttribute = buildSortSearchAttribute( filter ) />
 				<table class="table table-striped table-condensed">

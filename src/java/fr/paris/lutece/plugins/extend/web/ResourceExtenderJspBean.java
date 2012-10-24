@@ -36,7 +36,6 @@ package fr.paris.lutece.plugins.extend.web;
 import fr.paris.lutece.plugins.extend.business.DefaultExtendableResource;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilter;
-import fr.paris.lutece.plugins.extend.business.type.ExtendableResourceType;
 import fr.paris.lutece.plugins.extend.service.DefaultExtendableResourceService;
 import fr.paris.lutece.plugins.extend.service.ExtendableResourceManager;
 import fr.paris.lutece.plugins.extend.service.ExtendableResourceResourceIdService;
@@ -53,7 +52,6 @@ import fr.paris.lutece.plugins.extend.util.ExtendErrorException;
 import fr.paris.lutece.plugins.extend.util.ExtendUtils;
 import fr.paris.lutece.plugins.extend.web.action.IResourceExtenderPluginAction;
 import fr.paris.lutece.plugins.extend.web.action.IResourceExtenderSearchFields;
-import fr.paris.lutece.plugins.extend.web.action.IResourceTypePluginAction;
 import fr.paris.lutece.plugins.extend.web.action.ResourceExtenderSearchFields;
 import fr.paris.lutece.plugins.extend.web.component.IResourceExtenderComponentManager;
 import fr.paris.lutece.plugins.extend.web.component.ResourceExtenderComponentManager;
@@ -101,8 +99,6 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     // PROPERTIES
     private static final String PROPERTY_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_TYPE_PAGE_TITLE = "extend.manage_resource_extenders_by_resource_type.pageTitle";
     private static final String PROPERTY_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_PAGE_TITLE = "extend.manage_resource_extenders_by_resource.pageTitle";
-    private static final String PROPERTY_CREATE_RESOURCE_TYPE_PAGE_TITLE = "extend.create_resource_type.pageTitle";
-    private static final String PROPERTY_MODIFY_RESOURCE_TYPE_PAGE_TITLE = "extend.modify_resource_type.pageTitle";
     private static final String PROPERTY_EXTENDER_CONFIG_PAGE_TITLE = "extend.resource_extender_config.pageTitle";
     private static final String PROPERTY_EXTENDER_INFO_PAGE_TITLE = "extend.resource_extender_info.pageTitle";
     private static final String PROPERTY_EXTENDER_HISTORY_PAGE_TITLE = "extend.resource_extender_history.pageTitle";
@@ -111,15 +107,12 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     // MESSAGES
     private static final String MESSAGE_ERROR_GENERIC_MESSAGE = "extend.message.error.genericMessage";
     private static final String MESSAGE_CONFIRM_REMOVE_RESOURCE_EXTENDER = "extend.message.confirm.removeResourceExtender";
-    private static final String MESSAGE_CONFIRM_REMOVE_RESOURCE_TYPE = "extend.message.confirm.removeResourceType";
     private static final String MESSAGE_STOP_GENERIC_MESSAGE = "extend.message.stop.genericMessage";
-    private static final String MESSAGE_CANNOT_DUPLICATE_RESOURCE_TYPE = "extend.message.cannotDuplicateResourceType";
     private static final String MESSAGE_EXTENDER_TO_ALL_RESOURCES_ALREADY_EXISTS = "extend.message.extenderToAllResourcesAlreadyExists";
     private static final String MESSAGE_EXTENDER_WITH_ID_RESOURCES_ALREADY_EXISTS = "extend.message.extenderWithIdAlreadyExists";
     private static final String MESSAGE_UNAUTHORIZED_ACTION = "extend.message.unauthorizedAction";
 
     // PARAMETERS
-    private static final String PARAMETER_RESOURCE_TYPE = "resourceType";
     private static final String PARAMETER_CANCEL = "cancel";
     private static final String PARAMETER_ID_EXTENDER = "idExtender";
     private static final String PARAMETER_SESSION = "session";
@@ -134,12 +127,11 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_EXTENDER_TYPE_DEFAULT_CONFIG = "extenderTypeModifyConfig";
 
     // MARKS
-    private static final String MARK_RESOURCE_TYPE_ACTIONS = "resourceTypeActions";
     private static final String MARK_RESOURCE_EXTENDER_ACTIONS = "resourceExtenderActions";
-    private static final String MARK_RESOURCE_TYPE = "resourceType";
     private static final String MARK_MANAGE_BY_RESOURCE = "manageByResource";
     private static final String MARK_RESOURCE_EXTENDER = "resourceExtender";
-
+    private static final String MARK_RESOURCE_TYPES = "resourceTypes";
+    private static final String MARK_EXTENDER_TYPES = "extenderTypes";
     // JSP
     private static final String JSP_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE = "ManageResourceExtendersByResource.jsp";
     private static final String JSP_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE_TYPE = "ManageResourceExtendersByResourceType.jsp";
@@ -148,16 +140,14 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     private static final String JSP_URL_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE = "jsp/admin/plugins/extend/" +
         JSP_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE;
     private static final String JSP_URL_DO_REMOVE_RESOURCE_EXTENDER = "jsp/admin/plugins/extend/DoRemoveResourceExtender.jsp";
-    private static final String JSP_URL_DO_REMOVE_RESOURCE_TYPE = "jsp/admin/plugins/extend/DoRemoveResourceType.jsp";
     private static final String JSP_URL_CREATE_DEFAULT_RESOURCE_EXTENDER = "jsp/admin/plugins/extend/CreateDefaultResourceExtender.jsp";
     private static final String JSP_URL_MODIFY_RESOURCE_EXTENDER_CONFIG = "jsp/admin/plugins/extend/ModifyExtenderConfig.jsp";
 
     // TEMPLATES
     private static final String TEMPLATE_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_TYPE = "admin/plugins/extend/manage_resource_extenders_by_resource_type.html";
     private static final String TEMPLATE_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE = "admin/plugins/extend/manage_resource_extenders_by_resource.html";
-    private static final String TEMPLATE_CREATE_RESOURCE_TYPE = "admin/plugins/extend/create_resource_type.html";
-    private static final String TEMPLATE_MODIFY_RESOURCE_TYPE = "admin/plugins/extend/modify_resource_type.html";
     private static final String TEMPLATE_CREATE_DEFAULT_RESOURCE_EXTENDER = "admin/plugins/extend/create_default_resource_extender.html";
+    private static final String TEMPLATE_CREATE_RESOURCE_EXTENDER = "admin/plugins/extend/create_resource_extender.html";
 
 	// CONSTANT
 	private static final String CONSTANT_AND = "&";
@@ -203,13 +193,10 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         // This parameter is used to differentiate the page to manage the extender by type or by resource
-        model.put( MARK_MANAGE_BY_RESOURCE, false );
         _resourceExtenderSearchFields.fillModel( getLastUrl( request ).getUrl(  ), request, model,
             ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE, getUser(  ) );
         PluginActionManager.fillModel( request, AdminUserService.getAdminUser( request ), model,
             IResourceExtenderPluginAction.class, MARK_RESOURCE_EXTENDER_ACTIONS );
-        PluginActionManager.fillModel( request, AdminUserService.getAdminUser( request ), model,
-            IResourceTypePluginAction.class, MARK_RESOURCE_TYPE_ACTIONS );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_TYPE,
                 request.getLocale(  ), model );
@@ -242,19 +229,16 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 
         if ( action != null )
         {
-            AppLogService.debug( "Processing resource action " + action.getName(  ) );
+            AppLogService.debug( "Processing resource action " + action.getName( ) );
 
-            return action.process( request, response, getUser(  ), _resourceExtenderSearchFields );
+            return action.process( request, response, getUser( ), _resourceExtenderSearchFields );
         }
 
         Map<String, Object> model = new HashMap<String, Object>(  );
         // This parameter is used to differentiate the page to manage the extender by type or by resource
-        model.put( MARK_MANAGE_BY_RESOURCE, true );
         _resourceExtenderSearchFields.fillModel( getLastUrl( request ).getUrl(  ), request, model, getUser(  ) );
         PluginActionManager.fillModel( request, AdminUserService.getAdminUser( request ), model,
             IResourceExtenderPluginAction.class, MARK_RESOURCE_EXTENDER_ACTIONS );
-        PluginActionManager.fillModel( request, AdminUserService.getAdminUser( request ), model,
-            IResourceTypePluginAction.class, MARK_RESOURCE_TYPE_ACTIONS );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE,
                 request.getLocale(  ), model );
@@ -264,94 +248,6 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         result.setHtmlContent( getAdminPage( template.getHtml(  ) ) );
 
         return result;
-    }
-
-    /**
-     * Gets the creates the resource type.
-     *
-     * @param request the request
-     * @param response the response
-     * @return the creates the resource type
-     */
-    public IPluginActionResult getCreateResourceType( HttpServletRequest request, HttpServletResponse response )
-    {
-        setPageTitleProperty( PROPERTY_CREATE_RESOURCE_TYPE_PAGE_TITLE );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_RESOURCE_TYPE, request.getLocale(  ) );
-
-        IPluginActionResult result = new DefaultPluginActionResult(  );
-
-        result.setHtmlContent( getAdminPage( template.getHtml(  ) ) );
-
-        return result;
-    }
-
-    /**
-     * Gets the modify resource type.
-     *
-     * @param request the request
-     * @param response the response
-     * @return the modify resource type
-     */
-    public IPluginActionResult getModifyResourceType( HttpServletRequest request, HttpServletResponse response )
-    {
-        setPageTitleProperty( PROPERTY_MODIFY_RESOURCE_TYPE_PAGE_TITLE );
-
-        String strResourceType = request.getParameter( PARAMETER_RESOURCE_TYPE );
-
-        String strHtml = StringUtils.EMPTY;
-
-        if ( StringUtils.isNotBlank( strResourceType ) )
-        {
-            ExtendableResourceType resourceType = _resourceTypeService.findByPrimaryKey( strResourceType,
-                    AdminUserService.getLocale( request ) );
-
-            if ( resourceType != null )
-            {
-                Map<String, Object> model = new HashMap<String, Object>(  );
-                model.put( MARK_RESOURCE_TYPE, resourceType );
-
-                HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_RESOURCE_TYPE,
-                        request.getLocale(  ), model );
-                strHtml = template.getHtml(  );
-            }
-        }
-
-        IPluginActionResult result = new DefaultPluginActionResult(  );
-
-        if ( StringUtils.isNotBlank( strHtml ) )
-        {
-            result.setHtmlContent( strHtml );
-        }
-        else
-        {
-            result.setRedirect( AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS,
-                    AdminMessage.TYPE_STOP ) );
-        }
-
-        return result;
-    }
-
-    /**
-     * Gets the confirm remove resource type.
-     *
-     * @param request the request
-     * @return the confirm remove resource type
-     */
-    public String getConfirmRemoveResourceType( HttpServletRequest request )
-    {
-        String strResourceType = request.getParameter( PARAMETER_RESOURCE_TYPE );
-
-        if ( StringUtils.isBlank( strResourceType ) )
-        {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
-        }
-
-        UrlItem url = new UrlItem( JSP_URL_DO_REMOVE_RESOURCE_TYPE );
-        url.addParameter( PARAMETER_RESOURCE_TYPE, strResourceType );
-
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_RESOURCE_TYPE, url.getUrl(  ),
-            AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
@@ -453,10 +349,22 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         IPluginActionResult result = new DefaultPluginActionResult( );
 
         result.setHtmlContent( getAdminPage( _extenderComponentManager.getDefaultConfigHtml( strExtenderType,
-                getLocale( ),
-                request ) ) );
+                getLocale( ), request ) ) );
 
         return result;
+    }
+
+    public String getCreateResourceExtender( HttpServletRequest request )
+    {
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_RESOURCE_TYPES, _resourceTypeService.findAllAsRef( AdminUserService.getLocale( request ) ) );
+        model.put( MARK_EXTENDER_TYPES, _extenderService.getExtenderTypes( request.getLocale( ) ) );
+        model.put( MARK_MANAGE_BY_RESOURCE, Boolean.parseBoolean( request.getParameter( MARK_MANAGE_BY_RESOURCE ) ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_RESOURCE_EXTENDER,
+                request.getLocale( ), model );
+
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
@@ -1024,12 +932,7 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         IPluginAction<IResourceExtenderSearchFields> action = PluginActionManager.getPluginAction( request,
                 IResourceExtenderPluginAction.class );
 
-        if ( action != null )
-        {
-            return action;
-        }
-
-        return PluginActionManager.getPluginAction( request, IResourceTypePluginAction.class );
+        return action;
     }
 
     /**
@@ -1074,10 +977,6 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
      */
     private String doCreateResourceExtender( HttpServletRequest request, ResourceExtenderDTO resourceExtender )
     {
-        // If the resource type is not found, then create it
-        ExtendableResourceType resourceType = _resourceTypeService.findByPrimaryKey(
-                resourceExtender.getExtendableResourceType( ), AdminUserService.getLocale( request ) );
-
         try
         {
             _extenderService.create( resourceExtender );

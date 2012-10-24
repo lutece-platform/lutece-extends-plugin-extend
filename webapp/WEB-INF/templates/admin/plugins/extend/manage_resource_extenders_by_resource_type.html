@@ -2,69 +2,51 @@
 	<fieldset>
 		<legend>
 			#i18n{extend.manage_resource_extenders_by_resource_type.pageTitle}
-			<div class="pull-right">
-				<#list resourceTypeActions as resourceTypeAction>
-					<#if resourceTypeAction.buttonTemplate?has_content>
-						<#include resourceTypeAction.buttonTemplate />
-					</#if>
-				</#list>
-			</div>	
+			<#list resourceExtenderActions as resourceExtenderAction>
+				<#if resourceExtenderAction.buttonTemplate?has_content>
+					<div class="pull-right">
+						<#include resourceExtenderAction.buttonTemplate />
+					</div>
+				</#if>
+			</#list>
+			<input name="manageByResource" type="hidden" value="false" />
 		</legend>
 		<div class="row-fluid">
-			<#if resourceExtenderActions?? && 0 < resourceExtenderActions?size>
-				<#if resourceTypes?? && resourceTypes?has_content && extenderTypes?? && extenderTypes?has_content> 
-				<div class="span3">
-				</#if>
-					<#list resourceExtenderActions as resourceExtenderAction>
-						<#if resourceExtenderAction.buttonTemplate?has_content>
-							<#include resourceExtenderAction.buttonTemplate />
-						</#if>
+			<@paginationAdmin paginator=paginator combo=1 />
+			<table class="table table-striped table-condensed" summary="#i18n{extend.manage_resource_extenders_by_resource_type.pageTitle}">
+			    <tr>
+			    	<th scope="col">
+			    		#i18n{extend.manage_resource_extenders_by_resource_type.labelExtenderType}
+			    		<@sort jsp_url="jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp" attribute="extender_type" />
+			    	</th>
+			    	<th scope="col">
+			    		#i18n{extend.manage_resource_extenders_by_resource_type.labelExtendableResourceType}
+			    		<@sort jsp_url="jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp" attribute="resource_type" />
+			    	</th>
+			    	<th scope="col">#i18n{extend.manage_resource_extenders_by_resource_type.labelActions}</th>
+				</tr>
+				<#if listResourceExtenders?? && listResourceExtenders?has_content>
+					<#list listResourceExtenders as resourceExtender>
+						<tr>
+							<td>${resourceExtender.extenderType!}</td>
+							<td>${resourceExtender.extendableResourceType!}</td>
+							<td>
+							<#if isExtenderConfigRequired( listExtenders, resourceExtender.extenderType ) && isAuthorized( resourceExtender.idExtender!, 'MODIFY_CONFIG', mapActionPermissions! )>
+									<a class="btn btn-primary btn-small"  href="jsp/admin/plugins/extend/ModifyExtenderConfig.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{extend.button.modifyConfig}">
+										<i class="icon-edit icon-white">&nbsp;</i>
+									</a>
+								</#if>
+								<#if isAuthorized( resourceExtender.idExtender!, 'DELETE', mapActionPermissions! )>
+									<a class="btn btn-danger btn-small"  href="jsp/admin/plugins/extend/ConfirmRemoveResourceExtender.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{portal.util.labelDelete}">
+										<i class="icon-trash icon-white">&nbsp;</i>
+									</a>
+								</#if>
+							</td>
+						</tr>
 					</#list>
-				<#if resourceTypes?? && resourceTypes?has_content && extenderTypes?? && extenderTypes?has_content>
-				</div>
 				</#if>
-			</#if>
-			<#if resourceTypes?? && resourceTypes?has_content && extenderTypes?? && extenderTypes?has_content> 
-			<div class="span9">
-			</#if>
-				<@paginationAdmin paginator=paginator combo=1 />
-				<table class="table table-striped table-condensed" summary="#i18n{extend.manage_resource_extenders_by_resource_type.pageTitle}">
-				    <tr>
-				    	<th scope="col">
-				    		#i18n{extend.manage_resource_extenders_by_resource_type.labelExtenderType}
-				    		<@sort jsp_url="jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp" attribute="extender_type" />
-				    	</th>
-				    	<th scope="col">
-				    		#i18n{extend.manage_resource_extenders_by_resource_type.labelExtendableResourceType}
-				    		<@sort jsp_url="jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp" attribute="resource_type" />
-				    	</th>
-				    	<th scope="col">#i18n{extend.manage_resource_extenders_by_resource_type.labelActions}</th>
-					</tr>
-					<#if listResourceExtenders?? && listResourceExtenders?has_content>
-						<#list listResourceExtenders as resourceExtender>
-							<tr>
-								<td>${resourceExtender.extenderType!}</td>
-								<td>${resourceExtender.extendableResourceType!}</td>
-								<td>
-								<#if isExtenderConfigRequired( listExtenders, resourceExtender.extenderType ) && isAuthorized( resourceExtender.idExtender!, 'MODIFY_CONFIG', mapActionPermissions! )>
-										<a class="btn btn-primary btn-small"  href="jsp/admin/plugins/extend/ModifyExtenderConfig.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{extend.button.modifyConfig}">
-											<i class="icon-edit icon-white">&nbsp;</i>
-										</a>
-									</#if>
-									<#if isAuthorized( resourceExtender.idExtender!, 'DELETE', mapActionPermissions! )>
-										<a class="btn btn-danger btn-small"  href="jsp/admin/plugins/extend/ConfirmRemoveResourceExtender.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{portal.util.labelDelete}">
-											<i class="icon-trash icon-white">&nbsp;</i>
-										</a>
-									</#if>
-								</td>
-							</tr>
-						</#list>
-					</#if>
-				</table>
-				<@paginationAdmin paginator=paginator />
-			<#if resourceTypes?? && resourceTypes?has_content && extenderTypes?? && extenderTypes?has_content> 
-			</div>
-			</#if>
+			</table>
+			<@paginationAdmin paginator=paginator />
 		</div>
 	</fieldset>
 </form>

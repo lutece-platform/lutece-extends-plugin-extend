@@ -1,12 +1,6 @@
-<#if permissionModifyConfig?? && permissionModifyConfig && configurableExtenderTypes?? && 0 < configurableExtenderTypes?size>
-	<div class="well">
-		<p class="lead"> #i18n{extend.modify_default_config.labelModifyDefaultConfig}</p>
-		<div class="control-group" >
-			<label class="control-label" for="extenderType">#i18n{extend.create_resource_extender.labelExtenderType} * :</label>
-			<@comboWithParams name="extenderTypeModifyConfig" additionalParameters="class='input-medium'" default_value="" items=configurableExtenderTypes />
-		</div>
-		<button type="submit" name="modifyDefaultConfig" title="#i18n{extend.modify_default_config.labelModify}" value="modifyDefaultConfig" class="btn btn-small btn-primary" >
-			<i class="icon-edit icon-white">&nbsp;</i><span class="hidden-phone">&nbsp;#i18n{extend.modify_default_config.labelModify}</span>
-		</button>
-	</div>
-</#if>
+<div class="form-inline">
+	<button type="submit" name="modifyDefaultConfig" title="#i18n{extend.modify_default_config.labelModifyDefaultConfig}" value="modifyDefaultConfig" class="btn btn-small btn-primary" >
+		<i class="icon-edit icon-white">&nbsp;</i><span class="hidden-phone">&nbsp;#i18n{extend.modify_default_config.labelModifyDefaultConfig}</span>
+	</button>
+	<@comboWithParams name="extenderTypeModifyConfig" additionalParameters="class='input-medium'" default_value="" items=configurableExtenderTypes />
+</div>

@@ -1,0 +1,37 @@
+<form class="form-horizontal" action="jsp/admin/plugins/extend/DoCreateResourceExtender.jsp">
+	<fieldset>
+		<legend>#i18n{extend.create_resource_extender.labelCreateResourceExtender}</legend>
+		<div class="control-group" >
+			<label class="control-label" for="extenderType">#i18n{extend.create_resource_extender.labelExtenderType} * :</label>
+			<div class="controls">
+				<@comboWithParams name="extenderType" additionalParameters="class='input-medium'" default_value="" items=extenderTypes />
+			</div>
+		</div>
+		<div class="control-group" >
+			<#if manageByResource>
+				<label class="control-label" for="idExtendableResource">#i18n{extend.create_resource_extender.labelIdExtendableResource} * :</label>
+				<div class="controls">
+					<input type="text" class="input-medium" name="idExtendableResource" value="" maxlength="255" size="20" />
+				</div>
+			<#else>
+				<input type="hidden" name="idExtendableResource" value="*" />
+			</#if>
+		</div>
+		<div class="control-group" >
+			<label class="control-label" for="extendableResourceType">#i18n{extend.create_resource_extender.labelResourceType} * :</label>
+			<div class="controls">
+				<@comboWithParams name="extendableResourceType" additionalParameters="class='input-medium'" default_value="" items=resourceTypes />
+			</div>
+		</div>
+		<div class="form-actions" >
+			<button type="submit" name="createResourceExtender" value="createResourceExtender" title="#i18n{portal.util.labelCreate}" class="btn btn-small btn-primary" >
+				<i class="icon-plus icon-white">&nbsp;</i>&nbsp;#i18n{portal.util.labelCreate}
+			</button>
+			<#if from_url?? && from_url?has_content && from_url != "null">
+				<button type="submit" name="createResourceExtender" value="createResourceExtender" title="#i18n{portal.util.labelCreate}" class="btn btn-small" >
+					#i18n{portal.util.labelBack}
+				</button>
+			</#if>
+		</div>
+	</fieldset>
+</form>
