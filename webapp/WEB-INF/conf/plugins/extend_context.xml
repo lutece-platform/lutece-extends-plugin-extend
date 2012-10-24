@@ -15,13 +15,10 @@
 		<property name="pluginName" value="extend" />
 	</bean>
 	<bean id="extend.resourceExtenderDAO" class="fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDAO" />
-	<bean id="extend.extendableResourceTypeDAO" class="fr.paris.lutece.plugins.extend.business.type.ExtendableResourceTypeDAO" />
 	<bean id="extend.defaultExtendableResourceDAO" class="fr.paris.lutece.plugins.extend.business.DefaultExtendableResourceDAO" />
 	<bean id="extend.resourceExtenderHistoryDAO" class="fr.paris.lutece.plugins.extend.business.extender.history.ResourceExtenderHistoryDAO" />
 	
 	<!-- Actions -->
-	<bean id="extend.createResourceTypeAction" class="fr.paris.lutece.plugins.extend.web.action.CreateResourceTypePluginAction" />
-	<bean id="extend.removeResourceTypeAction" class="fr.paris.lutece.plugins.extend.web.action.RemoveResourceTypePluginAction" />
 	<bean id="extend.createResourceExtenderAction" class="fr.paris.lutece.plugins.extend.web.action.CreateResourceExtenderPluginAction" />
 	<bean id="extend.ModifyDefaultConfigResourceExtenderAction" class="fr.paris.lutece.plugins.extend.web.action.ModifyDefaultConfigPluginAction" />
 	<bean id="extend.createExtenderFromResourceAction" class="fr.paris.lutece.plugins.extend.web.action.CreateExtenderFromResourcePluginAction" />

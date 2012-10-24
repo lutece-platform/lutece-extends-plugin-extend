@@ -34,12 +34,10 @@
 package fr.paris.lutece.plugins.extend.service.type;
 
 import fr.paris.lutece.plugins.extend.business.type.ExtendableResourceType;
-import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 import fr.paris.lutece.util.ReferenceList;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -47,29 +45,6 @@ import java.util.List;
  */
 public interface IExtendableResourceTypeService
 {
-    /**
-     * Creates.
-     *
-     * @param resourceType the resource type
-     */
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
-    void create( ExtendableResourceType resourceType );
-
-    /**
-     * Store.
-     *
-     * @param resourceType the resource type
-     */
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
-    void update( ExtendableResourceType resourceType );
-
-    /**
-     * Removes.
-     *
-     * @param strKey the str key
-     */
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
-    void remove( String strKey );
 
     /**
      * Find by primary key.
@@ -77,27 +52,19 @@ public interface IExtendableResourceTypeService
      * @param strKey the str key
      * @return the extendable resource type
      */
-    ExtendableResourceType findByPrimaryKey( String strKey );
+    ExtendableResourceType findByPrimaryKey( String strKey, Locale locale );
 
     /**
      * Find all.
      *
      * @return the list
      */
-    List<ExtendableResourceType> findAll(  );
+    List<ExtendableResourceType> findAll( Locale locale );
 
     /**
      * Find all as ref.
      *
      * @return the reference list
      */
-    ReferenceList findAllAsRef(  );
-
-    /**
-     * Checks if is duplicate.
-     *
-     * @param strKey the str key
-     * @return true, if is duplicate
-     */
-    boolean isDuplicate( String strKey );
+    ReferenceList findAllAsRef( Locale locale );
 }

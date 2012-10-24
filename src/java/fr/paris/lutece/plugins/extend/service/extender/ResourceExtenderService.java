@@ -88,8 +88,9 @@ public class ResourceExtenderService implements IResourceExtenderService
     public void create( ResourceExtenderDTO extender )
     {
         // Check if the resource type exists or not
-        if ( ( extender != null ) &&
-                ( _extendableResourceTypeService.findByPrimaryKey( extender.getExtendableResourceType(  ) ) != null ) )
+        if ( ( extender != null )
+                && ( _extendableResourceTypeService.findByPrimaryKey( extender.getExtendableResourceType( ),
+                        Locale.getDefault( ) ) != null ) )
         {
             _extenderDAO.insert( extender, ExtendPlugin.getPlugin(  ) );
         }
@@ -103,8 +104,9 @@ public class ResourceExtenderService implements IResourceExtenderService
     public void update( ResourceExtenderDTO extender )
     {
         // Check if the resource type exists or not
-        if ( ( extender != null ) &&
-                ( _extendableResourceTypeService.findByPrimaryKey( extender.getExtendableResourceType(  ) ) != null ) )
+        if ( ( extender != null )
+                && ( _extendableResourceTypeService.findByPrimaryKey( extender.getExtendableResourceType( ),
+                        Locale.getDefault( ) ) != null ) )
         {
             _extenderDAO.store( extender, ExtendPlugin.getPlugin(  ) );
         }

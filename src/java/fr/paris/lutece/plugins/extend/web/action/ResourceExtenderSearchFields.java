@@ -41,6 +41,7 @@ import fr.paris.lutece.plugins.extend.service.type.ExtendableResourceTypeService
 import fr.paris.lutece.plugins.extend.service.type.IExtendableResourceTypeService;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -50,14 +51,13 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.io.Serializable;
-
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -257,7 +257,7 @@ public class ResourceExtenderSearchFields implements IResourceExtenderSearchFiel
                 user );
 
         // RESOURCE TYPES
-        ReferenceList listResourceTypes = resourceTypeService.findAllAsRef(  );
+        ReferenceList listResourceTypes = resourceTypeService.findAllAsRef( AdminUserService.getLocale( request ) );
         listResourceTypes.addItem( StringUtils.EMPTY,
             I18nService.getLocalizedString( PROPERTY_LABEL_ALL, request.getLocale(  ) ) );
 

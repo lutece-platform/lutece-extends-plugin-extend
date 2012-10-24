@@ -49,7 +49,6 @@ import fr.paris.lutece.plugins.extend.service.extender.history.IResourceExtender
 import fr.paris.lutece.plugins.extend.service.extender.history.ResourceExtenderHistoryService;
 import fr.paris.lutece.plugins.extend.service.type.ExtendableResourceTypeService;
 import fr.paris.lutece.plugins.extend.service.type.IExtendableResourceTypeService;
-import fr.paris.lutece.plugins.extend.service.type.ResourceTypeResourceIdService;
 import fr.paris.lutece.plugins.extend.util.ExtendErrorException;
 import fr.paris.lutece.plugins.extend.util.ExtendUtils;
 import fr.paris.lutece.plugins.extend.web.action.IResourceExtenderPluginAction;
@@ -58,7 +57,6 @@ import fr.paris.lutece.plugins.extend.web.action.IResourceTypePluginAction;
 import fr.paris.lutece.plugins.extend.web.action.ResourceExtenderSearchFields;
 import fr.paris.lutece.plugins.extend.web.component.IResourceExtenderComponentManager;
 import fr.paris.lutece.plugins.extend.web.component.ResourceExtenderComponentManager;
-import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -305,7 +303,8 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 
         if ( StringUtils.isNotBlank( strResourceType ) )
         {
-            ExtendableResourceType resourceType = _resourceTypeService.findByPrimaryKey( strResourceType );
+            ExtendableResourceType resourceType = _resourceTypeService.findByPrimaryKey( strResourceType,
+                    AdminUserService.getLocale( request ) );
 
             if ( resourceType != null )
             {
@@ -620,67 +619,6 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         return result;
     }
 
-    // DO
-
-    /**
-     * Do create resource type.
-     *
-     * @param request the request
-     * @return the string
-     */
-    public String doCreateResourceType( HttpServletRequest request )
-    {
-        // Check permission
-        if ( !RBACService.isAuthorized( ExtendableResourceType.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                    ResourceTypeResourceIdService.PERMISSION_CREATE, getUser(  ) ) )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP );
-        }
-
-        String strCancel = request.getParameter( PARAMETER_CANCEL );
-
-        if ( StringUtils.isNotBlank( strCancel ) )
-        {
-            return getLastUrl( request ).getUrl(  );
-        }
-
-        ExtendableResourceType resourceType = new ExtendableResourceType(  );
-
-        // Populate the bean
-        populate( resourceType, request );
-
-        // Validate the form
-        String strJspError = ExtendUtils.validateResourceType( request, resourceType );
-
-        if ( StringUtils.isNotBlank( strJspError ) )
-        {
-            return strJspError;
-        }
-
-        // Checks that the parameters are unique
-        if ( _resourceTypeService.isDuplicate( resourceType.getKey(  ) ) )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_DUPLICATE_RESOURCE_TYPE,
-                AdminMessage.TYPE_STOP );
-        }
-
-        try
-        {
-            _resourceTypeService.create( resourceType );
-        }
-        catch ( Exception ex )
-        {
-            // Something wrong happened... a database check might be needed
-            AppLogService.error( ex.getMessage(  ) + " when creating a resource type", ex );
-            // Revert
-            _resourceTypeService.remove( resourceType.getKey(  ) );
-
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_GENERIC_MESSAGE, AdminMessage.TYPE_ERROR );
-        }
-
-        return getLastUrl( request ).getUrl(  );
-    }
-
     /**
      * Do create resource extender.
      *
@@ -818,104 +756,6 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
             {
                 return getUrlModifyResourceExtenderConfig( request, resourceExtender ).getUrl( );
             }
-        }
-
-        return getLastUrl( request ).getUrl(  );
-    }
-
-    /**
-     * Do modify resource type.
-     *
-     * @param request the request
-     * @return the string
-     */
-    public String doModifyResourceType( HttpServletRequest request )
-    {
-        String strCancel = request.getParameter( PARAMETER_CANCEL );
-
-        if ( StringUtils.isNotBlank( strCancel ) )
-        {
-            return getLastUrl( request ).getUrl(  );
-        }
-
-        String strResourceType = request.getParameter( PARAMETER_RESOURCE_TYPE );
-
-        if ( StringUtils.isNotBlank( strResourceType ) )
-        {
-            ExtendableResourceType resourceType = _resourceTypeService.findByPrimaryKey( strResourceType );
-
-            if ( resourceType != null )
-            {
-                // Populate the bean
-                populate( resourceType, request );
-
-                // Validate the form
-                String strJspError = ExtendUtils.validateResourceType( request, resourceType );
-
-                if ( StringUtils.isNotBlank( strJspError ) )
-                {
-                    return strJspError;
-                }
-
-                // Checks that the parameters are unique
-                if ( _resourceTypeService.isDuplicate( resourceType.getKey(  ) ) )
-                {
-                    return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_DUPLICATE_RESOURCE_TYPE,
-                        AdminMessage.TYPE_STOP );
-                }
-
-                try
-                {
-                    _resourceTypeService.update( resourceType );
-                }
-                catch ( Exception ex )
-                {
-                    // Something wrong happened... a database check might be needed
-                    AppLogService.error( ex.getMessage(  ) + " when updating a resource type", ex );
-
-                    return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_GENERIC_MESSAGE,
-                        AdminMessage.TYPE_ERROR );
-                }
-
-                return getLastUrl( request ).getUrl(  );
-            }
-        }
-
-        return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
-    }
-
-    /**
-     * Do remove resource type.
-     *
-     * @param request the request
-     * @return the string
-     */
-    public String doRemoveResourceType( HttpServletRequest request )
-    {
-        String strResourceType = request.getParameter( PARAMETER_RESOURCE_TYPE );
-
-        if ( StringUtils.isBlank( strResourceType ) )
-        {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
-        }
-
-        // Check permission
-        if ( !RBACService.isAuthorized( ExtendableResourceType.RESOURCE_TYPE, strResourceType,
-                    ResourceTypeResourceIdService.PERMISSION_DELETE, getUser(  ) ) )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP );
-        }
-
-        try
-        {
-            _resourceTypeService.remove( strResourceType );
-        }
-        catch ( Exception ex )
-        {
-            // Something wrong happened... a database check might be needed
-            AppLogService.error( ex.getMessage(  ) + " when deleting a resource type", ex );
-
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_GENERIC_MESSAGE, AdminMessage.TYPE_ERROR );
         }
 
         return getLastUrl( request ).getUrl(  );
@@ -1235,15 +1075,8 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     private String doCreateResourceExtender( HttpServletRequest request, ResourceExtenderDTO resourceExtender )
     {
         // If the resource type is not found, then create it
-        ExtendableResourceType resourceType = _resourceTypeService.findByPrimaryKey( resourceExtender.getExtendableResourceType(  ) );
-
-        if ( resourceType == null )
-        {
-            resourceType = new ExtendableResourceType(  );
-            resourceType.setKey( resourceExtender.getExtendableResourceType(  ) );
-			resourceType.setDescription( resourceExtender.getExtendableResourceType( ) );
-            _resourceTypeService.create( resourceType );
-        }
+        ExtendableResourceType resourceType = _resourceTypeService.findByPrimaryKey(
+                resourceExtender.getExtendableResourceType( ), AdminUserService.getLocale( request ) );
 
         try
         {

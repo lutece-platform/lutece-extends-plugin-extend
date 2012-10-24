@@ -34,7 +34,6 @@
 package fr.paris.lutece.plugins.extend;
 
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderTest;
-import fr.paris.lutece.plugins.extend.business.type.ExtendableResourceTypeTest;
 import fr.paris.lutece.plugins.extend.modules.hit.business.HitTest;
 import fr.paris.lutece.plugins.extend.service.content.ExtendableContentPostProcessorTest;
 import fr.paris.lutece.plugins.extend.service.converter.ExtenderStringMapperTest;
@@ -58,7 +57,6 @@ public final class AllTests
 
         //$JUnit-BEGIN$
         suite.addTest( new TestSuite( ResourceExtenderTest.class ) );
-        suite.addTest( new TestSuite( ExtendableResourceTypeTest.class ) );
         suite.addTest( new TestSuite( ExtendableContentPostProcessorTest.class ) );
         suite.addTest( new TestSuite( ExtenderStringMapperTest.class ) );
 

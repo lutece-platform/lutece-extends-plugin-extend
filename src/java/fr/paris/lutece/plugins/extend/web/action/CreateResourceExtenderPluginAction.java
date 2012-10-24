@@ -37,6 +37,7 @@ import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
 import fr.paris.lutece.plugins.extend.service.type.IExtendableResourceTypeService;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.pluginaction.AbstractPluginAction;
 import fr.paris.lutece.portal.web.pluginaction.DefaultPluginActionResult;
@@ -86,7 +87,7 @@ public class CreateResourceExtenderPluginAction extends AbstractPluginAction<IRe
     @Override
     public void fillModel( HttpServletRequest request, AdminUser adminUser, Map<String, Object> model )
     {
-    	model.put( MARK_RESOURCE_TYPES, _resourceTypeService.findAllAsRef(  ) );
+        model.put( MARK_RESOURCE_TYPES, _resourceTypeService.findAllAsRef( AdminUserService.getLocale( request ) ) );
         model.put( MARK_EXTENDER_TYPES, _extenderService.getExtenderTypes( request.getLocale(  ) ) );
         
     }

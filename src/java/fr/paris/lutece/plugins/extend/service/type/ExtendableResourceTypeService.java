@@ -33,20 +33,19 @@
  */
 package fr.paris.lutece.plugins.extend.service.type;
 
-import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
-import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilter;
 import fr.paris.lutece.plugins.extend.business.type.ExtendableResourceType;
-import fr.paris.lutece.plugins.extend.business.type.IExtendableResourceTypeDAO;
-import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
-import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.resource.IExtendableResource;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
 
-import org.springframework.transaction.annotation.Transactional;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -59,99 +58,61 @@ public class ExtendableResourceTypeService implements IExtendableResourceTypeSer
     /** The Constant BEAN_SERVICE. */
     public static final String BEAN_SERVICE = "extend.extendableResourceTypeService";
     @Inject
-    private IExtendableResourceTypeDAO _resourceTypeDAO;
-    @Inject
     private IResourceExtenderService _extenderService;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
-    public void create( ExtendableResourceType resourceType )
+    public ExtendableResourceType findByPrimaryKey( String strKey, Locale locale )
     {
-        _resourceTypeDAO.insert( resourceType, ExtendPlugin.getPlugin(  ) );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
-    public void update( ExtendableResourceType resourceType )
-    {
-        _resourceTypeDAO.store( resourceType, ExtendPlugin.getPlugin(  ) );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
-    public void remove( String strKey )
-    {
-        // First remove the resource extenders
-        ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter(  );
-        filter.setFilterExtendableResourceType( strKey );
-
-        for ( ResourceExtenderDTO resourceExtender : _extenderService.findByFilter( filter ) )
+        List<IExtendableResource> listExtendableResources = SpringContextService
+                .getBeansOfType( IExtendableResource.class );
+        ExtendableResourceType resourceType = null;
+        for ( IExtendableResource resource : listExtendableResources )
         {
-            try
+            if ( StringUtils.equals( resource.getExtendableResourceType( ), strKey ) )
             {
-                _extenderService.remove( resourceExtender.getIdExtender(  ) );
+                resourceType = new ExtendableResourceType( );
+                resourceType.setKey( resource.getExtendableResourceType( ) );
+                resourceType.setDescription( resource.getExtendableResourceTypeDescription( locale ) );
             }
-            catch ( Exception ex )
-            {
-                // Something wrong happened... a database check might be needed
-                AppLogService.error( ex.getMessage(  ) + " when deleting a resource extender", ex );
-            }
-
-            _extenderService.doDeleteResourceAddOn( resourceExtender );
         }
-
-        _resourceTypeDAO.delete( strKey, ExtendPlugin.getPlugin(  ) );
+        return resourceType;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public ExtendableResourceType findByPrimaryKey( String strKey )
+    public List<ExtendableResourceType> findAll( Locale locale )
     {
-        return _resourceTypeDAO.load( strKey, ExtendPlugin.getPlugin(  ) );
+        List<IExtendableResource> listExtendableResources = SpringContextService
+                .getBeansOfType( IExtendableResource.class );
+        List<ExtendableResourceType> listResourceTypes = new ArrayList<ExtendableResourceType>( );
+        for ( IExtendableResource resource : listExtendableResources )
+        {
+            ExtendableResourceType resourceType = new ExtendableResourceType( );
+            resourceType.setKey( resource.getExtendableResourceType( ) );
+            resourceType.setDescription( resource.getExtendableResourceTypeDescription( locale ) );
+            listResourceTypes.add( resourceType );
+        }
+        return listResourceTypes;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<ExtendableResourceType> findAll(  )
-    {
-        return _resourceTypeDAO.loadAll( ExtendPlugin.getPlugin(  ) );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ReferenceList findAllAsRef(  )
+    public ReferenceList findAllAsRef( Locale locale )
     {
         ReferenceList ref = new ReferenceList(  );
 
-        for ( ExtendableResourceType resourceType : findAll(  ) )
+        for ( ExtendableResourceType resourceType : findAll( locale ) )
         {
-            ref.addItem( resourceType.getKey(  ), resourceType.getKey(  ) );
+            ref.addItem( resourceType.getKey( ), resourceType.getDescription( ) );
         }
 
         return ref;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isDuplicate( String strKey )
-    {
-        return _resourceTypeDAO.isDuplicate( strKey, ExtendPlugin.getPlugin(  ) );
     }
 }

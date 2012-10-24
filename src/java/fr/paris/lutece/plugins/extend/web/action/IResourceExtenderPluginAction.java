@@ -37,9 +37,8 @@ import fr.paris.lutece.portal.web.pluginaction.IPluginAction;
 
 
 /**
- *
- * IResourceExtenderPluginAction
- *
+ * Interface of actions of manage extender screen
+ * of plugin extend
  */
 public interface IResourceExtenderPluginAction extends IPluginAction<IResourceExtenderSearchFields>
 {
