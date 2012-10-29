@@ -459,6 +459,40 @@ public class ResourceExtenderService implements IResourceExtenderService
      * {@inheritDoc}
      */
     @Override
+    public String getExtendableResourceDescription( ResourceExtenderDTO resourceExtender )
+    {
+        return getExtendableResourceDescription( resourceExtender.getIdExtendableResource( ),
+                resourceExtender.getExtendableResourceType( ) );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getExtendableResourceDescription( String strIdExtendableResource, String strExtendableResourceType )
+    {
+        IExtendableResource extendableResource = _extendableResourceManager.getResource( strIdExtendableResource,
+                strExtendableResourceType );
+
+        // If no resource is found, then try to fetch the resource with a wildcard id '*'
+        if ( extendableResource == null )
+        {
+            extendableResource = _extendableResourceManager.getResource(
+                    ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE, strExtendableResourceType );
+        }
+
+        if ( extendableResource != null )
+        {
+            return extendableResource.getExtendableResourceDescription( );
+        }
+
+        return StringUtils.EMPTY;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Map<String, Map<String, Boolean>> getActionPermissions( List<Integer> listIds, AdminUser user )
     {
         Map<String, Map<String, Boolean>> mapActionPermissions = new HashMap<String, Map<String, Boolean>>(  );

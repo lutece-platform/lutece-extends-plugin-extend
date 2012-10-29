@@ -242,8 +242,25 @@ public interface IResourceExtenderService
     String getExtendableResourceName( String strIdExtendableResource, String strExtendableResourceType );
 
     /**
+     * Gets the extendable resource description.
+     * 
+     * @param resourceExtender the resource extender
+     * @return the extendable resource description
+     */
+    String getExtendableResourceDescription( ResourceExtenderDTO resourceExtender );
+
+    /**
+     * Gets the extendable resource description.
+     * 
+     * @param strIdExtendableResource the str id extendable resource
+     * @param strExtendableResourceType the str extendable resource type
+     * @return the extendable resource description
+     */
+    String getExtendableResourceDescription( String strIdExtendableResource, String strExtendableResourceType );
+
+    /**
      * Gets the actions permission.
-     *
+     * 
      * @param listIds the list ids
      * @param user the user
      * @return the actions permission

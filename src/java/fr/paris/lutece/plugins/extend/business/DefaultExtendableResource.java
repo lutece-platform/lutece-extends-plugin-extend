@@ -121,4 +121,10 @@ public class DefaultExtendableResource implements IExtendableResource
     {
         _strName = strName;
     }
+
+    @Override
+    public String getExtendableResourceDescription( )
+    {
+        return _strName;
+    }
 }
