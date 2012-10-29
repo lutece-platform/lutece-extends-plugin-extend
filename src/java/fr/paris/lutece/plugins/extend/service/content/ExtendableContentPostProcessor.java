@@ -65,7 +65,7 @@ import org.springframework.util.Assert;
  */
 public class ExtendableContentPostProcessor implements ContentPostProcessor, InitializingBean
 {
-    private static final String NAME = "Social Hub content processor";
+    private static final String NAME = "Extend content processor";
     private static final String END_BODY = "</body>";
 
     // PROPERTIES

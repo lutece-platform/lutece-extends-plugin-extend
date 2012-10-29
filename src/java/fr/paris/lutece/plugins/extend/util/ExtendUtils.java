@@ -40,13 +40,12 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-
 import javax.validation.ConstraintViolation;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -63,7 +62,7 @@ public final class ExtendUtils
     private static final String MESSAGE_STOP_GENERIC_MESSAGE = "extend.message.stop.genericMessage";
 
     /**
-     * Instantiates a new social hub utils.
+     * Instantiates a new extend utils.
      */
     private ExtendUtils(  )
     {

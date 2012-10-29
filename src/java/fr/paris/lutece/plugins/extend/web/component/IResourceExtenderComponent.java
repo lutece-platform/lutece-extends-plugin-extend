@@ -117,10 +117,10 @@ public interface IResourceExtenderComponent
 
     /**
      * Do save config.
-     *
+     * 
      * @param request the request
      * @param config the config
-     * @throws ExtendErrorException the social hub error exception
+     * @throws ExtendErrorException the extend error exception
      */
     void doSaveConfig( HttpServletRequest request, IExtenderConfig config )
         throws ExtendErrorException;

@@ -62,5 +62,5 @@
 	
 	<!-- Actions -->
 	<bean id="extend.hitInstallerAction" class="fr.paris.lutece.plugins.extend.modules.hit.web.action.HitInstallerPluginAction" />
-	
+
 </beans>

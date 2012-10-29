@@ -113,10 +113,10 @@ public interface IResourceExtenderComponentManager
 
     /**
      * Do save config.
-     *
+     * 
      * @param resourceExtender the resource extender
      * @param request the request
-     * @throws ExtendErrorException the social hub error exception
+     * @throws ExtendErrorException the extend error exception
      */
     void doSaveConfig( ResourceExtenderDTO resourceExtender, HttpServletRequest request )
         throws ExtendErrorException;

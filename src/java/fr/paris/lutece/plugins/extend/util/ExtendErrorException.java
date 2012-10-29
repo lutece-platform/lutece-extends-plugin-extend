@@ -44,8 +44,8 @@ public class ExtendErrorException extends Exception
     private final String _strErrorMessage;
 
     /**
-     * Instantiates a new social hub error exception.
-     *
+     * Instantiates a new extend error exception.
+     * 
      * @param strErrorMessage the str error message
      */
     public ExtendErrorException( String strErrorMessage )
