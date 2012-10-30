@@ -3,7 +3,7 @@
     <!-- Plugin Informations -->
     <name>extend</name>
     <class>fr.paris.lutece.plugins.extend.service.ExtendPlugin</class>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <description>extend.plugin.description</description>
     <provider>extend.plugin.provider</provider>
     <documentation/>
