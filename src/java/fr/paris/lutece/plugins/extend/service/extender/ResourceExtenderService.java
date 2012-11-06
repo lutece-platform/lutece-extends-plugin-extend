@@ -459,17 +459,7 @@ public class ResourceExtenderService implements IResourceExtenderService
      * {@inheritDoc}
      */
     @Override
-    public String getExtendableResourceDescription( ResourceExtenderDTO resourceExtender )
-    {
-        return getExtendableResourceDescription( resourceExtender.getIdExtendableResource( ),
-                resourceExtender.getExtendableResourceType( ) );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getExtendableResourceDescription( String strIdExtendableResource, String strExtendableResourceType )
+    public IExtendableResource getExtendableResource( String strIdExtendableResource, String strExtendableResourceType )
     {
         IExtendableResource extendableResource = _extendableResourceManager.getResource( strIdExtendableResource,
                 strExtendableResourceType );
@@ -481,12 +471,17 @@ public class ResourceExtenderService implements IResourceExtenderService
                     ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE, strExtendableResourceType );
         }
 
-        if ( extendableResource != null )
-        {
-            return extendableResource.getExtendableResourceDescription( );
-        }
+        return extendableResource;
+    }
 
-        return StringUtils.EMPTY;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IExtendableResource getExtendableResource( ResourceExtenderDTO resourceExtender )
+    {
+        return getExtendableResource( resourceExtender.getIdExtendableResource( ),
+                resourceExtender.getExtendableResourceType( ) );
     }
 
     /**

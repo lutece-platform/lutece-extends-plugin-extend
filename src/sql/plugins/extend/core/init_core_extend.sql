@@ -17,7 +17,7 @@ INSERT INTO core_user_right (id_right,id_user) VALUES ('RESOURCE_EXTENDER_MANAGE
 --
 -- Dumping data for table core_admin_role
 --
-INSERT INTO core_admin_role (role_key,role_description) VALUES ('extend_manager','Gestion des type de ressource de Social Hub');
+INSERT INTO core_admin_role (role_key,role_description) VALUES ('extend_manager','Gestion des type de ressource d\'extend');
 
 --
 -- Dumping data for table core_admin_role_resource

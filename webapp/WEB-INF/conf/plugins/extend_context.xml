@@ -37,7 +37,8 @@
 	
 	<!-- ContentPostProcessor -->
 	<bean id="extend.extendableContentPostProcessor" class="fr.paris.lutece.plugins.extend.service.content.ExtendableContentPostProcessor" 
-		p:regexPattern="@Extender\[([^\]@]*)\]@" />
+		p:regexPattern="@Extender\[([^\]@]*)\]@"
+		p:ExtenderParameterRegexPattern="@ExtenderParameter\[([^\]@]*)\]@" />
 	
 	<!-- ************************************* -->
 	<!-- ******* Module extend HIT ******** -->

@@ -122,9 +122,21 @@ public class DefaultExtendableResource implements IExtendableResource
         _strName = strName;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getExtendableResourceDescription( )
     {
         return _strName;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getExtendableResourceImageUrl( )
+    {
+        return null;
     }
 }

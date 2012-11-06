@@ -38,6 +38,7 @@ import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilte
 import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.util.List;
@@ -242,21 +243,21 @@ public interface IResourceExtenderService
     String getExtendableResourceName( String strIdExtendableResource, String strExtendableResourceType );
 
     /**
-     * Gets the extendable resource description.
+     * Gets the extendable resource
      * 
      * @param resourceExtender the resource extender
-     * @return the extendable resource description
+     * @return the extendable resource
      */
-    String getExtendableResourceDescription( ResourceExtenderDTO resourceExtender );
+    IExtendableResource getExtendableResource( ResourceExtenderDTO resourceExtender );
 
     /**
-     * Gets the extendable resource description.
+     * Gets the extendable resource.
      * 
      * @param strIdExtendableResource the str id extendable resource
      * @param strExtendableResourceType the str extendable resource type
-     * @return the extendable resource description
+     * @return the extendable resource
      */
-    String getExtendableResourceDescription( String strIdExtendableResource, String strExtendableResourceType );
+    IExtendableResource getExtendableResource( String strIdExtendableResource, String strExtendableResourceType );
 
     /**
      * Gets the actions permission.
