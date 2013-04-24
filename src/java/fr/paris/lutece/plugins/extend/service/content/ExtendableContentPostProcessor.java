@@ -210,7 +210,8 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
                 }
 
                 // 4) Replace the markers by the html content
-                strHtmlContent = strHtmlContent.replaceAll( Pattern.quote( strMarker ), strHtml );
+                strHtmlContent = strHtmlContent.replaceAll( Pattern.quote( strMarker ),
+                        Matcher.quoteReplacement( strHtml ) );
             }
         }
         if ( StringUtils.isNotBlank( _strExtenderParameterRegexPattern ) )
