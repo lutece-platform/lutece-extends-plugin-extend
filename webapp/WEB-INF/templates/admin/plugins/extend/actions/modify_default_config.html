@@ -1,4 +1,4 @@
-<#if permissionModifyConfig?? && permissionModifyConfig>
+<#if permissionModifyConfig?? && permissionModifyConfig && configurableExtenderTypes?? && configurableExtenderTypes?has_content>
 	<div class="form-inline">
 		<button type="submit" name="modifyDefaultConfig" title="#i18n{extend.modify_default_config.labelModifyDefaultConfig}" value="modifyDefaultConfig" class="btn btn-small btn-primary" >
 			<i class="icon-edit icon-white">&nbsp;</i><span class="hidden-phone">&nbsp;#i18n{extend.modify_default_config.labelModifyDefaultConfig}</span>
