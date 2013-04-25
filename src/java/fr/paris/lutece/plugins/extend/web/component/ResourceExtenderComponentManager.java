@@ -72,9 +72,9 @@ import org.apache.commons.lang.StringUtils;
 
 
 /**
- *
+ * 
  * ResourceExtenderComponentManager
- *
+ * 
  */
 public class ResourceExtenderComponentManager implements IResourceExtenderComponentManager
 {
@@ -89,7 +89,7 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
 
     // PARAMETERS
     private static final String PARAMETER_ID_EXTENDER = "idExtender";
-	private static final String PARAMETER_FROM_URL = "from_url";
+    private static final String PARAMETER_FROM_URL = "from_url";
     private static final String PARAMETER_MANAGE_BY_RESOURCE = "manageByResource";
 
     // MARKS
@@ -100,7 +100,7 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
     private static final String MARK_LIST_HISTORIES = "listHistories";
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
-	private static final String MARK_FROM_URL = "from_url";
+    private static final String MARK_FROM_URL = "from_url";
     private static final String MARK_EXTENDER_TYPE_MODIFY_CONFIG = "extenderTypeModifyConfig";
     private static final String MARK_RESOURCE_EXTENDER_CONFIGURABLE = "configurableExtenderTypes";
 
@@ -116,9 +116,9 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
     // MESSAGES
     private static final String MESSAGE_STOP_GENERIC_MESSAGE = "extend.message.stop.genericMessage";
 
-	// CONSTANT
-	private static final String CONSTANT_AND = "&";
-	private static final String CONSTANT_AND_HTML = "%26";
+    // CONSTANT
+    private static final String CONSTANT_AND = "&";
+    private static final String CONSTANT_AND_HTML = "%26";
 
     // SERVICES
     @Inject
@@ -139,10 +139,10 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
     {
         if ( StringUtils.isNotBlank( strExtenderType ) )
         {
-            for ( IResourceExtenderComponent component : SpringContextService.getBeansOfType( 
-                    IResourceExtenderComponent.class ) )
+            for ( IResourceExtenderComponent component : SpringContextService
+                    .getBeansOfType( IResourceExtenderComponent.class ) )
             {
-                if ( component.getResourceExtender(  ).getKey(  ).equals( strExtenderType ) )
+                if ( component.getResourceExtender( ).getKey( ).equals( strExtenderType ) )
                 {
                     return component;
                 }
@@ -160,12 +160,12 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
     {
         if ( resourceExtender != null )
         {
-            IResourceExtenderComponent component = getResourceExtenderComponent( resourceExtender.getExtenderType(  ) );
+            IResourceExtenderComponent component = getResourceExtenderComponent( resourceExtender.getExtenderType( ) );
 
             if ( component != null )
             {
-                component.buildXmlAddOn( resourceExtender.getIdExtendableResource(  ),
-                    resourceExtender.getExtendableResourceType(  ), resourceExtender.getParameters(  ), strXml );
+                component.buildXmlAddOn( resourceExtender.getIdExtendableResource( ),
+                        resourceExtender.getExtendableResourceType( ), resourceExtender.getParameters( ), strXml );
             }
         }
     }
@@ -178,12 +178,12 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
     {
         if ( resourceExtender != null )
         {
-            IResourceExtenderComponent component = getResourceExtenderComponent( resourceExtender.getExtenderType(  ) );
+            IResourceExtenderComponent component = getResourceExtenderComponent( resourceExtender.getExtenderType( ) );
 
             if ( component != null )
             {
-                return component.getPageAddOn( resourceExtender.getIdExtendableResource(  ),
-                    resourceExtender.getExtendableResourceType(  ), resourceExtender.getParameters(  ), request );
+                return component.getPageAddOn( resourceExtender.getIdExtendableResource( ),
+                        resourceExtender.getExtendableResourceType( ), resourceExtender.getParameters( ), request );
             }
         }
 
@@ -198,19 +198,21 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
     {
         if ( resourceExtender != null )
         {
-            IResourceExtenderComponent component = getResourceExtenderComponent( resourceExtender.getExtenderType(  ) );
+            IResourceExtenderComponent component = getResourceExtenderComponent( resourceExtender.getExtenderType( ) );
 
             if ( component != null )
             {
-                Map<String, Object> model = new HashMap<String, Object>(  );
+                Map<String, Object> model = new HashMap<String, Object>( );
                 model.put( MARK_RESOURCE_EXTENDER, resourceExtender );
                 model.put( MARK_LOCALE, locale );
                 model.put( MARK_RESOURCE_EXTENDER_CONFIG, component.getConfigHtml( resourceExtender, locale, request ) );
-				model.put( MARK_FROM_URL, StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND, CONSTANT_AND_HTML ) );
+                model.put( MARK_FROM_URL, StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ),
+                        CONSTANT_AND, CONSTANT_AND_HTML ) );
 
-                HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESOURCE_EXTENDER_CONFIG, locale, model );
+                HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESOURCE_EXTENDER_CONFIG, locale,
+                        model );
 
-                return template.getHtml(  );
+                return template.getHtml( );
             }
         }
 
@@ -227,41 +229,38 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
         resourceExtender.setIdExtender( -1 );
         resourceExtender.setExtenderType( strExtenderType );
 
-        if ( resourceExtender != null )
+        IResourceExtenderComponent component = getResourceExtenderComponent( resourceExtender.getExtenderType( ) );
+
+        if ( component != null )
         {
-            IResourceExtenderComponent component = getResourceExtenderComponent( resourceExtender.getExtenderType( ) );
+            Map<String, Object> model = new HashMap<String, Object>( );
+            model.put( MARK_RESOURCE_EXTENDER, resourceExtender );
+            model.put( MARK_LOCALE, locale );
+            model.put( MARK_RESOURCE_EXTENDER_CONFIG, component.getConfigHtml( resourceExtender, locale, request ) );
+            model.put( MARK_FROM_URL,
+                    StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND, CONSTANT_AND_HTML ) );
+            model.put( MARK_EXTENDER_TYPE_MODIFY_CONFIG, strExtenderType );
+            model.put( PARAMETER_MANAGE_BY_RESOURCE,
+                    Boolean.parseBoolean( request.getParameter( PARAMETER_MANAGE_BY_RESOURCE ) ) );
 
-            if ( component != null )
+            List<IResourceExtender> listExtenders = _resourceExtenderService.getResourceExtenders( );
+            ReferenceList refListExtenderTypes = new ReferenceList( );
+            for ( IResourceExtender resourceExtenderDto : listExtenders )
             {
-                Map<String, Object> model = new HashMap<String, Object>( );
-                model.put( MARK_RESOURCE_EXTENDER, resourceExtender );
-                model.put( MARK_LOCALE, locale );
-                model.put( MARK_RESOURCE_EXTENDER_CONFIG, component.getConfigHtml( resourceExtender, locale, request ) );
-                model.put( MARK_FROM_URL, StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ),
-                        CONSTANT_AND, CONSTANT_AND_HTML ) );
-                model.put( MARK_EXTENDER_TYPE_MODIFY_CONFIG, strExtenderType );
-                model.put( PARAMETER_MANAGE_BY_RESOURCE,
-                        Boolean.parseBoolean( request.getParameter( PARAMETER_MANAGE_BY_RESOURCE ) ) );
-
-                List<IResourceExtender> listExtenders = _resourceExtenderService.getResourceExtenders( );
-                ReferenceList refListExtenderTypes = new ReferenceList( );
-                for ( IResourceExtender resourceExtenderDto : listExtenders )
+                if ( resourceExtenderDto.isConfigRequired( ) )
                 {
-                    if ( resourceExtenderDto.isConfigRequired( ) )
-                    {
-                        ReferenceItem refItem = new ReferenceItem( );
-                        refItem.setCode( resourceExtenderDto.getKey( ) );
-                        refItem.setName( resourceExtenderDto.getTitle( AdminUserService.getLocale( request ) ) );
-                        refListExtenderTypes.add( refItem );
-                    }
+                    ReferenceItem refItem = new ReferenceItem( );
+                    refItem.setCode( resourceExtenderDto.getKey( ) );
+                    refItem.setName( resourceExtenderDto.getTitle( AdminUserService.getLocale( request ) ) );
+                    refListExtenderTypes.add( refItem );
                 }
-                model.put( MARK_RESOURCE_EXTENDER_CONFIGURABLE, refListExtenderTypes );
-
-                HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESOURCE_EXTENDER_DEFAULT_CONFIG,
-                        locale, model );
-
-                return template.getHtml( );
             }
+            model.put( MARK_RESOURCE_EXTENDER_CONFIGURABLE, refListExtenderTypes );
+
+            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESOURCE_EXTENDER_DEFAULT_CONFIG, locale,
+                    model );
+
+            return template.getHtml( );
         }
 
         return StringUtils.EMPTY;
@@ -275,19 +274,20 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
     {
         if ( resourceExtender != null )
         {
-            IResourceExtenderComponent component = getResourceExtenderComponent( resourceExtender.getExtenderType(  ) );
+            IResourceExtenderComponent component = getResourceExtenderComponent( resourceExtender.getExtenderType( ) );
 
             if ( component != null )
             {
-                Map<String, Object> model = new HashMap<String, Object>(  );
+                Map<String, Object> model = new HashMap<String, Object>( );
                 model.put( MARK_RESOURCE_EXTENDER, resourceExtender );
                 model.put( MARK_LOCALE, locale );
                 model.put( MARK_RESOURCE_EXTENDER_INFO, component.getInfoHtml( resourceExtender, locale, request ) );
-				model.put( MARK_FROM_URL, StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND_HTML, CONSTANT_AND ) );
+                model.put( MARK_FROM_URL, StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ),
+                        CONSTANT_AND_HTML, CONSTANT_AND ) );
 
                 HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESOURCE_EXTENDER_INFO, locale, model );
 
-                return template.getHtml(  );
+                return template.getHtml( );
             }
         }
 
@@ -302,38 +302,39 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
     {
         if ( resourceExtender != null )
         {
-            ResourceExtenderHistoryFilter filter = new ResourceExtenderHistoryFilter(  );
-            filter.setExtenderType( resourceExtender.getExtenderType(  ) );
-            filter.setIdExtendableResource( resourceExtender.getIdExtendableResource(  ) );
-            filter.setExtendableResourceType( resourceExtender.getExtendableResourceType(  ) );
+            ResourceExtenderHistoryFilter filter = new ResourceExtenderHistoryFilter( );
+            filter.setExtenderType( resourceExtender.getExtenderType( ) );
+            filter.setIdExtendableResource( resourceExtender.getIdExtendableResource( ) );
+            filter.setExtendableResourceType( resourceExtender.getExtendableResourceType( ) );
             filter.setSortedAttributeName( ORDER_BY_DATE_CREATION );
             filter.setAscSort( true );
 
             List<ResourceExtenderHistory> listHistories = _resourceHistoryService.findByFilter( filter );
 
             // PAGINATOR
-            _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+            _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX,
+                    _strCurrentPageIndex );
             _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_LIST_HISTORIES_PER_PAGE, 50 );
             _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
                     _nDefaultItemsPerPage );
 
             UrlItem url = new UrlItem( JSP_URL_VIEW_EXTENDER_HISTORY );
-            url.addParameter( PARAMETER_ID_EXTENDER, resourceExtender.getIdExtender(  ) );
+            url.addParameter( PARAMETER_ID_EXTENDER, resourceExtender.getIdExtender( ) );
 
-            LocalizedPaginator<ResourceExtenderHistory> paginator = new LocalizedPaginator<ResourceExtenderHistory>( listHistories,
-                    _nItemsPerPage, url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex,
-                    request.getLocale(  ) );
+            LocalizedPaginator<ResourceExtenderHistory> paginator = new LocalizedPaginator<ResourceExtenderHistory>(
+                    listHistories, _nItemsPerPage, url.getUrl( ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex,
+                    request.getLocale( ) );
 
-            Map<String, Object> model = new HashMap<String, Object>(  );
-            model.put( MARK_LIST_HISTORIES, paginator.getPageItems(  ) );
+            Map<String, Object> model = new HashMap<String, Object>( );
+            model.put( MARK_LIST_HISTORIES, paginator.getPageItems( ) );
             model.put( MARK_RESOURCE_EXTENDER, resourceExtender );
             model.put( MARK_LOCALE, locale );
             model.put( MARK_PAGINATOR, paginator );
-            model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( paginator.getItemsPerPage(  ) ) );
+            model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( paginator.getItemsPerPage( ) ) );
 
             HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESOURCE_EXTENDER_HISTORY, locale, model );
 
-            return template.getHtml(  );
+            return template.getHtml( );
         }
 
         return StringUtils.EMPTY;
@@ -344,25 +345,26 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
      */
     @Override
     public void doSaveConfig( ResourceExtenderDTO resourceExtender, HttpServletRequest request )
-        throws ExtendErrorException
+            throws ExtendErrorException
     {
         if ( resourceExtender != null )
         {
-            IResourceExtenderComponent component = getResourceExtenderComponent( resourceExtender.getExtenderType(  ) );
+            IResourceExtenderComponent component = getResourceExtenderComponent( resourceExtender.getExtenderType( ) );
 
             if ( component != null )
             {
-                IExtenderConfig config = component.getConfig( resourceExtender.getIdExtender(  ) );
+                IExtenderConfig config = component.getConfig( resourceExtender.getIdExtender( ) );
 
                 // If the config is not found, then create it
                 if ( config == null )
                 {
-                    IResourceExtender extender = _resourceExtenderService.getResourceExtender( resourceExtender.getExtenderType(  ) );
+                    IResourceExtender extender = _resourceExtenderService.getResourceExtender( resourceExtender
+                            .getExtenderType( ) );
 
                     if ( extender != null )
                     {
                         extender.doCreateResourceAddOn( resourceExtender );
-                        config = component.getConfig( resourceExtender.getIdExtender(  ) );
+                        config = component.getConfig( resourceExtender.getIdExtender( ) );
                     }
                 }
 
@@ -370,7 +372,7 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
                 {
                     try
                     {
-                        BeanUtils.populate( config, request.getParameterMap(  ) );
+                        BeanUtils.populate( config, request.getParameterMap( ) );
                     }
                     catch ( IllegalAccessException e )
                     {
@@ -382,14 +384,15 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
                     }
 
                     // Check mandatory fields
-                    Set<ConstraintViolation<IExtenderConfig>> constraintViolations = BeanValidationUtil.validate( config );
+                    Set<ConstraintViolation<IExtenderConfig>> constraintViolations = BeanValidationUtil
+                            .validate( config );
 
-                    if ( constraintViolations.size(  ) > 0 )
+                    if ( constraintViolations.size( ) > 0 )
                     {
                         Object[] params = { ExtendUtils.buildStopMessage( constraintViolations ) };
 
-                        throw new ExtendErrorException( I18nService.getLocalizedString( 
-                                MESSAGE_STOP_GENERIC_MESSAGE, params, request.getLocale(  ) ) );
+                        throw new ExtendErrorException( I18nService.getLocalizedString( MESSAGE_STOP_GENERIC_MESSAGE,
+                                params, request.getLocale( ) ) );
                     }
 
                     component.doSaveConfig( request, config );

@@ -37,37 +37,37 @@ import fr.paris.lutece.plugins.extend.modules.hit.business.Hit;
 
 
 /**
- *
+ * 
  * IHitService
- *
+ * 
  */
 public interface IHitService
 {
     /**
-     * Creates the.
-     *
+     * Creates the a hit extender.
+     * 
      * @param hit the hit
      */
     void create( Hit hit );
 
     /**
-     * Update.
-     *
+     * Update a hit extender.
+     * 
      * @param hit the hit
      */
     void update( Hit hit );
 
     /**
-     * Removes.
-     *
+     * Removes a hit extender.
+     * 
      * @param nIdHit the n id hit
      */
     void remove( int nIdHit );
 
     /**
-     * Removes.
-     * 
-     * @param nIdHit the n id hit
+     * Removes a hit extender by id resource and resource type.
+     * @param strIdResource The id of the resource to remove
+     * @param strResourceType The type of the resource to remove
      */
     void removeByResource( String strIdResource, String strResourceType );
 
@@ -80,7 +80,7 @@ public interface IHitService
 
     /**
      * Find.
-     *
+     * 
      * @param nIdExtender the n id extender
      * @return the hit
      */
@@ -88,7 +88,7 @@ public interface IHitService
 
     /**
      * Find by id extender.
-     *
+     * 
      * @param strIdExtendableResource the str id extendable resource
      * @param strExtendableResourceType the str extendable resource type
      * @return the hit

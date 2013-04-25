@@ -157,7 +157,7 @@ public class CreateExtenderFromResourcePluginAction extends AbstractPluginAction
 			filter.setFilterExtendableResourceType( request.getParameter( PARAMETER_EXTENDABLE_RESOURCE_TYPE ) );
 			filter.setFilterExtenderType( request.getParameter( PARAMETER_EXTENDER_TYPE ) );
 			List<Integer> listIdExtender = _resourceExtenderService.findIdsByFilter( filter );
-			if ( listIdExtender == null || listIdExtender.size( ) == 1 )
+            if ( listIdExtender != null && listIdExtender.size( ) == 1 )
 			{
 				url.addParameter( PARAMETER_ID_EXTENDER, listIdExtender.get( 0 ) );
 			}

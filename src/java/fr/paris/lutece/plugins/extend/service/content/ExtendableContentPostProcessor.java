@@ -101,7 +101,7 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
     /**
      * Sets the regex pattern.
      * 
-     * @param strRegexPattern the new regex pattern
+     * @param strExtenderParameterRegexPattern the new regex pattern
      */
     public void setExtenderParameterRegexPattern( String strExtenderParameterRegexPattern )
     {
