@@ -181,7 +181,7 @@ public class ResourceExtenderHistory
      */
     public Date getDateCreation(  )
     {
-        return _dateCreation;
+        return (Date) _dateCreation.clone( );
     }
 
     /**
@@ -191,6 +191,6 @@ public class ResourceExtenderHistory
      */
     public void setDateCreation( Date dateCreation )
     {
-        _dateCreation = dateCreation;
+        _dateCreation = (Date) dateCreation.clone( );
     }
 }

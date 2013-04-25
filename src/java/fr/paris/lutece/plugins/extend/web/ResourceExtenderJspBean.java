@@ -90,16 +90,16 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 {
-    /**
-     * Serial version UID
-     */
-    private static final long serialVersionUID = -4886842745353434350L;
-
     /** The Constant RIGHT_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE_TYPE. */
     public static final String RIGHT_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE_TYPE = "RESOURCE_EXTENDER_MANAGEMENT_BY_RESOURCE_TYPE";
 
     /** The Constant RIGHT_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE. */
     public static final String RIGHT_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE = "RESOURCE_EXTENDER_MANAGEMENT_BY_RESOURCE";
+    
+    /**
+     * Serial version UID
+     */
+    private static final long serialVersionUID = -4886842745353434350L;
 
     // PROPERTIES
     private static final String PROPERTY_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_TYPE_PAGE_TITLE = "extend.manage_resource_extenders_by_resource_type.pageTitle";

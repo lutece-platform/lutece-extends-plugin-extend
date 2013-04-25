@@ -53,11 +53,11 @@ import org.apache.commons.lang.StringUtils;
  */
 public class HitResourceExtender extends AbstractResourceExtender
 {
-    @Inject
-    IHitService _hitService;
-
     /** The Constant EXTENDER_TYPE. */
     public static final String EXTENDER_TYPE = "hit";
+
+    @Inject
+    private IHitService _hitService;
 
     /**
      * {@inheritDoc}
