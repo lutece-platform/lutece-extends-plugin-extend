@@ -77,6 +77,7 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
     private static final String MARK_BASE_URL = "baseUrl";
 
 	private static final String PARAM_PAGE = "page";
+    private static final String PARAM_PORTLET_ID = "portlet_id";
 
     // TEMPLATES
     private static final String TEMPLATE_CONTENT_POST_PROCESSOR = "skin/plugins/extend/extendable_content_post_processor.html";
@@ -201,7 +202,8 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
                 {
                     // 3) Get the html content from the given information
                     if ( !StringUtils.equals( resourceExtender.getExtendableResourceType( ), Page.RESOURCE_TYPE )
-                            || StringUtils.isBlank( request.getParameter( PARAM_PAGE ) ) )
+                            || ( StringUtils.isBlank( request.getParameter( PARAM_PAGE ) ) && StringUtils
+                                    .isBlank( request.getParameter( PARAM_PORTLET_ID ) ) ) )
                     {
                         strHtml = _extenderService.getContent( resourceExtender.getIdExtendableResource( ),
                                 resourceExtender.getExtendableResourceType( ), resourceExtender.getExtenderType( ),
