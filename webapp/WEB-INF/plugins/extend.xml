@@ -24,16 +24,7 @@
 	<!--Administration interface parameters -->
     <admin-features>
         <admin-feature>
-            <feature-id>RESOURCE_EXTENDER_MANAGEMENT_BY_RESOURCE_TYPE</feature-id>
-            <feature-title>extend.adminFeature.resource_extenders_management_by_resource_type.name</feature-title>
-            <feature-description>extend.adminFeature.resource_extenders_management_by_resource_type.description</feature-description>
-            <feature-level>2</feature-level>
-            <feature-url>jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp</feature-url>
-            <feature-icon-url>images/admin/skin/plugins/extend/extend.png</feature-icon-url>
-            <feature-documentation-url>jsp/admin/documentation/AdminDocumentation.jsp?doc=admin-extend</feature-documentation-url>
-        </admin-feature>
-        <admin-feature>
-            <feature-id>RESOURCE_EXTENDER_MANAGEMENT_BY_RESOURCE</feature-id>
+            <feature-id>RESOURCE_EXTENDER_MANAGEMENT</feature-id>
             <feature-title>extend.adminFeature.resource_extenders_management_by_resource.name</feature-title>
             <feature-description>extend.adminFeature.resource_extenders_management_by_resource.description</feature-description>
             <feature-level>2</feature-level>

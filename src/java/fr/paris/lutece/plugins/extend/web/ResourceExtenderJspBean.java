@@ -90,11 +90,8 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 {
-    /** The Constant RIGHT_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE_TYPE. */
-    public static final String RIGHT_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE_TYPE = "RESOURCE_EXTENDER_MANAGEMENT_BY_RESOURCE_TYPE";
-
     /** The Constant RIGHT_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE. */
-    public static final String RIGHT_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE = "RESOURCE_EXTENDER_MANAGEMENT_BY_RESOURCE";
+    public static final String RIGHT_MANAGE_RESOURCE_EXTENDER = "RESOURCE_EXTENDER_MANAGEMENT";
     
     /**
      * Serial version UID
