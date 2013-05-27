@@ -65,6 +65,11 @@ import org.springframework.util.Assert;
  */
 public class ExtendableContentPostProcessor implements ContentPostProcessor, InitializingBean
 {
+    /**
+     * Name of this bean
+     */
+    public static final String BEAN_NAME = "extend.extendableContentPostProcessor";
+
     private static final String NAME = "Extend content processor";
     private static final String END_BODY = "</body>";
     private static final String EXTEND_PARAMETERED_ID = "ExtendParameteredId";
