@@ -123,20 +123,4 @@ public interface IResourceExtenderComponent
      * @throws ExtendErrorException the extend error exception
      */
     void doSaveConfig( HttpServletRequest request, IExtenderConfig config ) throws ExtendErrorException;
-
-    /**
-     * Get the addon info post back URL for this instance of the resource
-     * extender. This URL must be the URL displaying the addon info page.
-     * @return the post back URL for this instance of the resource extender
-     */
-    String getAddonInfoPostBackUrl( );
-
-    /**
-     * Set the addon info post back URL for this instance of the resource
-     * extender.
-     * @param strAddonInfoPostBackUrl the post back URL for this instance of the
-     *            resource extender. This URL must be the URL displaying the
-     *            addon info page.
-     */
-    void setAddonInfoPostBackUrl( String strAddonInfoPostBackUrl );
 }

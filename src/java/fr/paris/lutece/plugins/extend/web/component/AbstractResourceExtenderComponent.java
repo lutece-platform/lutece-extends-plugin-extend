@@ -34,6 +34,12 @@
 package fr.paris.lutece.plugins.extend.web.component;
 
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtender;
+import fr.paris.lutece.util.url.UrlItem;
+
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
@@ -47,7 +53,6 @@ import org.springframework.util.Assert;
 public abstract class AbstractResourceExtenderComponent implements IResourceExtenderComponent, InitializingBean
 {
     private IResourceExtender _extender;
-    private String _strAddonInfoPostBackUrl;
 
     /**
      * {@inheritDoc}
@@ -77,20 +82,18 @@ public abstract class AbstractResourceExtenderComponent implements IResourceExte
     }
 
     /**
-     * {@inheritDoc}
+     * Get the URL to use for post backs
+     * @param request The request
+     * @return The URL to use for post backs
      */
-    @Override
-    public String getAddonInfoPostBackUrl( )
+    public String getPostBackUrl( HttpServletRequest request )
     {
-        return _strAddonInfoPostBackUrl;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setAddonInfoPostBackUrl( String strAddonInfoPostBackUrl )
-    {
-        this._strAddonInfoPostBackUrl = strAddonInfoPostBackUrl;
+        UrlItem urlItem = new UrlItem( request.getRequestURI( ) );
+        Map<String, String[]> mapParameters = request.getParameterMap( );
+        for ( Entry<String, String[]> entry : mapParameters.entrySet( ) )
+        {
+            urlItem.addParameter( entry.getKey( ), entry.getValue( )[0] );
+        }
+        return urlItem.getUrl( );
     }
 }
