@@ -36,12 +36,13 @@ package fr.paris.lutece.plugins.extend.service;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.resource.ExtendableResourceRemovalListenerService;
 
 
 /**
- *
+ * 
  * ExtendPlugin.
- *
+ * 
  */
 public class ExtendPlugin extends PluginDefaultImplementation
 {
@@ -52,11 +53,20 @@ public class ExtendPlugin extends PluginDefaultImplementation
     public static final String TRANSACTION_MANAGER = PLUGIN_NAME + ".transactionManager";
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void init( )
+    {
+        ExtendableResourceRemovalListenerService.registerListener( new ExtendableResourceRemovalListener( ) );
+    }
+
+    /**
      * Gets the plugin.
-     *
+     * 
      * @return the plugin
      */
-    public static Plugin getPlugin(  )
+    public static Plugin getPlugin( )
     {
         return PluginService.getPlugin( PLUGIN_NAME );
     }

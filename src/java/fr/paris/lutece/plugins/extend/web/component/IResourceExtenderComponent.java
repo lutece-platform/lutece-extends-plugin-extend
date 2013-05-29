@@ -44,40 +44,40 @@ import javax.servlet.http.HttpServletRequest;
 
 
 /**
- *
+ * 
  * IResourceExtenderComponent
- *
+ * 
  */
 public interface IResourceExtenderComponent
 {
     /**
      * Gets the resource extender.
-     *
+     * 
      * @return the resource extender
      */
-    IResourceExtender getResourceExtender(  );
+    IResourceExtender getResourceExtender( );
 
     /**
      * Sets the resource extender.
-     *
+     * 
      * @param extender the new resource extender
      */
     void setResourceExtender( IResourceExtender extender );
 
     /**
      * Add to the the XML String additional datas.
-     *
+     * 
      * @param strIdExtendableResource the str id extendable resource
      * @param strExtendableResourceType the str extendable resource type
      * @param strParameters the str parameters
      * @param strXml The xml string use by stylesheet
      */
     void buildXmlAddOn( String strIdExtendableResource, String strExtendableResourceType, String strParameters,
-        StringBuffer strXml );
+            StringBuffer strXml );
 
     /**
      * Add datas to the model use by document template.
-     *
+     * 
      * @param strIdExtendableResource the str id extendable resource
      * @param strExtendableResourceType the str extendable resource type
      * @param strParameters the str parameters
@@ -85,11 +85,11 @@ public interface IResourceExtenderComponent
      * @return the page add on
      */
     String getPageAddOn( String strIdExtendableResource, String strExtendableResourceType, String strParameters,
-        HttpServletRequest request );
+            HttpServletRequest request );
 
     /**
      * Gets the config html.
-     *
+     * 
      * @param resourceExtender the resource extender
      * @param locale the locale
      * @param request the request
@@ -99,7 +99,7 @@ public interface IResourceExtenderComponent
 
     /**
      * Gets the info html.
-     *
+     * 
      * @param resourceExtender the resource extender
      * @param locale the locale
      * @param request the request
@@ -109,7 +109,7 @@ public interface IResourceExtenderComponent
 
     /**
      * Gets the config.
-     *
+     * 
      * @param nIdExtender the n id extender
      * @return the config
      */
@@ -122,6 +122,21 @@ public interface IResourceExtenderComponent
      * @param config the config
      * @throws ExtendErrorException the extend error exception
      */
-    void doSaveConfig( HttpServletRequest request, IExtenderConfig config )
-        throws ExtendErrorException;
+    void doSaveConfig( HttpServletRequest request, IExtenderConfig config ) throws ExtendErrorException;
+
+    /**
+     * Get the addon info post back URL for this instance of the resource
+     * extender. This URL must be the URL displaying the addon info page.
+     * @return the post back URL for this instance of the resource extender
+     */
+    String getAddonInfoPostBackUrl( );
+
+    /**
+     * Set the addon info post back URL for this instance of the resource
+     * extender.
+     * @param strAddonInfoPostBackUrl the post back URL for this instance of the
+     *            resource extender. This URL must be the URL displaying the
+     *            addon info page.
+     */
+    void setAddonInfoPostBackUrl( String strAddonInfoPostBackUrl );
 }

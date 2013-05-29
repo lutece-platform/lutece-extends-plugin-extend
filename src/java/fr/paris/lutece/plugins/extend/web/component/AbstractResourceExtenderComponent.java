@@ -36,18 +36,18 @@ package fr.paris.lutece.plugins.extend.web.component;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtender;
 
 import org.springframework.beans.factory.InitializingBean;
-
 import org.springframework.util.Assert;
 
 
 /**
- *
+ * 
  * AbstractResourceExtenderComponent
- *
+ * 
  */
 public abstract class AbstractResourceExtenderComponent implements IResourceExtenderComponent, InitializingBean
 {
     private IResourceExtender _extender;
+    private String _strAddonInfoPostBackUrl;
 
     /**
      * {@inheritDoc}
@@ -62,17 +62,35 @@ public abstract class AbstractResourceExtenderComponent implements IResourceExte
      * {@inheritDoc}
      */
     @Override
-    public IResourceExtender getResourceExtender(  )
+    public IResourceExtender getResourceExtender( )
     {
         return _extender;
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
-    public void afterPropertiesSet(  ) throws Exception
+    public void afterPropertiesSet( ) throws Exception
     {
         Assert.notNull( _extender, "The property 'extender' is required." );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getAddonInfoPostBackUrl( )
+    {
+        return _strAddonInfoPostBackUrl;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setAddonInfoPostBackUrl( String strAddonInfoPostBackUrl )
+    {
+        this._strAddonInfoPostBackUrl = strAddonInfoPostBackUrl;
     }
 }
