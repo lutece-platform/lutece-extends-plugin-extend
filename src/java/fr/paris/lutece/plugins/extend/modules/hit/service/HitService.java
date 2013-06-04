@@ -37,6 +37,8 @@ import fr.paris.lutece.plugins.extend.modules.hit.business.Hit;
 import fr.paris.lutece.plugins.extend.modules.hit.business.IHitDAO;
 import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 
@@ -113,5 +115,15 @@ public class HitService implements IHitService
     {
         return _hitDAO.loadByParameters( strIdExtendableResource, strExtendableResourceType,
             ExtendPlugin.getPlugin(  ) );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Integer> findIdMostHitedResources( String strExtendableResourceType, int nItemsOffset,
+            int nMaxItemsNumber )
+    {
+        return _hitDAO.findIdMostHitedResources( strExtendableResourceType, nItemsOffset, nMaxItemsNumber );
     }
 }

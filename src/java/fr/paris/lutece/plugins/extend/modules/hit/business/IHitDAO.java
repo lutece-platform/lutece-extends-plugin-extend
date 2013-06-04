@@ -35,6 +35,8 @@ package fr.paris.lutece.plugins.extend.modules.hit.business;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 
+import java.util.List;
+
 
 /**
  * IInteractionHitDAO.
@@ -92,4 +94,15 @@ public interface IHitDAO
      * @return the hit
      */
     Hit loadByParameters( String strIdExtendableResource, String strExtendableResourceType, Plugin plugin );
+
+    /**
+     * Get the ids of resources ordered by their number of hits
+     * @param strExtendableResourceType The type of resources to consider
+     * @param nItemsOffset The offset of the items to get, or 0 to get items
+     *            from the first one
+     * @param nMaxItemsNumber The maximum number of items to return, or 0 to get
+     *            every items
+     * @return The list of ids of resources ordered by the number hits
+     */
+    List<Integer> findIdMostHitedResources( String strExtendableResourceType, int nItemsOffset, int nMaxItemsNumber );
 }

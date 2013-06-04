@@ -37,6 +37,9 @@ import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilte
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  *
@@ -51,11 +54,17 @@ public class HitDAO implements IHitDAO
     private static final String SQL_QUERY_DELETE = " DELETE FROM extend_extender_hit WHERE id_hit = ? ";
     private static final String SQL_QUERY_DELETE_BY_RESOURCE = " DELETE FROM extend_extender_hit WHERE resource_type = ? ";
     private static final String SQL_QUERY_FILTER_BY_ID_RESOURCE = " AND id_resource = ? ";
+    private static final String SQL_QUERY_SELECT_ID_MOST_HITED_RESOURCES = " SELECT DISTINCT(id_resource) FROM extend_extender_hit WHERE resource_type = ? ORDER BY nb_hits  ";
 
     private static final String SQL_QUERY_SELECT_ALL = " SELECT id_hit, id_resource, resource_type, nb_hits FROM extend_extender_hit ";
     private static final String SQL_QUERY_SELECT = SQL_QUERY_SELECT_ALL + " WHERE id_hit = ? ";
     private static final String SQL_QUERY_SELECT_BY_PARAMETERS = SQL_QUERY_SELECT_ALL +
         " WHERE id_resource = ? AND resource_type = ? ";
+
+    private static final String SQL_LIMIT = " LIMIT ";
+
+    private static final String CONSTANT_COMMA = ",";
+    private static final String CONSTANT_QUESTION_MARK = "?";
 
     /**
      * New primary key
@@ -211,5 +220,56 @@ public class HitDAO implements IHitDAO
         daoUtil.free(  );
 
         return hit;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Integer> findIdMostHitedResources( String strExtendableResourceType, int nItemsOffset,
+            int nMaxItemsNumber )
+    {
+        List<Integer> listIds;
+        if ( nMaxItemsNumber > 0 )
+        {
+            listIds = new ArrayList<Integer>( nMaxItemsNumber );
+        }
+        else
+        {
+            listIds = new ArrayList<Integer>( );
+        }
+
+        StringBuilder sbSQL = new StringBuilder( SQL_QUERY_SELECT_ID_MOST_HITED_RESOURCES );
+        if ( nMaxItemsNumber > 0 )
+        {
+            sbSQL.append( SQL_LIMIT );
+            if ( nItemsOffset > 0 )
+            {
+                sbSQL.append( CONSTANT_QUESTION_MARK ).append( CONSTANT_COMMA );
+            }
+            sbSQL.append( CONSTANT_QUESTION_MARK );
+        }
+
+        int nIndex = 1;
+        DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) );
+        daoUtil.setString( nIndex++, strExtendableResourceType );
+        if ( nMaxItemsNumber > 0 )
+        {
+            if ( nItemsOffset > 0 )
+            {
+                daoUtil.setInt( nIndex++, nItemsOffset );
+            }
+            daoUtil.setInt( nIndex, nMaxItemsNumber );
+        }
+        daoUtil.executeQuery( );
+
+        while ( daoUtil.next( ) )
+        {
+            listIds.add( daoUtil.getInt( 1 ) );
+        }
+
+        daoUtil.free( );
+
+        return listIds;
     }
 }
