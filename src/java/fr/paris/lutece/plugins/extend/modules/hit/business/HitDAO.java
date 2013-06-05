@@ -227,7 +227,7 @@ public class HitDAO implements IHitDAO
      */
     @Override
     public List<Integer> findIdMostHitedResources( String strExtendableResourceType, int nItemsOffset,
-            int nMaxItemsNumber )
+            int nMaxItemsNumber, Plugin plugin )
     {
         List<Integer> listIds;
         if ( nMaxItemsNumber > 0 )
@@ -251,7 +251,7 @@ public class HitDAO implements IHitDAO
         }
 
         int nIndex = 1;
-        DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) );
+        DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ), plugin );
         daoUtil.setString( nIndex++, strExtendableResourceType );
         if ( nMaxItemsNumber > 0 )
         {

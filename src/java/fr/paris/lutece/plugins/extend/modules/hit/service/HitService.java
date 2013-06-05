@@ -124,6 +124,7 @@ public class HitService implements IHitService
     public List<Integer> findIdMostHitedResources( String strExtendableResourceType, int nItemsOffset,
             int nMaxItemsNumber )
     {
-        return _hitDAO.findIdMostHitedResources( strExtendableResourceType, nItemsOffset, nMaxItemsNumber );
+        return _hitDAO.findIdMostHitedResources( strExtendableResourceType, nItemsOffset, nMaxItemsNumber,
+                ExtendPlugin.getPlugin( ) );
     }
 }
