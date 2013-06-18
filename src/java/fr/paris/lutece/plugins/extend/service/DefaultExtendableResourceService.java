@@ -127,4 +127,13 @@ public class DefaultExtendableResourceService implements IDefaultExtendableResou
     {
         return null;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getResourceUrl( String strIdResource, String strResourceType )
+    {
+        return null;
+    }
 }
