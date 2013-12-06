@@ -43,12 +43,14 @@ import javax.inject.Inject;
 
 
 /**
- *
+ * 
  * HitService
- *
+ * 
  */
 public class HitService implements IHitService
 {
+    /** The Constant BEAN_SERVICE. */
+    public static final String BEAN_SERVICE = "extend.hitService";
     @Inject
     private IHitDAO _hitDAO;
 
@@ -58,7 +60,7 @@ public class HitService implements IHitService
     @Override
     public void create( Hit hit )
     {
-        _hitDAO.insert( hit, ExtendPlugin.getPlugin(  ) );
+        _hitDAO.insert( hit, ExtendPlugin.getPlugin( ) );
     }
 
     /**
@@ -67,7 +69,7 @@ public class HitService implements IHitService
     @Override
     public void update( Hit hit )
     {
-        _hitDAO.store( hit, ExtendPlugin.getPlugin(  ) );
+        _hitDAO.store( hit, ExtendPlugin.getPlugin( ) );
     }
 
     /**
@@ -76,7 +78,7 @@ public class HitService implements IHitService
     @Override
     public void remove( int nIdExtender )
     {
-        _hitDAO.delete( nIdExtender, ExtendPlugin.getPlugin(  ) );
+        _hitDAO.delete( nIdExtender, ExtendPlugin.getPlugin( ) );
     }
 
     /**
@@ -94,7 +96,7 @@ public class HitService implements IHitService
     @Override
     public void incrementHit( Hit hit )
     {
-        hit.setNbHits( hit.getNbHits(  ) + 1 );
+        hit.setNbHits( hit.getNbHits( ) + 1 );
         update( hit );
     }
 
@@ -104,7 +106,7 @@ public class HitService implements IHitService
     @Override
     public Hit findByPrimaryKey( int nIdHit )
     {
-        return _hitDAO.load( nIdHit, ExtendPlugin.getPlugin(  ) );
+        return _hitDAO.load( nIdHit, ExtendPlugin.getPlugin( ) );
     }
 
     /**
@@ -113,8 +115,7 @@ public class HitService implements IHitService
     @Override
     public Hit findByParameters( String strIdExtendableResource, String strExtendableResourceType )
     {
-        return _hitDAO.loadByParameters( strIdExtendableResource, strExtendableResourceType,
-            ExtendPlugin.getPlugin(  ) );
+        return _hitDAO.loadByParameters( strIdExtendableResource, strExtendableResourceType, ExtendPlugin.getPlugin( ) );
     }
 
     /**

@@ -49,7 +49,8 @@
 	
 	<!-- Services -->
 	<bean id="extend.hitService" class="fr.paris.lutece.plugins.extend.modules.hit.service.HitService" />
-	
+	   <bean id="extend.hitAddOnService" class="fr.paris.lutece.plugins.extend.modules.hit.service.HitAddOnService" />
+
 	<!-- Resource extender -->
 	<bean id="extend.hitResourceExtender" class="fr.paris.lutece.plugins.extend.modules.hit.service.extender.HitResourceExtender" 
 		p:key="hit"
