@@ -92,7 +92,7 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 {
     /** The Constant RIGHT_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE. */
     public static final String RIGHT_MANAGE_RESOURCE_EXTENDER = "RESOURCE_EXTENDER_MANAGEMENT";
-    
+
     /**
      * Serial version UID
      */
@@ -109,6 +109,8 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     // MESSAGES
     private static final String MESSAGE_ERROR_GENERIC_MESSAGE = "extend.message.error.genericMessage";
     private static final String MESSAGE_CONFIRM_REMOVE_RESOURCE_EXTENDER = "extend.message.confirm.removeResourceExtender";
+    private static final String MESSAGE_CONFIRM_DISABLE_RESOURCE_EXTENDER = "extend.message.confirm.disableResourceExtender";
+    private static final String MESSAGE_CONFIRM_ENABLE_RESOURCE_EXTENDER = "extend.message.confirm.enableResourceExtender";
     private static final String MESSAGE_STOP_GENERIC_MESSAGE = "extend.message.stop.genericMessage";
     private static final String MESSAGE_EXTENDER_TO_ALL_RESOURCES_ALREADY_EXISTS = "extend.message.extenderToAllResourcesAlreadyExists";
     private static final String MESSAGE_EXTENDER_WITH_ID_RESOURCES_ALREADY_EXISTS = "extend.message.extenderWithIdAlreadyExists";
@@ -143,6 +145,8 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
             + JSP_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE;
     private static final String JSP_URL_DO_REMOVE_RESOURCE_EXTENDER = "jsp/admin/plugins/extend/DoRemoveResourceExtender.jsp";
     private static final String JSP_URL_CREATE_DEFAULT_RESOURCE_EXTENDER = "jsp/admin/plugins/extend/CreateDefaultResourceExtender.jsp";
+    private static final String JSP_URL_DO_DISABLED_EXTENDER = "jsp/admin/plugins/extend/DoDisabledExtender.jsp";
+    private static final String JSP_URL_DO_ENABLED_EXTENDER = "jsp/admin/plugins/extend/DoEnabledExtender.jsp";
     private static final String JSP_URL_MODIFY_RESOURCE_EXTENDER_CONFIG = "jsp/admin/plugins/extend/ModifyExtenderConfig.jsp";
 
     // TEMPLATES
@@ -383,6 +387,72 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
                 request.getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
+    }
+
+    /**
+     * Get the page to create an extender
+     * @param request The request
+     * @return The HTML to display
+     */
+    public String getDisabledExtender( HttpServletRequest request )
+    {
+        String strIdExtender = request.getParameter( PARAMETER_ID_EXTENDER );
+
+        UrlItem url = new UrlItem( JSP_URL_DO_DISABLED_EXTENDER );
+        url.addParameter( PARAMETER_ID_EXTENDER, strIdExtender );
+
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DISABLE_RESOURCE_EXTENDER, url.getUrl( ),
+                AdminMessage.TYPE_CONFIRMATION );
+    }
+
+    /**
+     * Get the page to create an extender
+     * @param request The request
+     * @return The HTML to display
+     */
+    public String doDisabledExtender( HttpServletRequest request )
+    {
+        String strIdExtender = request.getParameter( PARAMETER_ID_EXTENDER );
+
+        int nIdExtender = Integer.parseInt( strIdExtender );
+        ResourceExtenderDTO resourceExtender = _extenderService.findByPrimaryKey( nIdExtender );
+        resourceExtender.setIsActive( false );
+        _extenderService.update( resourceExtender );
+
+        return getLastUrl( request ).getUrl( );
+    }
+
+    /**
+     * Get the page to create an extender
+     * @param request The request
+     * @return The HTML to display
+     */
+    public String getEnabledExtender( HttpServletRequest request )
+    {
+        String strIdExtender = request.getParameter( PARAMETER_ID_EXTENDER );
+
+        UrlItem url = new UrlItem( JSP_URL_DO_ENABLED_EXTENDER );
+        url.addParameter( PARAMETER_ID_EXTENDER, strIdExtender );
+
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_ENABLE_RESOURCE_EXTENDER, url.getUrl( ),
+                AdminMessage.TYPE_CONFIRMATION );
+    }
+
+    /**
+     * Get the page to create an extender
+     * @param request The request
+     * @return The HTML to display
+     */
+    public String doEnabledExtender( HttpServletRequest request )
+    {
+        String strIdExtender = request.getParameter( PARAMETER_ID_EXTENDER );
+
+        int nIdExtender = Integer.parseInt( strIdExtender );
+        ResourceExtenderDTO resourceExtender = _extenderService.findByPrimaryKey( nIdExtender );
+        resourceExtender.setIsActive( true );
+        _extenderService.update( resourceExtender );
+
+        return getLastUrl( request ).getUrl( );
     }
 
     /**

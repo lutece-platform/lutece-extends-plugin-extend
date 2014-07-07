@@ -8,6 +8,7 @@ CREATE TABLE extend_resource_extender (
 	extender_type VARCHAR(255) DEFAULT '' NOT NULL,
 	id_resource VARCHAR(100) DEFAULT '' NOT NULL,
 	resource_type VARCHAR(255) DEFAULT '' NOT NULL,
+	 is_active INT DEFAULT 1 NOT NULL,
 	PRIMARY KEY (id_extender)
 );
 

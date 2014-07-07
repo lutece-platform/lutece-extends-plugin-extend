@@ -39,14 +39,14 @@ import javax.validation.constraints.NotNull;
 
 
 /**
- *
+ * 
  * ResourceExtenderDTO
- *
+ * 
  */
 public class ResourceExtenderDTO implements RBACResource
 {
     /** The Constant RESOURCE_TYPE. */
-	public static final String RESOURCE_TYPE = "EXTEND_EXTENDABLE_RESOURCE";
+    public static final String RESOURCE_TYPE = "EXTEND_EXTENDABLE_RESOURCE";
     private int _nIdExtender;
     @NotNull
     private String _strExtenderType;
@@ -56,11 +56,12 @@ public class ResourceExtenderDTO implements RBACResource
     private String _strExtendableResourceType;
     private String _strParameters;
     private String _strName;
+    private boolean _bIsActive;
 
     /**
      * @return the nIdExtender
      */
-    public int getIdExtender(  )
+    public int getIdExtender( )
     {
         return _nIdExtender;
     }
@@ -76,7 +77,7 @@ public class ResourceExtenderDTO implements RBACResource
     /**
      * @return the strExtenderType
      */
-    public String getExtenderType(  )
+    public String getExtenderType( )
     {
         return _strExtenderType;
     }
@@ -92,7 +93,7 @@ public class ResourceExtenderDTO implements RBACResource
     /**
      * @return the strIdExtendableResource
      */
-    public String getIdExtendableResource(  )
+    public String getIdExtendableResource( )
     {
         return _strIdExtendableResource;
     }
@@ -108,7 +109,7 @@ public class ResourceExtenderDTO implements RBACResource
     /**
      * @return the extendableResourceType
      */
-    public String getExtendableResourceType(  )
+    public String getExtendableResourceType( )
     {
         return _strExtendableResourceType;
     }
@@ -124,7 +125,7 @@ public class ResourceExtenderDTO implements RBACResource
     /**
      * @return the strParameters
      */
-    public String getParameters(  )
+    public String getParameters( )
     {
         return _strParameters;
     }
@@ -141,17 +142,17 @@ public class ResourceExtenderDTO implements RBACResource
      * {@inheritDoc}
      */
     @Override
-    public String toString(  )
+    public String toString( )
     {
-        return "ResourceExtenderDTO [_nIdExtender=" + _nIdExtender + ", _strExtenderType=" + _strExtenderType +
-        ", _strIdExtendableResource=" + _strIdExtendableResource + ", _strExtendableResourceType=" +
-        _strExtendableResourceType + ", _strParameters=" + _strParameters + "]";
+        return "ResourceExtenderDTO [_nIdExtender=" + _nIdExtender + ", _strExtenderType=" + _strExtenderType
+                + ", _strIdExtendableResource=" + _strIdExtendableResource + ", _strExtendableResourceType="
+                + _strExtendableResourceType + ", _strParameters=" + _strParameters + "]";
     }
 
     /**
      * @return the strName
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -168,7 +169,7 @@ public class ResourceExtenderDTO implements RBACResource
      * {@inheritDoc}
      */
     @Override
-    public String getResourceTypeCode(  )
+    public String getResourceTypeCode( )
     {
         return RESOURCE_TYPE;
     }
@@ -177,8 +178,24 @@ public class ResourceExtenderDTO implements RBACResource
      * {@inheritDoc}
      */
     @Override
-    public String getResourceId(  )
+    public String getResourceId( )
     {
         return Integer.toString( _nIdExtender );
+    }
+
+    /**
+     * @return the _bIsActive
+     */
+    public boolean isIsActive( )
+    {
+        return _bIsActive;
+    }
+
+    /**
+     * @param bIsActive the _bIsActive to set
+     */
+    public void setIsActive( boolean bIsActive )
+    {
+        this._bIsActive = bIsActive;
     }
 }

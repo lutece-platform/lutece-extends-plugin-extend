@@ -87,11 +87,17 @@
 											<i class="icon-eye-open icon-white">&nbsp;</i>
 										</a>
 									</#if>
-								<#if isExtenderHistoryEnable( listExtenders, resourceExtender.extenderType ) && resourceExtender.idExtendableResource?? && resourceExtender.idExtendableResource != '*' && isAuthorized( resourceExtender.idExtender!, 'VIEW_HISTORY', mapActionPermissions! )>
-										<a class="btn btn-small btn-primary" href="jsp/admin/plugins/extend/ViewExtenderHistory.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{extend.button.history}">
-											<i class="icon-list icon-white">&nbsp;</i>
+								<#if isExtenderStateEnable( listExtenders, resourceExtender.extenderType ) && resourceExtender.idExtendableResource??>
+									<#if resourceExtender.isActive>
+										<a class="btn btn-small btn-danger" href="jsp/admin/plugins/extend/DisabledExtender.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{portal.util.labelDisabled}">
+											<i class="icon-stop icon-white">&nbsp;</i>
 										</a>
-									</#if>
+									<#else>
+										<a class="btn btn-small btn-success" href="jsp/admin/plugins/extend/EnabledExtender.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{portal.util.labelEnabled}">
+											<i class="icon-play icon-white">&nbsp;</i>
+										</a>
+									</#if>									
+								</#if>
 									<#if isAuthorized( resourceExtender.idExtender!, 'DELETE', mapActionPermissions! )>
 										<a class="btn btn-small btn-danger" href="jsp/admin/plugins/extend/ConfirmRemoveResourceExtender.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{portal.util.labelDelete}">
 											<i class="icon-trash icon-white">&nbsp;</i>

@@ -53,6 +53,17 @@
 	<#return false />
 </#function>
 
+<#function isExtenderStateEnable listExtenders extenderType>
+	<#if listExtenders?? && listExtenders?has_content>
+		<#list listExtenders as extender>
+			<#if extender.key = extenderType>
+				<#return extender.stateEnable />
+			</#if>
+		</#list>
+	</#if>
+	<#return false />
+</#function>
+
 <#--
 -- Check if the user has the permission to see the button
 -- @param idExtender the id extender

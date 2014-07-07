@@ -36,17 +36,16 @@ package fr.paris.lutece.plugins.extend.service.extender;
 import fr.paris.lutece.plugins.extend.web.component.IResourceExtenderComponent;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
-import org.springframework.beans.factory.InitializingBean;
-
-import org.springframework.util.Assert;
-
 import java.util.Locale;
+
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.Assert;
 
 
 /**
- *
+ * 
  * AbstractResourceExtender
- *
+ * 
  */
 public abstract class AbstractResourceExtender implements IResourceExtender, InitializingBean
 {
@@ -54,13 +53,14 @@ public abstract class AbstractResourceExtender implements IResourceExtender, Ini
     private String _strI18nTitleKey;
     private boolean _bIsConfigRequired;
     private boolean _bIsHistoryEnable;
+    private boolean _bIsStateEnable;
     private IResourceExtenderComponent _resourceExtenderComponent;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getKey(  )
+    public String getKey( )
     {
         return _strKey;
     }
@@ -96,7 +96,7 @@ public abstract class AbstractResourceExtender implements IResourceExtender, Ini
      * @return the bIsConfigRequired
      */
     @Override
-    public boolean isConfigRequired(  )
+    public boolean isConfigRequired( )
     {
         return _bIsConfigRequired;
     }
@@ -113,7 +113,7 @@ public abstract class AbstractResourceExtender implements IResourceExtender, Ini
      * {@inheritDoc}
      */
     @Override
-    public boolean isHistoryEnable(  )
+    public boolean isHistoryEnable( )
     {
         return _bIsHistoryEnable;
     }
@@ -127,16 +127,32 @@ public abstract class AbstractResourceExtender implements IResourceExtender, Ini
     }
 
     /**
-    * @return the resourceExtenderComponent
-    */
-    public IResourceExtenderComponent getResourceExtenderComponent(  )
+     * @return the _bIsStateEnable
+     */
+    public boolean isStateEnable( )
+    {
+        return _bIsStateEnable;
+    }
+
+    /**
+     * @param bIsStateEnable the _bIsStateEnable to set
+     */
+    public void setStateEnable( boolean bIsStateEnable )
+    {
+        this._bIsStateEnable = bIsStateEnable;
+    }
+
+    /**
+     * @return the resourceExtenderComponent
+     */
+    public IResourceExtenderComponent getResourceExtenderComponent( )
     {
         return _resourceExtenderComponent;
     }
 
     /**
      * Sets the resource extender component.
-     *
+     * 
      * @param resourceExtenderComponent the new resource extender component
      */
     public void setResourceExtenderComponent( IResourceExtenderComponent resourceExtenderComponent )
@@ -145,10 +161,10 @@ public abstract class AbstractResourceExtender implements IResourceExtender, Ini
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     @Override
-    public void afterPropertiesSet(  ) throws Exception
+    public void afterPropertiesSet( ) throws Exception
     {
         Assert.notNull( _strKey, "The property 'key' must be provided" );
         Assert.notNull( _strI18nTitleKey, "The property 'i18nTitleKey' must be provided" );

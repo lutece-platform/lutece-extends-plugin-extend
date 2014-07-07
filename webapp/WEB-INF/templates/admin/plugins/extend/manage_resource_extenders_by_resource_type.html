@@ -43,6 +43,17 @@
 									<a class="btn btn-primary btn-small"  href="jsp/admin/plugins/extend/ModifyExtenderConfig.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{extend.button.modifyConfig}">
 										<i class="icon-edit icon-white">&nbsp;</i>
 									</a>
+								<#if isExtenderStateEnable( listExtenders, resourceExtender.extenderType ) && resourceExtender.idExtendableResource?? >
+									<#if resourceExtender.isActive>
+										<a class="btn btn-small btn-danger" href="jsp/admin/plugins/extend/DisabledExtender.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{portal.util.labelDisabled}">
+											<i class="icon-stop icon-white">&nbsp;</i>
+										</a>
+									<#else>
+										<a class="btn btn-small btn-success" href="jsp/admin/plugins/extend/EnabledExtender.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{portal.util.labelEnabled}">
+											<i class="icon-play icon-white">&nbsp;</i>
+										</a>
+									</#if>									
+								</#if>
 								</#if>
 								<#if isAuthorized( resourceExtender.idExtender!, 'DELETE', mapActionPermissions! )>
 									<a class="btn btn-danger btn-small"  href="jsp/admin/plugins/extend/ConfirmRemoveResourceExtender.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{portal.util.labelDelete}">

@@ -1,0 +1,1 @@
+ALTER TABLE extend_resource_extender ADD COLUMN is_active INT DEFAULT 1 NOT NULL;
