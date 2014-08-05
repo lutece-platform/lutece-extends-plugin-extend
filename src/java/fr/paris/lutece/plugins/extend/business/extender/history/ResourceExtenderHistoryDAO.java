@@ -82,14 +82,14 @@ public class ResourceExtenderHistoryDAO implements IResourceExtenderHistoryDAO
     }
 
     /**
-         * {@inheritDoc}
-         */
+     * {@inheritDoc}
+     */
     @Override
     public synchronized void insert( ResourceExtenderHistory history, Plugin plugin )
     {
+        int nNewPrimaryKey = newPrimaryKey( plugin );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
 
-        int nNewPrimaryKey = newPrimaryKey( plugin );
         history.setIdHistory( nNewPrimaryKey );
 
         int nIndex = 1;
@@ -187,14 +187,17 @@ public class ResourceExtenderHistoryDAO implements IResourceExtenderHistoryDAO
         String strExtendableResourceType, Plugin plugin )
     {
         StringBuilder sbSql = new StringBuilder( SQL_QUERY_DELETE_BY_RESOURCE );
+
         if ( !ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE.equals( strIdExtendableResource ) )
         {
             sbSql.append( SQL_QUERY_FILTER_BY_ID_RESOURCE );
         }
-        DAOUtil daoUtil = new DAOUtil( sbSql.toString( ), plugin );
+
+        DAOUtil daoUtil = new DAOUtil( sbSql.toString(  ), plugin );
         int nIndex = 1;
         daoUtil.setString( nIndex++, strExtenderType );
         daoUtil.setString( nIndex++, strExtendableResourceType );
+
         if ( !ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE.equals( strIdExtendableResource ) )
         {
             daoUtil.setString( nIndex, strIdExtendableResource );

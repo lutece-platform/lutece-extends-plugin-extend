@@ -39,10 +39,11 @@ import fr.paris.lutece.plugins.extend.business.extender.config.IExtenderConfigDA
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
-import javax.inject.Inject;
-
 import org.springframework.beans.factory.InitializingBean;
+
 import org.springframework.util.Assert;
+
+import javax.inject.Inject;
 
 
 /**
@@ -124,7 +125,7 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
 
         if ( resourceExtender != null )
         {
-            return find( resourceExtender.getIdExtender( ) );
+            return find( resourceExtender.getIdExtender(  ) );
         }
 
         return null;

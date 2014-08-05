@@ -74,9 +74,10 @@ public interface IResourceExtenderHistoryService
      * @param strIdExtendableResource the str id extendable resource
      * @param strExtendableResourceType the str extendable resource type
      * @param request the request
+     * @return The created history
      */
-    void create( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType,
-        HttpServletRequest request );
+    ResourceExtenderHistory create( String strExtenderType, String strIdExtendableResource,
+        String strExtendableResourceType, HttpServletRequest request );
 
     /**
      * Insert.

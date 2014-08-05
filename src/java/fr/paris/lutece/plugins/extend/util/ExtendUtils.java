@@ -40,12 +40,13 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolation;
 
-import org.apache.commons.lang.StringUtils;
+import javax.validation.ConstraintViolation;
 
 
 /**

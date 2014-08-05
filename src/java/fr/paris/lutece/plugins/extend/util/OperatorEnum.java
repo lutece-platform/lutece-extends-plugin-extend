@@ -40,8 +40,7 @@ package fr.paris.lutece.plugins.extend.util;
  *
  */
 public enum OperatorEnum
-{
-	EQUAL( 0, "=" ),
+{EQUAL( 0, "=" ),
     GREATER( 1, ">" ),
     LOWER( 2, "<" ),
     GREATER_OR_EQUAL( 3, ">=" ),

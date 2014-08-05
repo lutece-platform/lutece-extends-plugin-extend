@@ -67,8 +67,8 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
          * {@inheritDoc}
          */
     @Override
-    public void create( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType,
-        HttpServletRequest request )
+    public ResourceExtenderHistory create( String strExtenderType, String strIdExtendableResource,
+        String strExtendableResourceType, HttpServletRequest request )
     {
         ResourceExtenderHistory history = new ResourceExtenderHistory(  );
         history.setExtenderType( strExtenderType );
@@ -90,6 +90,8 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
 
         history.setUserGuid( strUserGuid );
         create( history );
+
+        return history;
     }
 
     /**

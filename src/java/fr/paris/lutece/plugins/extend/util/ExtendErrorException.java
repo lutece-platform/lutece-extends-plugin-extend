@@ -33,10 +33,11 @@
  */
 package fr.paris.lutece.plugins.extend.util;
 
+
 /**
- * 
+ *
  * ExtendErrorException
- * 
+ *
  */
 public class ExtendErrorException extends Exception
 {
@@ -45,7 +46,7 @@ public class ExtendErrorException extends Exception
 
     /**
      * Instantiates a new extend error exception.
-     * 
+     *
      * @param strErrorMessage the str error message
      */
     public ExtendErrorException( String strErrorMessage )

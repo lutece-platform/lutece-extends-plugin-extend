@@ -47,17 +47,17 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
- * 
+ *
  * HitInstallerPluginAction
- * 
+ *
  */
 public class HitInstallerPluginAction extends AbstractPluginAction<IExtendableResource>
     implements IExtendableResourcePluginAction
 {
-	private static final String ACTION_NAME = "Hit";
-	
+    private static final String ACTION_NAME = "Hit";
+
     // TEMPLATE
-	private static final String TEMPLATE_BUTTON = "../plugins/extend/modules/hit/actions/install_hit.html";
+    private static final String TEMPLATE_BUTTON = "../plugins/extend/modules/hit/actions/install_hit.html";
 
     /**
      * {@inheritDoc}
@@ -65,7 +65,7 @@ public class HitInstallerPluginAction extends AbstractPluginAction<IExtendableRe
     @Override
     public boolean isInvoked( HttpServletRequest request )
     {
-		return false;
+        return false;
     }
 
     /**
@@ -101,6 +101,6 @@ public class HitInstallerPluginAction extends AbstractPluginAction<IExtendableRe
     public IPluginActionResult process( HttpServletRequest request, HttpServletResponse response, AdminUser adminUser,
         IExtendableResource sessionFields ) throws AccessDeniedException
     {
-		return null;
+        return null;
     }
 }

@@ -46,7 +46,7 @@ import javax.validation.constraints.NotNull;
 public class ExtendableResourceType implements RBACResource
 {
     /** The Constant RESOURCE_TYPE. */
-	public static final String RESOURCE_TYPE = "EXTEND_EXTENDABLE_RESOURCE_TYPE";
+    public static final String RESOURCE_TYPE = "EXTEND_EXTENDABLE_RESOURCE_TYPE";
     @NotNull
     private String _strKey;
     private String _strDescription;

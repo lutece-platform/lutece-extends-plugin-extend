@@ -37,9 +37,9 @@ import fr.paris.lutece.plugins.extend.business.extender.config.IExtenderConfig;
 
 
 /**
- * 
+ *
  * IResourceExtenderConfigService
- * 
+ *
  */
 public interface IResourceExtenderConfigService
 {
@@ -57,30 +57,12 @@ public interface IResourceExtenderConfigService
 
     /**
      * Removes.
-     * 
+     *
      * @param nIdExtender the n id extender
      */
     void remove( int nIdExtender );
 
-    /**
-     * Find an extender
-     * @param <T> The class of extender to return.
-     * @param nIdExtender The id of the extender to return
-     * @return The extender of this service with the given id, or null id none
-     *         was found
-     */
     <T> T find( int nIdExtender );
 
-    /**
-     * Find an extender associated with a resource and with a given extender
-     * type
-     * @param <T> The class of extender to return.
-     * @param strExtenderType The type of the extender to get
-     * @param strIdExtendableResource The id of the resource the extender must
-     *            be associated with.
-     * @param strExtendableResourceType The resource type the extender must be
-     *            associated with.
-     * @return The extender, or null id none was found
-     */
     <T> T find( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType );
 }

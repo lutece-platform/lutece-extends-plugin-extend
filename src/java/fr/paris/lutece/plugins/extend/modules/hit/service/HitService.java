@@ -43,9 +43,9 @@ import javax.inject.Inject;
 
 
 /**
- * 
+ *
  * HitService
- * 
+ *
  */
 public class HitService implements IHitService
 {
@@ -60,7 +60,7 @@ public class HitService implements IHitService
     @Override
     public void create( Hit hit )
     {
-        _hitDAO.insert( hit, ExtendPlugin.getPlugin( ) );
+        _hitDAO.insert( hit, ExtendPlugin.getPlugin(  ) );
     }
 
     /**
@@ -69,7 +69,7 @@ public class HitService implements IHitService
     @Override
     public void update( Hit hit )
     {
-        _hitDAO.store( hit, ExtendPlugin.getPlugin( ) );
+        _hitDAO.store( hit, ExtendPlugin.getPlugin(  ) );
     }
 
     /**
@@ -78,7 +78,7 @@ public class HitService implements IHitService
     @Override
     public void remove( int nIdExtender )
     {
-        _hitDAO.delete( nIdExtender, ExtendPlugin.getPlugin( ) );
+        _hitDAO.delete( nIdExtender, ExtendPlugin.getPlugin(  ) );
     }
 
     /**
@@ -87,7 +87,7 @@ public class HitService implements IHitService
     @Override
     public void removeByResource( String strIdResource, String strResourceType )
     {
-        _hitDAO.deleteByResource( strIdResource, strResourceType, ExtendPlugin.getPlugin( ) );
+        _hitDAO.deleteByResource( strIdResource, strResourceType, ExtendPlugin.getPlugin(  ) );
     }
 
     /**
@@ -96,7 +96,7 @@ public class HitService implements IHitService
     @Override
     public void incrementHit( Hit hit )
     {
-        hit.setNbHits( hit.getNbHits( ) + 1 );
+        hit.setNbHits( hit.getNbHits(  ) + 1 );
         update( hit );
     }
 
@@ -106,7 +106,7 @@ public class HitService implements IHitService
     @Override
     public Hit findByPrimaryKey( int nIdHit )
     {
-        return _hitDAO.load( nIdHit, ExtendPlugin.getPlugin( ) );
+        return _hitDAO.load( nIdHit, ExtendPlugin.getPlugin(  ) );
     }
 
     /**
@@ -115,7 +115,7 @@ public class HitService implements IHitService
     @Override
     public Hit findByParameters( String strIdExtendableResource, String strExtendableResourceType )
     {
-        return _hitDAO.loadByParameters( strIdExtendableResource, strExtendableResourceType, ExtendPlugin.getPlugin( ) );
+        return _hitDAO.loadByParameters( strIdExtendableResource, strExtendableResourceType, ExtendPlugin.getPlugin(  ) );
     }
 
     /**
@@ -123,9 +123,9 @@ public class HitService implements IHitService
      */
     @Override
     public List<Integer> findIdMostHitedResources( String strExtendableResourceType, int nItemsOffset,
-            int nMaxItemsNumber )
+        int nMaxItemsNumber )
     {
         return _hitDAO.findIdMostHitedResources( strExtendableResourceType, nItemsOffset, nMaxItemsNumber,
-                ExtendPlugin.getPlugin( ) );
+            ExtendPlugin.getPlugin(  ) );
     }
 }

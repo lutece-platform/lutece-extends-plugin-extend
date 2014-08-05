@@ -36,19 +36,20 @@ package fr.paris.lutece.plugins.extend.web.component;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtender;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.springframework.beans.factory.InitializingBean;
+
+import org.springframework.util.Assert;
+
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.util.Assert;
-
 
 /**
- * 
+ *
  * AbstractResourceExtenderComponent
- * 
+ *
  */
 public abstract class AbstractResourceExtenderComponent implements IResourceExtenderComponent, InitializingBean
 {
@@ -67,7 +68,7 @@ public abstract class AbstractResourceExtenderComponent implements IResourceExte
      * {@inheritDoc}
      */
     @Override
-    public IResourceExtender getResourceExtender( )
+    public IResourceExtender getResourceExtender(  )
     {
         return _extender;
     }
@@ -76,7 +77,7 @@ public abstract class AbstractResourceExtenderComponent implements IResourceExte
      * {@inheritDoc}
      */
     @Override
-    public void afterPropertiesSet( ) throws Exception
+    public void afterPropertiesSet(  ) throws Exception
     {
         Assert.notNull( _extender, "The property 'extender' is required." );
     }
@@ -88,12 +89,14 @@ public abstract class AbstractResourceExtenderComponent implements IResourceExte
      */
     public String getPostBackUrl( HttpServletRequest request )
     {
-        UrlItem urlItem = new UrlItem( request.getRequestURI( ) );
-        Map<String, String[]> mapParameters = request.getParameterMap( );
-        for ( Entry<String, String[]> entry : mapParameters.entrySet( ) )
+        UrlItem urlItem = new UrlItem( request.getRequestURI(  ) );
+        Map<String, String[]> mapParameters = request.getParameterMap(  );
+
+        for ( Entry<String, String[]> entry : mapParameters.entrySet(  ) )
         {
-            urlItem.addParameter( entry.getKey( ), entry.getValue( )[0] );
+            urlItem.addParameter( entry.getKey(  ), entry.getValue(  )[0] );
         }
-        return urlItem.getUrl( );
+
+        return urlItem.getUrl(  );
     }
 }

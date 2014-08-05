@@ -52,14 +52,15 @@ import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -94,7 +95,6 @@ public class ModifyDefaultConfigPluginAction extends AbstractPluginAction<IResou
     // CONSTANT
     private static final String CONSTANT_AND = "&";
     private static final String CONSTANT_AND_HTML = "%26";
-
     @Inject
     private IResourceExtenderService _extenderService;
 
@@ -104,22 +104,24 @@ public class ModifyDefaultConfigPluginAction extends AbstractPluginAction<IResou
     @Override
     public void fillModel( HttpServletRequest request, AdminUser adminUser, Map<String, Object> model )
     {
-        model.put( MARK_PERMISSION_MODIFY_CONFIG, RBACService.isAuthorized( ExtendableResourceType.RESOURCE_TYPE,
-                RBAC.WILDCARD_RESOURCES_ID, ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION,
-                adminUser ) );
-        
-        List<IResourceExtender> listExtenders =  _extenderService.getResourceExtenders( );
-        ReferenceList refListExtenderTypes = new ReferenceList( );
+        model.put( MARK_PERMISSION_MODIFY_CONFIG,
+            RBACService.isAuthorized( ExtendableResourceType.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
+                ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, adminUser ) );
+
+        List<IResourceExtender> listExtenders = _extenderService.getResourceExtenders(  );
+        ReferenceList refListExtenderTypes = new ReferenceList(  );
+
         for ( IResourceExtender resourceExtender : listExtenders )
         {
-            if ( resourceExtender.isConfigRequired( ) )
+            if ( resourceExtender.isConfigRequired(  ) )
             {
-                ReferenceItem refItem = new ReferenceItem( );
-                refItem.setCode( resourceExtender.getKey( ) );
+                ReferenceItem refItem = new ReferenceItem(  );
+                refItem.setCode( resourceExtender.getKey(  ) );
                 refItem.setName( resourceExtender.getTitle( AdminUserService.getLocale( request ) ) );
                 refListExtenderTypes.add( refItem );
             }
         }
+
         model.put( MARK_RESOURCE_EXTENDER_CONFIGURABLE, refListExtenderTypes );
     }
 
@@ -159,26 +161,31 @@ public class ModifyDefaultConfigPluginAction extends AbstractPluginAction<IResou
     {
         UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL );
         String strExtenderType = request.getParameter( PARAM_EXTENDER_TYPE );
-        DefaultPluginActionResult result = new DefaultPluginActionResult( );
+        DefaultPluginActionResult result = new DefaultPluginActionResult(  );
 
         if ( StringUtils.isBlank( strExtenderType ) )
         {
             result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_NO_EXTENDER_TYPE_SELECTED,
                     AdminMessage.TYPE_STOP ) );
+
             return result;
         }
+
         url.addParameter( PARAM_EXTENDER_TYPE, strExtenderType );
+
         String strFromUrl = request.getParameter( PARAMETER_FROM_URL );
+
         if ( StringUtils.isBlank( strFromUrl ) )
         {
             strFromUrl = request.getHeader( PARAMETER_REFERER );
         }
+
         if ( StringUtils.isNotBlank( strFromUrl ) )
         {
             strFromUrl = strFromUrl.replace( CONSTANT_AND, CONSTANT_AND_HTML );
             url.addParameter( PARAMETER_FROM_URL, strFromUrl );
         }
-        
+
         result.setRedirect( url.getUrl(  ) );
 
         return result;

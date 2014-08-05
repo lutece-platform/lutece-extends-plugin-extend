@@ -39,29 +39,29 @@ import java.util.List;
 
 
 /**
- * 
+ *
  * IHitService
- * 
+ *
  */
 public interface IHitService
 {
     /**
      * Creates the a hit extender.
-     * 
+     *
      * @param hit the hit
      */
     void create( Hit hit );
 
     /**
      * Update a hit extender.
-     * 
+     *
      * @param hit the hit
      */
     void update( Hit hit );
 
     /**
      * Removes a hit extender.
-     * 
+     *
      * @param nIdHit the n id hit
      */
     void remove( int nIdHit );
@@ -75,14 +75,14 @@ public interface IHitService
 
     /**
      * Increment hit.
-     * 
+     *
      * @param hit the hit
      */
     void incrementHit( Hit hit );
 
     /**
      * Find.
-     * 
+     *
      * @param nIdExtender the n id extender
      * @return the hit
      */
@@ -90,7 +90,7 @@ public interface IHitService
 
     /**
      * Find by id extender.
-     * 
+     *
      * @param strIdExtendableResource the str id extendable resource
      * @param strExtendableResourceType the str extendable resource type
      * @return the hit
@@ -107,5 +107,5 @@ public interface IHitService
      * @return The list of ids of resources ordered by the number hits
      */
     public List<Integer> findIdMostHitedResources( String strExtendableResourceType, int nItemsOffset,
-            int nMaxItemsNumber );
+        int nMaxItemsNumber );
 }

@@ -40,9 +40,9 @@ import fr.paris.lutece.portal.service.resource.ExtendableResourceRemovalListener
 
 
 /**
- * 
+ *
  * ExtendPlugin.
- * 
+ *
  */
 public class ExtendPlugin extends PluginDefaultImplementation
 {
@@ -56,17 +56,17 @@ public class ExtendPlugin extends PluginDefaultImplementation
      * {@inheritDoc}
      */
     @Override
-    public void init( )
+    public void init(  )
     {
-        ExtendableResourceRemovalListenerService.registerListener( new ExtendableResourceRemovalListener( ) );
+        ExtendableResourceRemovalListenerService.registerListener( new ExtendableResourceRemovalListener(  ) );
     }
 
     /**
      * Gets the plugin.
-     * 
+     *
      * @return the plugin
      */
-    public static Plugin getPlugin( )
+    public static Plugin getPlugin(  )
     {
         return PluginService.getPlugin( PLUGIN_NAME );
     }

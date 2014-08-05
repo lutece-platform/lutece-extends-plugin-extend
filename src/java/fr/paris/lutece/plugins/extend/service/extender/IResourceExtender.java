@@ -103,7 +103,7 @@ public interface IResourceExtender
 
     /**
      * Do delete resource add on.
-     * 
+     *
      * @param resourceExtender the resource extender. If the extender has a
      *            configuration, then the configuration is also removed unless
      *            the extender id is equals to 0.

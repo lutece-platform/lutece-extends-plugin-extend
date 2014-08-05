@@ -44,17 +44,20 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import org.apache.commons.lang.StringUtils;
+
+import org.springframework.beans.factory.InitializingBean;
+
+import org.springframework.util.Assert;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.util.Assert;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -69,7 +72,6 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
      * Name of this bean
      */
     public static final String BEAN_NAME = "extend.extendableContentPostProcessor";
-
     private static final String NAME = "Extend content processor";
     private static final String END_BODY = "</body>";
     private static final String EXTEND_PARAMETERED_ID = "ExtendParameteredId";
@@ -80,8 +82,7 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
     // MARKS
     private static final String MARK_REGEX_PATTERN = "extendRegexPattern";
     private static final String MARK_BASE_URL = "baseUrl";
-
-	private static final String PARAM_PAGE = "page";
+    private static final String PARAM_PAGE = "page";
     private static final String PARAM_PORTLET_ID = "portlet_id";
 
     // TEMPLATES
@@ -105,7 +106,7 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
 
     /**
      * Sets the regex pattern.
-     * 
+     *
      * @param strExtenderParameterRegexPattern the new regex pattern
      */
     public void setExtenderParameterRegexPattern( String strExtenderParameterRegexPattern )
@@ -181,38 +182,44 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
 
                 // 2) Get all information (idResource, resourceType, extenderType, params)
                 ResourceExtenderDTO resourceExtender = _mapper.map( match.group( 1 ) );
-                boolean bParameteredId = StringUtils.equalsIgnoreCase( resourceExtender.getIdExtendableResource( ),
+                boolean bParameteredId = StringUtils.equalsIgnoreCase( resourceExtender.getIdExtendableResource(  ),
                         EXTEND_PARAMETERED_ID );
+
                 if ( bParameteredId )
                 {
                     Pattern parameterpattern = Pattern.compile( _strExtenderParameterRegexPattern );
                     Matcher parameterMatch = parameterpattern.matcher( strHtmlContent );
-                    while ( parameterMatch.find( ) )
+
+                    while ( parameterMatch.find(  ) )
                     {
                         ResourceExtenderDTO realResourceExtender = _mapper.map( parameterMatch.group( 1 ) );
-                        if ( StringUtils.equals( realResourceExtender.getExtendableResourceType( ),
-                                resourceExtender.getExtendableResourceType( ) )
-                                && StringUtils.equals( realResourceExtender.getExtenderType( ),
-                                        resourceExtender.getExtenderType( ) ) )
+
+                        if ( StringUtils.equals( realResourceExtender.getExtendableResourceType(  ),
+                                    resourceExtender.getExtendableResourceType(  ) ) &&
+                                StringUtils.equals( realResourceExtender.getExtenderType(  ),
+                                    resourceExtender.getExtenderType(  ) ) )
                         {
-                            resourceExtender.setIdExtendableResource( realResourceExtender.getIdExtendableResource( ) );
+                            resourceExtender.setIdExtendableResource( realResourceExtender.getIdExtendableResource(  ) );
+
                             break;
                         }
                     }
                 }
+
                 String strHtml = StringUtils.EMPTY;
-                if ( !bParameteredId
-                        || !StringUtils.equalsIgnoreCase( resourceExtender.getIdExtendableResource( ),
-                                EXTEND_PARAMETERED_ID ) )
+
+                if ( !bParameteredId ||
+                        !StringUtils.equalsIgnoreCase( resourceExtender.getIdExtendableResource(  ),
+                            EXTEND_PARAMETERED_ID ) )
                 {
                     // 3) Get the html content from the given information
-                    if ( !StringUtils.equals( resourceExtender.getExtendableResourceType( ), Page.RESOURCE_TYPE )
-                            || ( StringUtils.isBlank( request.getParameter( PARAM_PAGE ) ) && StringUtils
-                                    .isBlank( request.getParameter( PARAM_PORTLET_ID ) ) ) )
+                    if ( !StringUtils.equals( resourceExtender.getExtendableResourceType(  ), Page.RESOURCE_TYPE ) ||
+                            ( StringUtils.isBlank( request.getParameter( PARAM_PAGE ) ) &&
+                            StringUtils.isBlank( request.getParameter( PARAM_PORTLET_ID ) ) ) )
                     {
-                        strHtml = _extenderService.getContent( resourceExtender.getIdExtendableResource( ),
-                                resourceExtender.getExtendableResourceType( ), resourceExtender.getExtenderType( ),
-                                resourceExtender.getParameters( ), request );
+                        strHtml = _extenderService.getContent( resourceExtender.getIdExtendableResource(  ),
+                                resourceExtender.getExtendableResourceType(  ), resourceExtender.getExtenderType(  ),
+                                resourceExtender.getParameters(  ), request );
                     }
                 }
 
@@ -221,10 +228,12 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
                         Matcher.quoteReplacement( strHtml ) );
             }
         }
+
         if ( StringUtils.isNotBlank( _strExtenderParameterRegexPattern ) )
         {
             strHtmlContent = strHtmlContent.replaceAll( _strExtenderParameterRegexPattern, "" );
         }
+
         return strHtmlContent;
     }
 

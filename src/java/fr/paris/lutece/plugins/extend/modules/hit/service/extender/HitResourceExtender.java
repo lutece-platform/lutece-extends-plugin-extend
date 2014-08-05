@@ -37,10 +37,11 @@ import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.modules.hit.service.IHitService;
 import fr.paris.lutece.plugins.extend.service.extender.AbstractResourceExtender;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
+
+import javax.inject.Inject;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -55,7 +56,6 @@ public class HitResourceExtender extends AbstractResourceExtender
 {
     /** The Constant EXTENDER_TYPE. */
     public static final String EXTENDER_TYPE = "hit";
-
     @Inject
     private IHitService _hitService;
 
@@ -99,7 +99,8 @@ public class HitResourceExtender extends AbstractResourceExtender
     @Override
     public void doDeleteResourceAddOn( ResourceExtenderDTO extender )
     {
-        _hitService.removeByResource( extender.getIdExtendableResource( ), extender.getExtendableResourceType( ) );
+        _hitService.removeByResource( extender.getIdExtendableResource(  ), extender.getExtendableResourceType(  ) );
+
         //        Hit hit = _hitService.findByParameters( extender.getIdExtendableResource( ),
         //                extender.getExtendableResourceType( ) );
         //        _hitService.remove( hit.getIdHit( ) );

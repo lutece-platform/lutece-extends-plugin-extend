@@ -83,7 +83,7 @@ public interface IResourceExtenderComponentManager
 
     /**
      * Gets the default config html of an extender type.
-     * 
+     *
      * @param strExtenderType the resource extender type
      * @param locale the locale
      * @param request the request
@@ -93,7 +93,7 @@ public interface IResourceExtenderComponentManager
 
     /**
      * Gets the info html.
-     * 
+     *
      * @param resourceExtender the resource extender
      * @param locale the locale
      * @param request the request
@@ -113,7 +113,7 @@ public interface IResourceExtenderComponentManager
 
     /**
      * Do save config.
-     * 
+     *
      * @param resourceExtender the resource extender
      * @param request the request
      * @throws ExtendErrorException the extend error exception

@@ -45,7 +45,6 @@ import java.util.Locale;
  */
 public interface IExtendableResourceTypeService
 {
-
     /**
      * Find by primary key.
      * @param strKey the str key

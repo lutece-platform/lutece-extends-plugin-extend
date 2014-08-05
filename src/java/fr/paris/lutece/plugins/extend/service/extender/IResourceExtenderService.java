@@ -41,13 +41,13 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.util.ReferenceList;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -147,23 +147,24 @@ public interface IResourceExtenderService
      */
     ReferenceList getExtenderTypes( Locale locale );
 
-	/**
-	 * Get the list of installed extenders for a given resource id and a given resource type.
-	 * @param strIdExtendableResource Id of the resource
-	 * @param strExtendableResourceType Type of the resource
-	 * @param plugin the plugin
-	 * @return A map of associations of string / boolean. Only installed extender types are considered.
-	 */
-	Map<String, Boolean> getExtenderTypesInstalled( String strIdExtendableResource, String strExtendableResourceType, Plugin plugin );
+    /**
+     * Get the list of installed extenders for a given resource id and a given resource type.
+     * @param strIdExtendableResource Id of the resource
+     * @param strExtendableResourceType Type of the resource
+     * @param plugin the plugin
+     * @return A map of associations of string / boolean. Only installed extender types are considered.
+     */
+    Map<String, Boolean> getExtenderTypesInstalled( String strIdExtendableResource, String strExtendableResourceType,
+        Plugin plugin );
 
-	/**
-	 * Checks if is authorized.
-	 * 
-	 * @param strIdExtendableResource the str id extendable resource
-	 * @param strExtendableResourceType the str extendable resource type
-	 * @param strExtenderType the str extender type
-	 * @return true, if is authorized
-	 */
+    /**
+     * Checks if is authorized.
+     *
+     * @param strIdExtendableResource the str id extendable resource
+     * @param strExtendableResourceType the str extendable resource type
+     * @param strExtenderType the str extender type
+     * @return true, if is authorized
+     */
     boolean isAuthorized( String strIdExtendableResource, String strExtendableResourceType, String strExtenderType );
 
     /**
@@ -244,7 +245,7 @@ public interface IResourceExtenderService
 
     /**
      * Gets the extendable resource
-     * 
+     *
      * @param resourceExtender the resource extender
      * @return the extendable resource
      */
@@ -252,7 +253,7 @@ public interface IResourceExtenderService
 
     /**
      * Gets the extendable resource.
-     * 
+     *
      * @param strIdExtendableResource the str id extendable resource
      * @param strExtendableResourceType the str extendable resource type
      * @return the extendable resource
@@ -261,7 +262,7 @@ public interface IResourceExtenderService
 
     /**
      * Gets the actions permission.
-     * 
+     *
      * @param listIds the list ids
      * @param user the user
      * @return the actions permission

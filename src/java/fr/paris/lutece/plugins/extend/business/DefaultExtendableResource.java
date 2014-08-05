@@ -126,7 +126,7 @@ public class DefaultExtendableResource implements IExtendableResource
      * {@inheritDoc}
      */
     @Override
-    public String getExtendableResourceDescription( )
+    public String getExtendableResourceDescription(  )
     {
         return _strName;
     }
@@ -135,7 +135,7 @@ public class DefaultExtendableResource implements IExtendableResource
      * {@inheritDoc}
      */
     @Override
-    public String getExtendableResourceImageUrl( )
+    public String getExtendableResourceImageUrl(  )
     {
         return null;
     }

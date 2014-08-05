@@ -41,12 +41,12 @@ import fr.paris.lutece.portal.web.pluginaction.DefaultPluginActionResult;
 import fr.paris.lutece.portal.web.pluginaction.IPluginActionResult;
 import fr.paris.lutece.util.url.UrlItem;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -121,10 +121,12 @@ public class CreateResourceExtenderPluginAction extends AbstractPluginAction<IRe
         url.addParameter( PARAMETER_MANAGE_BY_RESOURCE, request.getParameter( PARAMETER_MANAGE_BY_RESOURCE ) );
 
         String strFromUrl = request.getParameter( PARAMETER_FROM_URL );
+
         if ( StringUtils.isBlank( strFromUrl ) )
         {
             strFromUrl = request.getHeader( PARAMETER_REFERER );
         }
+
         if ( StringUtils.isNotBlank( strFromUrl ) )
         {
             strFromUrl = strFromUrl.replace( CONSTANT_AND, CONSTANT_AND_HTML );

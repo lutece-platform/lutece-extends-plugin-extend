@@ -36,11 +36,11 @@ package fr.paris.lutece.plugins.extend.service;
 import fr.paris.lutece.plugins.extend.business.IDefaultExtendableResourceDAO;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Locale;
 
 import javax.inject.Inject;
-
-import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -114,7 +114,7 @@ public class DefaultExtendableResourceService implements IDefaultExtendableResou
      * {@inheritDoc}
      */
     @Override
-    public String getResourceType( )
+    public String getResourceType(  )
     {
         return null;
     }
