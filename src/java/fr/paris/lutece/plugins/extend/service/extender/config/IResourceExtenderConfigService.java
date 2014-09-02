@@ -62,7 +62,21 @@ public interface IResourceExtenderConfigService
      */
     void remove( int nIdExtender );
 
+    /**
+     * Find an extender
+     * @param <T> The extender type
+     * @param nIdExtender The extender ID
+     * @return The extender
+     */
     <T> T find( int nIdExtender );
 
+    /**
+     * Find a resource 
+     * @param <T> The resource type
+     * @param strExtenderType The extender
+     * @param strIdExtendableResource The resource ID
+     * @param strExtendableResourceType The resource type
+     * @return The resource
+     */
     <T> T find( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType );
 }
