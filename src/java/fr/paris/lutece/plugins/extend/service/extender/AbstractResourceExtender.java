@@ -41,6 +41,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 import java.util.Locale;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -171,4 +172,19 @@ public abstract class AbstractResourceExtender implements IResourceExtender, Ini
         Assert.notNull( _strI18nTitleKey, "The property 'i18nTitleKey' must be provided" );
         Assert.notNull( _resourceExtenderComponent, "The property 'resourceExtenderComponent' must be provided" );
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isInvoked( String strExtenderType )
+    {
+        if ( StringUtils.isNotBlank( strExtenderType ) )
+        {
+            return getKey(  ).equals( strExtenderType );
+        }
+
+        return false;
+    }
+    
 }
