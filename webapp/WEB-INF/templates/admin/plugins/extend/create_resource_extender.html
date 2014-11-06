@@ -1,36 +1,46 @@
-<form class="form-horizontal" action="jsp/admin/plugins/extend/DoCreateResourceExtender.jsp">
-	<fieldset>
-		<legend>#i18n{extend.create_resource_extender.labelCreateResourceExtender}</legend>
-		<div class="control-group" >
-			<label class="control-label" for="extenderType">#i18n{extend.create_resource_extender.labelExtenderType} * :</label>
-			<div class="controls">
-				<@comboWithParams name="extenderType" additionalParameters="class='input-medium'" default_value="" items=extenderTypes />
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="box box-primary">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{extend.create_resource_extender.labelCreateResourceExtender}</h3>
+			</div>
+			<div class="box-body">		
+				<form class="form-horizontal" action="jsp/admin/plugins/extend/DoCreateResourceExtender.jsp">
+					<input type="hidden" name="from_url" value="${from_url!}">	
+					<div class="form-group" >
+						<label class="control-label col-xs-12 col-sm-2 col-md-2" for="extenderType">#i18n{extend.create_resource_extender.labelExtenderType} *:</label>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<@comboWithParams name="extenderType" additionalParameters="class=\"form-control\"" default_value="" items=extenderTypes />
+						</div>
+					</div>
+					<div class="form-group">
+						<#if manageByResource>
+							<label class="control-label col-xs-12 col-sm-2 col-md-2" for="idExtendableResource">#i18n{extend.create_resource_extender.labelIdExtendableResource} * :</label>
+							<div class="col-xs-12 col-sm-4 col-md-4">
+								<input type="text" class="input-medium" id="idExtendableResource" name="idExtendableResource" value="" maxlength="255" class="form-control">
+							</div>
+						<#else>
+							<input type="hidden" name="idExtendableResource" value="*">
+						</#if>
+					</div>
+					<div class="form-group" >
+						<label class="control-label col-xs-12 col-sm-2 col-md-2" for="extendableResourceType">#i18n{extend.create_resource_extender.labelResourceType} *</label>
+						<div class="col-xs-12 col-sm-4 col-md-4">
+							<@comboWithParams name="extendableResourceType" additionalParameters="class=\"form-control\"" default_value="" items=resourceTypes />
+						</div>
+					</div>
+					<div class="form-group" >
+						<div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-2 col-md-10">
+							<button type="submit" name="createResourceExtender" value="createResourceExtender" title="#i18n{portal.util.labelCreate}" class="btn btn-flat btn-primary" >
+								<i class="fa fa-plus">&nbsp;</i>&nbsp;#i18n{portal.util.labelCreate}
+							</button>
+							<button type="submit" name="cancel" value="#i18n{portal.util.labelCreate}" title="#i18n{portal.util.labelCreate}" class="btn btn-default btn-flat" >
+								<i class="fa fa-close">&nbsp;</i>&nbsp;#i18n{portal.util.labelBack}
+							</button>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
-		<div class="control-group" >
-			<#if manageByResource>
-				<label class="control-label" for="idExtendableResource">#i18n{extend.create_resource_extender.labelIdExtendableResource} * :</label>
-				<div class="controls">
-					<input type="text" class="input-medium" id="idExtendableResource" name="idExtendableResource" value="" maxlength="255" size="20" />
-				</div>
-			<#else>
-				<input type="hidden" name="idExtendableResource" value="*" />
-			</#if>
-		</div>
-		<div class="control-group" >
-			<label class="control-label" for="extendableResourceType">#i18n{extend.create_resource_extender.labelResourceType} * :</label>
-			<div class="controls">
-				<@comboWithParams name="extendableResourceType" additionalParameters="class='input-medium'" default_value="" items=resourceTypes />
-			</div>
-		</div>
-		<div class="form-actions" >
-			<input type="hidden" name="from_url" value="${from_url!}">
-			<button type="submit" name="createResourceExtender" value="createResourceExtender" title="#i18n{portal.util.labelCreate}" class="btn btn-small btn-primary" >
-				<i class="icon-plus icon-white">&nbsp;</i>&nbsp;#i18n{portal.util.labelCreate}
-			</button>
-			<button type="submit" name="cancel" value="#i18n{portal.util.labelCreate}" title="#i18n{portal.util.labelCreate}" class="btn btn-small" >
-				#i18n{portal.util.labelBack}
-			</button>
-		</div>
-	</fieldset>
-</form>
+	</div>
+</div>

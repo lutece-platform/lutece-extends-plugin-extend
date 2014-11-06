@@ -1,9 +1,7 @@
 <#if permissionModifyConfig?? && permissionModifyConfig && configurableExtenderTypes?? && configurableExtenderTypes?has_content>
-	<div class="form-inline">
-		<button type="submit" name="modifyDefaultConfig" title="#i18n{extend.modify_default_config.labelModifyDefaultConfig}" value="modifyDefaultConfig" class="btn btn-small btn-primary" >
-			<i class="icon-edit icon-white">&nbsp;</i><span class="hidden-phone">&nbsp;#i18n{extend.modify_default_config.labelModifyDefaultConfig}</span>
-		</button>
-		<#assign extenderTypeItem = configurableExtenderTypes?first />
-		<input type="hidden" name="extenderTypeModifyConfig" value="${extenderTypeItem.code}" />
-	</div>
+	<button type="submit" name="modifyDefaultConfig" title="#i18n{extend.modify_default_config.labelModifyDefaultConfig}" value="modifyDefaultConfig" class="spaced btn btn-xs btn-flat btn-primary" >
+		<i class="fa fa-pencil">&nbsp;</i><span class="hidden-xs">&nbsp;#i18n{extend.modify_default_config.labelModifyDefaultConfig}</span>
+	</button>
+	<#assign extenderTypeItem = configurableExtenderTypes?first />
+	<input type="hidden" name="extenderTypeModifyConfig" value="${extenderTypeItem.code}">
 </#if>
