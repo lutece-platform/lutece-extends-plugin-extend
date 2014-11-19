@@ -74,7 +74,8 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
 
     // CONSTANTS
     private static final String JSON_KEY_SHOW = "show";
-
+    private static final String JSON_KEY_INCREMENT = "increment";
+    
     // SERVICES
     @Inject
     private IHitService _hitService;
@@ -110,7 +111,11 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
             _hitService.create( hit );
         }
 
-        _hitService.incrementHit( hit );
+        if (incrementInfo(strParameters))
+        {
+            _hitService.incrementHit( hit );
+        }
+        
 
         // Add to the resource extender history
         _resourceHistoryService.create( HitResourceExtender.EXTENDER_TYPE, strIdExtendableResource,
@@ -176,4 +181,30 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
 
         return bShow;
     }
+    
+    /**
+     * request increment of hit 
+     *
+     * @param strParameters the str parameters
+     * @return true, if successful
+     */
+     private boolean incrementInfo( String strParameters )
+     {
+         boolean bIncrement = true;
+         JSONObject jsonParameters = JSONUtils.parseParameters( strParameters );
+
+         if ( jsonParameters != null )
+         {
+             try
+             {
+            	 bIncrement  = jsonParameters.getBoolean( JSON_KEY_INCREMENT );
+             }
+             catch ( JSONException je )
+             {
+                 AppLogService.debug( je.getMessage(  ), je );
+             }
+         }
+
+         return bIncrement;
+     }
 }
