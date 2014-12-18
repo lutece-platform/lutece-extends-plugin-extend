@@ -46,8 +46,8 @@
 	</properties>
     
     <scm>
-        <connection>scm:svn:http://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/extends/plugin-extend</connection>
-        <developerConnection>scm:svn:https://dev.lutece.paris.fr/svn/lutece/portal/trunk/plugins/extends/plugin-extend</developerConnection>
-        <url>http://dev.lutece.paris.fr/viewvc/lutece/portal/trunk/plugins/extends/plugin-extend</url>
+        <connection>scm:git:https://github.com/lutece-platform/lutece-extends-plugin-extend.git</connection>
+        <developerConnection>scm:git:https://github.com/lutece-platform/lutece-extends-plugin-extend.git</developerConnection>
+        <url>https://github.com/lutece-platform/lutece-extends-plugin-extend.git</url>
     </scm>
 </project>
