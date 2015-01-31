@@ -268,4 +268,13 @@ public interface IResourceExtenderService
      * @return the actions permission
      */
     Map<String, Map<String, Boolean>> getActionPermissions( List<Integer> listIds, AdminUser user );
+
+    /**
+     * Get the main URL to access a resource
+     * @param strIdResource The id of the resource
+     * @param strResourceType The type of a resource
+     * @return The main URL to access a resource, or null if the resource has no
+     *         main URL
+     */
+    String getExtendableResourceUrl( String strIdResource, String strResourceType );
 }
