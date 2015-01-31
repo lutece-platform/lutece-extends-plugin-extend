@@ -48,7 +48,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
@@ -57,7 +56,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
-
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -517,5 +515,15 @@ public class ResourceExtenderService implements IResourceExtenderService
         }
 
         return mapActionPermissions;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getExtendableResourceUrl( String strIdResource,
+            String strResourceType )
+    {
+        return _extendableResourceManager.getExtendableResourceService( strResourceType ).getResourceUrl( strIdResource, strResourceType );
     }
 }
