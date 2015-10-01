@@ -5,17 +5,17 @@
 	<input type="hidden" name="remove" value="${installed?string}">
 	<#if installed>
 		<#if unremovable?? && unremovable>
-			<button type="button" title="#i18n{extend.create_extender_from_resource.unremovableExtender}" class="btn btn-xs btn-flat btn-default">
-				<span class="badge badge-success"><i class="fa fa-check">&nbsp;</i></span>&nbsp;#i18n{extend.create_extender_from_resource.unremovableExtender}
+			<button type="button" title="#i18n{extend.create_extender_from_resource.unremovableExtender}" class="btn btn-xs btn-flat btn-link">
+				<span class="label label-success"><i class="fa fa-check"></i></span> #i18n{extend.create_extender_from_resource.unremovableExtender}
 			</button>
 		<#else>
-			<button type="submit" name="createExtenderFromResource" title="${labelRemove}" value="createExtenderFromResource"  class="btn btn-xs btn-flat btn-default">
-				<span class="badge badge-important"><i class="fa fa-close">&nbsp;</i></span>&nbsp;${labelRemove}
+			<button type="submit" name="createExtenderFromResource" title="${labelRemove}" value="createExtenderFromResource"  class="btn btn-xs btn-flat btn-link">
+				<span class="label label-danger"><i class="fa fa-close"></i></span> ${labelRemove}
 			</button>
 		</#if>
 	<#else>
-		<button type="submit" name="createExtenderFromResource" title="${labelAdd}" value="createExtenderFromResource"  class="btn btn-xs btn-flat btn-default" >
-			<span class="badge badge-info"><span class="fa fa-plus">&nbsp;</span></span>&nbsp;${labelAdd}
+		<button type="submit" name="createExtenderFromResource" title="${labelAdd}" value="createExtenderFromResource"  class="btn btn-xs btn-flat btn-link" >
+			<span class="label label-success"><i class="fa fa-plus"></i></span> ${labelAdd}
 		</button>
 	</#if>
 </#macro>

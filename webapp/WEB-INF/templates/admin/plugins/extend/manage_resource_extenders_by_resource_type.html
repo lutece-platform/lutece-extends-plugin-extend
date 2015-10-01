@@ -1,22 +1,8 @@
-<form class="form-inline"  action="jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp" method="post">
+<form class="form-inline" action="jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp" method="post">
 <input name="manageByResource" type="hidden" value="false">
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-primary">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{extend.manage_resource_extenders_by_resource_type.pageTitle}</h3>
-				<div class="box-tools">	
-						<#list resourceExtenderActions as resourceExtenderAction>
-							<#if resourceExtenderAction.buttonTemplate?has_content>
-								<div class="pull-right">
-									<#include resourceExtenderAction.buttonTemplate />
-								</div>
-							</#if>
-						</#list>
-					</form>
-				</div>
-			</div>
-			<div class="box-body">	
+		<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs">
 					<li>
 						<a href="jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp">#i18n{extend.manage_resource_extenders_by_resource.pageTitle}</a>
@@ -24,6 +10,13 @@
 					<li class="active">
 						<a href="jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp">#i18n{extend.manage_resource_extenders_by_resource_type.pageTitle}</a>
 					</li>
+					<#list resourceExtenderActions as resourceExtenderAction>
+						<#if resourceExtenderAction.buttonTemplate?has_content>
+							<li class="pull-right">
+								<#include resourceExtenderAction.buttonTemplate />
+							</li>
+						</#if>
+					</#list>
 				</ul>
 				<@paginationAdmin paginator=paginator combo=1 />
 				<table class="table table-hover table-condensed" summary="#i18n{extend.manage_resource_extenders_by_resource_type.pageTitle}">
@@ -51,18 +44,18 @@
 									<#if isExtenderStateEnable( listExtenders, resourceExtender.extenderType ) && resourceExtender.idExtendableResource?? >
 										<#if resourceExtender.isActive>
 											<a class="btn btn-xs btn-flat btn-danger" href="jsp/admin/plugins/extend/DisabledExtender.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{portal.util.labelDisabled}">
-												<i class="fa fa-stop">&nbsp;</i>
+												<i class="fa fa-stop"></i>
 											</a>
 										<#else>
 											<a class="btn btn-xs btn-flat btn-success" href="jsp/admin/plugins/extend/EnabledExtender.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{portal.util.labelEnabled}">
-												<i class="fa fa-play">&nbsp;</i>
+												<i class="fa fa-play"></i>
 											</a>
-										</#if>									
+										</#if>
 									</#if>
 									</#if>
 									<#if isAuthorized( resourceExtender.idExtender!, 'DELETE', mapActionPermissions! )>
 										<a class="btn btn-danger btn-xs btn-flat"  href="jsp/admin/plugins/extend/ConfirmRemoveResourceExtender.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{portal.util.labelDelete}">
-											<i class="fa fa-trash">&nbsp;</i>
+											<i class="fa fa-trash"></i>
 										</a>
 									</#if>
 								</td>
@@ -71,7 +64,6 @@
 					</#if>
 				</table>
 				<@paginationAdmin paginator=paginator />
-				</div>
 		</div>
 	</div>
 </div>
