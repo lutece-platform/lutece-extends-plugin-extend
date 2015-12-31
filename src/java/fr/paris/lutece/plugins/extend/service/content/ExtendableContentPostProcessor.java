@@ -92,6 +92,7 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
     @Inject
     private IStringMapper<ResourceExtenderDTO> _mapper;
     private String _strRegexPattern;
+    private Pattern _regexPattern;
     private String _strExtenderParameterRegexPattern;
 
     /**
@@ -102,6 +103,11 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
     public void setRegexPattern( String strRegexPattern )
     {
         _strRegexPattern = strRegexPattern;
+        if ( _regexPattern == null || !_regexPattern.pattern( ).equals( strRegexPattern ) )
+        {
+            Pattern pattern = Pattern.compile( strRegexPattern );
+            _regexPattern = pattern;
+        }
     }
 
     /**
@@ -173,8 +179,7 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
              */
 
             // 1) First parse the content of the markers
-            Pattern pattern = Pattern.compile( _strRegexPattern );
-            Matcher match = pattern.matcher( strHtmlContent );
+            Matcher match = _regexPattern.matcher( strHtmlContent );
 
             while ( match.find(  ) )
             {
