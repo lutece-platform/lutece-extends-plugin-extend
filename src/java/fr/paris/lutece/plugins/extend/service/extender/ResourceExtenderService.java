@@ -132,16 +132,10 @@ public class ResourceExtenderService implements IResourceExtenderService
     public boolean isAuthorized( String strIdExtendableResource, String strExtendableResourceType,
         String strExtenderType )
     {
-        // First check if the wildcard '*' is defined for this resourceType and extenderType
-        if ( isAuthorizedToAllResources( strExtendableResourceType, strExtenderType ) )
-        {
-            return true;
-        }
-
-        // If no wildcard, then check for this specific id
         ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType, strIdExtendableResource,
                 strExtendableResourceType );
         filter.setWideSearch( false );
+        filter.setIncludeWildcardResource( true );
 
         List<ResourceExtenderDTO> listResources = findByFilter( filter );
 
