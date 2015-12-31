@@ -137,7 +137,7 @@ public class ResourceExtenderService implements IResourceExtenderService
         filter.setWideSearch( false );
         filter.setIncludeWildcardResource( true );
 
-        List<ResourceExtenderDTO> listResources = findByFilter( filter );
+        List<Integer> listResources = findIdsByFilter( filter );
 
         return ( listResources != null ) && !listResources.isEmpty(  );
     }
