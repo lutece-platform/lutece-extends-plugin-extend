@@ -94,6 +94,7 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
     private String _strRegexPattern;
     private Pattern _regexPattern;
     private String _strExtenderParameterRegexPattern;
+    private Pattern _extendedParameterRegexPattern;
 
     /**
      * Sets the regex pattern.
@@ -118,6 +119,11 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
     public void setExtenderParameterRegexPattern( String strExtenderParameterRegexPattern )
     {
         _strExtenderParameterRegexPattern = strExtenderParameterRegexPattern;
+        if ( _extendedParameterRegexPattern == null || !_extendedParameterRegexPattern.pattern( ).equals( strExtenderParameterRegexPattern ) )
+        {
+            Pattern pattern = Pattern.compile( strExtenderParameterRegexPattern );
+            _extendedParameterRegexPattern = pattern;
+        }
     }
 
     /**
@@ -192,8 +198,7 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
 
                 if ( bParameteredId )
                 {
-                    Pattern parameterpattern = Pattern.compile( _strExtenderParameterRegexPattern );
-                    Matcher parameterMatch = parameterpattern.matcher( strHtmlContent );
+                    Matcher parameterMatch = _extendedParameterRegexPattern.matcher( strHtmlContent );
 
                     while ( parameterMatch.find(  ) )
                     {
