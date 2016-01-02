@@ -186,7 +186,8 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
 
             // 1) First parse the content of the markers
             Matcher match = _regexPattern.matcher( strHtmlContent );
-
+            Matcher parameterMatch = null;
+            StringBuffer strResultHTML = new StringBuffer( strHtmlContent.length( ) );
             while ( match.find(  ) )
             {
                 String strMarker = match.group(  );
@@ -198,7 +199,12 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
 
                 if ( bParameteredId )
                 {
-                    Matcher parameterMatch = _extendedParameterRegexPattern.matcher( strHtmlContent );
+                    if ( parameterMatch == null)
+                    {
+                        parameterMatch = _extendedParameterRegexPattern.matcher( strHtmlContent );
+                    } else {
+                        parameterMatch.reset( );
+                    }
 
                     while ( parameterMatch.find(  ) )
                     {
@@ -234,14 +240,15 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
                 }
 
                 // 4) Replace the markers by the html content
-                strHtmlContent = strHtmlContent.replaceAll( Pattern.quote( strMarker ),
-                        Matcher.quoteReplacement( strHtml ) );
+                match.appendReplacement( strResultHTML, Matcher.quoteReplacement( strHtml ) );
             }
+            match.appendTail( strResultHTML );
+            strHtmlContent = strResultHTML.toString( );
         }
 
         if ( StringUtils.isNotBlank( _strExtenderParameterRegexPattern ) )
         {
-            strHtmlContent = strHtmlContent.replaceAll( _strExtenderParameterRegexPattern, "" );
+            strHtmlContent = _extendedParameterRegexPattern.matcher( strHtmlContent ).replaceAll( "" );
         }
 
         return strHtmlContent;
