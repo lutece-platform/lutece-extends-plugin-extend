@@ -41,6 +41,7 @@ import fr.paris.lutece.plugins.extend.service.ExtendableResourceResourceIdServic
 import fr.paris.lutece.plugins.extend.service.IExtendableResourceManager;
 import fr.paris.lutece.plugins.extend.service.type.IExtendableResourceTypeService;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
@@ -58,28 +59,30 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * ResourceExtenderService
  *
  */
-
-/**
- *
- * ResourceExtenderService
- *
- */
-public class ResourceExtenderService implements IResourceExtenderService
+public class ResourceExtenderService extends AbstractCacheableService implements IResourceExtenderService
 {
     /** The Constant BEAN_SERVICE. */
     public static final String BEAN_SERVICE = "extend.resourceExtenderService";
+    private static final String CACHE_NAME = "Extender Service Cache";
     @Inject
     private IResourceExtenderDAO _extenderDAO;
     @Inject
     private IExtendableResourceTypeService _extendableResourceTypeService;
     @Inject
     private IExtendableResourceManager _extendableResourceManager;
+
+    /**
+     * Constructor. Inits the cache.
+     */
+    ResourceExtenderService(  )
+    {
+        initCache( getName( ) );
+    }
 
     /**
      * {@inheritDoc}
@@ -110,6 +113,7 @@ public class ResourceExtenderService implements IResourceExtenderService
                     Locale.getDefault(  ) ) != null ) )
         {
             _extenderDAO.store( extender, ExtendPlugin.getPlugin(  ) );
+            resetCache( );
         }
     }
 
@@ -121,6 +125,7 @@ public class ResourceExtenderService implements IResourceExtenderService
     public void remove( int nIdExtender )
     {
         _extenderDAO.delete( nIdExtender, ExtendPlugin.getPlugin(  ) );
+        resetCache( );
     }
 
     // CHECKS
@@ -132,14 +137,24 @@ public class ResourceExtenderService implements IResourceExtenderService
     public boolean isAuthorized( String strIdExtendableResource, String strExtendableResourceType,
         String strExtenderType )
     {
-        ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType, strIdExtendableResource,
-                strExtendableResourceType );
-        filter.setWideSearch( false );
-        filter.setIncludeWildcardResource( true );
+        String strKey = new StringBuilder( "Authorized_").append( strExtenderType ).append('_')
+                .append( strIdExtendableResource ).append('_').append( strExtendableResourceType ).toString( );
+        Boolean isAuthorized = ( Boolean ) getFromCache( strKey );
+        if ( isAuthorized == null )
+        {
+            ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType, strIdExtendableResource,
+                    strExtendableResourceType );
+            filter.setWideSearch( false );
+            filter.setIncludeWildcardResource( true );
 
-        List<Integer> listResources = findIdsByFilter( filter );
+            List<Integer> listResources = findIdsByFilter( filter );
 
-        return ( listResources != null ) && !listResources.isEmpty(  );
+            isAuthorized = ( listResources != null ) && !listResources.isEmpty(  );
+
+            putInCache( strKey, isAuthorized );
+        }
+
+        return isAuthorized;
     }
 
     /**
@@ -519,5 +534,11 @@ public class ResourceExtenderService implements IResourceExtenderService
             String strResourceType )
     {
         return _extendableResourceManager.getExtendableResourceService( strResourceType ).getResourceUrl( strIdResource, strResourceType );
+    }
+
+    @Override
+    public String getName( )
+    {
+        return CACHE_NAME;
     }
 }
