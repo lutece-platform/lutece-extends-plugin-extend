@@ -121,7 +121,7 @@ public interface IResourceExtenderService
     List<ResourceExtenderDTO> findByListIds( List<Integer> listIds );
 
     /**
-     * Find the resource extender that either has an ID.
+     * Find the resource extender.
      * @param strExtenderType the str extender type
      * @param strIdExtendableResource the str id extendable resource
      * @param strExtendableResourceType the str extendable resource type
@@ -138,6 +138,17 @@ public interface IResourceExtenderService
      * @return the resource extender dto
      */
     ResourceExtenderDTO findWildCardResourceExtender( String strExtenderType, String strExtendableResourceType );
+
+    /**
+     * Find the resource extender, or the wildcard resource extender if no
+     * extender with the specified id exists.
+     * @param strExtenderType the str extender type
+     * @param strIdExtendableResource the str id extendable resource
+     * @param strExtendableResourceType the str extendable resource type
+     * @return the resource extender dto
+     */
+    ResourceExtenderDTO findResourceExtenderIncludingWildcard( String strExtenderType, String strIdExtendableResource,
+        String strExtendableResourceType );
 
     /**
      * Gets the extender types.

@@ -46,6 +46,7 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.ReferenceList;
 
 import org.apache.commons.lang.StringUtils;
@@ -273,6 +274,50 @@ public class ResourceExtenderService extends AbstractCacheableService implements
         if ( ( listResources != null ) && ( listResources.size(  ) == 1 ) )
         {
             ResourceExtenderDTO resourceExtender = listResources.get( 0 );
+            resourceExtender.setName( getExtendableResourceName( resourceExtender ) );
+
+            return resourceExtender;
+        }
+
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ResourceExtenderDTO findResourceExtenderIncludingWildcard( String strExtenderType,
+            String strIdExtendableResource, String strExtendableResourceType )
+    {
+        ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType, strIdExtendableResource,
+                strExtendableResourceType );
+        filter.setWideSearch( false );
+        filter.setIncludeWildcardResource( true );
+
+        List<ResourceExtenderDTO> listResources = findByFilter( filter );
+
+        if ( listResources != null )
+        {
+            ResourceExtenderDTO resourceExtender;
+            if ( listResources.size(  ) == 1 )
+            {
+                resourceExtender = listResources.get( 0 );
+            } else if ( listResources.size(  ) == 2 )
+            {
+                if ( listResources.get( 0 ).getIdExtendableResource( ).equals( strIdExtendableResource ) )
+                {
+                    resourceExtender = listResources.get( 0 );
+                } else
+                {
+                    resourceExtender = listResources.get( 1 );
+                }
+            } else
+            {
+                AppLogService.error( "More than 2 ResourceExtenderDTO found for "
+                        + strExtenderType + "," + strIdExtendableResource + "," + strExtendableResourceType);
+                return null;
+            }
+
             resourceExtender.setName( getExtendableResourceName( resourceExtender ) );
 
             return resourceExtender;
