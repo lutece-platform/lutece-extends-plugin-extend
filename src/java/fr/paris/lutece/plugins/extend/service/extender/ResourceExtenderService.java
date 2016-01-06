@@ -289,41 +289,48 @@ public class ResourceExtenderService extends AbstractCacheableService implements
     public ResourceExtenderDTO findResourceExtenderIncludingWildcard( String strExtenderType,
             String strIdExtendableResource, String strExtendableResourceType )
     {
-        ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType, strIdExtendableResource,
-                strExtendableResourceType );
-        filter.setWideSearch( false );
-        filter.setIncludeWildcardResource( true );
+        String strKey = new StringBuilder( "ResourceExtenderDTO_").append( strExtenderType ).append('_')
+                .append( strIdExtendableResource ).append('_').append( strExtendableResourceType ).toString( );
 
-        List<ResourceExtenderDTO> listResources = findByFilter( filter );
+        ResourceExtenderDTO found = ( ResourceExtenderDTO ) getFromCache( strKey );
 
-        if ( listResources != null )
+        if ( found == null)
         {
-            ResourceExtenderDTO resourceExtender;
-            if ( listResources.size(  ) == 1 )
+            ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType, strIdExtendableResource,
+                    strExtendableResourceType );
+            filter.setWideSearch( false );
+            filter.setIncludeWildcardResource( true );
+
+            List<ResourceExtenderDTO> listResources = findByFilter( filter );
+
+            if ( listResources != null )
             {
-                resourceExtender = listResources.get( 0 );
-            } else if ( listResources.size(  ) == 2 )
-            {
-                if ( listResources.get( 0 ).getIdExtendableResource( ).equals( strIdExtendableResource ) )
+                if ( listResources.size(  ) == 1 )
                 {
-                    resourceExtender = listResources.get( 0 );
+                    found = listResources.get( 0 );
+                } else if ( listResources.size(  ) == 2 )
+                {
+                    if ( listResources.get( 0 ).getIdExtendableResource( ).equals( strIdExtendableResource ) )
+                    {
+                        found = listResources.get( 0 );
+                    } else
+                    {
+                        found = listResources.get( 1 );
+                    }
                 } else
                 {
-                    resourceExtender = listResources.get( 1 );
+                    AppLogService.error( "More than 2 ResourceExtenderDTO found for "
+                            + strExtenderType + "," + strIdExtendableResource + "," + strExtendableResourceType);
+                    return null;
                 }
-            } else
-            {
-                AppLogService.error( "More than 2 ResourceExtenderDTO found for "
-                        + strExtenderType + "," + strIdExtendableResource + "," + strExtendableResourceType);
-                return null;
+
+                found.setName( getExtendableResourceName( found ) );
+
+                putInCache( strKey, found );
             }
-
-            resourceExtender.setName( getExtendableResourceName( resourceExtender ) );
-
-            return resourceExtender;
         }
 
-        return null;
+        return found;
     }
 
     /**
