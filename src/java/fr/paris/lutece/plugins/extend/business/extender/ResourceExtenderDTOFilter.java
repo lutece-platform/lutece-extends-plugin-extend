@@ -64,6 +64,7 @@ public class ResourceExtenderDTOFilter implements Serializable
     private static final String SQL_FILTER_ID_EXTENDER = " id_extender = ? ";
     private static final String SQL_FILTER_EXTENDER_TYPE = " extender_type = ? ";
     private static final String SQL_FILTER_ID_RESOURCE = " id_resource = ? ";
+    private static final String SQL_FILTER_ID_RESOURCE_OR_WILDCARD = " id_resource IN ( ? , '" + WILDCARD_ID_RESOURCE + "' ) ";
     private static final String SQL_FILTER_RESOURCE_TYPE = " resource_type = ? ";
 
     // SQL ORDER BY
@@ -79,6 +80,7 @@ public class ResourceExtenderDTOFilter implements Serializable
     private boolean _bIsWideSearch;
     private String _strSortedAttributeName;
     private boolean _bIsAscSort;
+    private boolean _bIncludeWildcardResource;
 
     /**
      * Instantiates a new resource extender dto filter.
@@ -246,6 +248,25 @@ public class ResourceExtenderDTOFilter implements Serializable
     }
 
     /**
+     * Set <code>true</code> if the search should include the wildcard resource ID
+     * @param includeWildcardResource <code>true</code> if the search should include the wildcard resource ID
+     */
+    public void setIncludeWildcardResource( boolean includeWildcardResource )
+    {
+        _bIncludeWildcardResource = includeWildcardResource;
+    }
+
+    /**
+     * Should the search include the wildcard resource ID
+     * @return <code>true</code> if the search should include the wildcard resource ID,
+     * <code>false</code> otherwise
+     */
+    public boolean isIncludeWildcardResource(  )
+    {
+        return _bIncludeWildcardResource;
+    }
+
+    /**
      * Gets the sorted attribute name.
      *
      * @return the sorted attribute name
@@ -308,7 +329,13 @@ public class ResourceExtenderDTOFilter implements Serializable
 
         nIndex = buildFilter( sbSQL, containsFilterIdExtender(  ), SQL_FILTER_ID_EXTENDER, nIndex );
         nIndex = buildFilter( sbSQL, containsFilterExtenderType(  ), SQL_FILTER_EXTENDER_TYPE, nIndex );
-        nIndex = buildFilter( sbSQL, containsFilterIdExtendableResource(  ), SQL_FILTER_ID_RESOURCE, nIndex );
+        if ( isIncludeWildcardResource( ) )
+        {
+            nIndex = buildFilter( sbSQL, containsFilterIdExtendableResource(  ), SQL_FILTER_ID_RESOURCE_OR_WILDCARD, nIndex );
+        } else
+        {
+            nIndex = buildFilter( sbSQL, containsFilterIdExtendableResource(  ), SQL_FILTER_ID_RESOURCE, nIndex );
+        }
         buildFilter( sbSQL, containsFilterExtendableResourceType(  ), SQL_FILTER_RESOURCE_TYPE, nIndex );
 
         if ( containsAttributeName(  ) )

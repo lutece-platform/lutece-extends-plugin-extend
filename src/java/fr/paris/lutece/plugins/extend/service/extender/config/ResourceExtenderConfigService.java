@@ -114,14 +114,8 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
     @Override
     public <T> T find( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType )
     {
-        ResourceExtenderDTO resourceExtender = _extenderService.findResourceExtender( strExtenderType,
+        ResourceExtenderDTO resourceExtender = _extenderService.findResourceExtenderIncludingWildcard( strExtenderType,
                 strIdExtendableResource, strExtendableResourceType );
-
-        if ( resourceExtender == null )
-        {
-            // Check if the resource extender has an ID resource '*'
-            resourceExtender = _extenderService.findWildCardResourceExtender( strExtenderType, strExtendableResourceType );
-        }
 
         if ( resourceExtender != null )
         {
