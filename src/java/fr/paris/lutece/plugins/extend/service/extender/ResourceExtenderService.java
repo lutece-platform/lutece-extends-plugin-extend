@@ -41,7 +41,6 @@ import fr.paris.lutece.plugins.extend.service.ExtendableResourceResourceIdServic
 import fr.paris.lutece.plugins.extend.service.IExtendableResourceManager;
 import fr.paris.lutece.plugins.extend.service.type.IExtendableResourceTypeService;
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
@@ -65,25 +64,18 @@ import javax.servlet.http.HttpServletRequest;
  * ResourceExtenderService
  *
  */
-public class ResourceExtenderService extends AbstractCacheableService implements IResourceExtenderService
+public class ResourceExtenderService implements IResourceExtenderService
 {
     /** The Constant BEAN_SERVICE. */
     public static final String BEAN_SERVICE = "extend.resourceExtenderService";
-    private static final String CACHE_NAME = "Extender Service Cache";
     @Inject
     private IResourceExtenderDAO _extenderDAO;
     @Inject
     private IExtendableResourceTypeService _extendableResourceTypeService;
     @Inject
     private IExtendableResourceManager _extendableResourceManager;
-
-    /**
-     * Constructor. Inits the cache.
-     */
-    ResourceExtenderService(  )
-    {
-        initCache( getName( ) );
-    }
+    @Inject
+    private IResourceExtenderCacheService _extenderCache;
 
     /**
      * {@inheritDoc}
@@ -114,7 +106,7 @@ public class ResourceExtenderService extends AbstractCacheableService implements
                     Locale.getDefault(  ) ) != null ) )
         {
             _extenderDAO.store( extender, ExtendPlugin.getPlugin(  ) );
-            resetCache( );
+            _extenderCache.resetCache( );
         }
     }
 
@@ -126,7 +118,7 @@ public class ResourceExtenderService extends AbstractCacheableService implements
     public void remove( int nIdExtender )
     {
         _extenderDAO.delete( nIdExtender, ExtendPlugin.getPlugin(  ) );
-        resetCache( );
+        _extenderCache.resetCache( );
     }
 
     // CHECKS
@@ -140,7 +132,7 @@ public class ResourceExtenderService extends AbstractCacheableService implements
     {
         String strKey = new StringBuilder( "Authorized_").append( strExtenderType ).append('_')
                 .append( strIdExtendableResource ).append('_').append( strExtendableResourceType ).toString( );
-        Boolean isAuthorized = ( Boolean ) getFromCache( strKey );
+        Boolean isAuthorized = ( Boolean ) _extenderCache.getFromCache( strKey );
         if ( isAuthorized == null )
         {
             ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType, strIdExtendableResource,
@@ -152,7 +144,7 @@ public class ResourceExtenderService extends AbstractCacheableService implements
 
             isAuthorized = ( listResources != null ) && !listResources.isEmpty(  );
 
-            putInCache( strKey, isAuthorized );
+            _extenderCache.putInCache( strKey, isAuthorized );
         }
 
         return isAuthorized;
@@ -292,7 +284,7 @@ public class ResourceExtenderService extends AbstractCacheableService implements
         String strKey = new StringBuilder( "ResourceExtenderDTO_").append( strExtenderType ).append('_')
                 .append( strIdExtendableResource ).append('_').append( strExtendableResourceType ).toString( );
 
-        ResourceExtenderDTO found = ( ResourceExtenderDTO ) getFromCache( strKey );
+        ResourceExtenderDTO found = ( ResourceExtenderDTO ) _extenderCache.getFromCache( strKey );
 
         if ( found == null)
         {
@@ -326,7 +318,7 @@ public class ResourceExtenderService extends AbstractCacheableService implements
 
                 found.setName( getExtendableResourceName( found ) );
 
-                putInCache( strKey, found );
+                _extenderCache.putInCache( strKey, found );
             }
         }
 
@@ -588,9 +580,4 @@ public class ResourceExtenderService extends AbstractCacheableService implements
         return _extendableResourceManager.getExtendableResourceService( strResourceType ).getResourceUrl( strIdResource, strResourceType );
     }
 
-    @Override
-    public String getName( )
-    {
-        return CACHE_NAME;
-    }
 }

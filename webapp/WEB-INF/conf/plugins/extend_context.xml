@@ -24,6 +24,7 @@
 	<bean id="extend.createExtenderFromResourceAction" class="fr.paris.lutece.plugins.extend.web.action.CreateExtenderFromResourcePluginAction" />
 	
 	<!-- Services -->
+	<bean id="extend.resourceExtenderCacheService" class="fr.paris.lutece.plugins.extend.service.extender.ResourceExtenderCacheService" />
 	<bean id="extend.resourceExtenderService" class="fr.paris.lutece.plugins.extend.service.extender.ResourceExtenderService" />
 	<bean id="extend.extendableResourceTypeService" class="fr.paris.lutece.plugins.extend.service.type.ExtendableResourceTypeService" />
 	<bean id="extend.extenderStringMapper" class="fr.paris.lutece.plugins.extend.service.converter.ExtenderStringMapper"
