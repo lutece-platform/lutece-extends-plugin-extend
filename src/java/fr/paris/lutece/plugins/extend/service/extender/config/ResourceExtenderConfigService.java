@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.extend.service.extender.config;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.business.extender.config.IExtenderConfig;
 import fr.paris.lutece.plugins.extend.business.extender.config.IExtenderConfigDAO;
+import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderCacheService;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
@@ -56,6 +57,8 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
     private IExtenderConfigDAO<IExtenderConfig> _extenderConfigDAO;
     @Inject
     private IResourceExtenderService _extenderService;
+    @Inject
+    private IResourceExtenderCacheService _extenderCache;
 
     /**
      * Set the extender config DAO
@@ -87,6 +90,7 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
         if ( config != null )
         {
             _extenderConfigDAO.store( config );
+            _extenderCache.removeKey( getCacheKey( config.getIdExtender( ) ) );
         }
     }
 
@@ -97,6 +101,7 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
     public void remove( int nIdExtender )
     {
         _extenderConfigDAO.delete( nIdExtender );
+        _extenderCache.removeKey( getCacheKey( nIdExtender ) );
     }
 
     /**
@@ -105,7 +110,24 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
     @Override
     public <T> T find( int nIdExtender )
     {
-        return getConfigBean( _extenderConfigDAO.load( nIdExtender ) );
+        String strKey = getCacheKey( nIdExtender );
+        IExtenderConfig config = ( IExtenderConfig ) _extenderCache.getFromCache( strKey );
+        if ( config == null )
+        {
+            config = _extenderConfigDAO.load( nIdExtender );
+            _extenderCache.putInCache( strKey, config );
+        }
+        return getConfigBean( config );
+    }
+
+    /**
+     * Get a cache key for the extender config
+     * @param nIdExtender id of the extender
+     * @return the cache key
+     */
+    private String getCacheKey( int nIdExtender )
+    {
+        return new StringBuilder( "ExtenderConfig_" ).append( nIdExtender ).toString( );
     }
 
     /**

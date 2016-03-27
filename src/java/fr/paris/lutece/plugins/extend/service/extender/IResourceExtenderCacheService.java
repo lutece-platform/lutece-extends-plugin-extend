@@ -55,4 +55,10 @@ public interface IResourceExtenderCacheService extends CacheableService
      */
     void putInCache( String strKey, Object value );
 
+    /**
+     * Removes a cache element
+     * @param strKey the key
+     */
+    void removeKey( String strKey );
+
 }
