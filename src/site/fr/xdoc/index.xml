@@ -1,15 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document>
-	<properties>
-		<title>Plugin Social Hub</title>
-	</properties>
-	<body>
-		<section name="Plugin Extend">
-			<subsection name="Introduction">
-				<p>
-					Ce plugin permet aux internautes d'interagir avec les ressources d'un portail Lut&#232;ce.
-				</p>
-			</subsection>
-		</section>
-	</body>
+    <properties>
+        <title>Plugin Extend</title>
+    </properties>
+    <body>
+        <section name="Plugin Extend">
+            <subsection name="Introduction">
+                <p>
+                    Ce plugin permet d'associer des extensions génériques (ajout de commentaires, notation, comptage de vues , ...)
+                    à des ressources (pages du site, documents , ...).
+                </p>
+                <p>
+                    Les ressources pouvant accepter des extensions doivent respecter certaines contraintes techniques de manière à être "extensibles". 
+                </p>
+                <p>
+                    Le plugin propose une interface de Back Office qui permet d'associer dynamiquement tous les types de ressource trouvés avec 
+                    toutes les extensions installées et disponibles sur le système. Une extension peut être associée à toutes les ressources d'un type donné
+                    ou à une instance particulière définie par son identifiant. 
+                </p>
+                <p>
+                    <b>Exemple :</b> On peut activer les commentaires sur une page particulière du site et 
+                    prévoir le comptage de vues sur toutes les pages. 
+                </p>
+            </subsection>
+            <subsection name="Extensions disponibles">
+                <p>
+                <ul>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-actionbar">module-extend-actionbar</a> Ajout d'une barre d'action.
+                    </li>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-follow">module-extend-follow</a> Ajout d'une barre d'action.
+                    </li>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-comment-extendable">module-extend-comment-extendable</a> Ajout de commentaires multi-niveaux.
+                    </li>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-comment">module-extend-comment</a> Ajout d'un commentaires simples
+                    </li>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-rating">module-extend-rating</a> Ajout d'une notation de 1 à 5 étoiles.
+                    </li>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-opengraph">module-extend-opengraph</a> Ajout des tags HTML Opengraph pour faciliter l'intégration avec les réseaux sociaux
+                    </li>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-statistics">module-extend-statistics</a> Ajout de fonctions statistiques.
+                    </li>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-feedback">module-extend-feedback</a> Ajout d'un retour utilisateur.
+                    </li>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-actionhit">module-extend-actionhit</a> Ajout du comptage du nombre de vues.
+                    </li>
+                </ul>
+                </p>
+            </subsection>
+            <subsection name="Intégration">
+                L'intégration des extensions nécessite l'ajout de signets Freemarker dans le template d'affichage de la ressource.
+                Pour plus d'information, consulter la documentation du Wiki et celles des extensions. 
+            </subsection>            
+        </section>
+    </body>
 </document>

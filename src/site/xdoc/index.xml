@@ -1,15 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document>
-	<properties>
-		<title>Plugin Social Hub</title>
-	</properties>
-	<body>
-		<section name="Plugin Social Hub">
-			<subsection name="Introduction">
-				<p>
-					This plugin is used to interact with the resoureces of a Lutece portal.
-				</p>
-			</subsection>
-		</section>
-	</body>
+    <properties>
+        <title>Plugin Social Hub</title>
+    </properties>
+    <body>
+        <section name = "Plugin Extend">
+            <subsection name = "Introduction">
+                <p>
+                    This plugin allows to associate generic extensions (add comments, ratings, views count ...)
+                    to resources (site pages, documents, ...).
+                </p>
+                <p>
+                    Resources that can accept extensions must meet certain technical requirements in order to be "extendable".
+                </p>
+                <p>
+                    The plugin offers a back office interface to dynamically combine all resource types found with
+                    all installed extensions and available on the system. An extension can be associated with all the resources of a given type
+                    or to a particular instance defined by its identifier.
+                </p>
+                <p>
+                    <b> Example: </b> You can enable comments on a particular page of the website and
+                    display the count of views on all pages.
+                </p>
+            </subsection>
+            <subsection name = "Available extensions">
+                <p>
+                <ul>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-actionbar">module-extend-actionbar</a> Add an action bar.
+                    </li>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-follow">module-extend-follow</a> Add a follow button.
+                    </li>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-comment-extendable">module-extend-comment-extendable</a> Add multi-level comments.
+                    </li>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-comment">module-extend-comment</a> Add simple comments
+                    </li>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-rating">module-extend-rating</a> Add a rating of 1 to 5 stars.
+                    </li>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-opengraph">module-extend-opengraph</a> Add HTML tags OpenGraph to facilitate integration with social networks
+                    </li>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-statistics">module-extend-statistics</a> Add statistical functions.
+                    </li>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-feedback">module-extend-feedback</a> Add a user feedback.
+                    </li>
+                    <li>
+                        <a href="https://github.com/lutece-platform/lutece-extends-module-extend-actionhit">module-extend-actionhit</a> Add the number of views.
+                    </li>
+                </ul>
+                </p>
+            </subsection>
+            <subsection name = "Integration">
+                The integration of extensions require the addition of Freemarker bookmarks in the template of the resource view.
+                For more information, consult the documentation of the Wiki and those extensions.
+            </subsection>            
+        </section>
+    </body>
 </document>
