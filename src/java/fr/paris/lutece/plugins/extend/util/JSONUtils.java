@@ -33,11 +33,11 @@
  */
 package fr.paris.lutece.plugins.extend.util;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
-
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
-
+import fr.paris.lutece.portal.service.util.AppException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  *
@@ -46,6 +46,7 @@ import net.sf.json.JSONObject;
  */
 public final class JSONUtils
 {
+	private static ObjectMapper _mapper = new ObjectMapper( ).configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     /**
      * Instantiates a new jSON utils.
      */
@@ -59,17 +60,19 @@ public final class JSONUtils
      * @param strParameters the str parameters
      * @return the jSON object
      */
-    public static JSONObject parseParameters( String strParameters )
+    public static JsonNode parseParameters( String strParameters )
     {
-        try
-        {
-            return JSONObject.fromObject( strParameters );
-        }
-        catch ( JSONException je )
-        {
-            AppLogService.error( je.getMessage(  ), je );
-        }
+  
+            try 
+            {
+				return _mapper.readTree( strParameters );
+			}
+            catch (JsonProcessingException e)
+            {
+				throw new AppException("JSON processing exception", e);
+			}
 
-        return null;
+
+
     }
 }

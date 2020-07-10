@@ -44,10 +44,9 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
-
 import org.apache.commons.lang.StringUtils;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -65,146 +64,134 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class HitResourceExtenderComponent extends NoConfigResourceExtenderComponent
 {
-    // MARKS
-    private static final String MARK_HIT = "hit";
+	// MARKS
+	private static final String MARK_HIT = "hit";
 
-    // TEMPLATES
-    private static final String TEMPLATE_HIT = "skin/plugins/extend/modules/hit/hit.html";
-    private static final String TEMPLATE_INFO = "admin/plugins/extend/modules/hit/hit_info.html";
+	// TEMPLATES
+	private static final String TEMPLATE_HIT = "skin/plugins/extend/modules/hit/hit.html";
+	private static final String TEMPLATE_INFO = "admin/plugins/extend/modules/hit/hit_info.html";
 
-    // CONSTANTS
-    private static final String JSON_KEY_SHOW = "show";
-    private static final String JSON_KEY_INCREMENT = "increment";
-    
-    // SERVICES
-    @Inject
-    private IHitService _hitService;
-    @Inject
-    private IResourceExtenderHistoryService _resourceHistoryService;
+	// CONSTANTS
+	private static final String JSON_KEY_SHOW = "show";
+	private static final String JSON_KEY_INCREMENT = "increment";
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void buildXmlAddOn( String strIdExtendableResource, String strExtendableResourceType, String strParameters,
-        StringBuffer strXml )
-    {
-        // Nothing yet
-    }
+	// SERVICES
+	@Inject
+	private IHitService _hitService;
+	@Inject
+	private IResourceExtenderHistoryService _resourceHistoryService;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getPageAddOn( String strIdExtendableResource, String strExtendableResourceType, String strParameters,
-        HttpServletRequest request )
-    {
-        Hit hit = _hitService.findByParameters( strIdExtendableResource, strExtendableResourceType );
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void buildXmlAddOn( String strIdExtendableResource, String strExtendableResourceType, String strParameters,
+			StringBuffer strXml )
+	{
+		// Nothing yet
+	}
 
-        if ( hit == null )
-        {
-            hit = new Hit(  );
-            hit.setIdExtendableResource( strIdExtendableResource );
-            hit.setExtendableResourceType( strExtendableResourceType );
-            // By default, start hit at 0
-            hit.setNbHits( 0 );
-            _hitService.create( hit );
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getPageAddOn( String strIdExtendableResource, String strExtendableResourceType, String strParameters,
+			HttpServletRequest request )
+	{
+		Hit hit = _hitService.findByParameters( strIdExtendableResource, strExtendableResourceType );
 
-        if (incrementInfo(strParameters))
-        {
-            _hitService.incrementHit( hit );
-        }
-        
+		if ( hit == null )
+		{
+			hit = new Hit(  );
+			hit.setIdExtendableResource( strIdExtendableResource );
+			hit.setExtendableResourceType( strExtendableResourceType );
+			// By default, start hit at 0
+			hit.setNbHits( 0 );
+			_hitService.create( hit );
+		}
 
-        // Add to the resource extender history
-        _resourceHistoryService.create( HitResourceExtender.EXTENDER_TYPE, strIdExtendableResource,
-            strExtendableResourceType, request );
+		if (incrementInfo(strParameters))
+		{
+			_hitService.incrementHit( hit );
+		}
 
-        if ( showInFO( strParameters ) )
-        {
-            Map<String, Object> model = new HashMap<String, Object>(  );
-            model.put( MARK_HIT, hit );
 
-            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_HIT, request.getLocale(  ), model );
+		// Add to the resource extender history
+		_resourceHistoryService.create( HitResourceExtender.EXTENDER_TYPE, strIdExtendableResource,
+				strExtendableResourceType, request );
 
-            return template.getHtml(  );
-        }
+		if ( showInFO( strParameters ) )
+		{
+			Map<String, Object> model = new HashMap<>(  );
+			model.put( MARK_HIT, hit );
 
-        return StringUtils.EMPTY;
-    }
+			HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_HIT, request.getLocale(  ), model );
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getInfoHtml( ResourceExtenderDTO resourceExtender, Locale locale, HttpServletRequest request )
-    {
-        Hit hit = _hitService.findByParameters( resourceExtender.getIdExtendableResource(  ),
-                resourceExtender.getExtendableResourceType(  ) );
+			return template.getHtml(  );
+		}
 
-        if ( hit != null )
-        {
-            Map<String, Object> model = new HashMap<String, Object>(  );
-            model.put( MARK_HIT, hit );
+		return StringUtils.EMPTY;
+	}
 
-            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_INFO, locale, model );
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getInfoHtml( ResourceExtenderDTO resourceExtender, Locale locale, HttpServletRequest request )
+	{
+		Hit hit = _hitService.findByParameters( resourceExtender.getIdExtendableResource(  ),
+				resourceExtender.getExtendableResourceType(  ) );
 
-            return template.getHtml(  );
-        }
+		if ( hit != null )
+		{
+			Map<String, Object> model = new HashMap<>(  );
+			model.put( MARK_HIT, hit );
 
-        return StringUtils.EMPTY;
-    }
+			HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_INFO, locale, model );
 
-    /**
-    * Show in fo.
-    *
-    * @param strParameters the str parameters
-    * @return true, if successful
-    */
-    private boolean showInFO( String strParameters )
-    {
-        boolean bShow = true;
-        JSONObject jsonParameters = JSONUtils.parseParameters( strParameters );
+			return template.getHtml(  );
+		}
 
-        if ( jsonParameters != null )
-        {
-            try
-            {
-                bShow = jsonParameters.getBoolean( JSON_KEY_SHOW );
-            }
-            catch ( JSONException je )
-            {
-                AppLogService.debug( je.getMessage(  ), je );
-            }
-        }
+		return StringUtils.EMPTY;
+	}
 
-        return bShow;
-    }
-    
-    /**
-     * request increment of hit 
-     *
-     * @param strParameters the str parameters
-     * @return true, if successful
-     */
-     private boolean incrementInfo( String strParameters )
-     {
-         boolean bIncrement = true;
-         JSONObject jsonParameters = JSONUtils.parseParameters( strParameters );
+	/**
+	 * Show in fo.
+	 *
+	 * @param strParameters the str parameters
+	 * @return true, if successful
+	 */
+	private boolean showInFO( String strParameters )
+	{
+		boolean bShow = true;
+		JsonNode jsonParameters = JSONUtils.parseParameters( strParameters );
 
-         if ( jsonParameters != null )
-         {
-             try
-             {
-            	 bIncrement  = jsonParameters.getBoolean( JSON_KEY_INCREMENT );
-             }
-             catch ( JSONException je )
-             {
-                 AppLogService.debug( je.getMessage(  ), je );
-             }
-         }
+		if ( jsonParameters != null )
+		{
 
-         return bIncrement;
-     }
+			bShow = jsonParameters.get( JSON_KEY_SHOW ).booleanValue( );
+
+		}
+
+		return bShow;
+	}
+
+	/**
+	 * request increment of hit 
+	 *
+	 * @param strParameters the str parameters
+	 * @return true, if successful
+	 */
+	private boolean incrementInfo( String strParameters )
+	{
+		boolean bIncrement = true;
+		JsonNode jsonParameters = JSONUtils.parseParameters( strParameters );
+
+		if ( jsonParameters != null )
+		{
+			bIncrement  = jsonParameters.get( JSON_KEY_INCREMENT ).booleanValue( );
+		}
+
+		return bIncrement;
+	}
 }
