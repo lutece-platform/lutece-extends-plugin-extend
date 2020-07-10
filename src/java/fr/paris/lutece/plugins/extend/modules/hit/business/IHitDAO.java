@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 
 import java.util.List;
 
-
 /**
  * IInteractionHitDAO.
  */
@@ -46,41 +45,52 @@ public interface IHitDAO
     /**
      * Insert.
      *
-     * @param hit the hit
-     * @param plugin the plugin
+     * @param hit
+     *            the hit
+     * @param plugin
+     *            the plugin
      */
     void insert( Hit hit, Plugin plugin );
 
     /**
      * Update.
      *
-     * @param hit the hit
-     * @param plugin the plugin
+     * @param hit
+     *            the hit
+     * @param plugin
+     *            the plugin
      */
     void store( Hit hit, Plugin plugin );
 
     /**
      * Delete.
      *
-     * @param nIdHit the n id hit
-     * @param plugin the plugin
+     * @param nIdHit
+     *            the n id hit
+     * @param plugin
+     *            the plugin
      */
     void delete( int nIdHit, Plugin plugin );
 
     /**
      * Delete hits of a given resource
      *
-     * @param strIdResource the id of the resource, or a wildcare to remove all
-     * @param strResourceType The resource type to delete
-     * @param plugin the plugin
+     * @param strIdResource
+     *            the id of the resource, or a wildcare to remove all
+     * @param strResourceType
+     *            The resource type to delete
+     * @param plugin
+     *            the plugin
      */
     void deleteByResource( String strIdResource, String strResourceType, Plugin plugin );
 
     /**
      * Load.
      *
-     * @param nIdHit the n id hit
-     * @param plugin the plugin
+     * @param nIdHit
+     *            the n id hit
+     * @param plugin
+     *            the plugin
      * @return the hit
      */
     Hit load( int nIdHit, Plugin plugin );
@@ -88,23 +98,28 @@ public interface IHitDAO
     /**
      * Load by id extender.
      *
-     * @param strIdExtendableResource the str id extendable resource
-     * @param strExtendableResourceType the str extendable resource type
-     * @param plugin the plugin
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
+     * @param plugin
+     *            the plugin
      * @return the hit
      */
     Hit loadByParameters( String strIdExtendableResource, String strExtendableResourceType, Plugin plugin );
 
     /**
      * Get the ids of resources ordered by their number of hits
-     * @param strExtendableResourceType The type of resources to consider
-     * @param nItemsOffset The offset of the items to get, or 0 to get items
-     *            from the first one
-     * @param nMaxItemsNumber The maximum number of items to return, or 0 to get
-     *            every items
-     * @param plugin the plugin
+     * 
+     * @param strExtendableResourceType
+     *            The type of resources to consider
+     * @param nItemsOffset
+     *            The offset of the items to get, or 0 to get items from the first one
+     * @param nMaxItemsNumber
+     *            The maximum number of items to return, or 0 to get every items
+     * @param plugin
+     *            the plugin
      * @return The list of ids of resources ordered by the number hits
      */
-    List<Integer> findIdMostHitedResources( String strExtendableResourceType, int nItemsOffset, int nMaxItemsNumber,
-        Plugin plugin );
+    List<Integer> findIdMostHitedResources( String strExtendableResourceType, int nItemsOffset, int nMaxItemsNumber, Plugin plugin );
 }

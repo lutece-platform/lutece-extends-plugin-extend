@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.rbac.RBACResource;
 
 import javax.validation.constraints.NotNull;
 
-
 /**
  *
  * ResourceExtenderDTO
@@ -61,13 +60,14 @@ public class ResourceExtenderDTO implements RBACResource
     /**
      * @return the nIdExtender
      */
-    public int getIdExtender(  )
+    public int getIdExtender( )
     {
         return _nIdExtender;
     }
 
     /**
-     * @param nIdExtender the nIdExtender to set
+     * @param nIdExtender
+     *            the nIdExtender to set
      */
     public void setIdExtender( int nIdExtender )
     {
@@ -77,13 +77,14 @@ public class ResourceExtenderDTO implements RBACResource
     /**
      * @return the strExtenderType
      */
-    public String getExtenderType(  )
+    public String getExtenderType( )
     {
         return _strExtenderType;
     }
 
     /**
-     * @param strExtenderType the strExtenderType to set
+     * @param strExtenderType
+     *            the strExtenderType to set
      */
     public void setExtenderType( String strExtenderType )
     {
@@ -93,13 +94,14 @@ public class ResourceExtenderDTO implements RBACResource
     /**
      * @return the strIdExtendableResource
      */
-    public String getIdExtendableResource(  )
+    public String getIdExtendableResource( )
     {
         return _strIdExtendableResource;
     }
 
     /**
-     * @param strIdExtendableResource the strIdExtendableResource to set
+     * @param strIdExtendableResource
+     *            the strIdExtendableResource to set
      */
     public void setIdExtendableResource( String strIdExtendableResource )
     {
@@ -109,13 +111,14 @@ public class ResourceExtenderDTO implements RBACResource
     /**
      * @return the extendableResourceType
      */
-    public String getExtendableResourceType(  )
+    public String getExtendableResourceType( )
     {
         return _strExtendableResourceType;
     }
 
     /**
-     * @param strExtendableResourceType the extendableResourceType to set
+     * @param strExtendableResourceType
+     *            the extendableResourceType to set
      */
     public void setExtendableResourceType( String strExtendableResourceType )
     {
@@ -125,13 +128,14 @@ public class ResourceExtenderDTO implements RBACResource
     /**
      * @return the strParameters
      */
-    public String getParameters(  )
+    public String getParameters( )
     {
         return _strParameters;
     }
 
     /**
-     * @param strParameters the strParameters to set
+     * @param strParameters
+     *            the strParameters to set
      */
     public void setParameters( String strParameters )
     {
@@ -142,23 +146,23 @@ public class ResourceExtenderDTO implements RBACResource
      * {@inheritDoc}
      */
     @Override
-    public String toString(  )
+    public String toString( )
     {
-        return "ResourceExtenderDTO [_nIdExtender=" + _nIdExtender + ", _strExtenderType=" + _strExtenderType +
-        ", _strIdExtendableResource=" + _strIdExtendableResource + ", _strExtendableResourceType=" +
-        _strExtendableResourceType + ", _strParameters=" + _strParameters + "]";
+        return "ResourceExtenderDTO [_nIdExtender=" + _nIdExtender + ", _strExtenderType=" + _strExtenderType + ", _strIdExtendableResource="
+                + _strIdExtendableResource + ", _strExtendableResourceType=" + _strExtendableResourceType + ", _strParameters=" + _strParameters + "]";
     }
 
     /**
      * @return the strName
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
 
     /**
-     * @param strName the strName to set
+     * @param strName
+     *            the strName to set
      */
     public void setName( String strName )
     {
@@ -169,7 +173,7 @@ public class ResourceExtenderDTO implements RBACResource
      * {@inheritDoc}
      */
     @Override
-    public String getResourceTypeCode(  )
+    public String getResourceTypeCode( )
     {
         return RESOURCE_TYPE;
     }
@@ -178,7 +182,7 @@ public class ResourceExtenderDTO implements RBACResource
      * {@inheritDoc}
      */
     @Override
-    public String getResourceId(  )
+    public String getResourceId( )
     {
         return Integer.toString( _nIdExtender );
     }
@@ -186,13 +190,14 @@ public class ResourceExtenderDTO implements RBACResource
     /**
      * @return the _bIsActive
      */
-    public boolean isIsActive(  )
+    public boolean isIsActive( )
     {
         return _bIsActive;
     }
 
     /**
-     * @param bIsActive the _bIsActive to set
+     * @param bIsActive
+     *            the _bIsActive to set
      */
     public void setIsActive( boolean bIsActive )
     {

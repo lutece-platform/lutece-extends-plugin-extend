@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,14 +58,12 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  *
  * CreateExtenderFromResourcePluginAction
  *
  */
-public class CreateExtenderFromResourcePluginAction extends AbstractPluginAction<IExtendableResource>
-    implements IExtendableResourcePluginAction
+public class CreateExtenderFromResourcePluginAction extends AbstractPluginAction<IExtendableResource> implements IExtendableResourcePluginAction
 {
     private static final String ACTION_NAME = "Create extender from the resource";
 
@@ -116,9 +114,8 @@ public class CreateExtenderFromResourcePluginAction extends AbstractPluginAction
         String strExtendableResourceType = (String) model.get( ExtendableResourcePluginActionManager.MARK_EXTENDABLE_RESOURCE_TYPE );
 
         // TODO : Display the action only if the user has the permission
-        model.put( MARK_EXTENDER_TYPES, _resourceExtenderService.getExtenderTypes( request.getLocale(  ) ) );
-        model.put( MARK_EXTENDER_TYPES_INSTALLED,
-            _resourceExtenderService.getExtenderTypesInstalled( strIdExtendableResource, strExtendableResourceType,
+        model.put( MARK_EXTENDER_TYPES, _resourceExtenderService.getExtenderTypes( request.getLocale( ) ) );
+        model.put( MARK_EXTENDER_TYPES_INSTALLED, _resourceExtenderService.getExtenderTypesInstalled( strIdExtendableResource, strExtendableResourceType,
                 PluginService.getPlugin( ExtendPlugin.PLUGIN_NAME ) ) );
     }
 
@@ -126,7 +123,7 @@ public class CreateExtenderFromResourcePluginAction extends AbstractPluginAction
      * {@inheritDoc}
      */
     @Override
-    public String getButtonTemplate(  )
+    public String getButtonTemplate( )
     {
         return null;
     }
@@ -135,7 +132,7 @@ public class CreateExtenderFromResourcePluginAction extends AbstractPluginAction
      * {@inheritDoc}
      */
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return ACTION_NAME;
     }
@@ -144,24 +141,24 @@ public class CreateExtenderFromResourcePluginAction extends AbstractPluginAction
      * {@inheritDoc}
      */
     @Override
-    public IPluginActionResult process( HttpServletRequest request, HttpServletResponse response, AdminUser adminUser,
-        IExtendableResource sessionFields ) throws AccessDeniedException
+    public IPluginActionResult process( HttpServletRequest request, HttpServletResponse response, AdminUser adminUser, IExtendableResource sessionFields )
+            throws AccessDeniedException
     {
         // TODO : Check if the current user has the permission to do the action
         UrlItem url;
 
-        if ( Boolean.valueOf( request.getParameter( PARAMETER_REMOVE ) ) )
+        if ( Boolean.parseBoolean( request.getParameter( PARAMETER_REMOVE ) ) )
         {
             url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL_REMOVE );
 
-            ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter(  );
+            ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( );
             filter.setFilterIdExtendableResource( request.getParameter( PARAMETER_ID_EXTENDABLE_RESOURCE ) );
             filter.setFilterExtendableResourceType( request.getParameter( PARAMETER_EXTENDABLE_RESOURCE_TYPE ) );
             filter.setFilterExtenderType( request.getParameter( PARAMETER_EXTENDER_TYPE ) );
 
             List<Integer> listIdExtender = _resourceExtenderService.findIdsByFilter( filter );
 
-            if ( ( listIdExtender != null ) && ( listIdExtender.size(  ) == 1 ) )
+            if ( ( listIdExtender != null ) && ( listIdExtender.size( ) == 1 ) )
             {
                 url.addParameter( PARAMETER_ID_EXTENDER, listIdExtender.get( 0 ) );
             }
@@ -171,22 +168,18 @@ public class CreateExtenderFromResourcePluginAction extends AbstractPluginAction
             url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL );
             url.addParameter( PARAMETER_EXTENDER_TYPE, request.getParameter( PARAMETER_EXTENDER_TYPE ) );
             url.addParameter( PARAMETER_ID_EXTENDABLE_RESOURCE, request.getParameter( PARAMETER_ID_EXTENDABLE_RESOURCE ) );
-            url.addParameter( PARAMETER_EXTENDABLE_RESOURCE_TYPE,
-                request.getParameter( PARAMETER_EXTENDABLE_RESOURCE_TYPE ) );
+            url.addParameter( PARAMETER_EXTENDABLE_RESOURCE_TYPE, request.getParameter( PARAMETER_EXTENDABLE_RESOURCE_TYPE ) );
             // Add filter parameters in order
             url.addParameter( PARAMETER_FILTER_EXTENDER_TYPE, request.getParameter( PARAMETER_EXTENDER_TYPE ) );
-            url.addParameter( PARAMETER_FILTER_ID_EXTENDABLE_RESOURCE,
-                request.getParameter( PARAMETER_ID_EXTENDABLE_RESOURCE ) );
-            url.addParameter( PARAMETER_FILTER_EXTENDABLE_RESOURCE_TYPE,
-                request.getParameter( PARAMETER_EXTENDABLE_RESOURCE_TYPE ) );
+            url.addParameter( PARAMETER_FILTER_ID_EXTENDABLE_RESOURCE, request.getParameter( PARAMETER_ID_EXTENDABLE_RESOURCE ) );
+            url.addParameter( PARAMETER_FILTER_EXTENDABLE_RESOURCE_TYPE, request.getParameter( PARAMETER_EXTENDABLE_RESOURCE_TYPE ) );
             url.addParameter( PARAMETER_SEARCH, PARAMETER_SEARCH );
         }
 
-        url.addParameter( PARAMETER_FROM_URL,
-            StringUtils.replace( request.getHeader( PARAMETER_REFERER ), CONSTANT_AND, CONSTANT_AND_HTML ) );
+        url.addParameter( PARAMETER_FROM_URL, StringUtils.replace( request.getHeader( PARAMETER_REFERER ), CONSTANT_AND, CONSTANT_AND_HTML ) );
 
-        DefaultPluginActionResult result = new DefaultPluginActionResult(  );
-        result.setRedirect( url.getUrl(  ) );
+        DefaultPluginActionResult result = new DefaultPluginActionResult( );
+        result.setRedirect( url.getUrl( ) );
 
         return result;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,14 +33,14 @@
  */
 package fr.paris.lutece.plugins.extend.util;
 
-
 /**
  *
  * OperatorEnum
  *
  */
 public enum OperatorEnum
-{EQUAL( 0, "=" ),
+{
+    EQUAL( 0, "=" ),
     GREATER( 1, ">" ),
     LOWER( 2, "<" ),
     GREATER_OR_EQUAL( 3, ">=" ),
@@ -51,8 +51,11 @@ public enum OperatorEnum
 
     /**
      * Constructor
-     * @param nId the id of the operator
-     * @param strOperator the string value of the operator
+     * 
+     * @param nId
+     *            the id of the operator
+     * @param strOperator
+     *            the string value of the operator
      */
     private OperatorEnum( int nId, String strOperator )
     {
@@ -62,18 +65,21 @@ public enum OperatorEnum
 
     /**
      * Get the id of the operator
+     * 
      * @return the id of the operator
      */
-    public int getId(  )
+    public int getId( )
     {
         return _nId;
     }
 
     /**
      * Get the String value of the operator
+     * 
      * @return the String value of the operator
      */
-    public String toString(  )
+    @Override
+    public String toString( )
     {
         return _strOperator;
     }

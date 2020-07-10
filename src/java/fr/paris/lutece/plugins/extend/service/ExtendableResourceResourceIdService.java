@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,6 @@ import org.apache.commons.lang.StringUtils;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  *
  * ExtendableResourceResourceIdService
@@ -79,7 +78,7 @@ public class ExtendableResourceResourceIdService extends ResourceIdService
     /**
      * Instantiates a new resource type resource id service.
      */
-    public ExtendableResourceResourceIdService(  )
+    public ExtendableResourceResourceIdService( )
     {
         setPluginName( ExtendPlugin.PLUGIN_NAME );
     }
@@ -88,30 +87,30 @@ public class ExtendableResourceResourceIdService extends ResourceIdService
      * {@inheritDoc}
      */
     @Override
-    public void register(  )
+    public void register( )
     {
-        ResourceType rt = new ResourceType(  );
-        rt.setResourceIdServiceClass( ExtendableResourceResourceIdService.class.getName(  ) );
+        ResourceType rt = new ResourceType( );
+        rt.setResourceIdServiceClass( ExtendableResourceResourceIdService.class.getName( ) );
         rt.setPluginName( ExtendPlugin.PLUGIN_NAME );
         rt.setResourceTypeKey( ResourceExtenderDTO.RESOURCE_TYPE );
         rt.setResourceTypeLabelKey( PROPERTY_LABEL_RESOURCE_TYPE );
 
-        Permission p = new Permission(  );
+        Permission p = new Permission( );
         p.setPermissionKey( PERMISSION_MODIFY_CONFIGURATION );
         p.setPermissionTitleKey( PROPERTY_LABEL_MODIFY_CONFIGURATION );
         rt.registerPermission( p );
 
-        p = new Permission(  );
+        p = new Permission( );
         p.setPermissionKey( PERMISSION_VIEW_INFO );
         p.setPermissionTitleKey( PROPERTY_LABEL_VIEW_INFO );
         rt.registerPermission( p );
 
-        p = new Permission(  );
+        p = new Permission( );
         p.setPermissionKey( PERMISSION_VIEW_HISTORY );
         p.setPermissionTitleKey( PROPERTY_LABEL_VIEW_HISTORY );
         rt.registerPermission( p );
 
-        p = new Permission(  );
+        p = new Permission( );
         p.setPermissionKey( PERMISSION_DELETE );
         p.setPermissionTitleKey( PROPERTY_LABEL_DELETE );
         rt.registerPermission( p );
@@ -127,20 +126,20 @@ public class ExtendableResourceResourceIdService extends ResourceIdService
     {
         IResourceExtenderService resourceExtenderService = SpringContextService.getBean( ResourceExtenderService.BEAN_SERVICE );
 
-        List<ResourceExtenderDTO> listResources = resourceExtenderService.findAll(  );
+        List<ResourceExtenderDTO> listResources = resourceExtenderService.findAll( );
 
-        ReferenceList ref = new ReferenceList(  );
+        ReferenceList ref = new ReferenceList( );
 
         for ( ResourceExtenderDTO resourceExtender : listResources )
         {
-            String strName = resourceExtender.getName(  );
+            String strName = resourceExtender.getName( );
             StringBuilder sbName = new StringBuilder( StringUtils.isNotEmpty( strName ) ? strName : StringUtils.EMPTY );
             sbName.append( " (" );
-            sbName.append( "Extender type : " ).append( resourceExtender.getExtenderType(  ) );
-            sbName.append( " - ID resource : " ).append( resourceExtender.getIdExtendableResource(  ) );
-            sbName.append( " - Resource type : " ).append( resourceExtender.getExtendableResourceType(  ) );
+            sbName.append( "Extender type : " ).append( resourceExtender.getExtenderType( ) );
+            sbName.append( " - ID resource : " ).append( resourceExtender.getIdExtendableResource( ) );
+            sbName.append( " - Resource type : " ).append( resourceExtender.getExtendableResourceType( ) );
             sbName.append( ")" );
-            ref.addItem( resourceExtender.getIdExtender(  ), sbName.toString(  ) );
+            ref.addItem( resourceExtender.getIdExtender( ), sbName.toString( ) );
         }
 
         return ref;
@@ -160,7 +159,7 @@ public class ExtendableResourceResourceIdService extends ResourceIdService
 
             if ( resource != null )
             {
-                return resource.getName(  );
+                return resource.getName( );
             }
         }
 

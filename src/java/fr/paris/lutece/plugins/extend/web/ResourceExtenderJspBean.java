@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -82,7 +82,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  *
  * ResourceExtenderJspBean
@@ -140,10 +139,9 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     // JSP
     private static final String JSP_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE = "ManageResourceExtendersByResource.jsp";
     private static final String JSP_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE_TYPE = "ManageResourceExtendersByResourceType.jsp";
-    private static final String JSP_URL_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_TYPE = "jsp/admin/plugins/extend/" +
-        JSP_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE_TYPE;
-    private static final String JSP_URL_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE = "jsp/admin/plugins/extend/" +
-        JSP_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE;
+    private static final String JSP_URL_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_TYPE = "jsp/admin/plugins/extend/"
+            + JSP_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE_TYPE;
+    private static final String JSP_URL_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE = "jsp/admin/plugins/extend/" + JSP_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE;
     private static final String JSP_URL_DO_REMOVE_RESOURCE_EXTENDER = "jsp/admin/plugins/extend/DoRemoveResourceExtender.jsp";
     private static final String JSP_URL_CREATE_DEFAULT_RESOURCE_EXTENDER = "jsp/admin/plugins/extend/CreateDefaultResourceExtender.jsp";
     private static final String JSP_URL_DO_DISABLED_EXTENDER = "jsp/admin/plugins/extend/DoDisabledExtender.jsp";
@@ -162,7 +160,7 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     private static final String CONSTANT_NULL = "null";
 
     // VARIABLES
-    private IResourceExtenderSearchFields _resourceExtenderSearchFields = new ResourceExtenderSearchFields(  );
+    private IResourceExtenderSearchFields _resourceExtenderSearchFields = new ResourceExtenderSearchFields( );
     private IExtendableResourceTypeService _resourceTypeService = SpringContextService.getBean( ExtendableResourceTypeService.BEAN_SERVICE );
     private IResourceExtenderService _extenderService = SpringContextService.getBean( ResourceExtenderService.BEAN_SERVICE );
     private IResourceExtenderComponentManager _extenderComponentManager = SpringContextService.getBean( ResourceExtenderComponentManager.BEAN_MANAGER );
@@ -174,13 +172,15 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     /**
      * Gets the manage resource extenders by resource type.
      *
-     * @param request the request
-     * @param response the response
+     * @param request
+     *            the request
+     * @param response
+     *            the response
      * @return the manage resource extenders by resource type
-     * @throws AccessDeniedException the access denied exception
+     * @throws AccessDeniedException
+     *             the access denied exception
      */
-    public IPluginActionResult getManageResourceExtendersByResourceType( HttpServletRequest request,
-        HttpServletResponse response ) throws AccessDeniedException
+    public IPluginActionResult getManageResourceExtendersByResourceType( HttpServletRequest request, HttpServletResponse response ) throws AccessDeniedException
     {
         setPageTitleProperty( PROPERTY_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_TYPE_PAGE_TITLE );
 
@@ -192,24 +192,22 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 
         if ( action != null )
         {
-            AppLogService.debug( "Processing resource action " + action.getName(  ) );
+            AppLogService.debug( "Processing resource action " + action.getName( ) );
 
-            return action.process( request, response, getUser(  ), _resourceExtenderSearchFields );
+            return action.process( request, response, getUser( ), _resourceExtenderSearchFields );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<>( );
         // This parameter is used to differentiate the page to manage the extender by type or by resource
-        _resourceExtenderSearchFields.fillModel( getLastUrl( request ).getUrl(  ), request, model,
-            ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE, getUser(  ) );
-        PluginActionManager.fillModel( request, AdminUserService.getAdminUser( request ), model,
-            IResourceExtenderPluginAction.class, MARK_RESOURCE_EXTENDER_ACTIONS );
+        _resourceExtenderSearchFields.fillModel( getLastUrl( request ).getUrl( ), request, model, ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE, getUser( ) );
+        PluginActionManager.fillModel( request, AdminUserService.getAdminUser( request ), model, IResourceExtenderPluginAction.class,
+                MARK_RESOURCE_EXTENDER_ACTIONS );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_TYPE,
-                request.getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_TYPE, request.getLocale( ), model );
 
-        IPluginActionResult result = new DefaultPluginActionResult(  );
+        IPluginActionResult result = new DefaultPluginActionResult( );
 
-        result.setHtmlContent( getAdminPage( template.getHtml(  ) ) );
+        result.setHtmlContent( getAdminPage( template.getHtml( ) ) );
 
         return result;
     }
@@ -217,13 +215,15 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     /**
      * Gets the manage resource extenders by resource.
      *
-     * @param request the request
-     * @param response the response
+     * @param request
+     *            the request
+     * @param response
+     *            the response
      * @return the manage resource extenders by resource
-     * @throws AccessDeniedException the access denied exception
+     * @throws AccessDeniedException
+     *             the access denied exception
      */
-    public IPluginActionResult getManageResourceExtendersByResource( HttpServletRequest request,
-        HttpServletResponse response ) throws AccessDeniedException
+    public IPluginActionResult getManageResourceExtendersByResource( HttpServletRequest request, HttpServletResponse response ) throws AccessDeniedException
     {
         setPageTitleProperty( PROPERTY_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_PAGE_TITLE );
 
@@ -235,23 +235,22 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 
         if ( action != null )
         {
-            AppLogService.debug( "Processing resource action " + action.getName(  ) );
+            AppLogService.debug( "Processing resource action " + action.getName( ) );
 
-            return action.process( request, response, getUser(  ), _resourceExtenderSearchFields );
+            return action.process( request, response, getUser( ), _resourceExtenderSearchFields );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<>( );
         // This parameter is used to differentiate the page to manage the extender by type or by resource
-        _resourceExtenderSearchFields.fillModel( getLastUrl( request ).getUrl(  ), request, model, getUser(  ) );
-        PluginActionManager.fillModel( request, AdminUserService.getAdminUser( request ), model,
-            IResourceExtenderPluginAction.class, MARK_RESOURCE_EXTENDER_ACTIONS );
+        _resourceExtenderSearchFields.fillModel( getLastUrl( request ).getUrl( ), request, model, getUser( ) );
+        PluginActionManager.fillModel( request, AdminUserService.getAdminUser( request ), model, IResourceExtenderPluginAction.class,
+                MARK_RESOURCE_EXTENDER_ACTIONS );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE,
-                request.getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE, request.getLocale( ), model );
 
-        IPluginActionResult result = new DefaultPluginActionResult(  );
+        IPluginActionResult result = new DefaultPluginActionResult( );
 
-        result.setHtmlContent( getAdminPage( template.getHtml(  ) ) );
+        result.setHtmlContent( getAdminPage( template.getHtml( ) ) );
 
         return result;
     }
@@ -259,7 +258,8 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     /**
      * Gets the confirm remove resource extender.
      *
-     * @param request the request
+     * @param request
+     *            the request
      * @return the confirm remove resource extender
      */
     public String getConfirmRemoveResourceExtender( HttpServletRequest request )
@@ -273,18 +273,18 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 
         UrlItem url = new UrlItem( JSP_URL_DO_REMOVE_RESOURCE_EXTENDER );
         url.addParameter( PARAMETER_ID_EXTENDER, strIdExtender );
-        url.addParameter( PARAMETER_FROM_URL,
-            StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND, CONSTANT_AND_HTML ) );
+        url.addParameter( PARAMETER_FROM_URL, StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND, CONSTANT_AND_HTML ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_RESOURCE_EXTENDER, url.getUrl(  ),
-            AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_RESOURCE_EXTENDER, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
      * Gets the modify extender config.
      *
-     * @param request the request
-     * @param response the response
+     * @param request
+     *            the request
+     * @param response
+     *            the response
      * @return the modify extender config
      */
     public IPluginActionResult getModifyExtenderConfig( HttpServletRequest request, HttpServletResponse response )
@@ -297,11 +297,10 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         {
             // Check permission
             if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, strIdExtender,
-                        ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, getUser(  ) ) )
+                    ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, getUser( ) ) )
             {
-                IPluginActionResult result = new DefaultPluginActionResult(  );
-                result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION,
-                        AdminMessage.TYPE_STOP ) );
+                IPluginActionResult result = new DefaultPluginActionResult( );
+                result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP ) );
 
                 return result;
             }
@@ -311,26 +310,26 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 
             if ( resourceExtender != null )
             {
-                IPluginActionResult result = new DefaultPluginActionResult(  );
+                IPluginActionResult result = new DefaultPluginActionResult( );
 
-                result.setHtmlContent( getAdminPage( _extenderComponentManager.getConfigHtml( resourceExtender,
-                            getLocale(  ), request ) ) );
+                result.setHtmlContent( getAdminPage( _extenderComponentManager.getConfigHtml( resourceExtender, getLocale( ), request ) ) );
 
                 return result;
             }
         }
 
-        IPluginActionResult result = new DefaultPluginActionResult(  );
+        IPluginActionResult result = new DefaultPluginActionResult( );
 
-        result.setRedirect( AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS,
-                AdminMessage.TYPE_STOP ) );
+        result.setRedirect( AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
 
         return result;
     }
 
     /**
      * Get the page to modify the default config of an extender type
-     * @param request The request
+     * 
+     * @param request
+     *            The request
      * @return The next url to go to, or the html content to display
      */
     public IPluginActionResult getModifyDefaultConfig( HttpServletRequest request )
@@ -340,55 +339,55 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         String strExtenderType = request.getParameter( PARAMETER_EXTENDER_TYPE_DEFAULT_CONFIG );
 
         // Check permission
-        if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, null,
-                    ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, getUser(  ) ) )
+        if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, null, ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION,
+                getUser( ) ) )
         {
-            IPluginActionResult result = new DefaultPluginActionResult(  );
-            result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION,
-                    AdminMessage.TYPE_STOP ) );
+            IPluginActionResult result = new DefaultPluginActionResult( );
+            result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP ) );
 
             return result;
         }
 
         if ( StringUtils.isEmpty( strExtenderType ) )
         {
-            IPluginActionResult result = new DefaultPluginActionResult(  );
+            IPluginActionResult result = new DefaultPluginActionResult( );
 
-            result.setRedirect( AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS,
-                    AdminMessage.TYPE_STOP ) );
+            result.setRedirect( AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
 
             return result;
         }
 
-        IPluginActionResult result = new DefaultPluginActionResult(  );
+        IPluginActionResult result = new DefaultPluginActionResult( );
 
-        result.setHtmlContent( getAdminPage( _extenderComponentManager.getDefaultConfigHtml( strExtenderType,
-                    getLocale(  ), request ) ) );
+        result.setHtmlContent( getAdminPage( _extenderComponentManager.getDefaultConfigHtml( strExtenderType, getLocale( ), request ) ) );
 
         return result;
     }
 
     /**
      * Get the page to create an extender
-     * @param request The request
+     * 
+     * @param request
+     *            The request
      * @return The HTML to display
      */
     public String getCreateResourceExtender( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_RESOURCE_TYPES, _resourceTypeService.findAllAsRef( AdminUserService.getLocale( request ) ) );
-        model.put( MARK_EXTENDER_TYPES, _extenderService.getExtenderTypes( request.getLocale(  ) ) );
+        model.put( MARK_EXTENDER_TYPES, _extenderService.getExtenderTypes( request.getLocale( ) ) );
         model.put( MARK_MANAGE_BY_RESOURCE, Boolean.parseBoolean( request.getParameter( MARK_MANAGE_BY_RESOURCE ) ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_RESOURCE_EXTENDER,
-                request.getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_RESOURCE_EXTENDER, request.getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Get the page to create an extender
-     * @param request The request
+     * 
+     * @param request
+     *            The request
      * @return The HTML to display
      */
     public String getDisabledExtender( HttpServletRequest request )
@@ -398,13 +397,14 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         UrlItem url = new UrlItem( JSP_URL_DO_DISABLED_EXTENDER );
         url.addParameter( PARAMETER_ID_EXTENDER, strIdExtender );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DISABLE_RESOURCE_EXTENDER, url.getUrl(  ),
-            AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DISABLE_RESOURCE_EXTENDER, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
      * Get the page to create an extender
-     * @param request The request
+     * 
+     * @param request
+     *            The request
      * @return The HTML to display
      */
     public String doDisabledExtender( HttpServletRequest request )
@@ -416,12 +416,14 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         resourceExtender.setIsActive( false );
         _extenderService.update( resourceExtender );
 
-        return getLastUrl( request ).getUrl(  );
+        return getLastUrl( request ).getUrl( );
     }
 
     /**
      * Get the page to create an extender
-     * @param request The request
+     * 
+     * @param request
+     *            The request
      * @return The HTML to display
      */
     public String getEnabledExtender( HttpServletRequest request )
@@ -431,13 +433,14 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         UrlItem url = new UrlItem( JSP_URL_DO_ENABLED_EXTENDER );
         url.addParameter( PARAMETER_ID_EXTENDER, strIdExtender );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_ENABLE_RESOURCE_EXTENDER, url.getUrl(  ),
-            AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_ENABLE_RESOURCE_EXTENDER, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
      * Get the page to create an extender
-     * @param request The request
+     * 
+     * @param request
+     *            The request
      * @return The HTML to display
      */
     public String doEnabledExtender( HttpServletRequest request )
@@ -449,14 +452,16 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         resourceExtender.setIsActive( true );
         _extenderService.update( resourceExtender );
 
-        return getLastUrl( request ).getUrl(  );
+        return getLastUrl( request ).getUrl( );
     }
 
     /**
      * Gets the view extender info.
      *
-     * @param request the request
-     * @param response the response
+     * @param request
+     *            the request
+     * @param response
+     *            the response
      * @return the view extender info
      */
     public IPluginActionResult getViewExtenderInfo( HttpServletRequest request, HttpServletResponse response )
@@ -474,12 +479,11 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         }
 
         // Check permission
-        if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, strIdExtender,
-                    ExtendableResourceResourceIdService.PERMISSION_VIEW_INFO, getUser(  ) ) )
+        if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, strIdExtender, ExtendableResourceResourceIdService.PERMISSION_VIEW_INFO,
+                getUser( ) ) )
         {
-            IPluginActionResult result = new DefaultPluginActionResult(  );
-            result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION,
-                    AdminMessage.TYPE_STOP ) );
+            IPluginActionResult result = new DefaultPluginActionResult( );
+            result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP ) );
 
             return result;
         }
@@ -487,26 +491,24 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         // Find by request
         if ( resourceExtender == null )
         {
-            resourceExtender = new ResourceExtenderDTO(  );
+            resourceExtender = new ResourceExtenderDTO( );
             populate( resourceExtender, request );
 
             String strJspError = ExtendUtils.validateResourceExtender( request, resourceExtender );
 
             if ( StringUtils.isNotBlank( strJspError ) )
             {
-                IPluginActionResult result = new DefaultPluginActionResult(  );
+                IPluginActionResult result = new DefaultPluginActionResult( );
 
-                result.setRedirect( AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS,
-                        AdminMessage.TYPE_STOP ) );
+                result.setRedirect( AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
 
                 return result;
             }
         }
 
-        IPluginActionResult result = new DefaultPluginActionResult(  );
+        IPluginActionResult result = new DefaultPluginActionResult( );
 
-        result.setHtmlContent( getAdminPage( _extenderComponentManager.getInfoHtml( resourceExtender, getLocale(  ),
-                    request ) ) );
+        result.setHtmlContent( getAdminPage( _extenderComponentManager.getInfoHtml( resourceExtender, getLocale( ), request ) ) );
 
         return result;
     }
@@ -514,8 +516,10 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     /**
      * Gets the view extender history.
      *
-     * @param request the request
-     * @param response the response
+     * @param request
+     *            the request
+     * @param response
+     *            the response
      * @return the view extender history
      */
     public IPluginActionResult getViewExtenderHistory( HttpServletRequest request, HttpServletResponse response )
@@ -533,12 +537,11 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         }
 
         // Check permission
-        if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, strIdExtender,
-                    ExtendableResourceResourceIdService.PERMISSION_VIEW_HISTORY, getUser(  ) ) )
+        if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, strIdExtender, ExtendableResourceResourceIdService.PERMISSION_VIEW_HISTORY,
+                getUser( ) ) )
         {
-            IPluginActionResult result = new DefaultPluginActionResult(  );
-            result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION,
-                    AdminMessage.TYPE_STOP ) );
+            IPluginActionResult result = new DefaultPluginActionResult( );
+            result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP ) );
 
             return result;
         }
@@ -546,26 +549,24 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         // Find by request
         if ( resourceExtender == null )
         {
-            resourceExtender = new ResourceExtenderDTO(  );
+            resourceExtender = new ResourceExtenderDTO( );
             populate( resourceExtender, request );
 
             String strJspError = ExtendUtils.validateResourceExtender( request, resourceExtender );
 
             if ( StringUtils.isNotBlank( strJspError ) )
             {
-                IPluginActionResult result = new DefaultPluginActionResult(  );
+                IPluginActionResult result = new DefaultPluginActionResult( );
 
-                result.setRedirect( AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS,
-                        AdminMessage.TYPE_STOP ) );
+                result.setRedirect( AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
 
                 return result;
             }
         }
 
-        IPluginActionResult result = new DefaultPluginActionResult(  );
+        IPluginActionResult result = new DefaultPluginActionResult( );
 
-        result.setHtmlContent( getAdminPage( _extenderComponentManager.getHistoryHtml( resourceExtender, getLocale(  ),
-                    request ) ) );
+        result.setHtmlContent( getAdminPage( _extenderComponentManager.getHistoryHtml( resourceExtender, getLocale( ), request ) ) );
 
         return result;
     }
@@ -573,16 +574,17 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     /**
      * Gets the creates the default extender resource.
      *
-     * @param request the request
-     * @param response the response
+     * @param request
+     *            the request
+     * @param response
+     *            the response
      * @return the creates the default extender resource
      */
-    public IPluginActionResult getCreateDefaultResourceExtender( HttpServletRequest request,
-        HttpServletResponse response )
+    public IPluginActionResult getCreateDefaultResourceExtender( HttpServletRequest request, HttpServletResponse response )
     {
         setPageTitleProperty( PROPERTY_CREATE_DEFAULT_RESOURCE_PAGE_TITLE );
 
-        ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO(  );
+        ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO( );
 
         // Populate the bean
         populate( resourceExtender, request );
@@ -592,22 +594,21 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 
         if ( StringUtils.isNotBlank( strJspError ) )
         {
-            IPluginActionResult result = new DefaultPluginActionResult(  );
+            IPluginActionResult result = new DefaultPluginActionResult( );
 
             result.setRedirect( strJspError );
 
             return result;
         }
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_RESOURCE_EXTENDER, resourceExtender );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_DEFAULT_RESOURCE_EXTENDER,
-                request.getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_DEFAULT_RESOURCE_EXTENDER, request.getLocale( ), model );
 
-        IPluginActionResult result = new DefaultPluginActionResult(  );
+        IPluginActionResult result = new DefaultPluginActionResult( );
 
-        result.setHtmlContent( getAdminPage( template.getHtml(  ) ) );
+        result.setHtmlContent( getAdminPage( template.getHtml( ) ) );
 
         return result;
     }
@@ -615,7 +616,8 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     /**
      * Do create resource extender.
      *
-     * @param request the request
+     * @param request
+     *            the request
      * @return the string
      */
     public String doCreateResourceExtender( HttpServletRequest request )
@@ -624,7 +626,7 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 
         if ( StringUtils.isBlank( strCancel ) )
         {
-            ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO(  );
+            ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO( );
 
             // Populate the bean
             populate( resourceExtender, request );
@@ -638,31 +640,27 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
             }
 
             // Checks that the parameters are unique
-            if ( _extenderService.isAuthorizedToAllResources( resourceExtender.getExtendableResourceType(  ),
-                        resourceExtender.getExtenderType(  ) ) )
+            if ( _extenderService.isAuthorizedToAllResources( resourceExtender.getExtendableResourceType( ), resourceExtender.getExtenderType( ) ) )
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_EXTENDER_TO_ALL_RESOURCES_ALREADY_EXISTS,
-                    AdminMessage.TYPE_INFO );
+                return AdminMessageService.getMessageUrl( request, MESSAGE_EXTENDER_TO_ALL_RESOURCES_ALREADY_EXISTS, AdminMessage.TYPE_INFO );
             }
 
-            if ( _extenderService.isAuthorized( resourceExtender.getIdExtendableResource(  ),
-                        resourceExtender.getExtendableResourceType(  ), resourceExtender.getExtenderType(  ) ) )
+            if ( _extenderService.isAuthorized( resourceExtender.getIdExtendableResource( ), resourceExtender.getExtendableResourceType( ),
+                    resourceExtender.getExtenderType( ) ) )
             {
-                Object[] params = 
-                    {
-                        resourceExtender.getIdExtendableResource(  ), resourceExtender.getExtendableResourceType(  ),
-                    };
+                Object [ ] params = {
+                        resourceExtender.getIdExtendableResource( ), resourceExtender.getExtendableResourceType( ),
+                };
 
-                return AdminMessageService.getMessageUrl( request, MESSAGE_EXTENDER_WITH_ID_RESOURCES_ALREADY_EXISTS,
-                    params, AdminMessage.TYPE_INFO );
+                return AdminMessageService.getMessageUrl( request, MESSAGE_EXTENDER_WITH_ID_RESOURCES_ALREADY_EXISTS, params, AdminMessage.TYPE_INFO );
             }
 
             // Check if it must use the default resource service or not
             // If so, then redirect the user to the creation resource extender page
-            if ( _resourceManager.useDefaultExtendableResourceService( resourceExtender.getIdExtendableResource(  ),
-                        resourceExtender.getExtendableResourceType(  ) ) )
+            if ( _resourceManager.useDefaultExtendableResourceService( resourceExtender.getIdExtendableResource( ),
+                    resourceExtender.getExtendableResourceType( ) ) )
             {
-                return getUrlCreateDefaultResourceExcenter( request, resourceExtender ).getUrl(  );
+                return getUrlCreateDefaultResourceExcenter( request, resourceExtender ).getUrl( );
             }
 
             strJspError = doCreateResourceExtender( request, resourceExtender );
@@ -674,26 +672,27 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 
             // If the extender needs a config, then redirect the user to the config modification page if he is authorized to access it
             boolean bAuthorizedUser = RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, null,
-                    ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, getUser(  ) );
+                    ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, getUser( ) );
 
             if ( bAuthorizedUser )
             {
-                IResourceExtender extender = _extenderService.getResourceExtender( resourceExtender.getExtenderType(  ) );
+                IResourceExtender extender = _extenderService.getResourceExtender( resourceExtender.getExtenderType( ) );
 
-                if ( ( extender != null ) && extender.isConfigRequired(  ) )
+                if ( ( extender != null ) && extender.isConfigRequired( ) )
                 {
-                    return getUrlModifyResourceExtenderConfig( request, resourceExtender ).getUrl(  );
+                    return getUrlModifyResourceExtenderConfig( request, resourceExtender ).getUrl( );
                 }
             }
         }
 
-        return getLastUrl( request ).getUrl(  );
+        return getLastUrl( request ).getUrl( );
     }
 
     /**
      * Do create default resource extender.
      *
-     * @param request the request
+     * @param request
+     *            the request
      * @return the string
      */
     public String doCreateDefaultResourceExtender( HttpServletRequest request )
@@ -702,10 +701,10 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 
         if ( StringUtils.isNotBlank( strCancel ) )
         {
-            return getLastUrl( request ).getUrl(  );
+            return getLastUrl( request ).getUrl( );
         }
 
-        ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO(  );
+        ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO( );
 
         // Populate the bean
         populate( resourceExtender, request );
@@ -718,7 +717,7 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
             return strJspError;
         }
 
-        if ( StringUtils.isBlank( resourceExtender.getName(  ) ) )
+        if ( StringUtils.isBlank( resourceExtender.getName( ) ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -729,12 +728,12 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         {
             _defaultResourceService.create( resource );
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
             // Something wrong happened... a database check might be needed
-            AppLogService.error( ex.getMessage(  ) + " when creating a default resource extender", ex );
+            AppLogService.error( ex.getMessage( ) + " when creating a default resource extender", ex );
             // Revert
-            _defaultResourceService.remove( resource.getIdExtendableResource(  ), resource.getExtendableResourceType(  ) );
+            _defaultResourceService.remove( resource.getIdExtendableResource( ), resource.getExtendableResourceType( ) );
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_GENERIC_MESSAGE, AdminMessage.TYPE_ERROR );
         }
@@ -748,25 +747,26 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 
         // If the extender needs a config, then redirect the user to the config modification page if he is authorized to access it
         boolean bAuthorizedUser = RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, null,
-                ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, getUser(  ) );
+                ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, getUser( ) );
 
         if ( bAuthorizedUser )
         {
-            IResourceExtender extender = _extenderService.getResourceExtender( resourceExtender.getExtenderType(  ) );
+            IResourceExtender extender = _extenderService.getResourceExtender( resourceExtender.getExtenderType( ) );
 
-            if ( ( extender != null ) && extender.isConfigRequired(  ) )
+            if ( ( extender != null ) && extender.isConfigRequired( ) )
             {
-                return getUrlModifyResourceExtenderConfig( request, resourceExtender ).getUrl(  );
+                return getUrlModifyResourceExtenderConfig( request, resourceExtender ).getUrl( );
             }
         }
 
-        return getLastUrl( request ).getUrl(  );
+        return getLastUrl( request ).getUrl( );
     }
 
     /**
      * Do remove resource extender.
      *
-     * @param request the request
+     * @param request
+     *            the request
      * @return the string
      */
     public String doRemoveResourceExtender( HttpServletRequest request )
@@ -779,8 +779,7 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         }
 
         // Check permission
-        if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, strIdExtender,
-                    ExtendableResourceResourceIdService.PERMISSION_DELETE, getUser(  ) ) )
+        if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, strIdExtender, ExtendableResourceResourceIdService.PERMISSION_DELETE, getUser( ) ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP );
         }
@@ -794,51 +793,49 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
             {
                 _extenderService.remove( nIdExtender );
             }
-            catch ( Exception ex )
+            catch( Exception ex )
             {
                 // Something wrong happened... a database check might be needed
-                AppLogService.error( ex.getMessage(  ) + " when deleting a resource extender", ex );
+                AppLogService.error( ex.getMessage( ) + " when deleting a resource extender", ex );
 
-                return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_GENERIC_MESSAGE,
-                    AdminMessage.TYPE_ERROR );
+                return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_GENERIC_MESSAGE, AdminMessage.TYPE_ERROR );
             }
 
             _extenderService.doDeleteResourceAddOn( resourceExtender );
-            _resourceExtenderHistoryService.removeByResource( resourceExtender.getExtenderType(  ),
-                resourceExtender.getIdExtendableResource(  ), resourceExtender.getExtendableResourceType(  ) );
+            _resourceExtenderHistoryService.removeByResource( resourceExtender.getExtenderType( ), resourceExtender.getIdExtendableResource( ),
+                    resourceExtender.getExtendableResourceType( ) );
 
             // Remove the default resource if there are no resource extender associated to the given id resource and resource type
-            ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter(  );
-            filter.setFilterIdExtendableResource( resourceExtender.getIdExtendableResource(  ) );
-            filter.setFilterExtendableResourceType( resourceExtender.getExtendableResourceType(  ) );
+            ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( );
+            filter.setFilterIdExtendableResource( resourceExtender.getIdExtendableResource( ) );
+            filter.setFilterExtendableResourceType( resourceExtender.getExtendableResourceType( ) );
 
             List<Integer> listIds = _extenderService.findIdsByFilter( filter );
 
-            if ( ( listIds == null ) || listIds.isEmpty(  ) )
+            if ( ( listIds == null ) || listIds.isEmpty( ) )
             {
                 try
                 {
-                    _defaultResourceService.remove( resourceExtender.getIdExtendableResource(  ),
-                        resourceExtender.getExtendableResourceType(  ) );
+                    _defaultResourceService.remove( resourceExtender.getIdExtendableResource( ), resourceExtender.getExtendableResourceType( ) );
                 }
-                catch ( Exception ex )
+                catch( Exception ex )
                 {
                     // Something wrong happened... a database check might be needed
-                    AppLogService.error( ex.getMessage(  ) + " when deleting a default resource extender", ex );
+                    AppLogService.error( ex.getMessage( ) + " when deleting a default resource extender", ex );
 
-                    return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_GENERIC_MESSAGE,
-                        AdminMessage.TYPE_ERROR );
+                    return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_GENERIC_MESSAGE, AdminMessage.TYPE_ERROR );
                 }
             }
         }
 
-        return getLastUrl( request ).getUrl(  );
+        return getLastUrl( request ).getUrl( );
     }
 
     /**
      * Do modify extender config.
      *
-     * @param request the request
+     * @param request
+     *            the request
      * @return the string
      */
     public String doModifyExtenderConfig( HttpServletRequest request )
@@ -851,8 +848,8 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         }
 
         // Check permission
-        if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, strIdExtender,
-                    ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, getUser(  ) ) )
+        if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, strIdExtender, ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION,
+                getUser( ) ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP );
         }
@@ -870,18 +867,19 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
                 {
                     _extenderComponentManager.doSaveConfig( resourceExtender, request );
                 }
-                catch ( ExtendErrorException e )
+                catch( ExtendErrorException e )
                 {
-                    AppLogService.debug( e.getErrorMessage(  ), e );
+                    AppLogService.debug( e.getErrorMessage( ), e );
 
-                    Object[] params = { e.getErrorMessage(  ) };
+                    Object [ ] params = {
+                            e.getErrorMessage( )
+                    };
 
-                    return AdminMessageService.getMessageUrl( request, MESSAGE_STOP_GENERIC_MESSAGE, params,
-                        AdminMessage.TYPE_STOP );
+                    return AdminMessageService.getMessageUrl( request, MESSAGE_STOP_GENERIC_MESSAGE, params, AdminMessage.TYPE_STOP );
                 }
             }
 
-            return getLastUrl( request ).getUrl(  );
+            return getLastUrl( request ).getUrl( );
         }
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_GENERIC_MESSAGE, AdminMessage.TYPE_STOP );
@@ -890,7 +888,8 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     /**
      * Do modify default extender config.
      *
-     * @param request the request
+     * @param request
+     *            the request
      * @return The URL of the result page
      */
     public String doModifyDefaultConfig( HttpServletRequest request )
@@ -907,13 +906,13 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
             }
 
             // Check permission
-            if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, null,
-                        ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, getUser(  ) ) )
+            if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, null, ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION,
+                    getUser( ) ) )
             {
                 return AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP );
             }
 
-            ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO(  );
+            ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO( );
             resourceExtender.setIdExtender( -1 );
             resourceExtender.setExtenderType( strExtenderType );
 
@@ -921,18 +920,19 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
             {
                 _extenderComponentManager.doSaveConfig( resourceExtender, request );
             }
-            catch ( ExtendErrorException e )
+            catch( ExtendErrorException e )
             {
-                AppLogService.debug( e.getErrorMessage(  ), e );
+                AppLogService.debug( e.getErrorMessage( ), e );
 
-                Object[] params = { e.getErrorMessage(  ) };
+                Object [ ] params = {
+                        e.getErrorMessage( )
+                };
 
-                return AdminMessageService.getMessageUrl( request, MESSAGE_STOP_GENERIC_MESSAGE, params,
-                    AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrl( request, MESSAGE_STOP_GENERIC_MESSAGE, params, AdminMessage.TYPE_STOP );
             }
         }
 
-        return getLastUrl( request ).getUrl(  );
+        return getLastUrl( request ).getUrl( );
     }
 
     // PRIVATE METHODS
@@ -940,14 +940,15 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     /**
      * Gets the url manage resource extenders by resource type.
      *
-     * @param request the request
-     * @param bSession the b session
+     * @param request
+     *            the request
+     * @param bSession
+     *            the b session
      * @return the url manage resource extenders by resource type
      */
     private static UrlItem getUrlManageResourceExtendersByResourceType( HttpServletRequest request, boolean bSession )
     {
-        UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) +
-                JSP_URL_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_TYPE );
+        UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE_TYPE );
 
         if ( bSession )
         {
@@ -960,14 +961,15 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     /**
      * Gets the url manage resource extenders by resource.
      *
-     * @param request the request
-     * @param bSession the b session
+     * @param request
+     *            the request
+     * @param bSession
+     *            the b session
      * @return the url manage resource extenders by resource
      */
     private static UrlItem getUrlManageResourceExtendersByResource( HttpServletRequest request, boolean bSession )
     {
-        UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) +
-                JSP_URL_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE );
+        UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE );
 
         if ( bSession )
         {
@@ -980,17 +982,18 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     /**
      * Gets the url create default resource excenter.
      *
-     * @param request the request
-     * @param resourceExtender the resource extender
+     * @param request
+     *            the request
+     * @param resourceExtender
+     *            the resource extender
      * @return the url create default resource excenter
      */
-    private static UrlItem getUrlCreateDefaultResourceExcenter( HttpServletRequest request,
-        ResourceExtenderDTO resourceExtender )
+    private static UrlItem getUrlCreateDefaultResourceExcenter( HttpServletRequest request, ResourceExtenderDTO resourceExtender )
     {
         UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL_CREATE_DEFAULT_RESOURCE_EXTENDER );
-        url.addParameter( PARAMETER_EXTENDER_TYPE, resourceExtender.getExtenderType(  ) );
-        url.addParameter( PARAMETER_ID_EXTENDABLE_RESOURCE, resourceExtender.getIdExtendableResource(  ) );
-        url.addParameter( PARAMETER_EXTENDABLE_RESOURCE_TYPE, resourceExtender.getExtendableResourceType(  ) );
+        url.addParameter( PARAMETER_EXTENDER_TYPE, resourceExtender.getExtenderType( ) );
+        url.addParameter( PARAMETER_ID_EXTENDABLE_RESOURCE, resourceExtender.getIdExtendableResource( ) );
+        url.addParameter( PARAMETER_EXTENDABLE_RESOURCE_TYPE, resourceExtender.getExtendableResourceType( ) );
 
         return url;
     }
@@ -998,15 +1001,16 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     /**
      * Gets the url modify resource extender config.
      *
-     * @param request the request
-     * @param resourceExtender the resource extender
+     * @param request
+     *            the request
+     * @param resourceExtender
+     *            the resource extender
      * @return the url modify resource extender config
      */
-    private static UrlItem getUrlModifyResourceExtenderConfig( HttpServletRequest request,
-        ResourceExtenderDTO resourceExtender )
+    private static UrlItem getUrlModifyResourceExtenderConfig( HttpServletRequest request, ResourceExtenderDTO resourceExtender )
     {
         UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_RESOURCE_EXTENDER_CONFIG );
-        url.addParameter( PARAMETER_ID_EXTENDER, resourceExtender.getIdExtender(  ) );
+        url.addParameter( PARAMETER_ID_EXTENDER, resourceExtender.getIdExtender( ) );
 
         String strUrl = StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND, CONSTANT_AND_HTML );
 
@@ -1021,21 +1025,21 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     /**
      * Gets the action.
      *
-     * @param request the request
+     * @param request
+     *            the request
      * @return the action
      */
     private static IPluginAction<IResourceExtenderSearchFields> getAction( HttpServletRequest request )
     {
-        IPluginAction<IResourceExtenderSearchFields> action = PluginActionManager.getPluginAction( request,
-                IResourceExtenderPluginAction.class );
+        return PluginActionManager.getPluginAction( request, IResourceExtenderPluginAction.class );
 
-        return action;
     }
 
     /**
      * Gets the last url.
      *
-     * @param request the request
+     * @param request
+     *            the request
      * @return the last url
      */
     private UrlItem getLastUrl( HttpServletRequest request )
@@ -1051,12 +1055,9 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         if ( StringUtils.isNotBlank( request.getParameter( PARAMETER_SEARCH ) ) )
         {
             _lastUrl = getUrlManageResourceExtendersByResource( request, false );
-            _lastUrl.addParameter( PARAMETER_FILTER_EXTENDER_TYPE,
-                request.getParameter( PARAMETER_FILTER_EXTENDER_TYPE ) );
-            _lastUrl.addParameter( PARAMETER_FILTER_ID_EXTENDABLE_RESOURCE,
-                request.getParameter( PARAMETER_FILTER_ID_EXTENDABLE_RESOURCE ) );
-            _lastUrl.addParameter( PARAMETER_FILTER_EXTENDABLE_RESOURCE_TYPE,
-                request.getParameter( PARAMETER_FILTER_EXTENDABLE_RESOURCE_TYPE ) );
+            _lastUrl.addParameter( PARAMETER_FILTER_EXTENDER_TYPE, request.getParameter( PARAMETER_FILTER_EXTENDER_TYPE ) );
+            _lastUrl.addParameter( PARAMETER_FILTER_ID_EXTENDABLE_RESOURCE, request.getParameter( PARAMETER_FILTER_ID_EXTENDABLE_RESOURCE ) );
+            _lastUrl.addParameter( PARAMETER_FILTER_EXTENDABLE_RESOURCE_TYPE, request.getParameter( PARAMETER_FILTER_EXTENDABLE_RESOURCE_TYPE ) );
         }
 
         if ( _lastUrl != null )
@@ -1070,8 +1071,10 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
     /**
      * Do create resource extender.
      *
-     * @param request the request
-     * @param resourceExtender the resource extender
+     * @param request
+     *            the request
+     * @param resourceExtender
+     *            the resource extender
      * @return the string
      */
     private String doCreateResourceExtender( HttpServletRequest request, ResourceExtenderDTO resourceExtender )
@@ -1080,12 +1083,12 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
         {
             _extenderService.create( resourceExtender );
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
             // Something wrong happened... a database check might be needed
-            AppLogService.error( ex.getMessage(  ) + " when creating a resource extender", ex );
+            AppLogService.error( ex.getMessage( ) + " when creating a resource extender", ex );
             // Revert
-            _extenderService.remove( resourceExtender.getIdExtender(  ) );
+            _extenderService.remove( resourceExtender.getIdExtender( ) );
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_GENERIC_MESSAGE, AdminMessage.TYPE_ERROR );
         }

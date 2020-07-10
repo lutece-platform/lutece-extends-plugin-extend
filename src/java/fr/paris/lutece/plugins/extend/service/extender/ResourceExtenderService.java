@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.extend.service.extender;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.plugins.extend.business.extender.IResourceExtenderDAO;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilter;
@@ -40,7 +41,6 @@ import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 import fr.paris.lutece.plugins.extend.service.ExtendableResourceResourceIdService;
 import fr.paris.lutece.plugins.extend.service.IExtendableResourceManager;
 import fr.paris.lutece.plugins.extend.service.type.IExtendableResourceTypeService;
-import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
@@ -85,11 +85,10 @@ public class ResourceExtenderService implements IResourceExtenderService
     public void create( ResourceExtenderDTO extender )
     {
         // Check if the resource type exists or not
-        if ( ( extender != null ) &&
-                ( _extendableResourceTypeService.findByPrimaryKey( extender.getExtendableResourceType(  ),
-                    Locale.getDefault(  ) ) != null ) )
+        if ( ( extender != null )
+                && ( _extendableResourceTypeService.findByPrimaryKey( extender.getExtendableResourceType( ), Locale.getDefault( ) ) != null ) )
         {
-            _extenderDAO.insert( extender, ExtendPlugin.getPlugin(  ) );
+            _extenderDAO.insert( extender, ExtendPlugin.getPlugin( ) );
         }
     }
 
@@ -101,11 +100,10 @@ public class ResourceExtenderService implements IResourceExtenderService
     public void update( ResourceExtenderDTO extender )
     {
         // Check if the resource type exists or not
-        if ( ( extender != null ) &&
-                ( _extendableResourceTypeService.findByPrimaryKey( extender.getExtendableResourceType(  ),
-                    Locale.getDefault(  ) ) != null ) )
+        if ( ( extender != null )
+                && ( _extendableResourceTypeService.findByPrimaryKey( extender.getExtendableResourceType( ), Locale.getDefault( ) ) != null ) )
         {
-            _extenderDAO.store( extender, ExtendPlugin.getPlugin(  ) );
+            _extenderDAO.store( extender, ExtendPlugin.getPlugin( ) );
             _extenderCache.resetCache( );
         }
     }
@@ -117,7 +115,7 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     public void remove( int nIdExtender )
     {
-        _extenderDAO.delete( nIdExtender, ExtendPlugin.getPlugin(  ) );
+        _extenderDAO.delete( nIdExtender, ExtendPlugin.getPlugin( ) );
         _extenderCache.resetCache( );
     }
 
@@ -127,22 +125,20 @@ public class ResourceExtenderService implements IResourceExtenderService
      * {@inheritDoc}
      */
     @Override
-    public boolean isAuthorized( String strIdExtendableResource, String strExtendableResourceType,
-        String strExtenderType )
+    public boolean isAuthorized( String strIdExtendableResource, String strExtendableResourceType, String strExtenderType )
     {
-        String strKey = new StringBuilder( "Authorized_").append( strExtenderType ).append('_')
-                .append( strIdExtendableResource ).append('_').append( strExtendableResourceType ).toString( );
-        Boolean isAuthorized = ( Boolean ) _extenderCache.getFromCache( strKey );
+        String strKey = new StringBuilder( "Authorized_" ).append( strExtenderType ).append( "_" ).append( strIdExtendableResource ).append( "_" )
+                .append( strExtendableResourceType ).toString( );
+        Boolean isAuthorized = (Boolean) _extenderCache.getFromCache( strKey );
         if ( isAuthorized == null )
         {
-            ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType, strIdExtendableResource,
-                    strExtendableResourceType );
+            ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType, strIdExtendableResource, strExtendableResourceType );
             filter.setWideSearch( false );
             filter.setIncludeWildcardResource( true );
 
             List<Integer> listResources = findIdsByFilter( filter );
 
-            isAuthorized = ( listResources != null ) && !listResources.isEmpty(  );
+            isAuthorized = ( listResources != null ) && !listResources.isEmpty( );
 
             _extenderCache.putInCache( strKey, isAuthorized );
         }
@@ -156,13 +152,13 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Override
     public boolean isAuthorizedToAllResources( String strExtendableResourceType, String strExtenderType )
     {
-        ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType,
-                ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE, strExtendableResourceType );
+        ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType, ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE,
+                strExtendableResourceType );
         filter.setWideSearch( false );
 
         List<ResourceExtenderDTO> listResources = findByFilter( filter );
 
-        return ( listResources != null ) && !listResources.isEmpty(  );
+        return ( listResources != null ) && !listResources.isEmpty( );
     }
 
     /**
@@ -171,14 +167,14 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Override
     public boolean isAuthorizedToAllResources( int nIdExtender )
     {
-        ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter(  );
+        ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( );
         filter.setFilterIdExtender( nIdExtender );
         filter.setFilterIdExtendableResource( ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE );
         filter.setWideSearch( false );
 
         List<ResourceExtenderDTO> listResources = findByFilter( filter );
 
-        return ( listResources != null ) && !listResources.isEmpty(  );
+        return ( listResources != null ) && !listResources.isEmpty( );
     }
 
     // FINDERS
@@ -189,7 +185,7 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Override
     public ResourceExtenderDTO findByPrimaryKey( int nIdExtender )
     {
-        ResourceExtenderDTO resourceExtender = _extenderDAO.load( nIdExtender, ExtendPlugin.getPlugin(  ) );
+        ResourceExtenderDTO resourceExtender = _extenderDAO.load( nIdExtender, ExtendPlugin.getPlugin( ) );
         resourceExtender.setName( getExtendableResourceName( resourceExtender ) );
 
         return resourceExtender;
@@ -199,9 +195,9 @@ public class ResourceExtenderService implements IResourceExtenderService
      * {@inheritDoc}
      */
     @Override
-    public List<ResourceExtenderDTO> findAll(  )
+    public List<ResourceExtenderDTO> findAll( )
     {
-        List<ResourceExtenderDTO> listResourceExtenders = _extenderDAO.loadAll( ExtendPlugin.getPlugin(  ) );
+        List<ResourceExtenderDTO> listResourceExtenders = _extenderDAO.loadAll( ExtendPlugin.getPlugin( ) );
 
         for ( ResourceExtenderDTO resourceExtender : listResourceExtenders )
         {
@@ -217,7 +213,7 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Override
     public List<ResourceExtenderDTO> findByFilter( ResourceExtenderDTOFilter filter )
     {
-        List<ResourceExtenderDTO> listResourceExtenders = _extenderDAO.loadByFilter( filter, ExtendPlugin.getPlugin(  ) );
+        List<ResourceExtenderDTO> listResourceExtenders = _extenderDAO.loadByFilter( filter, ExtendPlugin.getPlugin( ) );
 
         for ( ResourceExtenderDTO resourceExtender : listResourceExtenders )
         {
@@ -231,16 +227,14 @@ public class ResourceExtenderService implements IResourceExtenderService
      * {@inheritDoc}
      */
     @Override
-    public ResourceExtenderDTO findResourceExtender( String strExtenderType, String strIdExtendableResource,
-        String strExtendableResourceType )
+    public ResourceExtenderDTO findResourceExtender( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType )
     {
-        ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType, strIdExtendableResource,
-                strExtendableResourceType );
+        ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType, strIdExtendableResource, strExtendableResourceType );
         filter.setWideSearch( false );
 
         List<ResourceExtenderDTO> listResources = findByFilter( filter );
 
-        if ( ( listResources != null ) && ( listResources.size(  ) == 1 ) )
+        if ( ( listResources != null ) && ( listResources.size( ) == 1 ) )
         {
             ResourceExtenderDTO resourceExtender = listResources.get( 0 );
             resourceExtender.setName( getExtendableResourceName( resourceExtender ) );
@@ -257,13 +251,13 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Override
     public ResourceExtenderDTO findWildCardResourceExtender( String strExtenderType, String strExtendableResourceType )
     {
-        ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType,
-                ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE, strExtendableResourceType );
+        ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType, ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE,
+                strExtendableResourceType );
         filter.setWideSearch( false );
 
         List<ResourceExtenderDTO> listResources = findByFilter( filter );
 
-        if ( ( listResources != null ) && ( listResources.size(  ) == 1 ) )
+        if ( ( listResources != null ) && ( listResources.size( ) == 1 ) )
         {
             ResourceExtenderDTO resourceExtender = listResources.get( 0 );
             resourceExtender.setName( getExtendableResourceName( resourceExtender ) );
@@ -278,18 +272,16 @@ public class ResourceExtenderService implements IResourceExtenderService
      * {@inheritDoc}
      */
     @Override
-    public ResourceExtenderDTO findResourceExtenderIncludingWildcard( String strExtenderType,
-            String strIdExtendableResource, String strExtendableResourceType )
+    public ResourceExtenderDTO findResourceExtenderIncludingWildcard( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType )
     {
-        String strKey = new StringBuilder( "ResourceExtenderDTO_").append( strExtenderType ).append('_')
-                .append( strIdExtendableResource ).append('_').append( strExtendableResourceType ).toString( );
+        String strKey = new StringBuilder( "ResourceExtenderDTO_" ).append( strExtenderType ).append( "_" ).append( strIdExtendableResource ).append( "_" )
+                .append( strExtendableResourceType ).toString( );
 
-        ResourceExtenderDTO found = ( ResourceExtenderDTO ) _extenderCache.getFromCache( strKey );
+        ResourceExtenderDTO found = (ResourceExtenderDTO) _extenderCache.getFromCache( strKey );
 
-        if ( found == null)
+        if ( found == null )
         {
-            ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType, strIdExtendableResource,
-                    strExtendableResourceType );
+            ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType, strIdExtendableResource, strExtendableResourceType );
             filter.setWideSearch( false );
             filter.setIncludeWildcardResource( true );
 
@@ -297,24 +289,28 @@ public class ResourceExtenderService implements IResourceExtenderService
 
             if ( listResources != null )
             {
-                if ( listResources.size(  ) == 1 )
+                if ( listResources.size( ) == 1 )
                 {
                     found = listResources.get( 0 );
-                } else if ( listResources.size(  ) == 2 )
-                {
-                    if ( listResources.get( 0 ).getIdExtendableResource( ).equals( strIdExtendableResource ) )
-                    {
-                        found = listResources.get( 0 );
-                    } else
-                    {
-                        found = listResources.get( 1 );
-                    }
-                } else
-                {
-                    AppLogService.error( "More than 2 ResourceExtenderDTO found for "
-                            + strExtenderType + "," + strIdExtendableResource + "," + strExtendableResourceType);
-                    return null;
                 }
+                else
+                    if ( listResources.size( ) == 2 )
+                    {
+                        if ( listResources.get( 0 ).getIdExtendableResource( ).equals( strIdExtendableResource ) )
+                        {
+                            found = listResources.get( 0 );
+                        }
+                        else
+                        {
+                            found = listResources.get( 1 );
+                        }
+                    }
+                    else
+                    {
+                        AppLogService.error( "More than 2 ResourceExtenderDTO found for " + strExtenderType + "," + strIdExtendableResource + ","
+                                + strExtendableResourceType );
+                        return null;
+                    }
 
                 found.setName( getExtendableResourceName( found ) );
 
@@ -331,7 +327,7 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Override
     public List<Integer> findIdsByFilter( ResourceExtenderDTOFilter filter )
     {
-        return _extenderDAO.loadIdsByFilter( filter, ExtendPlugin.getPlugin(  ) );
+        return _extenderDAO.loadIdsByFilter( filter, ExtendPlugin.getPlugin( ) );
     }
 
     /**
@@ -340,8 +336,7 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Override
     public List<ResourceExtenderDTO> findByListIds( List<Integer> listIds )
     {
-        List<ResourceExtenderDTO> listResourceExtenders = _extenderDAO.loadByListIds( listIds,
-                ExtendPlugin.getPlugin(  ) );
+        List<ResourceExtenderDTO> listResourceExtenders = _extenderDAO.loadByListIds( listIds, ExtendPlugin.getPlugin( ) );
 
         for ( ResourceExtenderDTO resourceExtender : listResourceExtenders )
         {
@@ -357,11 +352,11 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Override
     public ReferenceList getExtenderTypes( Locale locale )
     {
-        ReferenceList refExtenderTypes = new ReferenceList(  );
+        ReferenceList refExtenderTypes = new ReferenceList( );
 
-        for ( IResourceExtender extender : getResourceExtenders(  ) )
+        for ( IResourceExtender extender : getResourceExtenders( ) )
         {
-            refExtenderTypes.addItem( extender.getKey(  ), extender.getTitle( locale ) );
+            refExtenderTypes.addItem( extender.getKey( ), extender.getTitle( locale ) );
         }
 
         return refExtenderTypes;
@@ -371,12 +366,11 @@ public class ResourceExtenderService implements IResourceExtenderService
      * {@inheritDoc}
      */
     @Override
-    public Map<String, Boolean> getExtenderTypesInstalled( String strIdExtendableResource,
-        String strExtendableResourceType, Plugin plugin )
+    public Map<String, Boolean> getExtenderTypesInstalled( String strIdExtendableResource, String strExtendableResourceType, Plugin plugin )
     {
-        Map<String, Boolean> mapExtenderTypesInstalled = new HashMap<String, Boolean>(  );
+        Map<String, Boolean> mapExtenderTypesInstalled = new HashMap<>( );
 
-        ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter(  );
+        ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( );
         filter.setFilterIdExtendableResource( strIdExtendableResource );
         filter.setFilterExtendableResourceType( strExtendableResourceType );
 
@@ -384,7 +378,7 @@ public class ResourceExtenderService implements IResourceExtenderService
 
         for ( ResourceExtenderDTO extender : listResourceExtender )
         {
-            mapExtenderTypesInstalled.put( extender.getExtenderType(  ), Boolean.FALSE );
+            mapExtenderTypesInstalled.put( extender.getExtenderType( ), Boolean.FALSE );
         }
 
         filter.setFilterIdExtendableResource( ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE );
@@ -393,7 +387,7 @@ public class ResourceExtenderService implements IResourceExtenderService
 
         for ( ResourceExtenderDTO extender : listResourceExtender )
         {
-            mapExtenderTypesInstalled.put( extender.getExtenderType(  ), Boolean.TRUE );
+            mapExtenderTypesInstalled.put( extender.getExtenderType( ), Boolean.TRUE );
         }
 
         return mapExtenderTypesInstalled;
@@ -403,17 +397,16 @@ public class ResourceExtenderService implements IResourceExtenderService
      * {@inheritDoc}
      */
     @Override
-    public String getContent( String strIdExtendableResource, String strExtendableResourceType, String strExtenderType,
-        String strParameters, HttpServletRequest request )
+    public String getContent( String strIdExtendableResource, String strExtendableResourceType, String strExtenderType, String strParameters,
+            HttpServletRequest request )
     {
         if ( isAuthorized( strIdExtendableResource, strExtendableResourceType, strExtenderType ) )
         {
-            for ( IResourceExtender extender : getResourceExtenders(  ) )
+            for ( IResourceExtender extender : getResourceExtenders( ) )
             {
                 if ( extender.isInvoked( strExtenderType ) )
                 {
-                    return extender.getContent( strIdExtendableResource, strExtendableResourceType, strParameters,
-                        request );
+                    return extender.getContent( strIdExtendableResource, strExtendableResourceType, strParameters, request );
                 }
             }
         }
@@ -427,9 +420,9 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Override
     public void doCreateResourceAddOn( ResourceExtenderDTO resourceExtender )
     {
-        for ( IResourceExtender extender : getResourceExtenders(  ) )
+        for ( IResourceExtender extender : getResourceExtenders( ) )
         {
-            if ( extender.isInvoked( resourceExtender.getExtenderType(  ) ) )
+            if ( extender.isInvoked( resourceExtender.getExtenderType( ) ) )
             {
                 extender.doCreateResourceAddOn( resourceExtender );
             }
@@ -442,9 +435,9 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Override
     public void doDeleteResourceAddOn( ResourceExtenderDTO resourceExtender )
     {
-        for ( IResourceExtender extender : getResourceExtenders(  ) )
+        for ( IResourceExtender extender : getResourceExtenders( ) )
         {
-            if ( extender.isInvoked( resourceExtender.getExtenderType(  ) ) )
+            if ( extender.isInvoked( resourceExtender.getExtenderType( ) ) )
             {
                 extender.doDeleteResourceAddOn( resourceExtender );
             }
@@ -455,7 +448,7 @@ public class ResourceExtenderService implements IResourceExtenderService
      * {@inheritDoc}
      */
     @Override
-    public List<IResourceExtender> getResourceExtenders(  )
+    public List<IResourceExtender> getResourceExtenders( )
     {
         return SpringContextService.getBeansOfType( IResourceExtender.class );
     }
@@ -466,7 +459,7 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Override
     public IResourceExtender getResourceExtender( String strExtenderType )
     {
-        for ( IResourceExtender extender : getResourceExtenders(  ) )
+        for ( IResourceExtender extender : getResourceExtenders( ) )
         {
             if ( extender.isInvoked( strExtenderType ) )
             {
@@ -483,8 +476,7 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Override
     public String getExtendableResourceName( ResourceExtenderDTO resourceExtender )
     {
-        return getExtendableResourceName( resourceExtender.getIdExtendableResource(  ),
-            resourceExtender.getExtendableResourceType(  ) );
+        return getExtendableResourceName( resourceExtender.getIdExtendableResource( ), resourceExtender.getExtendableResourceType( ) );
     }
 
     /**
@@ -493,19 +485,17 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Override
     public String getExtendableResourceName( String strIdExtendableResource, String strExtendableResourceType )
     {
-        IExtendableResource extendableResource = _extendableResourceManager.getResource( strIdExtendableResource,
-                strExtendableResourceType );
+        IExtendableResource extendableResource = _extendableResourceManager.getResource( strIdExtendableResource, strExtendableResourceType );
 
         // If no resource is found, then try to fetch the resource with a wildcard id '*'
         if ( extendableResource == null )
         {
-            extendableResource = _extendableResourceManager.getResource( ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE,
-                    strExtendableResourceType );
+            extendableResource = _extendableResourceManager.getResource( ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE, strExtendableResourceType );
         }
 
         if ( extendableResource != null )
         {
-            return extendableResource.getExtendableResourceName(  );
+            return extendableResource.getExtendableResourceName( );
         }
 
         return StringUtils.EMPTY;
@@ -517,14 +507,12 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Override
     public IExtendableResource getExtendableResource( String strIdExtendableResource, String strExtendableResourceType )
     {
-        IExtendableResource extendableResource = _extendableResourceManager.getResource( strIdExtendableResource,
-                strExtendableResourceType );
+        IExtendableResource extendableResource = _extendableResourceManager.getResource( strIdExtendableResource, strExtendableResourceType );
 
         // If no resource is found, then try to fetch the resource with a wildcard id '*'
         if ( extendableResource == null )
         {
-            extendableResource = _extendableResourceManager.getResource( ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE,
-                    strExtendableResourceType );
+            extendableResource = _extendableResourceManager.getResource( ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE, strExtendableResourceType );
         }
 
         return extendableResource;
@@ -536,33 +524,27 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Override
     public IExtendableResource getExtendableResource( ResourceExtenderDTO resourceExtender )
     {
-        return getExtendableResource( resourceExtender.getIdExtendableResource(  ),
-            resourceExtender.getExtendableResourceType(  ) );
+        return getExtendableResource( resourceExtender.getIdExtendableResource( ), resourceExtender.getExtendableResourceType( ) );
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
-    public Map<String, Map<String, Boolean>> getActionPermissions( List<Integer> listIds, AdminUser user )
+    public Map<String, Map<String, Boolean>> getActionPermissions( List<Integer> listIds, User user )
     {
-        Map<String, Map<String, Boolean>> mapActionPermissions = new HashMap<String, Map<String, Boolean>>(  );
+        Map<String, Map<String, Boolean>> mapActionPermissions = new HashMap<>( );
 
         for ( int nId : listIds )
         {
-            Map<String, Boolean> mapPermissions = new HashMap<String, Boolean>(  );
-            mapPermissions.put( ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION,
-                RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, Integer.toString( nId ),
-                    ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, user ) );
-            mapPermissions.put( ExtendableResourceResourceIdService.PERMISSION_VIEW_INFO,
-                RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, Integer.toString( nId ),
-                    ExtendableResourceResourceIdService.PERMISSION_VIEW_INFO, user ) );
-            mapPermissions.put( ExtendableResourceResourceIdService.PERMISSION_VIEW_HISTORY,
-                RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, Integer.toString( nId ),
-                    ExtendableResourceResourceIdService.PERMISSION_VIEW_HISTORY, user ) );
-            mapPermissions.put( ExtendableResourceResourceIdService.PERMISSION_DELETE,
-                RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, Integer.toString( nId ),
-                    ExtendableResourceResourceIdService.PERMISSION_DELETE, user ) );
+            Map<String, Boolean> mapPermissions = new HashMap<>( );
+            mapPermissions.put( ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, RBACService.isAuthorized(
+                    ResourceExtenderDTO.RESOURCE_TYPE, Integer.toString( nId ), ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, user ) );
+            mapPermissions.put( ExtendableResourceResourceIdService.PERMISSION_VIEW_INFO, RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE,
+                    Integer.toString( nId ), ExtendableResourceResourceIdService.PERMISSION_VIEW_INFO, user ) );
+            mapPermissions.put( ExtendableResourceResourceIdService.PERMISSION_VIEW_HISTORY, RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE,
+                    Integer.toString( nId ), ExtendableResourceResourceIdService.PERMISSION_VIEW_HISTORY, user ) );
+            mapPermissions.put( ExtendableResourceResourceIdService.PERMISSION_DELETE, RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE,
+                    Integer.toString( nId ), ExtendableResourceResourceIdService.PERMISSION_DELETE, user ) );
 
             mapActionPermissions.put( Integer.toString( nId ), mapPermissions );
         }
@@ -574,8 +556,7 @@ public class ResourceExtenderService implements IResourceExtenderService
      * {@inheritDoc}
      */
     @Override
-    public String getExtendableResourceUrl( String strIdResource,
-            String strResourceType )
+    public String getExtendableResourceUrl( String strIdResource, String strResourceType )
     {
         return _extendableResourceManager.getExtendableResourceService( strResourceType ).getResourceUrl( strIdResource, strResourceType );
     }

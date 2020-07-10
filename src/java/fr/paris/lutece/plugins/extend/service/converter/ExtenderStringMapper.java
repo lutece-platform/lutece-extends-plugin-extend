@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import org.springframework.util.Assert;
 
 import java.util.StringTokenizer;
 
-
 /**
  * ExtenderStringMapper.
  */
@@ -52,7 +51,8 @@ public class ExtenderStringMapper implements IStringMapper<ResourceExtenderDTO>,
     /**
      * Sets the delimeter.
      *
-     * @param strDelimeter the new delimeter
+     * @param strDelimeter
+     *            the new delimeter
      */
     public void setDelimeter( String strDelimeter )
     {
@@ -65,37 +65,36 @@ public class ExtenderStringMapper implements IStringMapper<ResourceExtenderDTO>,
     @Override
     public ResourceExtenderDTO map( String strToMap )
     {
-        ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO(  );
+        ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO( );
         StringTokenizer token = new StringTokenizer( strToMap, _strDelimeter );
         int nIndex = 1;
 
-        while ( token.hasMoreTokens(  ) )
+        while ( token.hasMoreTokens( ) )
         {
-            switch ( nIndex )
+            switch( nIndex )
             {
                 case 1:
-                    resourceExtender.setIdExtendableResource( token.nextToken(  ) );
+                    resourceExtender.setIdExtendableResource( token.nextToken( ) );
 
                     break;
 
                 case 2:
-                    resourceExtender.setExtendableResourceType( token.nextToken(  ) );
+                    resourceExtender.setExtendableResourceType( token.nextToken( ) );
 
                     break;
 
                 case 3:
-                    resourceExtender.setExtenderType( token.nextToken(  ) );
+                    resourceExtender.setExtenderType( token.nextToken( ) );
 
                     break;
 
                 case 4:
-                    resourceExtender.setParameters( token.nextToken(  ) );
+                    resourceExtender.setParameters( token.nextToken( ) );
 
                     break;
 
                 default:
-                    resourceExtender.setParameters( resourceExtender.getParameters(  ) + _strDelimeter +
-                        token.nextToken(  ) );
+                    resourceExtender.setParameters( resourceExtender.getParameters( ) + _strDelimeter + token.nextToken( ) );
             }
 
             nIndex++;
@@ -108,7 +107,7 @@ public class ExtenderStringMapper implements IStringMapper<ResourceExtenderDTO>,
      * {@inheritDoc}
      */
     @Override
-    public void afterPropertiesSet(  ) throws Exception
+    public void afterPropertiesSet( ) throws Exception
     {
         Assert.notNull( _strDelimeter, "The property 'delimeter' must be set." );
     }

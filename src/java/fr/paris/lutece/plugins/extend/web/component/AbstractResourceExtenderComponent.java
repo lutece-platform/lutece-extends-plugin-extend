@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,6 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * AbstractResourceExtenderComponent
@@ -68,7 +67,7 @@ public abstract class AbstractResourceExtenderComponent implements IResourceExte
      * {@inheritDoc}
      */
     @Override
-    public IResourceExtender getResourceExtender(  )
+    public IResourceExtender getResourceExtender( )
     {
         return _extender;
     }
@@ -77,26 +76,28 @@ public abstract class AbstractResourceExtenderComponent implements IResourceExte
      * {@inheritDoc}
      */
     @Override
-    public void afterPropertiesSet(  ) throws Exception
+    public void afterPropertiesSet( ) throws Exception
     {
         Assert.notNull( _extender, "The property 'extender' is required." );
     }
 
     /**
      * Get the URL to use for post backs
-     * @param request The request
+     * 
+     * @param request
+     *            The request
      * @return The URL to use for post backs
      */
     public String getPostBackUrl( HttpServletRequest request )
     {
-        UrlItem urlItem = new UrlItem( request.getRequestURI(  ) );
-        Map<String, String[]> mapParameters = request.getParameterMap(  );
+        UrlItem urlItem = new UrlItem( request.getRequestURI( ) );
+        Map<String, String [ ]> mapParameters = request.getParameterMap( );
 
-        for ( Entry<String, String[]> entry : mapParameters.entrySet(  ) )
+        for ( Entry<String, String [ ]> entry : mapParameters.entrySet( ) )
         {
-            urlItem.addParameter( entry.getKey(  ), entry.getValue(  )[0] );
+            urlItem.addParameter( entry.getKey( ), entry.getValue( ) [0] );
         }
 
-        return urlItem.getUrl(  );
+        return urlItem.getUrl( );
     }
 }

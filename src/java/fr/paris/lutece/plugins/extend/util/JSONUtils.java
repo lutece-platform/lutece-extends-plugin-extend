@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,33 +46,33 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public final class JSONUtils
 {
-	private static ObjectMapper _mapper = new ObjectMapper( ).configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    private static ObjectMapper _mapper = new ObjectMapper( ).configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false );
+
     /**
      * Instantiates a new jSON utils.
      */
-    private JSONUtils(  )
+    private JSONUtils( )
     {
     }
 
     /**
      * Parses the parameters.
      *
-     * @param strParameters the str parameters
+     * @param strParameters
+     *            the str parameters
      * @return the jSON object
      */
     public static JsonNode parseParameters( String strParameters )
     {
-  
-            try 
-            {
-				return _mapper.readTree( strParameters );
-			}
-            catch (JsonProcessingException e)
-            {
-				throw new AppException("JSON processing exception", e);
-			}
 
-
+        try
+        {
+            return _mapper.readTree( strParameters );
+        }
+        catch( JsonProcessingException e )
+        {
+            throw new AppException( "JSON processing exception", e );
+        }
 
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,21 +43,28 @@ public interface IResourceExtenderCacheService extends CacheableService
 
     /**
      * Get an obect from the cache
-     * @param strKey the key
+     * 
+     * @param strKey
+     *            the key
      * @return the corresponding object, or <code>null</code> if it is absent from the cache
      */
     Object getFromCache( String strKey );
 
     /**
      * Put an object in cache
-     * @param strKey the key
-     * @param value the object to cache
+     * 
+     * @param strKey
+     *            the key
+     * @param value
+     *            the object to cache
      */
     void putInCache( String strKey, Object value );
 
     /**
      * Removes a cache element
-     * @param strKey the key
+     * 
+     * @param strKey
+     *            the key
      */
     void removeKey( String strKey );
 

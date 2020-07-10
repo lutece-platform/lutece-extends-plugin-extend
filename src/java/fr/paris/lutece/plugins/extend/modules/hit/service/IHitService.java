@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.plugins.extend.modules.hit.business.Hit;
 
 import java.util.List;
 
-
 /**
  *
  * IHitService
@@ -48,42 +47,50 @@ public interface IHitService
     /**
      * Creates the a hit extender.
      *
-     * @param hit the hit
+     * @param hit
+     *            the hit
      */
     void create( Hit hit );
 
     /**
      * Update a hit extender.
      *
-     * @param hit the hit
+     * @param hit
+     *            the hit
      */
     void update( Hit hit );
 
     /**
      * Removes a hit extender.
      *
-     * @param nIdHit the n id hit
+     * @param nIdHit
+     *            the n id hit
      */
     void remove( int nIdHit );
 
     /**
      * Removes a hit extender by id resource and resource type.
-     * @param strIdResource The id of the resource to remove
-     * @param strResourceType The type of the resource to remove
+     * 
+     * @param strIdResource
+     *            The id of the resource to remove
+     * @param strResourceType
+     *            The type of the resource to remove
      */
     void removeByResource( String strIdResource, String strResourceType );
 
     /**
      * Increment hit.
      *
-     * @param hit the hit
+     * @param hit
+     *            the hit
      */
     void incrementHit( Hit hit );
 
     /**
      * Find.
      *
-     * @param nIdExtender the n id extender
+     * @param nIdExtender
+     *            the n id extender
      * @return the hit
      */
     Hit findByPrimaryKey( int nIdExtender );
@@ -91,21 +98,24 @@ public interface IHitService
     /**
      * Find by id extender.
      *
-     * @param strIdExtendableResource the str id extendable resource
-     * @param strExtendableResourceType the str extendable resource type
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
      * @return the hit
      */
     Hit findByParameters( String strIdExtendableResource, String strExtendableResourceType );
 
     /**
      * Get the ids of resources ordered by their number of hits
-     * @param strExtendableResourceType The type of resources to consider
-     * @param nItemsOffset The offset of the items to get, or 0 to get items
-     *            from the first one
-     * @param nMaxItemsNumber The maximum number of items to return, or 0 to get
-     *            every items
+     * 
+     * @param strExtendableResourceType
+     *            The type of resources to consider
+     * @param nItemsOffset
+     *            The offset of the items to get, or 0 to get items from the first one
+     * @param nMaxItemsNumber
+     *            The maximum number of items to return, or 0 to get every items
      * @return The list of ids of resources ordered by the number hits
      */
-    public List<Integer> findIdMostHitedResources( String strExtendableResourceType, int nItemsOffset,
-        int nMaxItemsNumber );
+    public List<Integer> findIdMostHitedResources( String strExtendableResourceType, int nItemsOffset, int nMaxItemsNumber );
 }

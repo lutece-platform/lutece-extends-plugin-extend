@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.extend.util;
 
-
 /**
  *
  * ExtendErrorException
@@ -47,7 +46,8 @@ public class ExtendErrorException extends Exception
     /**
      * Instantiates a new extend error exception.
      *
-     * @param strErrorMessage the str error message
+     * @param strErrorMessage
+     *            the str error message
      */
     public ExtendErrorException( String strErrorMessage )
     {
@@ -55,10 +55,11 @@ public class ExtendErrorException extends Exception
     }
 
     /**
-    * Gets the error Message
-    * @return the error Message
-    */
-    public String getErrorMessage(  )
+     * Gets the error Message
+     * 
+     * @return the error Message
+     */
+    public String getErrorMessage( )
     {
         return _strErrorMessage;
     }

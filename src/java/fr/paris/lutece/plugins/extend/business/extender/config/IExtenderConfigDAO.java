@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,11 +33,12 @@
  */
 package fr.paris.lutece.plugins.extend.business.extender.config;
 
-
 /**
  *
  * IExtenderConfigDAO
- * @param <GExtenderConfig> the generic class of {@link IExtenderConfig}
+ * 
+ * @param <GExtenderConfig>
+ *            the generic class of {@link IExtenderConfig}
  *
  */
 public interface IExtenderConfigDAO<GExtenderConfig extends IExtenderConfig>
@@ -45,21 +46,24 @@ public interface IExtenderConfigDAO<GExtenderConfig extends IExtenderConfig>
     /**
      * Insert.
      *
-     * @param config the config
+     * @param config
+     *            the config
      */
     void insert( GExtenderConfig config );
 
     /**
      * Store.
      *
-     * @param config the config
+     * @param config
+     *            the config
      */
     void store( GExtenderConfig config );
 
     /**
      * Load.
      *
-     * @param nIdExtender the n id extender
+     * @param nIdExtender
+     *            the n id extender
      * @return the config
      */
     GExtenderConfig load( int nIdExtender );
@@ -67,7 +71,8 @@ public interface IExtenderConfigDAO<GExtenderConfig extends IExtenderConfig>
     /**
      * Delete.
      *
-     * @param nIdExtender the n id extender
+     * @param nIdExtender
+     *            the n id extender
      */
     void delete( int nIdExtender );
 }

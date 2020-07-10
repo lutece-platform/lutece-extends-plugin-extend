@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 /**
  *
  * ExtenderResourceDAO
@@ -68,24 +67,28 @@ public class ResourceExtenderDAO implements IResourceExtenderDAO
 
     /**
      * New primary key
-     * @param plugin the plugin
+     * 
+     * @param plugin
+     *            the plugin
      * @return a new primary key
      */
     private int newPrimaryKey( Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, plugin );
-        daoUtil.executeQuery(  );
-
-        int nKey = 1;
-
-        if ( daoUtil.next(  ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, plugin ) )
         {
-            nKey = daoUtil.getInt( 1 ) + 1;
+            daoUtil.executeQuery( );
+
+            int nKey = 1;
+
+            if ( daoUtil.next( ) )
+            {
+                nKey = daoUtil.getInt( 1 ) + 1;
+            }
+
+            daoUtil.free( );
+
+            return nKey;
         }
-
-        daoUtil.free(  );
-
-        return nKey;
     }
 
     /**
@@ -98,14 +101,16 @@ public class ResourceExtenderDAO implements IResourceExtenderDAO
         int nIdExtender = newPrimaryKey( plugin );
         extender.setIdExtender( nIdExtender );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
-        daoUtil.setInt( nIndex++, extender.getIdExtender(  ) );
-        daoUtil.setString( nIndex++, extender.getExtenderType(  ) );
-        daoUtil.setString( nIndex++, extender.getIdExtendableResource(  ) );
-        daoUtil.setString( nIndex, extender.getExtendableResourceType(  ) );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin ) )
+        {
+            daoUtil.setInt( nIndex++, extender.getIdExtender( ) );
+            daoUtil.setString( nIndex++, extender.getExtenderType( ) );
+            daoUtil.setString( nIndex++, extender.getIdExtendableResource( ) );
+            daoUtil.setString( nIndex, extender.getExtendableResourceType( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+            daoUtil.executeUpdate( );
+            daoUtil.free( );
+        }
     }
 
     /**
@@ -115,16 +120,18 @@ public class ResourceExtenderDAO implements IResourceExtenderDAO
     public void store( ResourceExtenderDTO extender, Plugin plugin )
     {
         int nIndex = 1;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
-        daoUtil.setString( nIndex++, extender.getExtenderType(  ) );
-        daoUtil.setString( nIndex++, extender.getIdExtendableResource(  ) );
-        daoUtil.setString( nIndex++, extender.getExtendableResourceType(  ) );
-        daoUtil.setBoolean( nIndex++, extender.isIsActive(  ) );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin ) )
+        {
+            daoUtil.setString( nIndex++, extender.getExtenderType( ) );
+            daoUtil.setString( nIndex++, extender.getIdExtendableResource( ) );
+            daoUtil.setString( nIndex++, extender.getExtendableResourceType( ) );
+            daoUtil.setBoolean( nIndex++, extender.isIsActive( ) );
 
-        daoUtil.setInt( nIndex, extender.getIdExtender(  ) );
+            daoUtil.setInt( nIndex, extender.getIdExtender( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+            daoUtil.executeUpdate( );
+            daoUtil.free( );
+        }
     }
 
     /**
@@ -133,11 +140,13 @@ public class ResourceExtenderDAO implements IResourceExtenderDAO
     @Override
     public void delete( int nIdExtender, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
-        daoUtil.setInt( 1, nIdExtender );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin ) )
+        {
+            daoUtil.setInt( 1, nIdExtender );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+            daoUtil.executeUpdate( );
+            daoUtil.free( );
+        }
     }
 
     /**
@@ -147,18 +156,20 @@ public class ResourceExtenderDAO implements IResourceExtenderDAO
     public ResourceExtenderDTO load( int nIdExtender, Plugin plugin )
     {
         ResourceExtenderDTO extender = null;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
-        daoUtil.setInt( 1, nIdExtender );
-        daoUtil.executeQuery(  );
-
-        if ( daoUtil.next(  ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin ) )
         {
-            extender = populateDTO( daoUtil );
+            daoUtil.setInt( 1, nIdExtender );
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
+            {
+                extender = populateDTO( daoUtil );
+            }
+
+            daoUtil.free( );
+
+            return extender;
         }
-
-        daoUtil.free(  );
-
-        return extender;
     }
 
     /**
@@ -167,19 +178,21 @@ public class ResourceExtenderDAO implements IResourceExtenderDAO
     @Override
     public List<ResourceExtenderDTO> loadAll( Plugin plugin )
     {
-        List<ResourceExtenderDTO> listExtenders = new ArrayList<ResourceExtenderDTO>(  );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL, plugin );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
+        List<ResourceExtenderDTO> listExtenders = new ArrayList<>( );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL, plugin ) )
         {
-            ResourceExtenderDTO extender = populateDTO( daoUtil );
-            listExtenders.add( extender );
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                ResourceExtenderDTO extender = populateDTO( daoUtil );
+                listExtenders.add( extender );
+            }
+
+            daoUtil.free( );
+
+            return listExtenders;
         }
-
-        daoUtil.free(  );
-
-        return listExtenders;
     }
 
     /**
@@ -188,20 +201,22 @@ public class ResourceExtenderDAO implements IResourceExtenderDAO
     @Override
     public List<ResourceExtenderDTO> loadByFilter( ResourceExtenderDTOFilter filter, Plugin plugin )
     {
-        List<ResourceExtenderDTO> listExtenders = new ArrayList<ResourceExtenderDTO>(  );
-        DAOUtil daoUtil = new DAOUtil( filter.buildSQLQuery( SQL_QUERY_SELECT_ALL ), plugin );
-        filter.setFilterValues( daoUtil );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
+        List<ResourceExtenderDTO> listExtenders = new ArrayList<>( );
+        try ( DAOUtil daoUtil = new DAOUtil( filter.buildSQLQuery( SQL_QUERY_SELECT_ALL ), plugin ) )
         {
-            ResourceExtenderDTO extender = populateDTO( daoUtil );
-            listExtenders.add( extender );
+            filter.setFilterValues( daoUtil );
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                ResourceExtenderDTO extender = populateDTO( daoUtil );
+                listExtenders.add( extender );
+            }
+
+            daoUtil.free( );
+
+            return listExtenders;
         }
-
-        daoUtil.free(  );
-
-        return listExtenders;
     }
 
     /**
@@ -210,19 +225,21 @@ public class ResourceExtenderDAO implements IResourceExtenderDAO
     @Override
     public List<Integer> loadIdsByFilter( ResourceExtenderDTOFilter filter, Plugin plugin )
     {
-        List<Integer> listIdsExtender = new ArrayList<Integer>(  );
-        DAOUtil daoUtil = new DAOUtil( filter.buildSQLQuery( SQL_QUERY_SELECT_ID_EXTENDER ), plugin );
-        filter.setFilterValues( daoUtil );
-        daoUtil.executeQuery(  );
-
-        while ( daoUtil.next(  ) )
+        List<Integer> listIdsExtender = new ArrayList<>( );
+        try ( DAOUtil daoUtil = new DAOUtil( filter.buildSQLQuery( SQL_QUERY_SELECT_ID_EXTENDER ), plugin ) )
         {
-            listIdsExtender.add( daoUtil.getInt( 1 ) );
+            filter.setFilterValues( daoUtil );
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                listIdsExtender.add( daoUtil.getInt( 1 ) );
+            }
+
+            daoUtil.free( );
+
+            return listIdsExtender;
         }
-
-        daoUtil.free(  );
-
-        return listIdsExtender;
     }
 
     /**
@@ -231,22 +248,22 @@ public class ResourceExtenderDAO implements IResourceExtenderDAO
     @Override
     public List<ResourceExtenderDTO> loadByListIds( List<Integer> listIds, Plugin plugin )
     {
-        List<ResourceExtenderDTO> listExtenders = new ArrayList<ResourceExtenderDTO>(  );
+        List<ResourceExtenderDTO> listExtenders = new ArrayList<>( );
 
-        if ( ( listIds != null ) && !listIds.isEmpty(  ) )
+        if ( ( listIds != null ) && !listIds.isEmpty( ) )
         {
             // array to keep order from listId
             // because we have no way to keep it with a query
-            ResourceExtenderDTO[] arrayExtenders = new ResourceExtenderDTO[listIds.size(  )];
+            ResourceExtenderDTO [ ] arrayExtenders = new ResourceExtenderDTO [ listIds.size( )];
             StringBuilder sbSQL = new StringBuilder( SQL_QUERY_SELECT_ALL );
             sbSQL.append( SQL_WHERE ).append( SQL_FILTER_ID_EXTENDER );
             sbSQL.append( OPEN_BRACKET );
 
-            for ( int i = 0; i < listIds.size(  ); i++ )
+            for ( int i = 0; i < listIds.size( ); i++ )
             {
                 sbSQL.append( QUESTION_MARK );
 
-                if ( i < ( listIds.size(  ) - 1 ) )
+                if ( i < ( listIds.size( ) - 1 ) )
                 {
                     sbSQL.append( COMMA );
                 }
@@ -254,42 +271,44 @@ public class ResourceExtenderDAO implements IResourceExtenderDAO
 
             sbSQL.append( CLOSED_BRACKET );
 
-            DAOUtil daoUtil = new DAOUtil( sbSQL.toString(  ), plugin );
-            int nIndex = 1;
-
-            for ( int nId : listIds )
+            try ( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ), plugin ) )
             {
-                daoUtil.setInt( nIndex++, nId );
+                int nIndex = 1;
+
+                for ( int nId : listIds )
+                {
+                    daoUtil.setInt( nIndex++, nId );
+                }
+
+                daoUtil.executeQuery( );
+
+                while ( daoUtil.next( ) )
+                {
+                    ResourceExtenderDTO extender = populateDTO( daoUtil );
+                    listExtenders.add( extender );
+                    // keep id order
+                    arrayExtenders [listIds.indexOf( extender.getIdExtender( ) )] = extender;
+                }
+
+                daoUtil.free( );
+                // get list from array
+                listExtenders = Arrays.asList( arrayExtenders );
             }
-
-            daoUtil.executeQuery(  );
-
-            while ( daoUtil.next(  ) )
-            {
-                ResourceExtenderDTO extender = populateDTO( daoUtil );
-                listExtenders.add( extender );
-                // keep id order
-                arrayExtenders[listIds.indexOf( extender.getIdExtender(  ) )] = extender;
-            }
-
-            daoUtil.free(  );
-            // get list from array
-            listExtenders = Arrays.asList( arrayExtenders );
         }
-
         return listExtenders;
     }
 
     /**
      * Populate dto.
      *
-     * @param daoUtil the dao util
+     * @param daoUtil
+     *            the dao util
      * @return the resource extender dto
      */
     private ResourceExtenderDTO populateDTO( DAOUtil daoUtil )
     {
         int nIndex = 1;
-        ResourceExtenderDTO dto = new ResourceExtenderDTO(  );
+        ResourceExtenderDTO dto = new ResourceExtenderDTO( );
         dto.setIdExtender( daoUtil.getInt( nIndex++ ) );
         dto.setExtenderType( daoUtil.getString( nIndex++ ) );
         dto.setIdExtendableResource( daoUtil.getString( nIndex++ ) );

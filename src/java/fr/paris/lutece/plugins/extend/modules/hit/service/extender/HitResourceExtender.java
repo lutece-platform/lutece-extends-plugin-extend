@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,13 +43,10 @@ import javax.inject.Inject;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
- * Extender for hit functionality.
- * <br />
- * Macro to use in the templates : <strong>@Extender[idResource,resourceType,hit,{show:true|false}]@</strong>
- * <br />
+ * Extender for hit functionality. <br />
+ * Macro to use in the templates : <strong>@Extender[idResource,resourceType,hit,{show:true|false}]@</strong> <br />
  * Example : @Extender[22,document,hit,{show:true}]@
  */
 public class HitResourceExtender extends AbstractResourceExtender
@@ -67,7 +64,7 @@ public class HitResourceExtender extends AbstractResourceExtender
     {
         if ( StringUtils.isNotBlank( strExtenderType ) )
         {
-            return getKey(  ).equals( strExtenderType );
+            return getKey( ).equals( strExtenderType );
         }
 
         return false;
@@ -77,11 +74,9 @@ public class HitResourceExtender extends AbstractResourceExtender
      * {@inheritDoc}
      */
     @Override
-    public String getContent( String strIdExtendableResource, String strExtendableResourceType, String strParameters,
-        HttpServletRequest request )
+    public String getContent( String strIdExtendableResource, String strExtendableResourceType, String strParameters, HttpServletRequest request )
     {
-        return getResourceExtenderComponent(  )
-                   .getPageAddOn( strIdExtendableResource, strExtendableResourceType, strParameters, request );
+        return getResourceExtenderComponent( ).getPageAddOn( strIdExtendableResource, strExtendableResourceType, strParameters, request );
     }
 
     /**
@@ -99,10 +94,10 @@ public class HitResourceExtender extends AbstractResourceExtender
     @Override
     public void doDeleteResourceAddOn( ResourceExtenderDTO extender )
     {
-        _hitService.removeByResource( extender.getIdExtendableResource(  ), extender.getExtendableResourceType(  ) );
+        _hitService.removeByResource( extender.getIdExtendableResource( ), extender.getExtendableResourceType( ) );
 
-        //        Hit hit = _hitService.findByParameters( extender.getIdExtendableResource( ),
-        //                extender.getExtendableResourceType( ) );
-        //        _hitService.remove( hit.getIdHit( ) );
+        // Hit hit = _hitService.findByParameters( extender.getIdExtendableResource( ),
+        // extender.getExtendableResourceType( ) );
+        // _hitService.remove( hit.getIdHit( ) );
     }
 }

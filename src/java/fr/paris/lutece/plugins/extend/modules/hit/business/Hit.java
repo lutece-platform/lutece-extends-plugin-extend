@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.plugins.extend.modules.hit.business;
 
 import javax.validation.constraints.NotNull;
 
-
 /**
  *
  * InteractionHit
@@ -53,13 +52,14 @@ public class Hit
     /**
      * @return the nIdHit
      */
-    public int getIdHit(  )
+    public int getIdHit( )
     {
         return _nIdHit;
     }
 
     /**
-     * @param nIdHit the nIdHit to set
+     * @param nIdHit
+     *            the nIdHit to set
      */
     public void setIdHit( int nIdHit )
     {
@@ -69,13 +69,14 @@ public class Hit
     /**
      * @return the strIdExtendableResource
      */
-    public String getIdExtendableResource(  )
+    public String getIdExtendableResource( )
     {
         return _strIdExtendableResource;
     }
 
     /**
-     * @param strIdExtendableResource the strIdExtendableResource to set
+     * @param strIdExtendableResource
+     *            the strIdExtendableResource to set
      */
     public void setIdExtendableResource( String strIdExtendableResource )
     {
@@ -85,13 +86,14 @@ public class Hit
     /**
      * @return the extendableResourceType
      */
-    public String getExtendableResourceType(  )
+    public String getExtendableResourceType( )
     {
         return _strExtendableResourceType;
     }
 
     /**
-     * @param strExtendableResourceType the extendableResourceType to set
+     * @param strExtendableResourceType
+     *            the extendableResourceType to set
      */
     public void setExtendableResourceType( String strExtendableResourceType )
     {
@@ -103,7 +105,7 @@ public class Hit
      *
      * @return the nNbHit
      */
-    public int getNbHits(  )
+    public int getNbHits( )
     {
         return _nNbHit;
     }
@@ -111,7 +113,8 @@ public class Hit
     /**
      * Sets the nb hits.
      *
-     * @param nNbHits the nNbHit to set
+     * @param nNbHits
+     *            the nNbHit to set
      */
     public void setNbHits( int nNbHits )
     {

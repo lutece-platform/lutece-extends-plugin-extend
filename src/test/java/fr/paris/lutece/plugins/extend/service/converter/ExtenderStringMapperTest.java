@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,12 +34,10 @@
 package fr.paris.lutece.plugins.extend.service.converter;
 
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
-import fr.paris.lutece.plugins.extend.service.converter.IStringMapper;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.test.LuteceTestCase;
 
 import org.junit.Test;
-
 
 /**
  *
@@ -57,7 +55,7 @@ public class ExtenderStringMapperTest extends LuteceTestCase
      * Test map.
      */
     @Test
-    public void testMap(  )
+    public void testMap( )
     {
         IStringMapper<ResourceExtenderDTO> map = SpringContextService.getBean( BEAN_MAPPER );
 

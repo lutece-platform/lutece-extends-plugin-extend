@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  *
  * ExtendableResourceTypeService
@@ -66,10 +65,10 @@ public class ExtendableResourceTypeService implements IExtendableResourceTypeSer
 
         for ( IExtendableResourceService resource : listExtendableResources )
         {
-            if ( StringUtils.equals( resource.getResourceType(  ), strKey ) )
+            if ( StringUtils.equals( resource.getResourceType( ), strKey ) )
             {
-                resourceType = new ExtendableResourceType(  );
-                resourceType.setKey( resource.getResourceType(  ) );
+                resourceType = new ExtendableResourceType( );
+                resourceType.setKey( resource.getResourceType( ) );
                 resourceType.setDescription( resource.getResourceTypeDescription( locale ) );
             }
         }
@@ -84,14 +83,14 @@ public class ExtendableResourceTypeService implements IExtendableResourceTypeSer
     public List<ExtendableResourceType> findAll( Locale locale )
     {
         List<IExtendableResourceService> listExtendableResources = SpringContextService.getBeansOfType( IExtendableResourceService.class );
-        List<ExtendableResourceType> listResourceTypes = new ArrayList<ExtendableResourceType>(  );
+        List<ExtendableResourceType> listResourceTypes = new ArrayList<>( );
 
         for ( IExtendableResourceService resource : listExtendableResources )
         {
-            if ( StringUtils.isNotEmpty( resource.getResourceType(  ) ) )
+            if ( StringUtils.isNotEmpty( resource.getResourceType( ) ) )
             {
-                ExtendableResourceType resourceType = new ExtendableResourceType(  );
-                resourceType.setKey( resource.getResourceType(  ) );
+                ExtendableResourceType resourceType = new ExtendableResourceType( );
+                resourceType.setKey( resource.getResourceType( ) );
                 resourceType.setDescription( resource.getResourceTypeDescription( locale ) );
                 listResourceTypes.add( resourceType );
             }
@@ -106,11 +105,11 @@ public class ExtendableResourceTypeService implements IExtendableResourceTypeSer
     @Override
     public ReferenceList findAllAsRef( Locale locale )
     {
-        ReferenceList ref = new ReferenceList(  );
+        ReferenceList ref = new ReferenceList( );
 
         for ( ExtendableResourceType resourceType : findAll( locale ) )
         {
-            ref.addItem( resourceType.getKey(  ), resourceType.getDescription(  ) );
+            ref.addItem( resourceType.getKey( ), resourceType.getDescription( ) );
         }
 
         return ref;

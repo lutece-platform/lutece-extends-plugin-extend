@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +46,6 @@ import org.springframework.util.Assert;
 
 import javax.inject.Inject;
 
-
 /**
  *
  * ResourceExtenderConfigService
@@ -62,7 +61,9 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
 
     /**
      * Set the extender config DAO
-     * @param extenderConfigDAO the extender config DAO
+     * 
+     * @param extenderConfigDAO
+     *            the extender config DAO
      */
     public void setExtenderConfigDAO( IExtenderConfigDAO<IExtenderConfig> extenderConfigDAO )
     {
@@ -111,7 +112,7 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
     public <T> T find( int nIdExtender )
     {
         String strKey = getCacheKey( nIdExtender );
-        IExtenderConfig config = ( IExtenderConfig ) _extenderCache.getFromCache( strKey );
+        IExtenderConfig config = (IExtenderConfig) _extenderCache.getFromCache( strKey );
         if ( config == null )
         {
             config = _extenderConfigDAO.load( nIdExtender );
@@ -122,7 +123,9 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
 
     /**
      * Get a cache key for the extender config
-     * @param nIdExtender id of the extender
+     * 
+     * @param nIdExtender
+     *            id of the extender
      * @return the cache key
      */
     private String getCacheKey( int nIdExtender )
@@ -136,12 +139,12 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
     @Override
     public <T> T find( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType )
     {
-        ResourceExtenderDTO resourceExtender = _extenderService.findResourceExtenderIncludingWildcard( strExtenderType,
-                strIdExtendableResource, strExtendableResourceType );
+        ResourceExtenderDTO resourceExtender = _extenderService.findResourceExtenderIncludingWildcard( strExtenderType, strIdExtendableResource,
+                strExtendableResourceType );
 
         if ( resourceExtender != null )
         {
-            return find( resourceExtender.getIdExtender(  ) );
+            return find( resourceExtender.getIdExtender( ) );
         }
 
         return null;
@@ -149,8 +152,11 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
 
     /**
      * Get the config bean
-     * @param <T> The class of the bean
-     * @param config the config
+     * 
+     * @param <T>
+     *            The class of the bean
+     * @param config
+     *            the config
      * @return the config bean
      */
     public static <T> T getConfigBean( IExtenderConfig config )
@@ -161,9 +167,9 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
             {
                 return (T) config;
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
-                AppLogService.error( e.getMessage(  ), e );
+                AppLogService.error( e.getMessage( ), e );
             }
         }
 
@@ -172,9 +178,10 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
 
     /**
      * Get the DAO
+     * 
      * @return the DAO
      */
-    protected IExtenderConfigDAO<IExtenderConfig> getDAO(  )
+    protected IExtenderConfigDAO<IExtenderConfig> getDAO( )
     {
         return _extenderConfigDAO;
     }
@@ -183,7 +190,7 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
      * {@inheritDoc}
      */
     @Override
-    public void afterPropertiesSet(  ) throws Exception
+    public void afterPropertiesSet( ) throws Exception
     {
         Assert.notNull( _extenderConfigDAO, "The property 'extenderConfigDAO' must be set." );
     }

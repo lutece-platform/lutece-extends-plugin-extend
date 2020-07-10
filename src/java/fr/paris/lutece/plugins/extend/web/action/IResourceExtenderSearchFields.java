@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * IResourceExtenderSearchFields
@@ -49,95 +48,120 @@ import javax.servlet.http.HttpServletRequest;
 public interface IResourceExtenderSearchFields
 {
     /**
-    * Get the items per page
-    * @return the items per page
-    */
-    int getItemsPerPage(  );
+     * Get the items per page
+     * 
+     * @return the items per page
+     */
+    int getItemsPerPage( );
 
     /**
      * Set the items per page
-     * @param nItemsPerPage the items per page
+     * 
+     * @param nItemsPerPage
+     *            the items per page
      */
     void setItemsPerPage( int nItemsPerPage );
 
     /**
-    * Default items per page
-    * @return default items per page
-    */
-    int getDefaultItemsPerPage(  );
+     * Default items per page
+     * 
+     * @return default items per page
+     */
+    int getDefaultItemsPerPage( );
 
     /**
      * Default items per page
-     * @param nDefaultItemsPerPage default items per page
+     * 
+     * @param nDefaultItemsPerPage
+     *            default items per page
      */
     void setDefaultItemsPerPage( int nDefaultItemsPerPage );
 
     /**
      * Current page index
+     * 
      * @return current page index
      */
-    String getCurrentPageIndex(  );
+    String getCurrentPageIndex( );
 
     /**
      * Current page index
-     * @param strCurrentPageIndex current page index
+     * 
+     * @param strCurrentPageIndex
+     *            current page index
      */
     void setCurrentPageIndex( String strCurrentPageIndex );
 
     /**
      * Set the sorted attribute name from the HTTP request
-     * @param request the HTTP request
+     * 
+     * @param request
+     *            the HTTP request
      */
     void setSortedAttributeName( HttpServletRequest request );
 
     /**
      * Get the sorted attribute name
+     * 
      * @return the sorted attibute name
      */
-    String getSortedAttributeName(  );
+    String getSortedAttributeName( );
 
     /**
      * Set the asc sort from the HTTP request
-     * @param request the HTTP request
+     * 
+     * @param request
+     *            the HTTP request
      */
     void setAscSort( HttpServletRequest request );
 
     /**
      * Check if it is an asc sort
+     * 
      * @return true if it is an asc sort, false otherwise
      */
-    boolean isAscSort(  );
+    boolean isAscSort( );
 
     /**
      * Fill model.
      *
-     * @param strBaseUrl the str base url
-     * @param request the request
-     * @param model the model
-     * @param strIdExtendableResource the str id extendable resource
-     * @param user the user
-     * @throws AccessDeniedException the access denied exception
+     * @param strBaseUrl
+     *            the str base url
+     * @param request
+     *            the request
+     * @param model
+     *            the model
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param user
+     *            the user
+     * @throws AccessDeniedException
+     *             the access denied exception
      */
-    void fillModel( String strBaseUrl, HttpServletRequest request, Map<String, Object> model,
-        String strIdExtendableResource, AdminUser user )
-        throws AccessDeniedException;
+    void fillModel( String strBaseUrl, HttpServletRequest request, Map<String, Object> model, String strIdExtendableResource, AdminUser user )
+            throws AccessDeniedException;
 
     /**
      * Fill model.
      *
-     * @param strBaseUrl the str base url
-     * @param request the request
-     * @param model the model
-     * @param user the user
-     * @throws AccessDeniedException the access denied exception
+     * @param strBaseUrl
+     *            the str base url
+     * @param request
+     *            the request
+     * @param model
+     *            the model
+     * @param user
+     *            the user
+     * @throws AccessDeniedException
+     *             the access denied exception
      */
-    void fillModel( String strBaseUrl, HttpServletRequest request, Map<String, Object> model, AdminUser user )
-        throws AccessDeniedException;
+    void fillModel( String strBaseUrl, HttpServletRequest request, Map<String, Object> model, AdminUser user ) throws AccessDeniedException;
 
     /**
      * Inits the filter.
      *
-     * @param request the request
+     * @param request
+     *            the request
      */
     void initFilter( HttpServletRequest request );
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.resource.IExtendableResourceService;
 
 import java.util.List;
 
-
 /**
  *
  * IExtendableResourceManager
@@ -51,12 +50,13 @@ public interface IExtendableResourceManager
      *
      * @return the extendable resource services
      */
-    List<IExtendableResourceService> getExtendableResourceServices(  );
+    List<IExtendableResourceService> getExtendableResourceServices( );
 
     /**
      * Gets the extendable resource service.
      *
-     * @param strResourceType the str resource type
+     * @param strResourceType
+     *            the str resource type
      * @return the extendable resource service
      */
     IExtendableResourceService getExtendableResourceService( String strResourceType );
@@ -64,24 +64,26 @@ public interface IExtendableResourceManager
     /**
      * Gets the resource.
      *
-     * @param strIdResource the str id resource
-     * @param strResourceType the str resource type
+     * @param strIdResource
+     *            the str id resource
+     * @param strResourceType
+     *            the str resource type
      * @return the resource
      */
     IExtendableResource getResource( String strIdResource, String strResourceType );
 
     /**
-     * Check if the user must be redirected to the default resource extender creation page
-     * or not.
-     * <br />
+     * Check if the user must be redirected to the default resource extender creation page or not. <br />
      * To be redirected, the following conditions must be set :
      * <ul>
      * <li>The resource service for the given resource type is not found</li>
      * <li>There are no existing resource for the given id resource</li>
      * </ul>
      *
-     * @param strIdResource the str id resource
-     * @param strResourceType the str resource type
+     * @param strIdResource
+     *            the str id resource
+     * @param strResourceType
+     *            the str resource type
      * @return true, if successful
      */
     boolean useDefaultExtendableResourceService( String strIdResource, String strResourceType );

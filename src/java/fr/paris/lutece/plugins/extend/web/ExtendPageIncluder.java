@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2013, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Class that generates included content of page header.
  */
@@ -56,7 +55,7 @@ public class ExtendPageIncluder implements PageInclude
     @Override
     public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
-        StringBuilder sbMeta = new StringBuilder(  );
+        StringBuilder sbMeta = new StringBuilder( );
 
         List<IExtendPageInclude> listPageInclude = SpringContextService.getBeansOfType( IExtendPageInclude.class );
 
@@ -65,6 +64,6 @@ public class ExtendPageIncluder implements PageInclude
             sbMeta.append( pageInclude.getIncludeString( request ) );
         }
 
-        rootModel.put( MARK_EXTEND_META, sbMeta.toString(  ) );
+        rootModel.put( MARK_EXTEND_META, sbMeta.toString( ) );
     }
 }
