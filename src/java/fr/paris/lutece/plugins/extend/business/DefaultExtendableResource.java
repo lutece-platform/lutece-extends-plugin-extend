@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.plugins.extend.business;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 
-
 /**
  * DefaultExtendableResource.
  */
@@ -49,27 +48,28 @@ public class DefaultExtendableResource implements IExtendableResource
     /**
      * Instantiates a new default extendable resource.
      */
-    public DefaultExtendableResource(  )
+    public DefaultExtendableResource( )
     {
     }
 
     /**
      * Instantiates a new default extendable resource.
      *
-     * @param resourceExtender the resource extender
+     * @param resourceExtender
+     *            the resource extender
      */
     public DefaultExtendableResource( ResourceExtenderDTO resourceExtender )
     {
-        _strIdExtendableResource = resourceExtender.getIdExtendableResource(  );
-        _strResourceType = resourceExtender.getExtendableResourceType(  );
-        _strName = resourceExtender.getName(  );
+        _strIdExtendableResource = resourceExtender.getIdExtendableResource( );
+        _strResourceType = resourceExtender.getExtendableResourceType( );
+        _strName = resourceExtender.getName( );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getIdExtendableResource(  )
+    public String getIdExtendableResource( )
     {
         return _strIdExtendableResource;
     }
@@ -78,7 +78,7 @@ public class DefaultExtendableResource implements IExtendableResource
      * {@inheritDoc}
      */
     @Override
-    public String getExtendableResourceType(  )
+    public String getExtendableResourceType( )
     {
         return _strResourceType;
     }
@@ -87,7 +87,7 @@ public class DefaultExtendableResource implements IExtendableResource
      * {@inheritDoc}
      */
     @Override
-    public String getExtendableResourceName(  )
+    public String getExtendableResourceName( )
     {
         return _strName;
     }
@@ -95,7 +95,8 @@ public class DefaultExtendableResource implements IExtendableResource
     /**
      * Sets the id extendable resource.
      *
-     * @param strId the new id extendable resource
+     * @param strId
+     *            the new id extendable resource
      */
     public void setIdExtendableResource( String strId )
     {
@@ -105,7 +106,8 @@ public class DefaultExtendableResource implements IExtendableResource
     /**
      * Sets the extendable resource type.
      *
-     * @param strResourceType the new extendable resource type
+     * @param strResourceType
+     *            the new extendable resource type
      */
     public void setExtendableResourceType( String strResourceType )
     {
@@ -115,7 +117,8 @@ public class DefaultExtendableResource implements IExtendableResource
     /**
      * Sets the extendable resource name.
      *
-     * @param strName the new extendable resource name
+     * @param strName
+     *            the new extendable resource name
      */
     public void setExtendableResourceName( String strName )
     {
@@ -126,7 +129,7 @@ public class DefaultExtendableResource implements IExtendableResource
      * {@inheritDoc}
      */
     @Override
-    public String getExtendableResourceDescription(  )
+    public String getExtendableResourceDescription( )
     {
         return _strName;
     }
@@ -135,7 +138,7 @@ public class DefaultExtendableResource implements IExtendableResource
      * {@inheritDoc}
      */
     @Override
-    public String getExtendableResourceImageUrl(  )
+    public String getExtendableResourceImageUrl( )
     {
         return null;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,6 @@ import org.springframework.util.Assert;
 import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 
-
 /**
  *
  * AbstractResourceExtender
@@ -62,7 +61,7 @@ public abstract class AbstractResourceExtender implements IResourceExtender, Ini
      * {@inheritDoc}
      */
     @Override
-    public String getKey(  )
+    public String getKey( )
     {
         return _strKey;
     }
@@ -98,13 +97,14 @@ public abstract class AbstractResourceExtender implements IResourceExtender, Ini
      * @return the bIsConfigRequired
      */
     @Override
-    public boolean isConfigRequired(  )
+    public boolean isConfigRequired( )
     {
         return _bIsConfigRequired;
     }
 
     /**
-     * @param bIsConfigRequired the bIsConfigRequired to set
+     * @param bIsConfigRequired
+     *            the bIsConfigRequired to set
      */
     public void setConfigRequired( boolean bIsConfigRequired )
     {
@@ -115,13 +115,14 @@ public abstract class AbstractResourceExtender implements IResourceExtender, Ini
      * {@inheritDoc}
      */
     @Override
-    public boolean isHistoryEnable(  )
+    public boolean isHistoryEnable( )
     {
         return _bIsHistoryEnable;
     }
 
     /**
-     * @param bIsHistoryEnable the bIsHistoryEnable to set
+     * @param bIsHistoryEnable
+     *            the bIsHistoryEnable to set
      */
     public void setHistoryEnable( boolean bIsHistoryEnable )
     {
@@ -131,13 +132,14 @@ public abstract class AbstractResourceExtender implements IResourceExtender, Ini
     /**
      * @return the _bIsStateEnable
      */
-    public boolean isStateEnable(  )
+    public boolean isStateEnable( )
     {
         return _bIsStateEnable;
     }
 
     /**
-     * @param bIsStateEnable the _bIsStateEnable to set
+     * @param bIsStateEnable
+     *            the _bIsStateEnable to set
      */
     public void setStateEnable( boolean bIsStateEnable )
     {
@@ -147,7 +149,7 @@ public abstract class AbstractResourceExtender implements IResourceExtender, Ini
     /**
      * @return the resourceExtenderComponent
      */
-    public IResourceExtenderComponent getResourceExtenderComponent(  )
+    public IResourceExtenderComponent getResourceExtenderComponent( )
     {
         return _resourceExtenderComponent;
     }
@@ -155,7 +157,8 @@ public abstract class AbstractResourceExtender implements IResourceExtender, Ini
     /**
      * Sets the resource extender component.
      *
-     * @param resourceExtenderComponent the new resource extender component
+     * @param resourceExtenderComponent
+     *            the new resource extender component
      */
     public void setResourceExtenderComponent( IResourceExtenderComponent resourceExtenderComponent )
     {
@@ -166,13 +169,13 @@ public abstract class AbstractResourceExtender implements IResourceExtender, Ini
      * {@inheritDoc}
      */
     @Override
-    public void afterPropertiesSet(  ) throws Exception
+    public void afterPropertiesSet( ) throws Exception
     {
         Assert.notNull( _strKey, "The property 'key' must be provided" );
         Assert.notNull( _strI18nTitleKey, "The property 'i18nTitleKey' must be provided" );
         Assert.notNull( _resourceExtenderComponent, "The property 'resourceExtenderComponent' must be provided" );
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -181,10 +184,10 @@ public abstract class AbstractResourceExtender implements IResourceExtender, Ini
     {
         if ( StringUtils.isNotBlank( strExtenderType ) )
         {
-            return getKey(  ).equals( strExtenderType );
+            return getKey( ).equals( strExtenderType );
         }
 
         return false;
     }
-    
+
 }

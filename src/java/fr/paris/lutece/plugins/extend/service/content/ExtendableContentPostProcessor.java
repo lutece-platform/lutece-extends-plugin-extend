@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,11 +59,9 @@ import javax.inject.Inject;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
- * This content post processor replace all macro of type @Extender[idResource,resourceType,extenderType,parameters]@
- * to the associated extender content.
+ * This content post processor replace all macro of type @Extender[idResource,resourceType,extenderType,parameters]@ to the associated extender content.
  *
  */
 public class ExtendableContentPostProcessor implements ContentPostProcessor, InitializingBean
@@ -99,7 +97,8 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
     /**
      * Sets the regex pattern.
      *
-     * @param strRegexPattern the new regex pattern
+     * @param strRegexPattern
+     *            the new regex pattern
      */
     public void setRegexPattern( String strRegexPattern )
     {
@@ -114,7 +113,8 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
     /**
      * Sets the regex pattern.
      *
-     * @param strExtenderParameterRegexPattern the new regex pattern
+     * @param strExtenderParameterRegexPattern
+     *            the new regex pattern
      */
     public void setExtenderParameterRegexPattern( String strExtenderParameterRegexPattern )
     {
@@ -130,7 +130,7 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
      * {@inheritDoc}
      */
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return NAME;
     }
@@ -144,7 +144,7 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
         String strHtmlContent = strContent;
 
         // Check if the process is carried out in client or server side
-        boolean bClientSide = Boolean.valueOf( AppPropertiesService.getProperty( PROPERTY_CLIENT_SIDE, "false" ) );
+        boolean bClientSide = Boolean.parseBoolean( AppPropertiesService.getProperty( PROPERTY_CLIENT_SIDE, "false" ) );
 
         if ( bClientSide )
         {
@@ -158,64 +158,59 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
                 return strHtmlContent;
             }
 
-            Map<String, Object> model = new HashMap<String, Object>(  );
+            Map<String, Object> model = new HashMap<>( );
             model.put( MARK_BASE_URL, AppPathService.getBaseUrl( request ) );
             model.put( MARK_REGEX_PATTERN, _strRegexPattern );
 
-            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT_POST_PROCESSOR,
-                    request.getLocale(  ), model );
+            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CONTENT_POST_PROCESSOR, request.getLocale( ), model );
 
-            StringBuilder sb = new StringBuilder(  );
+            StringBuilder sb = new StringBuilder( );
             sb.append( strHtmlContent.substring( 0, nPos ) );
-            sb.append( template.getHtml(  ) );
+            sb.append( template.getHtml( ) );
             sb.append( strHtmlContent.substring( nPos ) );
-            strHtmlContent = sb.toString(  );
+            strHtmlContent = sb.toString( );
         }
         else
         {
             // SERVER SIDE
 
             /**
-             * Replace all makers @Extender[<idResource>,<resourceType>,<extenderType>,<params>]@ to
-             * the correct HTML content of the extender.
-             * 1) First parse the content of the markers
-             * 2) Get all information (idResource, resourceType, extenderType, params)
-             * 3) Get the html content from the given information
-             * 4) Replace the markers by the html content
+             * Replace all makers @Extender[<idResource>,<resourceType>,<extenderType>,<params>]@ to the correct HTML content of the extender. 1) First parse
+             * the content of the markers 2) Get all information (idResource, resourceType, extenderType, params) 3) Get the html content from the given
+             * information 4) Replace the markers by the html content
              */
 
             // 1) First parse the content of the markers
             Matcher match = _regexPattern.matcher( strHtmlContent );
             Matcher parameterMatch = null;
             StringBuffer strResultHTML = new StringBuffer( strHtmlContent.length( ) );
-            while ( match.find(  ) )
+            while ( match.find( ) )
             {
-                String strMarker = match.group(  );
+                match.group( );
 
                 // 2) Get all information (idResource, resourceType, extenderType, params)
                 ResourceExtenderDTO resourceExtender = _mapper.map( match.group( 1 ) );
-                boolean bParameteredId = StringUtils.equalsIgnoreCase( resourceExtender.getIdExtendableResource(  ),
-                        EXTEND_PARAMETERED_ID );
+                boolean bParameteredId = StringUtils.equalsIgnoreCase( resourceExtender.getIdExtendableResource( ), EXTEND_PARAMETERED_ID );
 
                 if ( bParameteredId )
                 {
-                    if ( parameterMatch == null)
+                    if ( parameterMatch == null )
                     {
                         parameterMatch = _extendedParameterRegexPattern.matcher( strHtmlContent );
-                    } else {
+                    }
+                    else
+                    {
                         parameterMatch.reset( );
                     }
 
-                    while ( parameterMatch.find(  ) )
+                    while ( parameterMatch.find( ) )
                     {
                         ResourceExtenderDTO realResourceExtender = _mapper.map( parameterMatch.group( 1 ) );
 
-                        if ( StringUtils.equals( realResourceExtender.getExtendableResourceType(  ),
-                                    resourceExtender.getExtendableResourceType(  ) ) &&
-                                StringUtils.equals( realResourceExtender.getExtenderType(  ),
-                                    resourceExtender.getExtenderType(  ) ) )
+                        if ( StringUtils.equals( realResourceExtender.getExtendableResourceType( ), resourceExtender.getExtendableResourceType( ) )
+                                && StringUtils.equals( realResourceExtender.getExtenderType( ), resourceExtender.getExtenderType( ) ) )
                         {
-                            resourceExtender.setIdExtendableResource( realResourceExtender.getIdExtendableResource(  ) );
+                            resourceExtender.setIdExtendableResource( realResourceExtender.getIdExtendableResource( ) );
 
                             break;
                         }
@@ -224,18 +219,15 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
 
                 String strHtml = StringUtils.EMPTY;
 
-                if ( !bParameteredId ||
-                        !StringUtils.equalsIgnoreCase( resourceExtender.getIdExtendableResource(  ),
-                            EXTEND_PARAMETERED_ID ) )
+                if ( !bParameteredId || !StringUtils.equalsIgnoreCase( resourceExtender.getIdExtendableResource( ), EXTEND_PARAMETERED_ID ) )
                 {
                     // 3) Get the html content from the given information
-                    if ( !StringUtils.equals( resourceExtender.getExtendableResourceType(  ), Page.RESOURCE_TYPE ) ||
-                            ( StringUtils.isBlank( request.getParameter( PARAM_PAGE ) ) &&
-                            StringUtils.isBlank( request.getParameter( PARAM_PORTLET_ID ) ) ) )
+                    if ( !StringUtils.equals( resourceExtender.getExtendableResourceType( ), Page.RESOURCE_TYPE )
+                            || ( StringUtils.isBlank( request.getParameter( PARAM_PAGE ) )
+                                    && StringUtils.isBlank( request.getParameter( PARAM_PORTLET_ID ) ) ) )
                     {
-                        strHtml = _extenderService.getContent( resourceExtender.getIdExtendableResource(  ),
-                                resourceExtender.getExtendableResourceType(  ), resourceExtender.getExtenderType(  ),
-                                resourceExtender.getParameters(  ), request );
+                        strHtml = _extenderService.getContent( resourceExtender.getIdExtendableResource( ), resourceExtender.getExtendableResourceType( ),
+                                resourceExtender.getExtenderType( ), resourceExtender.getParameters( ), request );
                     }
                 }
 
@@ -258,7 +250,7 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
      * {@inheritDoc}
      */
     @Override
-    public void afterPropertiesSet(  ) throws Exception
+    public void afterPropertiesSet( ) throws Exception
     {
         Assert.notNull( _strRegexPattern, "The property 'regexPattern' is required." );
     }

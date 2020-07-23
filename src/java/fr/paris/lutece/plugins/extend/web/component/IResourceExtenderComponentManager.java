@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * IResourceExtenderComponentManager.
  */
@@ -49,7 +48,8 @@ public interface IResourceExtenderComponentManager
     /**
      * Gets the resource extender component.
      *
-     * @param strExtenderType the str extender type
+     * @param strExtenderType
+     *            the str extender type
      * @return the resource extender component
      */
     IResourceExtenderComponent getResourceExtenderComponent( String strExtenderType );
@@ -57,16 +57,20 @@ public interface IResourceExtenderComponentManager
     /**
      * Builds the xml add on.
      *
-     * @param resourceExtender the resource extender
-     * @param strXml the str xml
+     * @param resourceExtender
+     *            the resource extender
+     * @param strXml
+     *            the str xml
      */
     void buildXmlAddOn( ResourceExtenderDTO resourceExtender, StringBuffer strXml );
 
     /**
      * Gets the page add on.
      *
-     * @param resourceExtender the resource extender
-     * @param request the request
+     * @param resourceExtender
+     *            the resource extender
+     * @param request
+     *            the request
      * @return the page add on
      */
     String getPageAddOn( ResourceExtenderDTO resourceExtender, HttpServletRequest request );
@@ -74,9 +78,12 @@ public interface IResourceExtenderComponentManager
     /**
      * Gets the config html.
      *
-     * @param resourceExtender the resource extender
-     * @param locale the locale
-     * @param request the request
+     * @param resourceExtender
+     *            the resource extender
+     * @param locale
+     *            the locale
+     * @param request
+     *            the request
      * @return the config html
      */
     String getConfigHtml( ResourceExtenderDTO resourceExtender, Locale locale, HttpServletRequest request );
@@ -84,9 +91,12 @@ public interface IResourceExtenderComponentManager
     /**
      * Gets the default config html of an extender type.
      *
-     * @param strExtenderType the resource extender type
-     * @param locale the locale
-     * @param request the request
+     * @param strExtenderType
+     *            the resource extender type
+     * @param locale
+     *            the locale
+     * @param request
+     *            the request
      * @return the config html
      */
     String getDefaultConfigHtml( String strExtenderType, Locale locale, HttpServletRequest request );
@@ -94,9 +104,12 @@ public interface IResourceExtenderComponentManager
     /**
      * Gets the info html.
      *
-     * @param resourceExtender the resource extender
-     * @param locale the locale
-     * @param request the request
+     * @param resourceExtender
+     *            the resource extender
+     * @param locale
+     *            the locale
+     * @param request
+     *            the request
      * @return the info html
      */
     String getInfoHtml( ResourceExtenderDTO resourceExtender, Locale locale, HttpServletRequest request );
@@ -104,9 +117,12 @@ public interface IResourceExtenderComponentManager
     /**
      * Gets the history html.
      *
-     * @param resourceExtender the resource extender
-     * @param locale the locale
-     * @param request the request
+     * @param resourceExtender
+     *            the resource extender
+     * @param locale
+     *            the locale
+     * @param request
+     *            the request
      * @return the history html
      */
     String getHistoryHtml( ResourceExtenderDTO resourceExtender, Locale locale, HttpServletRequest request );
@@ -114,10 +130,12 @@ public interface IResourceExtenderComponentManager
     /**
      * Do save config.
      *
-     * @param resourceExtender the resource extender
-     * @param request the request
-     * @throws ExtendErrorException the extend error exception
+     * @param resourceExtender
+     *            the resource extender
+     * @param request
+     *            the request
+     * @throws ExtendErrorException
+     *             the extend error exception
      */
-    void doSaveConfig( ResourceExtenderDTO resourceExtender, HttpServletRequest request )
-        throws ExtendErrorException;
+    void doSaveConfig( ResourceExtenderDTO resourceExtender, HttpServletRequest request ) throws ExtendErrorException;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,11 +33,11 @@
  */
 package fr.paris.lutece.plugins.extend.util;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
-
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
-
+import fr.paris.lutece.portal.service.util.AppException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  *
@@ -46,30 +46,33 @@ import net.sf.json.JSONObject;
  */
 public final class JSONUtils
 {
+    private static ObjectMapper _mapper = new ObjectMapper( ).configure( DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false );
+
     /**
      * Instantiates a new jSON utils.
      */
-    private JSONUtils(  )
+    private JSONUtils( )
     {
     }
 
     /**
      * Parses the parameters.
      *
-     * @param strParameters the str parameters
+     * @param strParameters
+     *            the str parameters
      * @return the jSON object
      */
-    public static JSONObject parseParameters( String strParameters )
+    public static JsonNode parseParameters( String strParameters )
     {
+
         try
         {
-            return JSONObject.fromObject( strParameters );
+            return _mapper.readTree( strParameters );
         }
-        catch ( JSONException je )
+        catch( JsonProcessingException e )
         {
-            AppLogService.error( je.getMessage(  ), je );
+            throw new AppException( "JSON processing exception", e );
         }
 
-        return null;
     }
 }

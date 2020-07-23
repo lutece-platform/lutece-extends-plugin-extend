@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.extend.service.extender;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilter;
 import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
@@ -49,7 +50,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * IResourceExtenderService
@@ -60,7 +60,8 @@ public interface IResourceExtenderService
     /**
      * Creates.
      *
-     * @param extender the extender
+     * @param extender
+     *            the extender
      */
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     void create( ResourceExtenderDTO extender );
@@ -68,7 +69,8 @@ public interface IResourceExtenderService
     /**
      * Update.
      *
-     * @param extender the extender
+     * @param extender
+     *            the extender
      */
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     void update( ResourceExtenderDTO extender );
@@ -76,7 +78,8 @@ public interface IResourceExtenderService
     /**
      * Delete.
      *
-     * @param nIdExtender the n id extender
+     * @param nIdExtender
+     *            the n id extender
      */
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     void remove( int nIdExtender );
@@ -84,7 +87,8 @@ public interface IResourceExtenderService
     /**
      * Find by primary key.
      *
-     * @param nIdExtender the n id extender
+     * @param nIdExtender
+     *            the n id extender
      * @return the extender
      */
     ResourceExtenderDTO findByPrimaryKey( int nIdExtender );
@@ -94,12 +98,13 @@ public interface IResourceExtenderService
      *
      * @return the list
      */
-    List<ResourceExtenderDTO> findAll(  );
+    List<ResourceExtenderDTO> findAll( );
 
     /**
      * Find by filter.
      *
-     * @param filter the filter
+     * @param filter
+     *            the filter
      * @return the list
      */
     List<ResourceExtenderDTO> findByFilter( ResourceExtenderDTOFilter filter );
@@ -107,7 +112,8 @@ public interface IResourceExtenderService
     /**
      * Find ids by filter.
      *
-     * @param filter the filter
+     * @param filter
+     *            the filter
      * @return the list
      */
     List<Integer> findIdsByFilter( ResourceExtenderDTOFilter filter );
@@ -115,65 +121,80 @@ public interface IResourceExtenderService
     /**
      * Find by list ids.
      *
-     * @param listIds the list ids
+     * @param listIds
+     *            the list ids
      * @return the list
      */
     List<ResourceExtenderDTO> findByListIds( List<Integer> listIds );
 
     /**
      * Find the resource extender.
-     * @param strExtenderType the str extender type
-     * @param strIdExtendableResource the str id extendable resource
-     * @param strExtendableResourceType the str extendable resource type
+     * 
+     * @param strExtenderType
+     *            the str extender type
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
      * @return the resource extender dto
      */
-    ResourceExtenderDTO findResourceExtender( String strExtenderType, String strIdExtendableResource,
-        String strExtendableResourceType );
+    ResourceExtenderDTO findResourceExtender( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType );
 
     /**
      * Find wildcard resource extender.
      *
-     * @param strExtenderType the str extender type
-     * @param strExtendableResourceType the str extendable resource type
+     * @param strExtenderType
+     *            the str extender type
+     * @param strExtendableResourceType
+     *            the str extendable resource type
      * @return the resource extender dto
      */
     ResourceExtenderDTO findWildCardResourceExtender( String strExtenderType, String strExtendableResourceType );
 
     /**
-     * Find the resource extender, or the wildcard resource extender if no
-     * extender with the specified id exists.
-     * @param strExtenderType the str extender type
-     * @param strIdExtendableResource the str id extendable resource
-     * @param strExtendableResourceType the str extendable resource type
+     * Find the resource extender, or the wildcard resource extender if no extender with the specified id exists.
+     * 
+     * @param strExtenderType
+     *            the str extender type
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
      * @return the resource extender dto
      */
-    ResourceExtenderDTO findResourceExtenderIncludingWildcard( String strExtenderType, String strIdExtendableResource,
-        String strExtendableResourceType );
+    ResourceExtenderDTO findResourceExtenderIncludingWildcard( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType );
 
     /**
      * Gets the extender types.
      *
-     * @param locale the locale
+     * @param locale
+     *            the locale
      * @return the extender types
      */
     ReferenceList getExtenderTypes( Locale locale );
 
     /**
      * Get the list of installed extenders for a given resource id and a given resource type.
-     * @param strIdExtendableResource Id of the resource
-     * @param strExtendableResourceType Type of the resource
-     * @param plugin the plugin
+     * 
+     * @param strIdExtendableResource
+     *            Id of the resource
+     * @param strExtendableResourceType
+     *            Type of the resource
+     * @param plugin
+     *            the plugin
      * @return A map of associations of string / boolean. Only installed extender types are considered.
      */
-    Map<String, Boolean> getExtenderTypesInstalled( String strIdExtendableResource, String strExtendableResourceType,
-        Plugin plugin );
+    Map<String, Boolean> getExtenderTypesInstalled( String strIdExtendableResource, String strExtendableResourceType, Plugin plugin );
 
     /**
      * Checks if is authorized.
      *
-     * @param strIdExtendableResource the str id extendable resource
-     * @param strExtendableResourceType the str extendable resource type
-     * @param strExtenderType the str extender type
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
+     * @param strExtenderType
+     *            the str extender type
      * @return true, if is authorized
      */
     boolean isAuthorized( String strIdExtendableResource, String strExtendableResourceType, String strExtenderType );
@@ -181,8 +202,10 @@ public interface IResourceExtenderService
     /**
      * Checks if is authorized to all resources.
      *
-     * @param strExtendableResourceType the str extendable resource type
-     * @param strExtenderType the str extender type
+     * @param strExtendableResourceType
+     *            the str extendable resource type
+     * @param strExtenderType
+     *            the str extender type
      * @return true, if is authorized to all resources
      */
     boolean isAuthorizedToAllResources( String strExtendableResourceType, String strExtenderType );
@@ -190,7 +213,8 @@ public interface IResourceExtenderService
     /**
      * Checks if is authorized to all resources.
      *
-     * @param nIdExtender the n id extender
+     * @param nIdExtender
+     *            the n id extender
      * @return true, if is authorized to all resources
      */
     boolean isAuthorizedToAllResources( int nIdExtender );
@@ -198,27 +222,34 @@ public interface IResourceExtenderService
     /**
      * Gets the resource extender content.
      *
-     * @param strIdExtendableResource the str id extendable resource
-     * @param strExtendableResourceType the str extendable resource type
-     * @param strExtenderType the str resource extender type
-     * @param strParameters the str parameters
-     * @param request the request
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
+     * @param strExtenderType
+     *            the str resource extender type
+     * @param strParameters
+     *            the str parameters
+     * @param request
+     *            the request
      * @return the resource extender content
      */
-    String getContent( String strIdExtendableResource, String strExtendableResourceType, String strExtenderType,
-        String strParameters, HttpServletRequest request );
+    String getContent( String strIdExtendableResource, String strExtendableResourceType, String strExtenderType, String strParameters,
+            HttpServletRequest request );
 
     /**
      * Do create resource add on.
      *
-     * @param resourceExtender the extender
+     * @param resourceExtender
+     *            the extender
      */
     void doCreateResourceAddOn( ResourceExtenderDTO resourceExtender );
 
     /**
      * Do delete resource add on.
      *
-     * @param resourceExtender the extender
+     * @param resourceExtender
+     *            the extender
      */
     void doDeleteResourceAddOn( ResourceExtenderDTO resourceExtender );
 
@@ -227,12 +258,13 @@ public interface IResourceExtenderService
      *
      * @return the resource extenders
      */
-    List<IResourceExtender> getResourceExtenders(  );
+    List<IResourceExtender> getResourceExtenders( );
 
     /**
      * Gets the resource extender.
      *
-     * @param strExtenderType the str extender type
+     * @param strExtenderType
+     *            the str extender type
      * @return the resource extender
      */
     IResourceExtender getResourceExtender( String strExtenderType );
@@ -240,7 +272,8 @@ public interface IResourceExtenderService
     /**
      * Gets the extendable resource name.
      *
-     * @param resourceExtender the resource extender
+     * @param resourceExtender
+     *            the resource extender
      * @return the extendable resource name
      */
     String getExtendableResourceName( ResourceExtenderDTO resourceExtender );
@@ -248,8 +281,10 @@ public interface IResourceExtenderService
     /**
      * Gets the extendable resource name.
      *
-     * @param strIdExtendableResource the str id extendable resource
-     * @param strExtendableResourceType the str extendable resource type
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
      * @return the extendable resource name
      */
     String getExtendableResourceName( String strIdExtendableResource, String strExtendableResourceType );
@@ -257,7 +292,8 @@ public interface IResourceExtenderService
     /**
      * Gets the extendable resource
      *
-     * @param resourceExtender the resource extender
+     * @param resourceExtender
+     *            the resource extender
      * @return the extendable resource
      */
     IExtendableResource getExtendableResource( ResourceExtenderDTO resourceExtender );
@@ -265,8 +301,10 @@ public interface IResourceExtenderService
     /**
      * Gets the extendable resource.
      *
-     * @param strIdExtendableResource the str id extendable resource
-     * @param strExtendableResourceType the str extendable resource type
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
      * @return the extendable resource
      */
     IExtendableResource getExtendableResource( String strIdExtendableResource, String strExtendableResourceType );
@@ -274,18 +312,22 @@ public interface IResourceExtenderService
     /**
      * Gets the actions permission.
      *
-     * @param listIds the list ids
-     * @param user the user
+     * @param listIds
+     *            the list ids
+     * @param user
+     *            the user
      * @return the actions permission
      */
-    Map<String, Map<String, Boolean>> getActionPermissions( List<Integer> listIds, AdminUser user );
+    Map<String, Map<String, Boolean>> getActionPermissions( List<Integer> listIds, User user );
 
     /**
      * Get the main URL to access a resource
-     * @param strIdResource The id of the resource
-     * @param strResourceType The type of a resource
-     * @return The main URL to access a resource, or null if the resource has no
-     *         main URL
+     * 
+     * @param strIdResource
+     *            The id of the resource
+     * @param strResourceType
+     *            The type of a resource
+     * @return The main URL to access a resource, or null if the resource has no main URL
      */
     String getExtendableResourceUrl( String strIdResource, String strResourceType );
 }

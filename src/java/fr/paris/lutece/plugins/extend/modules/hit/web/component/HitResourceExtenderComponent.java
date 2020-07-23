@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,13 +41,11 @@ import fr.paris.lutece.plugins.extend.service.extender.history.IResourceExtender
 import fr.paris.lutece.plugins.extend.util.JSONUtils;
 import fr.paris.lutece.plugins.extend.web.component.NoConfigResourceExtenderComponent;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
-
 import org.apache.commons.lang.StringUtils;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -56,7 +54,6 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import javax.servlet.http.HttpServletRequest;
-
 
 /**
  *
@@ -75,7 +72,7 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
     // CONSTANTS
     private static final String JSON_KEY_SHOW = "show";
     private static final String JSON_KEY_INCREMENT = "increment";
-    
+
     // SERVICES
     @Inject
     private IHitService _hitService;
@@ -86,8 +83,7 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
      * {@inheritDoc}
      */
     @Override
-    public void buildXmlAddOn( String strIdExtendableResource, String strExtendableResourceType, String strParameters,
-        StringBuffer strXml )
+    public void buildXmlAddOn( String strIdExtendableResource, String strExtendableResourceType, String strParameters, StringBuffer strXml )
     {
         // Nothing yet
     }
@@ -96,14 +92,13 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
      * {@inheritDoc}
      */
     @Override
-    public String getPageAddOn( String strIdExtendableResource, String strExtendableResourceType, String strParameters,
-        HttpServletRequest request )
+    public String getPageAddOn( String strIdExtendableResource, String strExtendableResourceType, String strParameters, HttpServletRequest request )
     {
         Hit hit = _hitService.findByParameters( strIdExtendableResource, strExtendableResourceType );
 
         if ( hit == null )
         {
-            hit = new Hit(  );
+            hit = new Hit( );
             hit.setIdExtendableResource( strIdExtendableResource );
             hit.setExtendableResourceType( strExtendableResourceType );
             // By default, start hit at 0
@@ -111,24 +106,22 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
             _hitService.create( hit );
         }
 
-        if (incrementInfo(strParameters))
+        if ( incrementInfo( strParameters ) )
         {
             _hitService.incrementHit( hit );
         }
-        
 
         // Add to the resource extender history
-        _resourceHistoryService.create( HitResourceExtender.EXTENDER_TYPE, strIdExtendableResource,
-            strExtendableResourceType, request );
+        _resourceHistoryService.create( HitResourceExtender.EXTENDER_TYPE, strIdExtendableResource, strExtendableResourceType, request );
 
         if ( showInFO( strParameters ) )
         {
-            Map<String, Object> model = new HashMap<String, Object>(  );
+            Map<String, Object> model = new HashMap<>( );
             model.put( MARK_HIT, hit );
 
-            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_HIT, request.getLocale(  ), model );
+            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_HIT, request.getLocale( ), model );
 
-            return template.getHtml(  );
+            return template.getHtml( );
         }
 
         return StringUtils.EMPTY;
@@ -140,71 +133,60 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
     @Override
     public String getInfoHtml( ResourceExtenderDTO resourceExtender, Locale locale, HttpServletRequest request )
     {
-        Hit hit = _hitService.findByParameters( resourceExtender.getIdExtendableResource(  ),
-                resourceExtender.getExtendableResourceType(  ) );
+        Hit hit = _hitService.findByParameters( resourceExtender.getIdExtendableResource( ), resourceExtender.getExtendableResourceType( ) );
 
         if ( hit != null )
         {
-            Map<String, Object> model = new HashMap<String, Object>(  );
+            Map<String, Object> model = new HashMap<>( );
             model.put( MARK_HIT, hit );
 
             HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_INFO, locale, model );
 
-            return template.getHtml(  );
+            return template.getHtml( );
         }
 
         return StringUtils.EMPTY;
     }
 
     /**
-    * Show in fo.
-    *
-    * @param strParameters the str parameters
-    * @return true, if successful
-    */
+     * Show in fo.
+     *
+     * @param strParameters
+     *            the str parameters
+     * @return true, if successful
+     */
     private boolean showInFO( String strParameters )
     {
         boolean bShow = true;
-        JSONObject jsonParameters = JSONUtils.parseParameters( strParameters );
+        JsonNode jsonParameters = JSONUtils.parseParameters( strParameters );
 
         if ( jsonParameters != null )
         {
-            try
-            {
-                bShow = jsonParameters.getBoolean( JSON_KEY_SHOW );
-            }
-            catch ( JSONException je )
-            {
-                AppLogService.debug( je.getMessage(  ), je );
-            }
+
+            bShow = jsonParameters.get( JSON_KEY_SHOW ).booleanValue( );
+
         }
 
         return bShow;
     }
-    
+
     /**
-     * request increment of hit 
+     * request increment of hit
      *
-     * @param strParameters the str parameters
+     * @param strParameters
+     *            the str parameters
      * @return true, if successful
      */
-     private boolean incrementInfo( String strParameters )
-     {
-         boolean bIncrement = true;
-         JSONObject jsonParameters = JSONUtils.parseParameters( strParameters );
+    private boolean incrementInfo( String strParameters )
+    {
+        boolean bIncrement = true;
+        JsonNode jsonParameters = JSONUtils.parseParameters( strParameters );
 
-         if ( jsonParameters != null )
-         {
-             try
-             {
-            	 bIncrement  = jsonParameters.getBoolean( JSON_KEY_INCREMENT );
-             }
-             catch ( JSONException je )
-             {
-                 AppLogService.debug( je.getMessage(  ), je );
-             }
-         }
+        if ( jsonParameters != null )
+        {
+            bIncrement = jsonParameters.get( JSON_KEY_INCREMENT ).booleanValue( );
+        }
 
-         return bIncrement;
-     }
+        return bIncrement;
+    }
 }

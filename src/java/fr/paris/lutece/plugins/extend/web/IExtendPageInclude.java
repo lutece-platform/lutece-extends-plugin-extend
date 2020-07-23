@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2013, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.plugins.extend.web;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Interface to add content to header of a page.
  */
@@ -43,7 +42,9 @@ public interface IExtendPageInclude
 {
     /**
      * Get the html code to include to the header of the page.
-     * @param request The request
+     * 
+     * @param request
+     *            The request
      * @return The html code to include to the header of the page.
      */
     String getIncludeString( HttpServletRequest request );

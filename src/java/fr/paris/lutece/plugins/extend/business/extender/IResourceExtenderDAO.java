@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 
 import java.util.List;
 
-
 /**
  * IResourceExtenderDAO.
  */
@@ -46,32 +45,40 @@ public interface IResourceExtenderDAO
     /**
      * Insert.
      *
-     * @param extender the extender
-     * @param plugin the plugin
+     * @param extender
+     *            the extender
+     * @param plugin
+     *            the plugin
      */
     void insert( ResourceExtenderDTO extender, Plugin plugin );
 
     /**
      * Store.
      *
-     * @param extender the extender
-     * @param plugin the plugin
+     * @param extender
+     *            the extender
+     * @param plugin
+     *            the plugin
      */
     void store( ResourceExtenderDTO extender, Plugin plugin );
 
     /**
      * Delete.
      *
-     * @param nIdExtender the n id extender
-     * @param plugin the plugin
+     * @param nIdExtender
+     *            the n id extender
+     * @param plugin
+     *            the plugin
      */
     void delete( int nIdExtender, Plugin plugin );
 
     /**
      * Load.
      *
-     * @param nIdExtender the n id extender
-     * @param plugin the plugin
+     * @param nIdExtender
+     *            the n id extender
+     * @param plugin
+     *            the plugin
      * @return the i resource extender
      */
     ResourceExtenderDTO load( int nIdExtender, Plugin plugin );
@@ -79,7 +86,8 @@ public interface IResourceExtenderDAO
     /**
      * Load all.
      *
-     * @param plugin the plugin
+     * @param plugin
+     *            the plugin
      * @return the list
      */
     List<ResourceExtenderDTO> loadAll( Plugin plugin );
@@ -87,8 +95,10 @@ public interface IResourceExtenderDAO
     /**
      * Load by filter.
      *
-     * @param filter the filter
-     * @param plugin the plugin
+     * @param filter
+     *            the filter
+     * @param plugin
+     *            the plugin
      * @return the list
      */
     List<ResourceExtenderDTO> loadByFilter( ResourceExtenderDTOFilter filter, Plugin plugin );
@@ -96,8 +106,10 @@ public interface IResourceExtenderDAO
     /**
      * Find ids by filter.
      *
-     * @param filter the filter
-     * @param plugin the plugin
+     * @param filter
+     *            the filter
+     * @param plugin
+     *            the plugin
      * @return the list
      */
     List<Integer> loadIdsByFilter( ResourceExtenderDTOFilter filter, Plugin plugin );
@@ -105,8 +117,10 @@ public interface IResourceExtenderDAO
     /**
      * Find by list ids.
      *
-     * @param listIds the list ids
-     * @param plugin the plugin
+     * @param listIds
+     *            the list ids
+     * @param plugin
+     *            the plugin
      * @return the list
      */
     List<ResourceExtenderDTO> loadByListIds( List<Integer> listIds, Plugin plugin );

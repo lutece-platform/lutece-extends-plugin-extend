@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import fr.paris.lutece.plugins.extend.service.converter.ExtenderStringMapperTest
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-
 /**
  * This class is the main test suite for the package fr.paris.lutece.plugins.extend
  */
@@ -49,20 +48,21 @@ public final class AllTests
 {
     /**
      * A set of tests
+     * 
      * @return Test the tests
      */
-    public static Test suite(  )
+    public static Test suite( )
     {
         TestSuite suite = new TestSuite( "*** Tests Plugin Extend " );
 
-        //$JUnit-BEGIN$
+        // $JUnit-BEGIN$
         suite.addTest( new TestSuite( ResourceExtenderTest.class ) );
         suite.addTest( new TestSuite( ExtendableContentPostProcessorTest.class ) );
         suite.addTest( new TestSuite( ExtenderStringMapperTest.class ) );
 
         suite.addTest( new TestSuite( HitTest.class ) );
 
-        //$JUnit-END$
+        // $JUnit-END$
         return suite;
     }
 }

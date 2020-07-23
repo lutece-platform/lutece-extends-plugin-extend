@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.extend.business.extender.config;
 
-
 /**
  * IExtenderConfig.
  */
@@ -44,12 +43,13 @@ public interface IExtenderConfig
      *
      * @return the id extender
      */
-    int getIdExtender(  );
+    int getIdExtender( );
 
     /**
      * Sets the id extender.
      *
-     * @param nIdExtender the new id extender
+     * @param nIdExtender
+     *            the new id extender
      */
     void setIdExtender( int nIdExtender );
 }

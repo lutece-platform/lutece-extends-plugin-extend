@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,10 +36,9 @@ package fr.paris.lutece.plugins.extend.service.content;
 import fr.paris.lutece.portal.service.content.ContentPostProcessor;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
 
 import org.junit.Test;
-
+import org.springframework.mock.web.MockHttpServletRequest;
 
 /**
  *
@@ -55,7 +54,7 @@ public class ExtendableContentPostProcessorTest extends LuteceTestCase
      * Test process.
      */
     @Test
-    public void testProcess(  )
+    public void testProcess( )
     {
         ContentPostProcessor processor = SpringContextService.getBean( BEAN_CONTENT_POST_PROCESS );
 
@@ -64,7 +63,7 @@ public class ExtendableContentPostProcessorTest extends LuteceTestCase
             fail( "ContentPostProcessor " + BEAN_CONTENT_POST_PROCESS + " not initialized." );
         }
 
-        String strOutput = processor.process( new MokeHttpServletRequest(  ), HTML );
+        String strOutput = processor.process( new MockHttpServletRequest( ), HTML );
         System.out.println( "Original HTML content :\n" + HTML );
         System.out.println( "Result HTML content :\n" + strOutput );
     }

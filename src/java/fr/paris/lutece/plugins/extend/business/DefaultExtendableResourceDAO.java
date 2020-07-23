@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.util.sql.DAOUtil;
 
-
 /**
  *
  * DefaultExtendableResourceDAO
@@ -56,15 +55,17 @@ public class DefaultExtendableResourceDAO implements IDefaultExtendableResourceD
     @Override
     public synchronized void insert( IExtendableResource resource, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
-        int nIndex = 1;
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin ) )
+        {
+            int nIndex = 1;
 
-        daoUtil.setString( nIndex++, resource.getIdExtendableResource(  ) );
-        daoUtil.setString( nIndex++, resource.getExtendableResourceType(  ) );
-        daoUtil.setString( nIndex, resource.getExtendableResourceName(  ) );
+            daoUtil.setString( nIndex++, resource.getIdExtendableResource( ) );
+            daoUtil.setString( nIndex++, resource.getExtendableResourceType( ) );
+            daoUtil.setString( nIndex, resource.getExtendableResourceName( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+            daoUtil.executeUpdate( );
+            daoUtil.free( );
+        }
     }
 
     /**
@@ -73,16 +74,18 @@ public class DefaultExtendableResourceDAO implements IDefaultExtendableResourceD
     @Override
     public void store( IExtendableResource resource, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
-        int nIndex = 1;
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin ) )
+        {
+            int nIndex = 1;
 
-        daoUtil.setString( nIndex++, resource.getExtendableResourceName(  ) );
+            daoUtil.setString( nIndex++, resource.getExtendableResourceName( ) );
 
-        daoUtil.setString( nIndex++, resource.getExtendableResourceType(  ) );
-        daoUtil.setString( nIndex, resource.getIdExtendableResource(  ) );
+            daoUtil.setString( nIndex++, resource.getExtendableResourceType( ) );
+            daoUtil.setString( nIndex, resource.getIdExtendableResource( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+            daoUtil.executeUpdate( );
+            daoUtil.free( );
+        }
     }
 
     /**
@@ -92,12 +95,14 @@ public class DefaultExtendableResourceDAO implements IDefaultExtendableResourceD
     public void delete( String strIdResource, String strResourceType, Plugin plugin )
     {
         int nIndex = 1;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
-        daoUtil.setString( nIndex++, strIdResource );
-        daoUtil.setString( nIndex, strResourceType );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin ) )
+        {
+            daoUtil.setString( nIndex++, strIdResource );
+            daoUtil.setString( nIndex, strResourceType );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+            daoUtil.executeUpdate( );
+            daoUtil.free( );
+        }
     }
 
     /**
@@ -107,24 +112,26 @@ public class DefaultExtendableResourceDAO implements IDefaultExtendableResourceD
     public IExtendableResource load( String strIdResource, String strResourceType, Plugin plugin )
     {
         int nIndex = 1;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
-        daoUtil.setString( nIndex++, strIdResource );
-        daoUtil.setString( nIndex, strResourceType );
-        daoUtil.executeQuery(  );
-
-        DefaultExtendableResource resource = null;
-
-        if ( daoUtil.next(  ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin ) )
         {
-            nIndex = 1;
-            resource = new DefaultExtendableResource(  );
-            resource.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
-            resource.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
-            resource.setExtendableResourceName( daoUtil.getString( nIndex ) );
+            daoUtil.setString( nIndex++, strIdResource );
+            daoUtil.setString( nIndex, strResourceType );
+            daoUtil.executeQuery( );
+
+            DefaultExtendableResource resource = null;
+
+            if ( daoUtil.next( ) )
+            {
+                nIndex = 1;
+                resource = new DefaultExtendableResource( );
+                resource.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
+                resource.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
+                resource.setExtendableResourceName( daoUtil.getString( nIndex ) );
+            }
+
+            daoUtil.free( );
+
+            return resource;
         }
-
-        daoUtil.free(  );
-
-        return resource;
     }
 }

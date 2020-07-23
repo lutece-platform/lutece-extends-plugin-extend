@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.rbac.RBACResource;
 
 import javax.validation.constraints.NotNull;
 
-
 /**
  *
  * ExtendableResourceType
@@ -56,7 +55,7 @@ public class ExtendableResourceType implements RBACResource
      *
      * @return the key
      */
-    public String getKey(  )
+    public String getKey( )
     {
         return _strKey;
     }
@@ -64,7 +63,8 @@ public class ExtendableResourceType implements RBACResource
     /**
      * Sets the key.
      *
-     * @param strKey the new key
+     * @param strKey
+     *            the new key
      */
     public void setKey( String strKey )
     {
@@ -76,7 +76,7 @@ public class ExtendableResourceType implements RBACResource
      *
      * @return the description
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
@@ -84,7 +84,8 @@ public class ExtendableResourceType implements RBACResource
     /**
      * Sets the description.
      *
-     * @param strDescription the new description
+     * @param strDescription
+     *            the new description
      */
     public void setDescription( String strDescription )
     {
@@ -95,7 +96,7 @@ public class ExtendableResourceType implements RBACResource
      * {@inheritDoc}
      */
     @Override
-    public String getResourceTypeCode(  )
+    public String getResourceTypeCode( )
     {
         return RESOURCE_TYPE;
     }
@@ -104,7 +105,7 @@ public class ExtendableResourceType implements RBACResource
      * {@inheritDoc}
      */
     @Override
-    public String getResourceId(  )
+    public String getResourceId( )
     {
         return _strKey;
     }

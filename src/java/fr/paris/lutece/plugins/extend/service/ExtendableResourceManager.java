@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-
 /**
  *
  * ExtendableResourceManager
@@ -58,7 +57,7 @@ public class ExtendableResourceManager implements IExtendableResourceManager
      * {@inheritDoc}
      */
     @Override
-    public List<IExtendableResourceService> getExtendableResourceServices(  )
+    public List<IExtendableResourceService> getExtendableResourceServices( )
     {
         return SpringContextService.getBeansOfType( IExtendableResourceService.class );
     }
@@ -69,7 +68,7 @@ public class ExtendableResourceManager implements IExtendableResourceManager
     @Override
     public IExtendableResourceService getExtendableResourceService( String strResourceType )
     {
-        for ( IExtendableResourceService service : getExtendableResourceServices(  ) )
+        for ( IExtendableResourceService service : getExtendableResourceServices( ) )
         {
             if ( service.isInvoked( strResourceType ) )
             {
