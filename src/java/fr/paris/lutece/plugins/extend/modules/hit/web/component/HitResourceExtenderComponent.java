@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.extend.modules.hit.web.component;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.modules.hit.business.Hit;
 import fr.paris.lutece.plugins.extend.modules.hit.service.IHitService;
@@ -43,9 +44,6 @@ import fr.paris.lutece.plugins.extend.web.component.NoConfigResourceExtenderComp
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -165,17 +163,17 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
     private boolean showInFO( String strParameters )
     {
         boolean bShow = true;
-        JSONObject jsonParameters = JSONUtils.parseParameters( strParameters );
+        ObjectNode jsonParameters = JSONUtils.parseParameters( strParameters );
 
         if ( jsonParameters != null )
         {
-            try
+            if ( jsonParameters.has( JSON_KEY_SHOW ) )
             {
-                bShow = jsonParameters.getBoolean( JSON_KEY_SHOW );
+                bShow = jsonParameters.get( JSON_KEY_SHOW ).asBoolean( );
             }
-            catch ( JSONException je )
+            else 
             {
-                AppLogService.debug( je.getMessage(  ), je );
+                AppLogService.debug( "No " + JSON_KEY_SHOW + " found in " + jsonParameters );
             }
         }
 
@@ -191,17 +189,17 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
      private boolean incrementInfo( String strParameters )
      {
          boolean bIncrement = true;
-         JSONObject jsonParameters = JSONUtils.parseParameters( strParameters );
+         ObjectNode jsonParameters = JSONUtils.parseParameters( strParameters );
 
          if ( jsonParameters != null )
          {
-             try
+             if ( jsonParameters.has( JSON_KEY_INCREMENT ) )
              {
-            	 bIncrement  = jsonParameters.getBoolean( JSON_KEY_INCREMENT );
+            	 bIncrement  = jsonParameters.get( JSON_KEY_INCREMENT ).asBoolean( );
              }
-             catch ( JSONException je )
+             else
              {
-                 AppLogService.debug( je.getMessage(  ), je );
+                 AppLogService.debug( "No " + JSON_KEY_INCREMENT + " found in " + jsonParameters );
              }
          }
 

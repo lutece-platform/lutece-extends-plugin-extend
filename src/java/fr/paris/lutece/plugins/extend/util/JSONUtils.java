@@ -33,10 +33,9 @@
  */
 package fr.paris.lutece.plugins.extend.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.paris.lutece.portal.service.util.AppLogService;
-
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
 
 
 /**
@@ -59,15 +58,16 @@ public final class JSONUtils
      * @param strParameters the str parameters
      * @return the jSON object
      */
-    public static JSONObject parseParameters( String strParameters )
+    public static ObjectNode parseParameters( String strParameters )
     {
         try
         {
-            return JSONObject.fromObject( strParameters );
+            ObjectMapper objectMapper = new ObjectMapper( );
+            return objectMapper.convertValue( strParameters, ObjectNode.class );
         }
-        catch ( JSONException je )
+        catch ( IllegalArgumentException iae )
         {
-            AppLogService.error( je.getMessage(  ), je );
+            AppLogService.error( iae.getMessage(  ), iae );
         }
 
         return null;
