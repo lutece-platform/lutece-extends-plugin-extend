@@ -1,34 +1,15 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-primary">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{extend.resource_extender_info.pageTitle}</h3>
-				<div class="box-tools pull-right">
-					<form class="form-inline" action="<#if from_url?? && from_url?has_content && from_url != "null">${from_url}<#else>jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp</#if>" method="post">
-						<input type="hidden" name="session" value="session">
-						<button type="submit" name="back" value="#i18n{extend.button.back}" class="btn btn-default btn-xs btn-flat">
-							<span class="fa fa-close"></span> #i18n{extend.button.back}
-						</button>
-					</form>
-				</div>	
-			</div>	
-			<div class="box-body">
-				<table class="table table-hover table-condensed">
-					<tr>
-						<th scope="col">#i18n{extend.resource_extender_info.labelExtenderType}</th>
-						<th scope="col">#i18n{extend.resource_extender_info.labelIdExtendableResource}</th>
-						<th scope="col">#i18n{extend.resource_extender_info.labelExtendableResourceType}</th>
-					</tr>
-					<tr>
-						<td>${resourceExtender.extenderType!}</td>
-						<td>${resourceExtender.idExtendableResource!}</td>
-						<td>${resourceExtender.extendableResourceType!}</td>
-					</tr>
-				</table>
-				<#-- BEGIN RESOURCE EXTENDER INFO -->
-				${resourceExtenderInfo!}
-				<#-- END RESOURCE EXTENDER INFO -->
-			</div>
-		</div>
-	</div>
-</div>
+<#assign bTools>
+<#assign actionUrl><#if from_url?? && from_url?has_content && from_url != "null">${from_url}<#else>jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp</#if></#assign>
+<@tform class='form-inline' action=actionUrl params=' target="_top"'>
+<input type="hidden" name="session" value="session">
+<@button type='submit' name='back' value='#i18n{extend.button.back}' title='#i18n{extend.button.back}' color='default' buttonIcon='times' />
+</@tform>
+</#assign>
+<@extendBox extendTitle='#i18n{extend.resource_extender_info.pageTitle}' hasBoxTools=true extendBoxTools=bTools >
+<!-- <h4>${resourceExtender.extendableResourceType!?capitalize}  ${resourceExtender.idExtendableResource!} </h4> -->
+<!-- #i18n{extend.resource_extender_info.labelExtenderType} #i18n{extend.resource_extender_info.labelIdExtendableResource} #i18n{extend.resource_extender_info.labelExtendableResourceType} ${resourceExtender.extendableResourceType!}  -->
+<#-- BEGIN RESOURCE EXTENDER INFO -->
+${resourceExtenderInfo!}
+<#-- END RESOURCE EXTENDER INFO -->
+</@extendBox>
+<@extendScript />

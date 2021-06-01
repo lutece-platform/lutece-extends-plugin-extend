@@ -1,21 +1,21 @@
-<#macro createExtenderFromResource extenderType installed unremovable labelAdd labelRemove >
-	<input type="hidden" name="extenderType" value="${extenderType}">
-	<input type="hidden" name="extendableResourceType" value="${extendableResourceType!}">
-	<input type="hidden" name="idExtendableResource" value="${idExtendableResource!}">
-	<input type="hidden" name="remove" value="${installed?string}">
-	<#if installed>
-		<#if unremovable?? && unremovable>
-			<button type="button" title="#i18n{extend.create_extender_from_resource.unremovableExtender}" class="btn btn-xs btn-flat btn-link">
-				<span class="label label-success"><i class="fa fa-check"></i></span> #i18n{extend.create_extender_from_resource.unremovableExtender}
-			</button>
-		<#else>
-			<button type="submit" name="createExtenderFromResource" title="${labelRemove}" value="createExtenderFromResource"  class="btn btn-xs btn-flat btn-link">
-				<span class="label label-danger"><i class="fa fa-close"></i></span> ${labelRemove}
-			</button>
-		</#if>
+<#macro createExtenderFromResource extenderType installed unremovable labelAdd labelRemove target='_top'>
+<#assign extenderParams>target="${target}"</#assign>
+<@tform type='inline' class='form-submenu' action='jsp/admin/resource/DoProcessExtendableResourceAction.jsp' params=extenderParams >
+<input type="hidden" name="extenderType" value="${extenderType}">
+<input type="hidden" name="extendableResourceType" value="${extendableResourceType!}">
+<input type="hidden" name="idExtendableResource" value="${idExtendableResource!}">
+<input type="hidden" name="remove" value="${installed?string}">
+<@div params=' style="display: flex; justify-content: space-between; align-items: center;"' >
+<#nested>
+<#if installed>
+	<#if unremovable?? && unremovable>
+		<@icon style='plug fa-fw text-success' title='#i18n{extend.create_extender_from_resource.unremovableExtender}' /> 
 	<#else>
-		<button type="submit" name="createExtenderFromResource" title="${labelAdd}" value="createExtenderFromResource"  class="btn btn-xs btn-flat btn-link" >
-			<span class="label label-success"><i class="fa fa-plus"></i></span> ${labelAdd}
-		</button>
+		<@button type='submit' name='createExtenderFromResource' value='createExtenderFromResource' title=labelRemove hideTitle=['all'] color='danger btn-xs spaced' buttonIcon='minus' />
 	</#if>
+<#else>
+	<@button type='submit' name='createExtenderFromResource' value='createExtenderFromResource' title=labelAdd hideTitle=['all'] color='success btn-xs' buttonIcon='plus' />
+</#if>
+</@div>
+</@tform>
 </#macro>

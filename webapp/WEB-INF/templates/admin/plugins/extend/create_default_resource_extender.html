@@ -1,50 +1,23 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-primary">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{extend.create_default_resource_extender.pageTitle}</h3>
-			</div>
-			<div class="box-body">	
-				<form class="form-horizontal" action="jsp/admin/plugins/extend/DoCreateDefaultResourceExtender.jsp" method="post">
-					<input type="hidden" name="extenderType" value="${resourceExtender.extenderType!}">
-					<input type="hidden" name="idExtendableResource" value="${resourceExtender.idExtendableResource!}">
-					<input type="hidden" name="extendableResourceType" value="${resourceExtender.extendableResourceType!}">
-					<div class="form-group" >
-						<label class="control-label col-xs-12 col-sm-2 col-md-2" for="extenderType">#i18n{extend.create_default_resource_extender.labelExtenderType}</label>
-						<div class="col-xs-12 col-sm-4 col-md-4">
-							${resourceExtender.extenderType!}
-						</div>
-					</div>
-					<div class="form-group" >
-						<label class="control-label col-xs-12 col-sm-2 col-md-2" for="idExtendableResource">#i18n{extend.create_default_resource_extender.labelIdExtendableResource}</label>
-						<div class="col-xs-12 col-sm-4 col-md-4">
-							${resourceExtender.idExtendableResource!}
-						</div>
-					</div>
-					<div class="form-group" >
-						<label class="control-label col-xs-12 col-sm-2 col-md-2" for="extendableResourceType">#i18n{extend.create_default_resource_extender.labelExtendableResourceType}</label>
-						<div class="col-xs-12 col-sm-4 col-md-4">
-							${resourceExtender.extendableResourceType!}
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2 col-md-2" for="name">#i18n{extend.create_default_resource_extender.labelName} *</label>
-						<div class="col-xs-12 col-sm-4 col-md-4">
-							<input type="text" name="name" value="" maxlength="255" class="form-control">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-2 col-md-10">
-							<button type="submit" name="save" value="save" class="btn btn-primary btn-flat" >
-								<i class="fa fa-check">&nbsp;</i>&nbsp;#i18n{portal.util.labelCreate}
-							</button>
-							<button type="submit" name="cancel" value="#i18n{portal.util.labelCancel}" title="#i18n{portal.util.labelCancel}" class="btn btn-default btn-flat" >
-								<i class="fa fa-close">&nbsp;</i>&nbsp;#i18n{portal.util.labelCancel}
-							</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+<@extendBox extendTitle='#i18n{extend.create_default_resource_extender.pageTitle}'>
+<@tform type='form' action='jsp/admin/plugins/extend/DoCreateDefaultResourceExtender.jsp' params=' target="_top"'>>
+<input type="hidden" name="extenderType" value="${resourceExtender.extenderType!}">
+<input type="hidden" name="idExtendableResource" value="${resourceExtender.idExtendableResource!}">
+<input type="hidden" name="extendableResourceType" value="${resourceExtender.extendableResourceType!}">
+<@formGroup rows=2 labelKey='#i18n{extend.create_default_resource_extender.labelExtenderType}' labelFor='extenderType'>
+	<@staticText>${resourceExtender.extenderType!}</@staticText>
+</@formGroup>
+<@formGroup rows=2 labelKey='#i18n{extend.create_default_resource_extender.labelIdExtendableResource}' labelFor='idExtendableResource'>
+	<@staticText>${resourceExtender.idExtendableResource!}</@staticText>
+</@formGroup>
+<@formGroup rows=2 labelKey='#i18n{extend.create_default_resource_extender.labelExtendableResourceType}' labelFor='extendableResourceType'>
+	<@staticText>${resourceExtender.extendableResourceType!}</@staticText>
+</@formGroup>
+<@formGroup rows=2 labelKey='#i18n{extend.create_default_resource_extender.labelName}' labelFor='name' mandatory=true>
+	<@input name='name' maxlength='255' />
+</@formGroup>
+<@formGroup>
+	<@button type='submit' name='save' value='save' title='#i18n{portal.util.labelCreate}' color='primary' buttonIcon='check' />
+	<@button type='submit' name='cancel' value='#i18n{portal.util.labelCancel}' title='#i18n{portal.util.labelCancel}' color='default' buttonIcon='trash' />
+</@formGroup>
+</@tform>
+</@extendBox>

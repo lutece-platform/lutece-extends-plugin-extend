@@ -1,15 +1,10 @@
 <#include "../../../actions/create_extender_from_resource.html">
-<a data-toggle="dropdown" href="#">
-	<i class="fa fa-line-chart">&nbsp;</i>&nbsp;#i18n{module.extend.hit.labelHit}
-</a>
-<ul class="dropdown-menu submenu-left">
-	<li>
-			<#assign installed = false>
-			<#assign unremovable = false>
-			<#if extenderTypesInstalled.hit??>
-				<#assign installed = true>
-				<#assign unremovable = extenderTypesInstalled.hit>
-			</#if>
-			<@createExtenderFromResource extenderType="hit" installed=installed unremovable=unremovable labelAdd="#i18n{module.extend.hit.create_extender_from_resource.labelAddExtender}" labelRemove="#i18n{module.extend.hit.create_extender_from_resource.labelRemoveExtender}" />
-	</li>
-</ul>
+<#assign installed = false>
+<#assign unremovable = false>
+<#if extenderTypesInstalled.hit??>
+	<#assign installed = true>
+	<#assign unremovable = extenderTypesInstalled.hit>
+</#if>
+<@createExtenderFromResource extenderType="hit" installed=installed unremovable=unremovable labelAdd="#i18n{module.extend.hit.create_extender_from_resource.labelAddExtender}" labelRemove="#i18n{module.extend.hit.create_extender_from_resource.labelRemoveExtender}">
+	<@span><@icon style='eye' /> #i18n{module.extend.hit.labelHit}</@span>
+</@createExtenderFromResource>

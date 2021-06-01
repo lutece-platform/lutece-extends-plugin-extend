@@ -1,50 +1,44 @@
-<form action="<#if from_url?? && from_url?has_content && from_url != "null">${from_url}<#else>jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp</#if>" method="post">
+<#assign bTools>
+<#assign actionUrl><#if from_url?? && from_url?has_content && from_url != "null">${from_url}<#else>jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp</#if></#assign>
+<@tform class='form-inline' action=actionUrl params=' target="_top"'>
 <input type="hidden" name="session" value="session">
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-primary">
-			<div class="box-header">
-				<h3 class="box-title">i18n{extend.resource_extender_history.pageTitle}</h3>
-				<div class="box-tools pull-right">
-					<button type="submit" name="back" value="#i18n{extend.button.back}" class="btn btn-primary btn-xs btn-flat">
-						<span class="fa fa-close"></span>#i18n{extend.button.back}
-					</button>
-				</div>
-			</div>
-			<div class="box-body">
-				<table class="table table-hover table-condensed">
-					<tr>
-						<th scope="col">#i18n{extend.resource_extender_history.labelExtenderType}</th>
-						<th scope="col">#i18n{extend.resource_extender_history.labelIdExtendableResource}</th>
-						<th scope="col">#i18n{extend.resource_extender_history.labelExtendableResourceType}</th>
-					</tr>
-					<tr>
-						<td>${resourceExtender.extenderType!}</td>
-						<td>${resourceExtender.idExtendableResource!}</td>
-						<td>${resourceExtender.extendableResourceType!}</td>
-					</tr>
-				</table>
-				<hr>
-				<@paginationAdmin paginator=paginator combo=1 />
-				<table class="table table-hover table-condensed" summary="#i18n{extend.resource_extender_history.pageTitle}" >
-					<tr>
-						<th scope="col">#i18n{extend.resource_extender_history.labelIpAddress}</th>
-						<th scope="col">#i18n{extend.resource_extender_history.labelUserGuid}</th>
-						<th scope="col">#i18n{extend.resource_extender_history.labelDate}</th>
-					</tr>
-					<#if listHistories?? && listHistories?has_content>
-						<#list listHistories as history>
-							<tr>
-								<td>${history.ipAddress!}</td>
-								<td>${history.userGuid!}</td>
-								<td>${history.dateCreation!}</td>
-							</tr>
-						</#list>
-					</#if>
-				</table>
-				<@paginationAdmin paginator=paginator />
-			</div>
-		</div>
-	</div>
-</div>
-</form>
+<@button type='submit' name='back' value='#i18n{extend.button.back}' title='#i18n{extend.button.back}' color='default btn-xs' buttonIcon='times' />
+</@tform>
+</#assign>
+
+<@extendBox extendTitle='#i18n{extend.resource_extender_history.pageTitle}' hasBoxTools=true extendBoxTools=bTools >
+<@table>
+	<@tr>
+		<@th scope="col">#i18n{extend.resource_extender_history.labelExtenderType}</@th>
+		<@th scope="col">#i18n{extend.resource_extender_history.labelIdExtendableResource}</@th>
+		<@th scope="col">#i18n{extend.resource_extender_history.labelExtendableResourceType}</@th>
+	</@tr>
+	<@tableHeadBodySeparator />
+	<@tr>
+		<@td>${resourceExtender.extenderType!}</@td>
+		<@td>${resourceExtender.idExtendableResource!}</@td>
+		<@td>${resourceExtender.extendableResourceType!}</@td>
+	</@tr>
+</@table>
+<hr>
+<@paginationAdmin paginator=paginator combo=1 />
+<@table summary='#i18n{extend.resource_extender_history.pageTitle}' >
+<@tr>
+	<@th scope="col">#i18n{extend.resource_extender_history.labelIpAddress}</@th>
+	<@th scope="col">#i18n{extend.resource_extender_history.labelUserGuid}</@th>
+	<@th scope="col">#i18n{extend.resource_extender_history.labelDate}</@th>
+</@tr>
+<@tableHeadBodySeparator />
+<#if listHistories?? && listHistories?has_content>
+	<#list listHistories as history>
+		<@tr>
+			<@td>${history.ipAddress!}</@td>
+			<@td>${history.userGuid!}</@td>
+			<@td>${history.dateCreation!}</@td>
+		</@tr>
+	</#list>
+</#if>
+</@table>
+<@paginationAdmin paginator=paginator />
+</@extendBox>
+<@extendScript />

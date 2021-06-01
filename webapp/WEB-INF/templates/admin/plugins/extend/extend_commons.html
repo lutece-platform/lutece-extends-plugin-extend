@@ -1,22 +1,62 @@
 <#--
+-- Build the js script
+-- extendTitle : Title 
+-- hasBoxTools : Has tools
+-- extendBoxTools : Html content of boxtools
+-->
+<#macro extendBox cols=12 extendTitle='' hasBoxTools=false extendBoxTools=''>
+<@row>
+	<@columns sm=12>
+		<@box color='primary'>
+			<@boxHeader title=extendTitle boxTools=hasBoxTools>
+				${extendBoxTools!}
+			</@boxHeader>	
+			<@boxBody>
+				<#nested>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>
+</#macro>
+
+<#--
+-- Build the js script
+-->
+<#macro extendScript>
+<script type="text/javascript">
+function isIniFrame() {	 return window.self !== window.top ? true : false;	}
+$( function (  ) {
+	if ( isIniFrame() ){
+		$('nav').hide();
+		$('#admin-wrapper').css( 'margin', '0' );
+		$('.content-header').hide();
+		$('header').hide();
+		$('footer').hide();
+	}
+	<#nested>
+});
+</script>
+</#macro>
+
+<#--
 -- Build the attribute for sorting table
 -- @param filter the filter
 -- @return the attributes used in the URL
 -->
 <#function buildSortSearchAttribute filter>
-	<#assign sortSearchAttribute = "" />
-	<#if filter??>
-		<#if filter.filterExtenderType?? && filter.filterExtenderType != "">
-			<#assign sortSearchAttribute = sortSearchAttribute + "&amp;filterExtenderType=" + filter.filterExtenderType />
-		</#if>
-		<#if filter.filterIdExtendableResource?? && filter.filterIdExtendableResource != "">
-			<#assign sortSearchAttribute = sortSearchAttribute + "&amp;filterIdExtendableResource=" + filter.filterIdExtendableResource />
-		</#if>
-		<#if filter.filterExtendableResourceType?? && filter.filterExtendableResourceType != "">
-			<#assign sortSearchAttribute = sortSearchAttribute + "&amp;filterExtendableResourceType=" + filter.filterExtendableResourceType />
-		</#if>
-	</#if>
-	<#return sortSearchAttribute />
+<#assign sortSearchAttribute = "" />
+<#if filter??>
+<#if filter.filterExtenderType?? && filter.filterExtenderType != "">
+	<#assign sortSearchAttribute = sortSearchAttribute + "&amp;filterExtenderType=" + filter.filterExtenderType />
+</#if>
+<#if filter.filterIdExtendableResource?? && filter.filterIdExtendableResource != "">
+	<#assign sortSearchAttribute = sortSearchAttribute + "&amp;filterIdExtendableResource=" + filter.filterIdExtendableResource />
+</#if>
+<#if filter.filterExtendableResourceType?? && filter.filterExtendableResourceType != "">
+	<#assign sortSearchAttribute = sortSearchAttribute + "&amp;filterExtendableResourceType=" + filter.filterExtendableResourceType />
+</#if>
+</#if>
+<#return sortSearchAttribute />
 </#function>
 
 <#--
@@ -26,14 +66,14 @@
 -- @return true if it has a config, false otherwise
 -->
 <#function isExtenderConfigRequired listExtenders extenderType>
-	<#if listExtenders?? && listExtenders?has_content>
-		<#list listExtenders as extender>
-			<#if extender.key = extenderType>
-				<#return extender.configRequired />
-			</#if>
-		</#list>
+<#if listExtenders?? && listExtenders?has_content>
+<#list listExtenders as extender>
+	<#if extender.key = extenderType>
+		<#return extender.configRequired />
 	</#if>
-	<#return false />
+</#list>
+</#if>
+<#return false />
 </#function>
 
 <#--
@@ -43,25 +83,25 @@
 -- @return true if it has a history, false otherwise
 -->
 <#function isExtenderHistoryEnable listExtenders extenderType>
-	<#if listExtenders?? && listExtenders?has_content>
-		<#list listExtenders as extender>
-			<#if extender.key = extenderType>
-				<#return extender.historyEnable />
-			</#if>
-		</#list>
+<#if listExtenders?? && listExtenders?has_content>
+<#list listExtenders as extender>
+	<#if extender.key = extenderType>
+		<#return extender.historyEnable />
 	</#if>
-	<#return false />
+</#list>
+</#if>
+<#return false />
 </#function>
 
 <#function isExtenderStateEnable listExtenders extenderType>
-	<#if listExtenders?? && listExtenders?has_content>
-		<#list listExtenders as extender>
-			<#if extender.key = extenderType>
-				<#return extender.stateEnable />
-			</#if>
-		</#list>
+<#if listExtenders?? && listExtenders?has_content>
+<#list listExtenders as extender>
+	<#if extender.key = extenderType>
+		<#return extender.stateEnable />
 	</#if>
-	<#return false />
+</#list>
+</#if>
+<#return false />
 </#function>
 
 <#--
@@ -72,10 +112,10 @@
 -- @return true if he has the permission, false otherwise
 -->
 <#function isAuthorized idExtender permission mapActionPermissions>
-	<#if mapActionPermissions?? && mapActionPermissions?has_content>
-		<#if mapActionPermissions["" + idExtender]??>
-			<#return mapActionPermissions["" + idExtender][permission] />
-		</#if>
+<#if mapActionPermissions?? && mapActionPermissions?has_content>
+	<#if mapActionPermissions["" + idExtender]??>
+		<#return mapActionPermissions["" + idExtender][permission] />
 	</#if>
-	<#return false />
+</#if>
+<#return false />
 </#function>

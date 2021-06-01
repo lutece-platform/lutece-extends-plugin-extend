@@ -1,46 +1,22 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-primary">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{extend.create_resource_extender.labelCreateResourceExtender}</h3>
-			</div>
-			<div class="box-body">		
-				<form class="form-horizontal" action="jsp/admin/plugins/extend/DoCreateResourceExtender.jsp">
-					<input type="hidden" name="from_url" value="${from_url!}">	
-					<div class="form-group" >
-						<label class="control-label col-xs-12 col-sm-2 col-md-2" for="extenderType">#i18n{extend.create_resource_extender.labelExtenderType} *:</label>
-						<div class="col-xs-12 col-sm-4 col-md-4">
-							<@comboWithParams name="extenderType" additionalParameters="class=\"form-control\"" default_value="" items=extenderTypes />
-						</div>
-					</div>
-					<div class="form-group">
-						<#if manageByResource>
-							<label class="control-label col-xs-12 col-sm-2 col-md-2" for="idExtendableResource">#i18n{extend.create_resource_extender.labelIdExtendableResource} * :</label>
-							<div class="col-xs-12 col-sm-4 col-md-4">
-								<input type="text" class="input-medium" id="idExtendableResource" name="idExtendableResource" value="" maxlength="255" class="form-control">
-							</div>
-						<#else>
-							<input type="hidden" name="idExtendableResource" value="*">
-						</#if>
-					</div>
-					<div class="form-group" >
-						<label class="control-label col-xs-12 col-sm-2 col-md-2" for="extendableResourceType">#i18n{extend.create_resource_extender.labelResourceType} *</label>
-						<div class="col-xs-12 col-sm-4 col-md-4">
-							<@comboWithParams name="extendableResourceType" additionalParameters="class=\"form-control\"" default_value="" items=resourceTypes />
-						</div>
-					</div>
-					<div class="form-group" >
-						<div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-2 col-md-10">
-							<button type="submit" name="createResourceExtender" value="createResourceExtender" title="#i18n{portal.util.labelCreate}" class="btn btn-flat btn-primary" >
-								<i class="fa fa-plus">&nbsp;</i>&nbsp;#i18n{portal.util.labelCreate}
-							</button>
-							<button type="submit" name="cancel" value="#i18n{portal.util.labelCreate}" title="#i18n{portal.util.labelCreate}" class="btn btn-default btn-flat" >
-								<i class="fa fa-close">&nbsp;</i>&nbsp;#i18n{portal.util.labelBack}
-							</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+<@extendBox extendTitle='#i18n{extend.create_resource_extender.labelCreateResourceExtender}' >
+<@tform type='form' action='jsp/admin/plugins/extend/DoCreateResourceExtender.jsp' params=' target="_top"'>
+<input type="hidden" name="from_url" value="${from_url!}">	
+<@formGroup rows=2 labelKey='#i18n{extend.create_resource_extender.labelExtenderType}' labelFor='extenderType' mandatory=true rows=2>
+	<@select name='extenderType' class='form-control' default_value='' items=extenderTypes />	
+</@formGroup>
+<#if manageByResource>
+<@formGroup rows=2 labelKey='#i18n{extend.create_resource_extender.labelIdExtendableResource}' labelFor='idExtendableResource' mandatory=true rows=2>
+	<@input name='idExtendableResource' value='' maxlength=255 />
+</@formGroup>
+<#else>
+	<input type="hidden" name="idExtendableResource" value="*">
+</#if>
+<@formGroup rows=2 labelKey='#i18n{extend.create_resource_extender.labelResourceType}' labelFor='extendableResourceType' mandatory=true rows=2>
+	<@select name='extendableResourceType' class='form-control' default_value='' items=resourceTypes />	
+</@formGroup>
+<@formGroup >
+	<@button type='submit' name='createResourceExtender' value='createResourceExtender' title='#i18n{portal.util.labelCreate}' color='primary' buttonIcon='check' />
+	<@button type='submit' name='cancel' value='#i18n{portal.util.labelBack}' title='#i18n{portal.util.labelBack}' color='default' buttonIcon='times' />
+</@formGroup>
+</@tform>
+</@extendBox>
