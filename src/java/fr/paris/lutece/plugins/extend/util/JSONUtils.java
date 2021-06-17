@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.extend.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -63,9 +64,9 @@ public final class JSONUtils
         try
         {
             ObjectMapper objectMapper = new ObjectMapper( );
-            return objectMapper.convertValue( strParameters, ObjectNode.class );
+            return objectMapper.readValue( strParameters, ObjectNode.class );
         }
-        catch ( IllegalArgumentException iae )
+        catch (IllegalArgumentException | JsonProcessingException iae )
         {
             AppLogService.error( iae.getMessage(  ), iae );
         }
