@@ -1,13 +1,11 @@
 <#assign extendResourceTools>
-<@tform class='form-inline' action='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp'>
+<@tform type='inline' action='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp'>
 	<@input type='hidden' name='manageByResource' value='true' />
-	<@ul class='list-unstyled list-inline'>
 	<#list resourceExtenderActions?reverse as resourceExtenderAction>
 		<#if resourceExtenderAction.buttonTemplate?has_content>
-			<@li><#include resourceExtenderAction.buttonTemplate /></@li>
+			<#include resourceExtenderAction.buttonTemplate />
 		</#if>
 	</#list>
-	</@ul>
 </@tform>
 </#assign>
 <@extendBox extendTitle='#i18n{extend.manage_resource_extenders_by_resource.pageTitle}' hasBoxTools=true extendBoxTools=extendResourceTools>
@@ -17,7 +15,7 @@
 			<@tabLink href='jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp' title='#i18n{extend.manage_resource_extenders_by_resource_type.pageTitle}' />
 		</@tabList>
 		<@row>
-			<@columns sm=2>
+			<@columns sm=3>
 				<h4>#i18n{extend.manage_resource_extenders_by_resource.labelSearchExtender}</h4>
 				<@tform class='form' action='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp'>
 					<@input type='hidden' name='manageByResource' value='true' />
@@ -30,9 +28,9 @@
 					<@formGroup labelFor='filterExtendableResourceType' labelKey='#i18n{extend.manage_resource_extenders_by_resource.labelExtendableResourceType}' rows=2>
 						<@select name='filterExtendableResourceType' default_value=filter.filterExtendableResourceType! items=resourceTypesForFilter />
 					</@formGroup>
-					<@formGroup rows=2 class='text-center'>
-						<@button type='submit' name='search' value='#i18n{extend.button.search}' title='#i18n{extend.button.search}' color='primary' buttonIcon='search' />
-						<@button type='submit' name='reset' value='reset' title='#i18n{portal.util.labelCancel}' color='default' buttonIcon='undo' />
+					<@formGroup rows=2>
+						<@button type='submit' name='search' value='#i18n{extend.button.search}' title='#i18n{extend.button.search}' hideTitle=['all'] buttonIcon='search' />
+						<@button type='submit' name='reset' value='reset' title='#i18n{portal.util.labelCancel}' hideTitle=['all'] color='default' buttonIcon='undo' />
 					</@formGroup>
 				</@tform>
 			</@columns>

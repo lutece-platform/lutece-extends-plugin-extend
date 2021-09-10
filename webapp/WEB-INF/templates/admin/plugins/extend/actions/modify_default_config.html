@@ -1,5 +1,5 @@
 <#if permissionModifyConfig?? && permissionModifyConfig && configurableExtenderTypes?? && configurableExtenderTypes?has_content>
-	<@button type='submit' name='modifyDefaultConfig' value='modifyDefaultConfig' title='#i18n{extend.modify_default_config.labelModifyDefaultConfig}' hideTitle=['xs'] buttonIcon='edit' color='primary' />
+	<@button type='submit' name='modifyDefaultConfig' value='modifyDefaultConfig' title='#i18n{extend.modify_default_config.labelModifyDefaultConfig}' hideTitle=['xs','sm','md'] buttonIcon='edit' size='sm' />
 	<#assign extenderTypeItem = configurableExtenderTypes?first />
 	<@input type='hidden' name='extenderTypeModifyConfig' value='${extenderTypeItem.code}' />
 </#if>
