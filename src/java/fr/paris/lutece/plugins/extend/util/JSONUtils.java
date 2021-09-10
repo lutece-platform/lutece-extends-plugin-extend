@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.extend.util;
 
+import com.fasterxml.jackson.core.JsonParser.Feature;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -63,8 +64,9 @@ public final class JSONUtils
     {
         try
         {
-            ObjectMapper objectMapper = new ObjectMapper( );
-            return objectMapper.readValue( strParameters, ObjectNode.class );
+        	 ObjectMapper objectMapper = new ObjectMapper( );
+             objectMapper.configure( Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+             return objectMapper.readValue( strParameters, ObjectNode.class );
         }
         catch (IllegalArgumentException | JsonProcessingException iae )
         {
