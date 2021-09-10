@@ -1,7 +1,7 @@
 <#assign extendResourceTools>
 <@tform class='form-inline' action='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp'>
-	<input name="manageByResource" type="hidden" value="true">
-	<@ul class="list-unstyled list-inline">
+	<@input type='hidden' name='manageByResource' value='true' />
+	<@ul class='list-unstyled list-inline'>
 	<#list resourceExtenderActions?reverse as resourceExtenderAction>
 		<#if resourceExtenderAction.buttonTemplate?has_content>
 			<@li><#include resourceExtenderAction.buttonTemplate /></@li>
@@ -20,15 +20,15 @@
 			<@columns sm=2>
 				<h4>#i18n{extend.manage_resource_extenders_by_resource.labelSearchExtender}</h4>
 				<@tform class='form' action='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp'>
-					<input name="manageByResource" type="hidden" value="true">
-					<@formGroup rows=2  labelKey='#i18n{extend.manage_resource_extenders_by_resource.labelExtenderType}' lablFor="filterExtenderType">
-						<@select name="filterExtenderType" default_value=filter.filterExtenderType! class='form-control' items=extenderTypesForFilter />
+					<@input type='hidden' name='manageByResource' value='true' />
+					<@formGroup labelFor='filterExtenderType' labelKey='#i18n{extend.manage_resource_extenders_by_resource.labelExtenderType}' rows=2>
+						<@select name='filterExtenderType' default_value=filter.filterExtenderType! items=extenderTypesForFilter />
 					</@formGroup>
-					<@formGroup rows=2  labelKey='#i18n{extend.manage_resource_extenders_by_resource.labelIdExtendableResource}' labelFor="filterIdExtendableResource">
+					<@formGroup labelFor='filterIdExtendableResource' labelKey='#i18n{extend.manage_resource_extenders_by_resource.labelIdExtendableResource}' rows=2>
 						<@input name='filterIdExtendableResource' value='${filter.filterIdExtendableResource!}' maxlength=255 />
 					</@formGroup>
-					<@formGroup rows=2  labelKey='#i18n{extend.manage_resource_extenders_by_resource.labelExtendableResourceType}' lablFor="filterExtendableResourceType">
-						<@select name="filterExtendableResourceType" default_value=filter.filterExtendableResourceType! class='form-control' items=resourceTypesForFilter />
+					<@formGroup labelFor='filterExtendableResourceType' labelKey='#i18n{extend.manage_resource_extenders_by_resource.labelExtendableResourceType}' rows=2>
+						<@select name='filterExtendableResourceType' default_value=filter.filterExtendableResourceType! items=resourceTypesForFilter />
 					</@formGroup>
 					<@formGroup rows=2 class='text-center'>
 						<@button type='submit' name='search' value='#i18n{extend.button.search}' title='#i18n{extend.button.search}' color='primary' buttonIcon='search' />
@@ -38,7 +38,7 @@
 			</@columns>
 			<@columns sm=9>
 				<@tform action='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp'>
-					<input name="manageByResource" type="hidden" value="true">
+					<@input type='hidden' name='manageByResource' value='true' />
 					<#assign sortSearchAttribute = buildSortSearchAttribute( filter ) />
 					<@table>
 						<@tr>
@@ -67,30 +67,20 @@
 									<@td>${resourceExtender.name!}</@td>
 									<@td>
 									<#if isExtenderConfigRequired( listExtenders, resourceExtender.extenderType ) && isAuthorized( resourceExtender.idExtender!, 'MODIFY_CONFIG', mapActionPermissions! )>
-										<@link class="btn btn-primary" href="jsp/admin/plugins/extend/ModifyExtenderConfig.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{extend.button.modifyConfig}">
-											<@icon style='edit' />
-										</@link >
+										<@aButton href='jsp/admin/plugins/extend/ModifyExtenderConfig.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{extend.button.modifyConfig}' hideTitle=['all'] buttonIcon='edit' size='sm' />
 									</#if>
 									<#if resourceExtender.idExtendableResource != '*' && isAuthorized( resourceExtender.idExtender!, 'VIEW_INFO', mapActionPermissions! )>
-										<@link class="btn btn-primary" href="jsp/admin/plugins/extend/ViewExtenderInfo.jsp?idExtender=${resourceExtender.idExtender!}"  title="#i18n{extend.button.info}">
-											<@icon style='eye' />
-										</@link>
+										<@aButton href='jsp/admin/plugins/extend/ViewExtenderInfo.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{extend.button.info}' hideTitle=['all'] buttonIcon='eye' size='sm' />
 									</#if>
 									<#if isExtenderStateEnable( listExtenders, resourceExtender.extenderType ) && resourceExtender.idExtendableResource??>
 										<#if resourceExtender.isActive>
-											<@link class="btn btn-danger" href="jsp/admin/plugins/extend/DisabledExtender.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{portal.util.labelDisabled}">
-												<@icon style='stop' />
-											</@link>
+											<@aButton href='jsp/admin/plugins/extend/DisabledExtender.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelDisabled}' hideTitle=['all'] buttonIcon='stop' size='sm' color='danger' />
 										<#else>
-											<@link class="btn btn-success" href="jsp/admin/plugins/extend/EnabledExtender.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{portal.util.labelEnabled}">
-												<@icon style='play' />
-											</@link>
+											<@aButton href='jsp/admin/plugins/extend/EnabledExtender.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelEnabled}' hideTitle=['all'] buttonIcon='play' size='sm' color='success' />
 										</#if>
 									</#if>
 										<#if isAuthorized( resourceExtender.idExtender!, 'DELETE', mapActionPermissions! )>
-											<@link class="btn btn-danger" href="jsp/admin/plugins/extend/ConfirmRemoveResourceExtender.jsp?idExtender=${resourceExtender.idExtender!}" title="#i18n{portal.util.labelDelete}">
-												<@icon style='trash' />
-											</@link>
+											<@aButton href='jsp/admin/plugins/extend/ConfirmRemoveResourceExtender.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' size='sm' color='danger' />
 										</#if>
 									</@td>
 								</@tr>

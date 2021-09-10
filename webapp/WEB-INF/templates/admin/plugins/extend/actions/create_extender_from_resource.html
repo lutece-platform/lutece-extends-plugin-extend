@@ -1,21 +1,21 @@
 <#macro createExtenderFromResource extenderType installed unremovable labelAdd labelRemove target='_top'>
-<#assign extenderParams>target="${target}"</#assign>
-<@tform type='inline' class='form-submenu' action='jsp/admin/resource/DoProcessExtendableResourceAction.jsp' params=extenderParams >
-<input type="hidden" name="extenderType" value="${extenderType}">
-<input type="hidden" name="extendableResourceType" value="${extendableResourceType!}">
-<input type="hidden" name="idExtendableResource" value="${idExtendableResource!}">
-<input type="hidden" name="remove" value="${installed?string}">
-<@div params=' style="display: flex; justify-content: space-between; align-items: center;"' >
-<#nested>
-<#if installed>
-	<#if unremovable?? && unremovable>
-		<@icon style='plug fa-fw text-success' title='#i18n{extend.create_extender_from_resource.unremovableExtender}' /> 
-	<#else>
-		<@button type='submit' name='createExtenderFromResource' value='createExtenderFromResource' title=labelRemove hideTitle=['all'] color='danger btn-xs spaced' buttonIcon='minus' />
-	</#if>
-<#else>
-	<@button type='submit' name='createExtenderFromResource' value='createExtenderFromResource' title=labelAdd hideTitle=['all'] color='success btn-xs' buttonIcon='plus' />
-</#if>
-</@div>
-</@tform>
+	<#assign extenderParams>target="${target}"</#assign>
+	<@tform type='inline' class='form-submenu' action='jsp/admin/resource/DoProcessExtendableResourceAction.jsp' params=extenderParams>
+		<@input type='hidden' name='extenderType' value='${extenderType}' />
+		<@input type='hidden' name='extendableResourceType' value='${extendableResourceType!}' />
+		<@input type='hidden' name='idExtendableResource' value='${idExtendableResource!}' />
+		<@input type='hidden' name='remove' value='${installed?string}' />
+		<@div params=' style="display: flex; justify-content: space-between; align-items: center;"' >
+			<#nested>
+			<#if installed>
+				<#if unremovable?? && unremovable>
+					<@icon style='plug text-success' title='#i18n{extend.create_extender_from_resource.unremovableExtender}' /> 
+				<#else>
+					<@button type='submit' name='createExtenderFromResource' value='createExtenderFromResource' title=labelRemove hideTitle=['all'] color='danger' size='xs' buttonIcon='minus' />
+				</#if>
+			<#else>
+				<@button type='submit' name='createExtenderFromResource' value='createExtenderFromResource' title=labelAdd hideTitle=['all'] color='success' size='xs' buttonIcon='plus' />
+			</#if>
+		</@div>
+	</@tform>
 </#macro>

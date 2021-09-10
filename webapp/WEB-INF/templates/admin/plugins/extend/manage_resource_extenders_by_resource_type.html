@@ -1,22 +1,23 @@
 <#assign extendResourceTools>
-<@tform class='form-inline' action='jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp'>
-<input name="manageByResource" type="hidden" value="false">
-<@ul class='list-unstyled list-inline'>
-<#list resourceExtenderActions?reverse as resourceExtenderAction>
-	<#if resourceExtenderAction.buttonTemplate?has_content>
-	<@li><#include resourceExtenderAction.buttonTemplate /></@li>
-	</#if>
-</#list>
-</@ul>
+<@tform type='inline' action='jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp'>
+	<@input type='hidden' name='manageByResource' value='false' />
+	<@ul class='list-unstyled list-inline'>
+		<#list resourceExtenderActions?reverse as resourceExtenderAction>
+			<#if resourceExtenderAction.buttonTemplate?has_content>
+			<@li><#include resourceExtenderAction.buttonTemplate /></@li>
+			</#if>
+		</#list>
+	</@ul>
 </@tform>
 </#assign>
+
 <@extendBox extendTitle='#i18n{extend.manage_resource_extenders_by_resource_type.pageTitle}' hasBoxTools=true extendBoxTools=extendResourceTools>
 	<@tabs>
 		<@tabList>
 			<@tabLink href='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp' title='#i18n{extend.manage_resource_extenders_by_resource.pageTitle}' />
 			<@tabLink active=true href='jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp' title='#i18n{extend.manage_resource_extenders_by_resource_type.pageTitle}' />
 		</@tabList>
-		<@table params=' summary="#i18n{extend.manage_resource_extenders_by_resource_type.pageTitle}"'>
+		<@table params=' caption="#i18n{extend.manage_resource_extenders_by_resource_type.pageTitle}"'>
 			<@tr>
 				<@th scope="col">
 					#i18n{extend.manage_resource_extenders_by_resource_type.labelExtenderType}
@@ -35,25 +36,17 @@
 						<@td>${resourceExtender.extendableResourceType!}</@td>
 						<@td>
 						<#if isExtenderConfigRequired( listExtenders, resourceExtender.extenderType ) && isAuthorized( resourceExtender.idExtender!, 'MODIFY_CONFIG', mapActionPermissions! )>
-							<@link class='btn btn-primary' href='jsp/admin/plugins/extend/ModifyExtenderConfig.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{extend.button.modifyConfig}'>
-								<@icon style='edit' />
-							</@link>
+							<@aButton href='jsp/admin/plugins/extend/ModifyExtenderConfig.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{extend.button.modifyConfig}' hideTitle=['all'] buttonIcon='edit' size='sm' />
 							<#if isExtenderStateEnable( listExtenders, resourceExtender.extenderType ) && resourceExtender.idExtendableResource?? >
 								<#if resourceExtender.isActive>
-									<@link class='btn btn-danger' href='jsp/admin/plugins/extend/DisabledExtender.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelDisabled}'>
-										<@icon style='stop' />
-									</@link>
+									<@aButton href='jsp/admin/plugins/extend/DisabledExtender.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelDisabled}' hideTitle=['all'] buttonIcon='stop' size='sm' color='danger' />
 								<#else>
-									<@link class='btn btn-success' href='jsp/admin/plugins/extend/EnabledExtender.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelEnabled}'>
-										<@icon style='play' />
-									</@link>
+									<@aButton href='jsp/admin/plugins/extend/EnabledExtender.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelEnabled}' hideTitle=['all'] buttonIcon='play' size='sm' color='success' />
 								</#if>
 							</#if>
 						</#if>
 						<#if isAuthorized( resourceExtender.idExtender!, 'DELETE', mapActionPermissions! )>
-							<@link class='btn btn-danger' href='jsp/admin/plugins/extend/ConfirmRemoveResourceExtender.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelDelete}'>
-								<@icon style='trash' />
-							</@link>
+							<@aButton href='jsp/admin/plugins/extend/ConfirmRemoveResourceExtender.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' size='sm' color='danger' />
 						</#if>
 						</@td>
 					</@tr>

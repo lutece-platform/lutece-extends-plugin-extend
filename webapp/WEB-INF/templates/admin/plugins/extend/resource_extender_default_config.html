@@ -1,36 +1,36 @@
 <#assign bTools>
-<#assign actionUrl>jsp/admin/plugins/extend/<#if manageByResource?? && manageByResource>ManageResourceExtendersByResource.jsp<#else>ManageResourceExtendersByResourceType.jsp</#if></#assign>
-<@tform class='form-inline' action=actionUrl params=' target="_top"'>
-<input type="hidden" name="modifyDefaultConfig" value="${modifyDefaultConfig!}">
-<input type="hidden" name="from_url" value="${from_url!}">
-<@inputGroup>
-	<@select name='extenderTypeModifyConfig' default_value=extenderTypeModifyConfig items=configurableExtenderTypes />			
-	<@inputGroupItem>
-		<@button type='submit' name='modifyDefaultConfig' value='modifyDefaultConfig' title='#i18n{portal.util.labelFilter}' color='primary' buttonIcon='filter' />
-	</@inputGroupItem>
-</@inputGroup>
-</@tform>
+	<#assign actionUrl>jsp/admin/plugins/extend/<#if manageByResource?? && manageByResource>ManageResourceExtendersByResource.jsp<#else>ManageResourceExtendersByResourceType.jsp</#if></#assign>
+	<@tform type='inline' action=actionUrl params=' target="_top"'>
+	<@input type='hidden' name='modifyDefaultConfig' value='${modifyDefaultConfig!}' />
+	<@input type='hidden' name='from_url' value='${from_url!}' />
+	<@inputGroup>
+		<@select name='extenderTypeModifyConfig' default_value=extenderTypeModifyConfig items=configurableExtenderTypes />			
+		<@inputGroupItem>
+			<@button type='submit' name='modifyDefaultConfig' value='modifyDefaultConfig' title='#i18n{portal.util.labelFilter}' color='primary' buttonIcon='filter' />
+		</@inputGroupItem>
+	</@inputGroup>
+	</@tform>
 </#assign>
 
-<@extendBox extendTitle='#i18n{extend.resource_extender_info.pageTitle}' hasBoxTools=true extendBoxTools=bTools >
-<@tform type='form' action='jsp/admin/plugins/extend/DoModifyDefaultConfig.jsp' class='form' >
-<input type="hidden" name="idExtender" value="-1">
-<input type="hidden" name="extenderType" value="${resourceExtender.extenderType!}">
-<input type="hidden" name="modifyDefaultConfig" value="${modifyDefaultConfig!}">
-<input type="hidden" name="from_url" value="${from_url!}">
-<#if from_url?? && from_url?has_content && from_url != "null">
-<input type="hidden" name="from_url" value="${from_url!}">
-</#if>
-<@row>
-	<@columns sm=8 offsetSm=2>
-	<#-- BEGIN RESOURCE EXTENDER CONFIG -->
-	${resourceExtenderConfig!}
-	<#-- END RESOURCE EXTENDER CONFIG -->
-	<@formGroup rows=2>
-		<@button type='submit' name='modify' value='#i18n{portal.util.labelModify}' title='#i18n{portal.util.labelModify}' color='primary' buttonIcon='edit' />
-		<@button type='submit' name='cancel' value='#i18n{portal.util.labelCancel}' title='#i18n{portal.util.labelCancel}' color='default' buttonIcon='times' />
-	</@formGroup>
-	</@columns>
-</@row>
-</@tform>
+<@extendBox extendTitle='#i18n{extend.resource_extender_info.pageTitle}' hasBoxTools=true extendBoxTools=bTools>
+	<@tform action='jsp/admin/plugins/extend/DoModifyDefaultConfig.jsp'>
+		<@input type='hidden' name='idExtender' value='-1' />
+		<@input type='hidden' name='extenderType' value='${resourceExtender.extenderType!}' />
+		<@input type='hidden' name='modifyDefaultConfig' value='${modifyDefaultConfig!}' />
+		<@input type='hidden' name='from_url' value='${from_url!}' />
+		<#if from_url?? && from_url?has_content && from_url != "null">
+		<@input type='hidden' name='from_url' value='${from_url!}' />
+		</#if>
+		<@row>
+			<@columns sm=8 offsetSm=2>
+				<#-- BEGIN RESOURCE EXTENDER CONFIG -->
+				${resourceExtenderConfig!}
+				<#-- END RESOURCE EXTENDER CONFIG -->
+				<@formGroup rows=2>
+					<@button type='submit' name='modify' value='#i18n{portal.util.labelModify}' title='#i18n{portal.util.labelModify}' color='primary' buttonIcon='edit' />
+					<@button type='submit' name='cancel' value='#i18n{portal.util.labelCancel}' title='#i18n{portal.util.labelCancel}' color='default' buttonIcon='times' />
+				</@formGroup>
+			</@columns>
+		</@row>
+	</@tform>
 </@extendBox>

@@ -1,15 +1,15 @@
 <#assign bTools>
-<#assign actionUrl><#if from_url?? && from_url?has_content && from_url != "null">${from_url}<#else>jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp</#if></#assign>
-<@tform class='form-inline' action=actionUrl params=' target="_top"'>
-<input type="hidden" name="session" value="session">
-<@button type='submit' name='back' value='#i18n{extend.button.back}' title='#i18n{extend.button.back}' color='default' buttonIcon='times' />
-</@tform>
+	<#assign actionUrl><#if from_url?? && from_url?has_content && from_url != "null">${from_url}<#else>jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp</#if></#assign>
+	<@tform type='inline' action=actionUrl params=' target="_top"'>
+		<@input type='hidden' name='session' value='session' />
+		<@button type='submit' name='back' value='#i18n{extend.button.back}' title='#i18n{extend.button.back}' color='default' buttonIcon='times' />
+	</@tform>
 </#assign>
 <@extendBox extendTitle='#i18n{extend.resource_extender_info.pageTitle}' hasBoxTools=true extendBoxTools=bTools >
-<!-- <h4>${resourceExtender.extendableResourceType!?capitalize}  ${resourceExtender.idExtendableResource!} </h4> -->
-<!-- #i18n{extend.resource_extender_info.labelExtenderType} #i18n{extend.resource_extender_info.labelIdExtendableResource} #i18n{extend.resource_extender_info.labelExtendableResourceType} ${resourceExtender.extendableResourceType!}  -->
-<#-- BEGIN RESOURCE EXTENDER INFO -->
-${resourceExtenderInfo!}
-<#-- END RESOURCE EXTENDER INFO -->
+	<!-- <h4>${resourceExtender.extendableResourceType!?capitalize}  ${resourceExtender.idExtendableResource!} </h4> -->
+	<!-- #i18n{extend.resource_extender_info.labelExtenderType} #i18n{extend.resource_extender_info.labelIdExtendableResource} #i18n{extend.resource_extender_info.labelExtendableResourceType} ${resourceExtender.extendableResourceType!}  -->
+	<#-- BEGIN RESOURCE EXTENDER INFO -->
+	${resourceExtenderInfo!}
+	<#-- END RESOURCE EXTENDER INFO -->
 </@extendBox>
 <@extendScript />

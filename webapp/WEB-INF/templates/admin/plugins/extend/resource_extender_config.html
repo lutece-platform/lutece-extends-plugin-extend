@@ -1,20 +1,21 @@
 <#assign resBoxTools><@button type='submit' name='modify' value='#i18n{portal.util.labelModify}' title='#i18n{portal.util.labelModify}' color='primary' buttonIcon='check' /> <@button type='submit' name='cancel' value='#i18n{portal.util.labelCancel}' title='#i18n{portal.util.labelCancel}' color='default' buttonIcon='times' /></#assign>
+
 <@tform type='form' action='jsp/admin/plugins/extend/DoModifyExtenderConfig.jsp' params=' target="_top"'>
-<@extendBox extendTitle='#i18n{extend.resource_extender_config.pageTitle}' hasBoxTools=true extendBoxTools=resBoxTools >
-<input type="hidden" name="idExtender" value="${resourceExtender.idExtender!}" />
-<#if from_url?? && from_url?has_content && from_url != "null">
-<input type="hidden" name="from_url" value="${from_url!}">
-</#if>
-<@row>
-	<@columns sm=11 offsetSm=1>
-	<#-- BEGIN RESOURCE EXTENDER CONFIG -->
-	${resourceExtenderConfig!}
-	<#-- END RESOURCE EXTENDER CONFIG -->
-	<@formGroup rows=2 params=' style="margin-top: 30px"' >
-		<@button type='submit' name='modify' value='#i18n{portal.util.labelModify}' title='#i18n{portal.util.labelModify}' color='primary' buttonIcon='check' />
-		<@button type='submit' name='cancel' value='#i18n{portal.util.labelCancel}' title='#i18n{portal.util.labelCancel}' color='default' buttonIcon='times' />
-	</@formGroup>
-	</@columns>
-</@row>
-</@extendBox>
+	<@extendBox extendTitle='#i18n{extend.resource_extender_config.pageTitle}' hasBoxTools=true extendBoxTools=resBoxTools >
+		<@input type='hidden' name='idExtender' value='${resourceExtender.idExtender!}' />
+		<#if from_url?? && from_url?has_content && from_url != "null">
+		<@input type='hidden' name='from_url' value='${from_url!}' />
+		</#if>
+		<@row>
+			<@columns sm=11 offsetSm=1>
+			<#-- BEGIN RESOURCE EXTENDER CONFIG -->
+			${resourceExtenderConfig!}
+			<#-- END RESOURCE EXTENDER CONFIG -->
+			<@formGroup rows=2 params=' style="margin-top:30px;"' >
+				<@button type='submit' name='modify' value='#i18n{portal.util.labelModify}' title='#i18n{portal.util.labelModify}' color='primary' buttonIcon='check' />
+				<@button type='submit' name='cancel' value='#i18n{portal.util.labelCancel}' title='#i18n{portal.util.labelCancel}' color='default' buttonIcon='times' />
+			</@formGroup>
+			</@columns>
+		</@row>
+	</@extendBox>
 </@tform>

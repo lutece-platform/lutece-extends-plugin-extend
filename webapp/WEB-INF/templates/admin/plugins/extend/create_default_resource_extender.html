@@ -1,23 +1,23 @@
 <@extendBox extendTitle='#i18n{extend.create_default_resource_extender.pageTitle}'>
-<@tform type='form' action='jsp/admin/plugins/extend/DoCreateDefaultResourceExtender.jsp' params=' target="_top"'>>
-<input type="hidden" name="extenderType" value="${resourceExtender.extenderType!}">
-<input type="hidden" name="idExtendableResource" value="${resourceExtender.idExtendableResource!}">
-<input type="hidden" name="extendableResourceType" value="${resourceExtender.extendableResourceType!}">
-<@formGroup rows=2 labelKey='#i18n{extend.create_default_resource_extender.labelExtenderType}' labelFor='extenderType'>
-	<@staticText>${resourceExtender.extenderType!}</@staticText>
-</@formGroup>
-<@formGroup rows=2 labelKey='#i18n{extend.create_default_resource_extender.labelIdExtendableResource}' labelFor='idExtendableResource'>
-	<@staticText>${resourceExtender.idExtendableResource!}</@staticText>
-</@formGroup>
-<@formGroup rows=2 labelKey='#i18n{extend.create_default_resource_extender.labelExtendableResourceType}' labelFor='extendableResourceType'>
-	<@staticText>${resourceExtender.extendableResourceType!}</@staticText>
-</@formGroup>
-<@formGroup rows=2 labelKey='#i18n{extend.create_default_resource_extender.labelName}' labelFor='name' mandatory=true>
-	<@input name='name' maxlength='255' />
-</@formGroup>
-<@formGroup>
-	<@button type='submit' name='save' value='save' title='#i18n{portal.util.labelCreate}' color='primary' buttonIcon='check' />
-	<@button type='submit' name='cancel' value='#i18n{portal.util.labelCancel}' title='#i18n{portal.util.labelCancel}' color='default' buttonIcon='trash' />
-</@formGroup>
-</@tform>
+	<@tform action='jsp/admin/plugins/extend/DoCreateDefaultResourceExtender.jsp' params=' params='target="_top"'>
+		<@input type='hidden' name='extenderType' value='${resourceExtender.extenderType!}' />
+		<@input type='hidden' name='idExtendableResource' value='${resourceExtender.idExtendableResource!}' />
+		<@input type='hidden' name='extendableResourceType' value='${resourceExtender.extendableResourceType!}' />
+		<@formGroup labelFor='extenderType' labelKey='#i18n{extend.create_default_resource_extender.labelExtenderType}' rows=2>
+			<@staticText>${resourceExtender.extenderType!}</@staticText>
+		</@formGroup>
+		<@formGroup labelFor='idExtendableResource' labelKey='#i18n{extend.create_default_resource_extender.labelIdExtendableResource}' rows=2>
+			<@staticText>${resourceExtender.idExtendableResource!}</@staticText>
+		</@formGroup>
+		<@formGroup labelFor='extendableResourceType' labelKey='#i18n{extend.create_default_resource_extender.labelExtendableResourceType}' rows=2>
+			<@staticText>${resourceExtender.extendableResourceType!}</@staticText>
+		</@formGroup>
+		<@formGroup labelFor='name' labelKey='#i18n{extend.create_default_resource_extender.labelName}' mandatory=true rows=2>
+			<@input name='name' maxlength='255' />
+		</@formGroup>
+		<@formGroup>
+			<@button type='submit' name='save' value='save' title='#i18n{portal.util.labelCreate}' color='primary' buttonIcon='check' />
+			<@button type='submit' name='cancel' value='#i18n{portal.util.labelCancel}' title='#i18n{portal.util.labelCancel}' color='default' buttonIcon='times' />
+		</@formGroup>
+	</@tform>
 </@extendBox>
