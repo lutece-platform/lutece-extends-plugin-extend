@@ -5,7 +5,7 @@
 		<@input type='hidden' name='extendableResourceType' value='${extendableResourceType!}' />
 		<@input type='hidden' name='idExtendableResource' value='${idExtendableResource!}' />
 		<@input type='hidden' name='remove' value='${installed?string}' />
-		<@div params=' style="display: flex; justify-content: space-between; align-items: center;"' >
+		<@div class="extend-action-menu">
 			<#nested>
 			<#if installed>
 				<#if unremovable?? && unremovable>
