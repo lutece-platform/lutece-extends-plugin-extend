@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,18 +33,19 @@
  */
 package fr.paris.lutece.plugins.extend.service.converter;
 
-
 /**
  * IStringMapper.
  *
- * @param <T> the class to convert into
+ * @param <T>
+ *            the class to convert into
  */
 public interface IStringMapper<T>
 {
     /**
      * Map row.
      *
-     * @param strToMap the str to map
+     * @param strToMap
+     *            the str to map
      * @return the t
      */
     T map( String strToMap );

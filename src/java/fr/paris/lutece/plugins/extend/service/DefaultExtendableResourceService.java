@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,11 +42,10 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-
 /**
  *
- * Default service that is invoked when other IExtendableResourceService are not invoked.
- * This service stores in database the information of the {@link IExtendableResource} :
+ * Default service that is invoked when other IExtendableResourceService are not invoked. This service stores in database the information of the
+ * {@link IExtendableResource} :
  * <ul>
  * <li>id</li>
  * <li>resourceType</li>
@@ -77,7 +76,7 @@ public class DefaultExtendableResourceService implements IDefaultExtendableResou
     @Override
     public IExtendableResource getResource( String strIdResource, String strResourceType )
     {
-        return _extendableResourceDAO.load( strIdResource, strResourceType, ExtendPlugin.getPlugin(  ) );
+        return _extendableResourceDAO.load( strIdResource, strResourceType, ExtendPlugin.getPlugin( ) );
     }
 
     /**
@@ -87,7 +86,7 @@ public class DefaultExtendableResourceService implements IDefaultExtendableResou
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     public void create( IExtendableResource resource )
     {
-        _extendableResourceDAO.insert( resource, ExtendPlugin.getPlugin(  ) );
+        _extendableResourceDAO.insert( resource, ExtendPlugin.getPlugin( ) );
     }
 
     /**
@@ -97,7 +96,7 @@ public class DefaultExtendableResourceService implements IDefaultExtendableResou
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     public void update( IExtendableResource resource )
     {
-        _extendableResourceDAO.store( resource, ExtendPlugin.getPlugin(  ) );
+        _extendableResourceDAO.store( resource, ExtendPlugin.getPlugin( ) );
     }
 
     /**
@@ -107,14 +106,14 @@ public class DefaultExtendableResourceService implements IDefaultExtendableResou
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     public void remove( String strIdResource, String strResourceType )
     {
-        _extendableResourceDAO.delete( strIdResource, strResourceType, ExtendPlugin.getPlugin(  ) );
+        _extendableResourceDAO.delete( strIdResource, strResourceType, ExtendPlugin.getPlugin( ) );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getResourceType(  )
+    public String getResourceType( )
     {
         return null;
     }

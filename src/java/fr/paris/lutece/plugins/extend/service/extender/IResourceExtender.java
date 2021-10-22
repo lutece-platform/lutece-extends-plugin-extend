@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * IResourceExtender.
  */
@@ -50,34 +49,38 @@ public interface IResourceExtender
      *
      * @return the key
      */
-    String getKey(  );
+    String getKey( );
 
     /**
      * Sets the key.
      *
-     * @param strKey the new key
+     * @param strKey
+     *            the new key
      */
     void setKey( String strKey );
 
     /**
-    * Gets the name.
-    *
-    * @param locale the locale
-    * @return the name
-    */
+     * Gets the name.
+     *
+     * @param locale
+     *            the locale
+     * @return the name
+     */
     String getTitle( Locale locale );
 
     /**
      * Sets the i18n title key.
      *
-     * @param strI18nTitleKey the new i18n title key
+     * @param strI18nTitleKey
+     *            the new i18n title key
      */
     void setI18nTitleKey( String strI18nTitleKey );
 
     /**
      * Checks if is invoked.
      *
-     * @param strExtenderType the str extender type
+     * @param strExtenderType
+     *            the str extender type
      * @return true, if is invoked
      */
     boolean isInvoked( String strExtenderType );
@@ -85,28 +88,31 @@ public interface IResourceExtender
     /**
      * Gets the content.
      *
-     * @param strIdExtendableResource the str id extendable resource
-     * @param strExtendableResourceType the str extendable resource type
-     * @param strParameters the str parameters
-     * @param request the request
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
+     * @param strParameters
+     *            the str parameters
+     * @param request
+     *            the request
      * @return the content
      */
-    String getContent( String strIdExtendableResource, String strExtendableResourceType, String strParameters,
-        HttpServletRequest request );
+    String getContent( String strIdExtendableResource, String strExtendableResourceType, String strParameters, HttpServletRequest request );
 
     /**
      * Do create resource add on.
      *
-     * @param resourceExtender the resource extender
+     * @param resourceExtender
+     *            the resource extender
      */
     void doCreateResourceAddOn( ResourceExtenderDTO resourceExtender );
 
     /**
      * Do delete resource add on.
      *
-     * @param resourceExtender the resource extender. If the extender has a
-     *            configuration, then the configuration is also removed unless
-     *            the extender id is equals to 0.
+     * @param resourceExtender
+     *            the resource extender. If the extender has a configuration, then the configuration is also removed unless the extender id is equals to 0.
      */
     void doDeleteResourceAddOn( ResourceExtenderDTO resourceExtender );
 
@@ -115,12 +121,12 @@ public interface IResourceExtender
      *
      * @return true, if is config required
      */
-    boolean isConfigRequired(  );
+    boolean isConfigRequired( );
 
     /**
      * Checks if is history enable.
      *
      * @return true, if is history enable
      */
-    boolean isHistoryEnable(  );
+    boolean isHistoryEnable( );
 }

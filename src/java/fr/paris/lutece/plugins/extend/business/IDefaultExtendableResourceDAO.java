@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.plugins.extend.business;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 
-
 /**
  * IDefaultExtendableResourceDAO.
  */
@@ -45,34 +44,44 @@ public interface IDefaultExtendableResourceDAO
     /**
      * Insert.
      *
-     * @param resource the resource
-     * @param plugin the plugin
+     * @param resource
+     *            the resource
+     * @param plugin
+     *            the plugin
      */
     void insert( IExtendableResource resource, Plugin plugin );
 
     /**
      * Store.
      *
-     * @param resource the resource
-     * @param plugin the plugin
+     * @param resource
+     *            the resource
+     * @param plugin
+     *            the plugin
      */
     void store( IExtendableResource resource, Plugin plugin );
 
     /**
      * Removes the.
      *
-     * @param strIdResource the id resource
-     * @param strResourceType the str resource type
-     * @param plugin the plugin
+     * @param strIdResource
+     *            the id resource
+     * @param strResourceType
+     *            the str resource type
+     * @param plugin
+     *            the plugin
      */
     void delete( String strIdResource, String strResourceType, Plugin plugin );
 
     /**
      * Load.
      *
-     * @param strIdResource the id resource
-     * @param strResourceType the str resource type
-     * @param plugin the plugin
+     * @param strIdResource
+     *            the id resource
+     * @param strResourceType
+     *            the str resource type
+     * @param plugin
+     *            the plugin
      * @return the i extendable resource
      */
     IExtendableResource load( String strIdResource, String strResourceType, Plugin plugin );

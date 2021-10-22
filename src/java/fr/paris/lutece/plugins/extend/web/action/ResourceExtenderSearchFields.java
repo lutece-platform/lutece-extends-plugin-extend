@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * ResourceExtenderSearchFields
@@ -90,8 +89,7 @@ public class ResourceExtenderSearchFields implements IResourceExtenderSearchFiel
 
     // VARIABLES
     private int _nItemsPerPage;
-    private int _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_LIST_RESOURCES_EXTENDERS_PER_PAGE,
-            50 );
+    private int _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_LIST_RESOURCES_EXTENDERS_PER_PAGE, 50 );
     private String _strCurrentPageIndex;
     private String _strSortedAttributeName;
     private boolean _bIsAscSort;
@@ -101,7 +99,7 @@ public class ResourceExtenderSearchFields implements IResourceExtenderSearchFiel
      * {@inheritDoc}
      */
     @Override
-    public String getCurrentPageIndex(  )
+    public String getCurrentPageIndex( )
     {
         return _strCurrentPageIndex;
     }
@@ -110,7 +108,7 @@ public class ResourceExtenderSearchFields implements IResourceExtenderSearchFiel
      * {@inheritDoc}
      */
     @Override
-    public int getDefaultItemsPerPage(  )
+    public int getDefaultItemsPerPage( )
     {
         return _nDefaultItemsPerPage;
     }
@@ -137,7 +135,7 @@ public class ResourceExtenderSearchFields implements IResourceExtenderSearchFiel
      * {@inheritDoc}
      */
     @Override
-    public int getItemsPerPage(  )
+    public int getItemsPerPage( )
     {
         return _nItemsPerPage;
     }
@@ -155,7 +153,7 @@ public class ResourceExtenderSearchFields implements IResourceExtenderSearchFiel
      * {@inheritDoc}
      */
     @Override
-    public String getSortedAttributeName(  )
+    public String getSortedAttributeName( )
     {
         return _strSortedAttributeName;
     }
@@ -180,7 +178,7 @@ public class ResourceExtenderSearchFields implements IResourceExtenderSearchFiel
      * {@inheritDoc}
      */
     @Override
-    public boolean isAscSort(  )
+    public boolean isAscSort( )
     {
         return _bIsAscSort;
     }
@@ -201,8 +199,7 @@ public class ResourceExtenderSearchFields implements IResourceExtenderSearchFiel
      * {@inheritDoc}
      */
     @Override
-    public void fillModel( String strBaseUrl, HttpServletRequest request, Map<String, Object> model, AdminUser user )
-        throws AccessDeniedException
+    public void fillModel( String strBaseUrl, HttpServletRequest request, Map<String, Object> model, AdminUser user ) throws AccessDeniedException
     {
         fillModel( strBaseUrl, request, model, null, user );
     }
@@ -211,9 +208,8 @@ public class ResourceExtenderSearchFields implements IResourceExtenderSearchFiel
      * {@inheritDoc}
      */
     @Override
-    public void fillModel( String strBaseUrl, HttpServletRequest request, Map<String, Object> model,
-        String strIdExtendableResource, AdminUser user )
-        throws AccessDeniedException
+    public void fillModel( String strBaseUrl, HttpServletRequest request, Map<String, Object> model, String strIdExtendableResource, AdminUser user )
+            throws AccessDeniedException
     {
         initFilter( request );
 
@@ -230,48 +226,43 @@ public class ResourceExtenderSearchFields implements IResourceExtenderSearchFiel
 
         UrlItem url = new UrlItem( strBaseUrl );
 
-        if ( getSortedAttributeName(  ) != null )
+        if ( getSortedAttributeName( ) != null )
         {
-            url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, getSortedAttributeName(  ) );
-            url.addParameter( Parameters.SORTED_ASC, Boolean.toString( isAscSort(  ) ) );
+            url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, getSortedAttributeName( ) );
+            url.addParameter( Parameters.SORTED_ASC, Boolean.toString( isAscSort( ) ) );
         }
 
         url.addParameter( PARAMETER_SESSION, PARAMETER_SESSION );
 
         // PAGINATOR
         _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_LIST_RESOURCES_EXTENDERS_PER_PAGE,
-                50 );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
-                _nDefaultItemsPerPage );
+        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_LIST_RESOURCES_EXTENDERS_PER_PAGE, 50 );
+        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
 
         IResourceExtenderService resourceExtenderService = SpringContextService.getBean( ResourceExtenderService.BEAN_SERVICE );
         IExtendableResourceTypeService resourceTypeService = SpringContextService.getBean( ExtendableResourceTypeService.BEAN_SERVICE );
         List<Integer> listIdsExtenders = resourceExtenderService.findIdsByFilter( _filter );
 
-        LocalizedPaginator<Integer> paginator = new LocalizedPaginator<Integer>( listIdsExtenders, getItemsPerPage(  ),
-                url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX, getCurrentPageIndex(  ), request.getLocale(  ) );
+        LocalizedPaginator<Integer> paginator = new LocalizedPaginator<Integer>( listIdsExtenders, getItemsPerPage( ), url.getUrl( ),
+                Paginator.PARAMETER_PAGE_INDEX, getCurrentPageIndex( ), request.getLocale( ) );
 
-        List<ResourceExtenderDTO> listResourceExtenders = resourceExtenderService.findByListIds( paginator.getPageItems(  ) );
+        List<ResourceExtenderDTO> listResourceExtenders = resourceExtenderService.findByListIds( paginator.getPageItems( ) );
 
-        Map<String, Map<String, Boolean>> mapActionPermissions = resourceExtenderService.getActionPermissions( paginator.getPageItems(  ),
-                user );
+        Map<String, Map<String, Boolean>> mapActionPermissions = resourceExtenderService.getActionPermissions( paginator.getPageItems( ), user );
 
         // RESOURCE TYPES
         ReferenceList listResourceTypes = resourceTypeService.findAllAsRef( AdminUserService.getLocale( request ) );
-        listResourceTypes.addItem( StringUtils.EMPTY,
-            I18nService.getLocalizedString( PROPERTY_LABEL_ALL, request.getLocale(  ) ) );
+        listResourceTypes.addItem( StringUtils.EMPTY, I18nService.getLocalizedString( PROPERTY_LABEL_ALL, request.getLocale( ) ) );
 
         // EXTENDER TYPES
-        ReferenceList listExtenderTypes = resourceExtenderService.getExtenderTypes( request.getLocale(  ) );
-        listExtenderTypes.addItem( StringUtils.EMPTY,
-            I18nService.getLocalizedString( PROPERTY_LABEL_ALL, request.getLocale(  ) ) );
+        ReferenceList listExtenderTypes = resourceExtenderService.getExtenderTypes( request.getLocale( ) );
+        listExtenderTypes.addItem( StringUtils.EMPTY, I18nService.getLocalizedString( PROPERTY_LABEL_ALL, request.getLocale( ) ) );
 
         model.put( MARK_LIST_RESOURCE_EXTENDERS, listResourceExtenders );
-        model.put( MARK_LIST_EXTENDERS, resourceExtenderService.getResourceExtenders(  ) );
+        model.put( MARK_LIST_EXTENDERS, resourceExtenderService.getResourceExtenders( ) );
         model.put( MARK_FILTER, _filter );
         model.put( MARK_PAGINATOR, paginator );
-        model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( paginator.getItemsPerPage(  ) ) );
+        model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( paginator.getItemsPerPage( ) ) );
         model.put( MARK_RESOURCE_TYPES_FOR_FILTER, listResourceTypes );
         model.put( MARK_EXTENDER_TYPES_FOR_FILTER, listExtenderTypes );
         model.put( MARK_MAP_ACTION_PERMISSIONS, mapActionPermissions );
@@ -285,12 +276,13 @@ public class ResourceExtenderSearchFields implements IResourceExtenderSearchFiel
     {
         if ( StringUtils.isNotBlank( request.getParameter( PARAMETER_RESET ) ) )
         {
-            _filter = new ResourceExtenderDTOFilter(  );
+            _filter = new ResourceExtenderDTOFilter( );
         }
-        else if ( StringUtils.isBlank( request.getParameter( PARAMETER_SESSION ) ) || ( _filter == null ) )
-        {
-            _filter = new ResourceExtenderDTOFilter(  );
-            _filter.init( request );
-        }
+        else
+            if ( StringUtils.isBlank( request.getParameter( PARAMETER_SESSION ) ) || ( _filter == null ) )
+            {
+                _filter = new ResourceExtenderDTOFilter( );
+                _filter.init( request );
+            }
     }
 }

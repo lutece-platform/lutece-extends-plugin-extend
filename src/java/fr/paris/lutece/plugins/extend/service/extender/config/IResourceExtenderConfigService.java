@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.plugins.extend.service.extender.config;
 
 import fr.paris.lutece.plugins.extend.business.extender.config.IExtenderConfig;
 
-
 /**
  *
  * IResourceExtenderConfigService
@@ -45,37 +44,50 @@ public interface IResourceExtenderConfigService
 {
     /**
      * Create a new config
-     * @param config the config
+     * 
+     * @param config
+     *            the config
      */
     void create( IExtenderConfig config );
 
     /**
      * Update a config
-     * @param config the config
+     * 
+     * @param config
+     *            the config
      */
     void update( IExtenderConfig config );
 
     /**
      * Removes.
      *
-     * @param nIdExtender the n id extender
+     * @param nIdExtender
+     *            the n id extender
      */
     void remove( int nIdExtender );
 
     /**
      * Find an extender
-     * @param <T> The extender type
-     * @param nIdExtender The extender ID
+     * 
+     * @param <T>
+     *            The extender type
+     * @param nIdExtender
+     *            The extender ID
      * @return The extender
      */
     <T> T find( int nIdExtender );
 
     /**
-     * Find a resource 
-     * @param <T> The resource type
-     * @param strExtenderType The extender
-     * @param strIdExtendableResource The resource ID
-     * @param strExtendableResourceType The resource type
+     * Find a resource
+     * 
+     * @param <T>
+     *            The resource type
+     * @param strExtenderType
+     *            The extender
+     * @param strIdExtendableResource
+     *            The resource ID
+     * @param strExtendableResourceType
+     *            The resource type
      * @return The resource
      */
     <T> T find( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType );

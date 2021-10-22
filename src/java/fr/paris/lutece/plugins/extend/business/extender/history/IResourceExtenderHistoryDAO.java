@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 
 import java.util.List;
 
-
 /**
  *
  * IResourceExtenderHistoryDAO
@@ -48,35 +47,44 @@ public interface IResourceExtenderHistoryDAO
     /**
      * Delete.
      *
-     * @param nIdHistory the n id history
-     * @param plugin the plugin
+     * @param nIdHistory
+     *            the n id history
+     * @param plugin
+     *            the plugin
      */
     void delete( int nIdHistory, Plugin plugin );
 
     /**
      * Delete.
      *
-     * @param strExtenderType the str extender type
-     * @param strIdExtendableResource the str id extendable resource
-     * @param strExtendableResourceType the str extendable resource type
-     * @param plugin the plugin
+     * @param strExtenderType
+     *            the str extender type
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
+     * @param plugin
+     *            the plugin
      */
-    void deleteByResource( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType,
-        Plugin plugin );
+    void deleteByResource( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType, Plugin plugin );
 
     /**
      * Insert.
      *
-     * @param history the history
-     * @param plugin the plugin
+     * @param history
+     *            the history
+     * @param plugin
+     *            the plugin
      */
     void insert( ResourceExtenderHistory history, Plugin plugin );
 
     /**
      * Load.
      *
-     * @param nIdHistory the n id history
-     * @param plugin the plugin
+     * @param nIdHistory
+     *            the n id history
+     * @param plugin
+     *            the plugin
      * @return the history
      */
     ResourceExtenderHistory load( int nIdHistory, Plugin plugin );
@@ -84,8 +92,10 @@ public interface IResourceExtenderHistoryDAO
     /**
      * Load by filter.
      *
-     * @param filter the filter
-     * @param plugin the plugin
+     * @param filter
+     *            the filter
+     * @param plugin
+     *            the plugin
      * @return the list
      */
     List<ResourceExtenderHistory> loadByFilter( ResourceExtenderHistoryFilter filter, Plugin plugin );

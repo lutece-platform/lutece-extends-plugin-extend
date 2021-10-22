@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * ResourceExtenderDTOFilter
@@ -85,19 +84,21 @@ public class ResourceExtenderDTOFilter implements Serializable
     /**
      * Instantiates a new resource extender dto filter.
      */
-    public ResourceExtenderDTOFilter(  )
+    public ResourceExtenderDTOFilter( )
     {
     }
 
     /**
      * Instantiates a new resource extender dto filter.
      *
-     * @param strExtenderType the str extender type
-     * @param strIdExtendableResource the str id extendable resource
-     * @param strExtendableResourceType the str extendable resource type
+     * @param strExtenderType
+     *            the str extender type
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
      */
-    public ResourceExtenderDTOFilter( String strExtenderType, String strIdExtendableResource,
-        String strExtendableResourceType )
+    public ResourceExtenderDTOFilter( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType )
     {
         _strExtenderType = strExtenderType;
         _strIdExtendableResource = strIdExtendableResource;
@@ -107,19 +108,20 @@ public class ResourceExtenderDTOFilter implements Serializable
     /**
      * Init.
      *
-     * @param request the request
+     * @param request
+     *            the request
      */
     public void init( HttpServletRequest request )
     {
         try
         {
-            BeanUtils.populate( this, request.getParameterMap(  ) );
+            BeanUtils.populate( this, request.getParameterMap( ) );
         }
-        catch ( IllegalAccessException e )
+        catch( IllegalAccessException e )
         {
             AppLogService.error( "Unable to fetch data from request", e );
         }
-        catch ( InvocationTargetException e )
+        catch( InvocationTargetException e )
         {
             AppLogService.error( "Unable to fetch data from request", e );
         }
@@ -128,13 +130,14 @@ public class ResourceExtenderDTOFilter implements Serializable
     /**
      * @return the nIdExtender
      */
-    public int getFilterIdExtender(  )
+    public int getFilterIdExtender( )
     {
         return _nIdExtender;
     }
 
     /**
-     * @param nIdExtender the nIdExtender to set
+     * @param nIdExtender
+     *            the nIdExtender to set
      */
     public void setFilterIdExtender( int nIdExtender )
     {
@@ -146,7 +149,7 @@ public class ResourceExtenderDTOFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsFilterIdExtender(  )
+    public boolean containsFilterIdExtender( )
     {
         return _nIdExtender > 0;
     }
@@ -154,13 +157,14 @@ public class ResourceExtenderDTOFilter implements Serializable
     /**
      * @return the strExtenderType
      */
-    public String getFilterExtenderType(  )
+    public String getFilterExtenderType( )
     {
         return _strExtenderType;
     }
 
     /**
-     * @param strExtenderType the strExtenderType to set
+     * @param strExtenderType
+     *            the strExtenderType to set
      */
     public void setFilterExtenderType( String strExtenderType )
     {
@@ -172,7 +176,7 @@ public class ResourceExtenderDTOFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsFilterExtenderType(  )
+    public boolean containsFilterExtenderType( )
     {
         return StringUtils.isNotBlank( _strExtenderType );
     }
@@ -180,13 +184,14 @@ public class ResourceExtenderDTOFilter implements Serializable
     /**
      * @return the strIdExtendableResource
      */
-    public String getFilterIdExtendableResource(  )
+    public String getFilterIdExtendableResource( )
     {
         return _strIdExtendableResource;
     }
 
     /**
-     * @param strIdExtendableResource the strIdExtendableResource to set
+     * @param strIdExtendableResource
+     *            the strIdExtendableResource to set
      */
     public void setFilterIdExtendableResource( String strIdExtendableResource )
     {
@@ -198,7 +203,7 @@ public class ResourceExtenderDTOFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsFilterIdExtendableResource(  )
+    public boolean containsFilterIdExtendableResource( )
     {
         return StringUtils.isNotBlank( _strIdExtendableResource );
     }
@@ -206,13 +211,14 @@ public class ResourceExtenderDTOFilter implements Serializable
     /**
      * @return the extendableResourceType
      */
-    public String getFilterExtendableResourceType(  )
+    public String getFilterExtendableResourceType( )
     {
         return _strExtendableResourceType;
     }
 
     /**
-     * @param strExtendableResourceType the extendableResourceType to set
+     * @param strExtendableResourceType
+     *            the extendableResourceType to set
      */
     public void setFilterExtendableResourceType( String strExtendableResourceType )
     {
@@ -224,15 +230,17 @@ public class ResourceExtenderDTOFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsFilterExtendableResourceType(  )
+    public boolean containsFilterExtendableResourceType( )
     {
         return StringUtils.isNotBlank( _strExtendableResourceType );
     }
 
     /**
-    * Set true if the search is wide, false otherwise
-    * @param isWideSearch true if the search is wide, false otherwise
-    */
+     * Set true if the search is wide, false otherwise
+     * 
+     * @param isWideSearch
+     *            true if the search is wide, false otherwise
+     */
     public void setWideSearch( boolean isWideSearch )
     {
         _bIsWideSearch = isWideSearch;
@@ -240,16 +248,19 @@ public class ResourceExtenderDTOFilter implements Serializable
 
     /**
      * Return true if the search is wide, false otherwise
+     * 
      * @return true if the search is wide, false otherwise
      */
-    public boolean isWideSearch(  )
+    public boolean isWideSearch( )
     {
         return _bIsWideSearch;
     }
 
     /**
      * Set <code>true</code> if the search should include the wildcard resource ID
-     * @param includeWildcardResource <code>true</code> if the search should include the wildcard resource ID
+     * 
+     * @param includeWildcardResource
+     *            <code>true</code> if the search should include the wildcard resource ID
      */
     public void setIncludeWildcardResource( boolean includeWildcardResource )
     {
@@ -258,10 +269,10 @@ public class ResourceExtenderDTOFilter implements Serializable
 
     /**
      * Should the search include the wildcard resource ID
-     * @return <code>true</code> if the search should include the wildcard resource ID,
-     * <code>false</code> otherwise
+     * 
+     * @return <code>true</code> if the search should include the wildcard resource ID, <code>false</code> otherwise
      */
-    public boolean isIncludeWildcardResource(  )
+    public boolean isIncludeWildcardResource( )
     {
         return _bIncludeWildcardResource;
     }
@@ -271,7 +282,7 @@ public class ResourceExtenderDTOFilter implements Serializable
      *
      * @return the sorted attribute name
      */
-    public String getSortedAttributeName(  )
+    public String getSortedAttributeName( )
     {
         return _strSortedAttributeName;
     }
@@ -279,7 +290,8 @@ public class ResourceExtenderDTOFilter implements Serializable
     /**
      * Sets the sorted attribute name.
      *
-     * @param strSortedAttributeName the new sorted attribute name
+     * @param strSortedAttributeName
+     *            the new sorted attribute name
      */
     public void setSortedAttributeName( String strSortedAttributeName )
     {
@@ -291,7 +303,7 @@ public class ResourceExtenderDTOFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsAttributeName(  )
+    public boolean containsAttributeName( )
     {
         return StringUtils.isNotBlank( _strSortedAttributeName );
     }
@@ -301,7 +313,7 @@ public class ResourceExtenderDTOFilter implements Serializable
      *
      * @return true, if is asc sort
      */
-    public boolean isAscSort(  )
+    public boolean isAscSort( )
     {
         return _bIsAscSort;
     }
@@ -309,7 +321,8 @@ public class ResourceExtenderDTOFilter implements Serializable
     /**
      * Sets the asc sort.
      *
-     * @param bAscSort the new asc sort
+     * @param bAscSort
+     *            the new asc sort
      */
     public void setAscSort( boolean bAscSort )
     {
@@ -319,7 +332,8 @@ public class ResourceExtenderDTOFilter implements Serializable
     /**
      * Builds the sql query.
      *
-     * @param strSQL the str sql
+     * @param strSQL
+     *            the str sql
      * @return the string
      */
     public String buildSQLQuery( String strSQL )
@@ -327,23 +341,24 @@ public class ResourceExtenderDTOFilter implements Serializable
         StringBuilder sbSQL = new StringBuilder( strSQL );
         int nIndex = 1;
 
-        nIndex = buildFilter( sbSQL, containsFilterIdExtender(  ), SQL_FILTER_ID_EXTENDER, nIndex );
-        nIndex = buildFilter( sbSQL, containsFilterExtenderType(  ), SQL_FILTER_EXTENDER_TYPE, nIndex );
+        nIndex = buildFilter( sbSQL, containsFilterIdExtender( ), SQL_FILTER_ID_EXTENDER, nIndex );
+        nIndex = buildFilter( sbSQL, containsFilterExtenderType( ), SQL_FILTER_EXTENDER_TYPE, nIndex );
         if ( isIncludeWildcardResource( ) )
         {
-            nIndex = buildFilter( sbSQL, containsFilterIdExtendableResource(  ), SQL_FILTER_ID_RESOURCE_OR_WILDCARD, nIndex );
-        } else
-        {
-            nIndex = buildFilter( sbSQL, containsFilterIdExtendableResource(  ), SQL_FILTER_ID_RESOURCE, nIndex );
+            nIndex = buildFilter( sbSQL, containsFilterIdExtendableResource( ), SQL_FILTER_ID_RESOURCE_OR_WILDCARD, nIndex );
         }
-        buildFilter( sbSQL, containsFilterExtendableResourceType(  ), SQL_FILTER_RESOURCE_TYPE, nIndex );
+        else
+        {
+            nIndex = buildFilter( sbSQL, containsFilterIdExtendableResource( ), SQL_FILTER_ID_RESOURCE, nIndex );
+        }
+        buildFilter( sbSQL, containsFilterExtendableResourceType( ), SQL_FILTER_RESOURCE_TYPE, nIndex );
 
-        if ( containsAttributeName(  ) )
+        if ( containsAttributeName( ) )
         {
             sbSQL.append( SQL_ORDER_BY );
-            sbSQL.append( getSortedAttributeName(  ) );
+            sbSQL.append( getSortedAttributeName( ) );
 
-            if ( isAscSort(  ) )
+            if ( isAscSort( ) )
             {
                 sbSQL.append( SQL_ASC );
             }
@@ -353,46 +368,51 @@ public class ResourceExtenderDTOFilter implements Serializable
             }
         }
 
-        return sbSQL.toString(  );
+        return sbSQL.toString( );
     }
 
     /**
      * Sets the filter values.
      *
-     * @param daoUtil the new filter values
+     * @param daoUtil
+     *            the new filter values
      */
     public void setFilterValues( DAOUtil daoUtil )
     {
         int nIndex = 1;
 
-        if ( containsFilterIdExtender(  ) )
+        if ( containsFilterIdExtender( ) )
         {
-            daoUtil.setInt( nIndex++, getFilterIdExtender(  ) );
+            daoUtil.setInt( nIndex++, getFilterIdExtender( ) );
         }
 
-        if ( containsFilterExtenderType(  ) )
+        if ( containsFilterExtenderType( ) )
         {
-            daoUtil.setString( nIndex++, getFilterExtenderType(  ) );
+            daoUtil.setString( nIndex++, getFilterExtenderType( ) );
         }
 
-        if ( containsFilterIdExtendableResource(  ) )
+        if ( containsFilterIdExtendableResource( ) )
         {
-            daoUtil.setString( nIndex++, getFilterIdExtendableResource(  ) );
+            daoUtil.setString( nIndex++, getFilterIdExtendableResource( ) );
         }
 
-        if ( containsFilterExtendableResourceType(  ) )
+        if ( containsFilterExtendableResourceType( ) )
         {
-            daoUtil.setString( nIndex++, getFilterExtendableResourceType(  ) );
+            daoUtil.setString( nIndex++, getFilterExtendableResourceType( ) );
         }
     }
 
     /**
      * Builds the filter.
      *
-     * @param sbSQL the sb sql
-     * @param bAddFilter the b add filter
-     * @param strSQL the str sql
-     * @param nIndex the n index
+     * @param sbSQL
+     *            the sb sql
+     * @param bAddFilter
+     *            the b add filter
+     * @param strSQL
+     *            the str sql
+     * @param nIndex
+     *            the n index
      * @return the int
      */
     private int buildFilter( StringBuilder sbSQL, boolean bAddFilter, String strSQL, int nIndex )
@@ -401,7 +421,7 @@ public class ResourceExtenderDTOFilter implements Serializable
 
         if ( bAddFilter )
         {
-            nIndexTmp = addSQLWhereOr( isWideSearch(  ), sbSQL, nIndex );
+            nIndexTmp = addSQLWhereOr( isWideSearch( ), sbSQL, nIndex );
             sbSQL.append( strSQL );
         }
 
@@ -409,15 +429,18 @@ public class ResourceExtenderDTOFilter implements Serializable
     }
 
     /**
-     * Add a <b>WHERE</b> or a <b>OR</b> depending of the index.
-     * <br/>
+     * Add a <b>WHERE</b> or a <b>OR</b> depending of the index. <br/>
      * <ul>
      * <li>if <code>nIndex</code> == 1, then we add a <b>WHERE</b></li>
      * <li>if <code>nIndex</code> != 1, then we add a <b>OR</b> or a <b>AND</b> depending of the wide search characteristic</li>
      * </ul>
-     * @param bIsWideSearch true if it is a wide search, false otherwise
-     * @param sbSQL the SQL query
-     * @param nIndex the index
+     * 
+     * @param bIsWideSearch
+     *            true if it is a wide search, false otherwise
+     * @param sbSQL
+     *            the SQL query
+     * @param nIndex
+     *            the index
      * @return the new index
      */
     private int addSQLWhereOr( boolean bIsWideSearch, StringBuilder sbSQL, int nIndex )

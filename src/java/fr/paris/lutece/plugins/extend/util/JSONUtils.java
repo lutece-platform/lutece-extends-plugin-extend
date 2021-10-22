@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
-
 /**
  *
  * JSONUtils
@@ -50,27 +49,28 @@ public final class JSONUtils
     /**
      * Instantiates a new jSON utils.
      */
-    private JSONUtils(  )
+    private JSONUtils( )
     {
     }
 
     /**
      * Parses the parameters.
      *
-     * @param strParameters the str parameters
+     * @param strParameters
+     *            the str parameters
      * @return the jSON object
      */
     public static ObjectNode parseParameters( String strParameters )
     {
         try
         {
-        	 ObjectMapper objectMapper = new ObjectMapper( );
-             objectMapper.configure( Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-             return objectMapper.readValue( strParameters, ObjectNode.class );
+            ObjectMapper objectMapper = new ObjectMapper( );
+            objectMapper.configure( Feature.ALLOW_UNQUOTED_FIELD_NAMES, true );
+            return objectMapper.readValue( strParameters, ObjectNode.class );
         }
-        catch (IllegalArgumentException | JsonProcessingException iae )
+        catch( IllegalArgumentException | JsonProcessingException iae )
         {
-            AppLogService.error( iae.getMessage(  ), iae );
+            AppLogService.error( iae.getMessage( ), iae );
         }
 
         return null;

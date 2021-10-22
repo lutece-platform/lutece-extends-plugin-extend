@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2013, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * Remove extensions of resources when they are removed
  */
@@ -60,53 +59,52 @@ public class ExtendableResourceRemovalListener implements IExtendableResourceRem
     @Override
     public void doRemoveResourceExtentions( String strExtendableResourceType, String strIdExtendableResource )
     {
-        IResourceExtenderService resourceExtenderService = getResourceExtenderService(  );
-        IResourceExtenderHistoryService resourceExtenderHistoryService = getResourceExtenderHistoryService(  );
-        ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter(  );
+        IResourceExtenderService resourceExtenderService = getResourceExtenderService( );
+        IResourceExtenderHistoryService resourceExtenderHistoryService = getResourceExtenderHistoryService( );
+        ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( );
         filter.setFilterExtendableResourceType( strExtendableResourceType );
         filter.setFilterIdExtendableResource( strIdExtendableResource );
 
         // We get and remove every extender associated with the removed resource
         List<ResourceExtenderDTO> listResourceExtender = resourceExtenderService.findByFilter( filter );
 
-        if ( ( listResourceExtender != null ) && ( listResourceExtender.size(  ) > 0 ) )
+        if ( ( listResourceExtender != null ) && ( listResourceExtender.size( ) > 0 ) )
         {
             for ( ResourceExtenderDTO extender : listResourceExtender )
             {
                 resourceExtenderService.doDeleteResourceAddOn( extender );
-                resourceExtenderService.remove( extender.getIdExtender(  ) );
-                resourceExtenderHistoryService.removeByResource( extender.getExtenderType(  ), strIdExtendableResource,
-                    strExtendableResourceType );
+                resourceExtenderService.remove( extender.getIdExtender( ) );
+                resourceExtenderHistoryService.removeByResource( extender.getExtenderType( ), strIdExtendableResource, strExtendableResourceType );
             }
         }
 
-        ResourceExtenderDTO extender = new ResourceExtenderDTO(  );
+        ResourceExtenderDTO extender = new ResourceExtenderDTO( );
         extender.setExtendableResourceType( strExtendableResourceType );
         extender.setIdExtendableResource( strIdExtendableResource );
         extender.setIdExtender( 0 );
 
         // We now remove add on of extender associated with every resources of this resource type
-        Map<String, Boolean> mapExtenderTypes = resourceExtenderService.getExtenderTypesInstalled( strIdExtendableResource,
-                strExtendableResourceType, ExtendPlugin.getPlugin(  ) );
+        Map<String, Boolean> mapExtenderTypes = resourceExtenderService.getExtenderTypesInstalled( strIdExtendableResource, strExtendableResourceType,
+                ExtendPlugin.getPlugin( ) );
 
-        for ( String strExtenderType : mapExtenderTypes.keySet(  ) )
+        for ( String strExtenderType : mapExtenderTypes.keySet( ) )
         {
             extender.setExtenderType( strExtenderType );
             resourceExtenderService.doDeleteResourceAddOn( extender );
-            resourceExtenderHistoryService.removeByResource( strExtenderType, strIdExtendableResource,
-                strExtendableResourceType );
+            resourceExtenderHistoryService.removeByResource( strExtenderType, strIdExtendableResource, strExtendableResourceType );
         }
     }
 
     /**
      * Get the resource extender service
+     * 
      * @return the resource extender service
      */
-    private IResourceExtenderService getResourceExtenderService(  )
+    private IResourceExtenderService getResourceExtenderService( )
     {
         if ( _resourceExtenderService == null )
         {
-            synchronized ( this )
+            synchronized( this )
             {
                 // Double null check to prevent concurrency errors
                 if ( _resourceExtenderService == null )
@@ -121,13 +119,14 @@ public class ExtendableResourceRemovalListener implements IExtendableResourceRem
 
     /**
      * Get the resource extender history service
+     * 
      * @return the resource extender history service
      */
-    private IResourceExtenderHistoryService getResourceExtenderHistoryService(  )
+    private IResourceExtenderHistoryService getResourceExtenderHistoryService( )
     {
         if ( _resourceExtenderHistoryService == null )
         {
-            synchronized ( this )
+            synchronized( this )
             {
                 // Double null check to prevent concurrency errors
                 if ( _resourceExtenderHistoryService == null )

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,14 +48,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  *
  * CreateResourceExtenderPluginAction
  *
  */
-public class CreateResourceExtenderPluginAction extends AbstractPluginAction<IResourceExtenderSearchFields>
-    implements IResourceExtenderPluginAction
+public class CreateResourceExtenderPluginAction extends AbstractPluginAction<IResourceExtenderSearchFields> implements IResourceExtenderPluginAction
 {
     private static final String ACTION_NAME = "Create resource extender";
 
@@ -87,7 +85,7 @@ public class CreateResourceExtenderPluginAction extends AbstractPluginAction<IRe
      * {@inheritDoc}
      */
     @Override
-    public String getButtonTemplate(  )
+    public String getButtonTemplate( )
     {
         return TEMPLATE_BUTTON;
     }
@@ -96,7 +94,7 @@ public class CreateResourceExtenderPluginAction extends AbstractPluginAction<IRe
      * {@inheritDoc}
      */
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return ACTION_NAME;
     }
@@ -115,7 +113,7 @@ public class CreateResourceExtenderPluginAction extends AbstractPluginAction<IRe
      */
     @Override
     public IPluginActionResult process( HttpServletRequest request, HttpServletResponse response, AdminUser adminUser,
-        IResourceExtenderSearchFields sessionFields ) throws AccessDeniedException
+            IResourceExtenderSearchFields sessionFields ) throws AccessDeniedException
     {
         UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL );
         url.addParameter( PARAMETER_MANAGE_BY_RESOURCE, request.getParameter( PARAMETER_MANAGE_BY_RESOURCE ) );
@@ -133,8 +131,8 @@ public class CreateResourceExtenderPluginAction extends AbstractPluginAction<IRe
             url.addParameter( PARAMETER_FROM_URL, strFromUrl );
         }
 
-        DefaultPluginActionResult result = new DefaultPluginActionResult(  );
-        result.setRedirect( url.getUrl(  ) );
+        DefaultPluginActionResult result = new DefaultPluginActionResult( );
+        result.setRedirect( url.getUrl( ) );
 
         return result;
     }

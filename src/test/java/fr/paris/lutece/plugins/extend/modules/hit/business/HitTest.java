@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import org.junit.Test;
 
-
 /**
  *
  * HitTest
@@ -61,13 +60,13 @@ public class HitTest extends LuteceTestCase
      * Test business.
      */
     @Test
-    public void testBusiness(  )
+    public void testBusiness( )
     {
         Plugin plugin = PluginService.getPlugin( ExtendPlugin.PLUGIN_NAME );
         IHitDAO dao = SpringContextService.getBean( "extend.hitDAO" );
 
         // Init object
-        Hit hit = new Hit(  );
+        Hit hit = new Hit( );
         hit.setIdHit( ID_HIT_1 );
         hit.setIdExtendableResource( ID_RESOURCE_10 );
         hit.setExtendableResourceType( RESOURCE_TYPE_FOO );
@@ -76,29 +75,29 @@ public class HitTest extends LuteceTestCase
         // Test create
         dao.insert( hit, plugin );
 
-        Hit hitStored = dao.load( hit.getIdHit(  ), plugin );
-        assertEquals( hit.getIdHit(  ), hitStored.getIdHit(  ) );
-        assertEquals( hit.getIdExtendableResource(  ), hitStored.getIdExtendableResource(  ) );
-        assertEquals( hit.getExtendableResourceType(  ), hitStored.getExtendableResourceType(  ) );
-        assertEquals( hit.getNbHits(  ), hitStored.getNbHits(  ) );
+        Hit hitStored = dao.load( hit.getIdHit( ), plugin );
+        assertEquals( hit.getIdHit( ), hitStored.getIdHit( ) );
+        assertEquals( hit.getIdExtendableResource( ), hitStored.getIdExtendableResource( ) );
+        assertEquals( hit.getExtendableResourceType( ), hitStored.getExtendableResourceType( ) );
+        assertEquals( hit.getNbHits( ), hitStored.getNbHits( ) );
 
         // Test update
         hit.setIdExtendableResource( ID_RESOURCE_20 );
         hit.setExtendableResourceType( RESOURCE_TYPE_BAR );
         hit.setNbHits( NB_HITS_3 );
         dao.store( hit, plugin );
-        hitStored = dao.load( hit.getIdHit(  ), plugin );
-        assertEquals( hit.getIdHit(  ), hitStored.getIdHit(  ) );
-        assertEquals( hit.getIdExtendableResource(  ), hitStored.getIdExtendableResource(  ) );
-        assertEquals( hit.getExtendableResourceType(  ), hitStored.getExtendableResourceType(  ) );
-        assertEquals( hit.getNbHits(  ), hitStored.getNbHits(  ) );
+        hitStored = dao.load( hit.getIdHit( ), plugin );
+        assertEquals( hit.getIdHit( ), hitStored.getIdHit( ) );
+        assertEquals( hit.getIdExtendableResource( ), hitStored.getIdExtendableResource( ) );
+        assertEquals( hit.getExtendableResourceType( ), hitStored.getExtendableResourceType( ) );
+        assertEquals( hit.getNbHits( ), hitStored.getNbHits( ) );
 
         // Test finders
         dao.loadByParameters( ID_RESOURCE_20, RESOURCE_TYPE_BAR, plugin );
 
         // Test remove
-        dao.delete( hit.getIdHit(  ), plugin );
-        hitStored = dao.load( hit.getIdHit(  ), plugin );
+        dao.delete( hit.getIdHit( ), plugin );
+        hitStored = dao.load( hit.getIdHit( ), plugin );
         assertNull( hitStored );
     }
 }

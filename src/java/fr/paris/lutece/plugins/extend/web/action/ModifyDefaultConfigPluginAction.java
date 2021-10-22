@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,14 +62,12 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  *
  * CreateResourceTypePluginAction
  *
  */
-public class ModifyDefaultConfigPluginAction extends AbstractPluginAction<IResourceExtenderSearchFields>
-    implements IResourceExtenderPluginAction
+public class ModifyDefaultConfigPluginAction extends AbstractPluginAction<IResourceExtenderSearchFields> implements IResourceExtenderPluginAction
 {
     private static final String ACTION_NAME = "Modify default configuration";
 
@@ -104,19 +102,18 @@ public class ModifyDefaultConfigPluginAction extends AbstractPluginAction<IResou
     @Override
     public void fillModel( HttpServletRequest request, AdminUser adminUser, Map<String, Object> model )
     {
-        model.put( MARK_PERMISSION_MODIFY_CONFIG,
-            RBACService.isAuthorized( ExtendableResourceType.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
+        model.put( MARK_PERMISSION_MODIFY_CONFIG, RBACService.isAuthorized( ExtendableResourceType.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
                 ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, adminUser ) );
 
-        List<IResourceExtender> listExtenders = _extenderService.getResourceExtenders(  );
-        ReferenceList refListExtenderTypes = new ReferenceList(  );
+        List<IResourceExtender> listExtenders = _extenderService.getResourceExtenders( );
+        ReferenceList refListExtenderTypes = new ReferenceList( );
 
         for ( IResourceExtender resourceExtender : listExtenders )
         {
-            if ( resourceExtender.isConfigRequired(  ) )
+            if ( resourceExtender.isConfigRequired( ) )
             {
-                ReferenceItem refItem = new ReferenceItem(  );
-                refItem.setCode( resourceExtender.getKey(  ) );
+                ReferenceItem refItem = new ReferenceItem( );
+                refItem.setCode( resourceExtender.getKey( ) );
                 refItem.setName( resourceExtender.getTitle( AdminUserService.getLocale( request ) ) );
                 refListExtenderTypes.add( refItem );
             }
@@ -129,7 +126,7 @@ public class ModifyDefaultConfigPluginAction extends AbstractPluginAction<IResou
      * {@inheritDoc}
      */
     @Override
-    public String getButtonTemplate(  )
+    public String getButtonTemplate( )
     {
         return TEMPLATE_BUTTON;
     }
@@ -138,7 +135,7 @@ public class ModifyDefaultConfigPluginAction extends AbstractPluginAction<IResou
      * {@inheritDoc}
      */
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return ACTION_NAME;
     }
@@ -157,16 +154,15 @@ public class ModifyDefaultConfigPluginAction extends AbstractPluginAction<IResou
      */
     @Override
     public IPluginActionResult process( HttpServletRequest request, HttpServletResponse response, AdminUser adminUser,
-        IResourceExtenderSearchFields sessionFields ) throws AccessDeniedException
+            IResourceExtenderSearchFields sessionFields ) throws AccessDeniedException
     {
         UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL );
         String strExtenderType = request.getParameter( PARAM_EXTENDER_TYPE );
-        DefaultPluginActionResult result = new DefaultPluginActionResult(  );
+        DefaultPluginActionResult result = new DefaultPluginActionResult( );
 
         if ( StringUtils.isBlank( strExtenderType ) )
         {
-            result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_NO_EXTENDER_TYPE_SELECTED,
-                    AdminMessage.TYPE_STOP ) );
+            result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_NO_EXTENDER_TYPE_SELECTED, AdminMessage.TYPE_STOP ) );
 
             return result;
         }
@@ -186,7 +182,7 @@ public class ModifyDefaultConfigPluginAction extends AbstractPluginAction<IResou
             url.addParameter( PARAMETER_FROM_URL, strFromUrl );
         }
 
-        result.setRedirect( url.getUrl(  ) );
+        result.setRedirect( url.getUrl( ) );
 
         return result;
     }

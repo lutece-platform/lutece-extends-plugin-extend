@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import org.junit.Test;
 
-
 /**
  *
  * ResourceExtenderTest
@@ -61,13 +60,13 @@ public class ResourceExtenderTest extends LuteceTestCase
      * Test business.
      */
     @Test
-    public void testBusiness(  )
+    public void testBusiness( )
     {
         Plugin plugin = PluginService.getPlugin( ExtendPlugin.PLUGIN_NAME );
         IResourceExtenderDAO dao = SpringContextService.getBean( "extend.resourceExtenderDAO" );
 
         // Init object
-        ResourceExtenderDTO extender = new ResourceExtenderDTO(  );
+        ResourceExtenderDTO extender = new ResourceExtenderDTO( );
         extender.setIdExtender( ID_1 );
         extender.setExtenderType( EXT_TYPE_1 );
         extender.setIdExtendableResource( ID_RES_1 );
@@ -76,29 +75,29 @@ public class ResourceExtenderTest extends LuteceTestCase
         // Test create
         dao.insert( extender, plugin );
 
-        ResourceExtenderDTO extenderStored = dao.load( extender.getIdExtender(  ), plugin );
-        assertEquals( extender.getIdExtender(  ), extenderStored.getIdExtender(  ) );
-        assertEquals( extender.getExtenderType(  ), extenderStored.getExtenderType(  ) );
-        assertEquals( extender.getIdExtendableResource(  ), extenderStored.getIdExtendableResource(  ) );
-        assertEquals( extender.getExtendableResourceType(  ), extenderStored.getExtendableResourceType(  ) );
+        ResourceExtenderDTO extenderStored = dao.load( extender.getIdExtender( ), plugin );
+        assertEquals( extender.getIdExtender( ), extenderStored.getIdExtender( ) );
+        assertEquals( extender.getExtenderType( ), extenderStored.getExtenderType( ) );
+        assertEquals( extender.getIdExtendableResource( ), extenderStored.getIdExtendableResource( ) );
+        assertEquals( extender.getExtendableResourceType( ), extenderStored.getExtendableResourceType( ) );
 
         // Test update
         extender.setExtenderType( EXT_TYPE_2 );
         extender.setIdExtendableResource( ID_RES_2 );
         extender.setExtendableResourceType( RES_TYPE_2 );
         dao.store( extender, plugin );
-        extenderStored = dao.load( extender.getIdExtender(  ), plugin );
-        assertEquals( extender.getIdExtender(  ), extenderStored.getIdExtender(  ) );
-        assertEquals( extender.getExtenderType(  ), extenderStored.getExtenderType(  ) );
-        assertEquals( extender.getIdExtendableResource(  ), extenderStored.getIdExtendableResource(  ) );
-        assertEquals( extender.getExtendableResourceType(  ), extenderStored.getExtendableResourceType(  ) );
+        extenderStored = dao.load( extender.getIdExtender( ), plugin );
+        assertEquals( extender.getIdExtender( ), extenderStored.getIdExtender( ) );
+        assertEquals( extender.getExtenderType( ), extenderStored.getExtenderType( ) );
+        assertEquals( extender.getIdExtendableResource( ), extenderStored.getIdExtendableResource( ) );
+        assertEquals( extender.getExtendableResourceType( ), extenderStored.getExtendableResourceType( ) );
 
         // Test finders
         dao.loadAll( plugin );
 
         // Test remove
-        dao.delete( extender.getIdExtender(  ), plugin );
-        extenderStored = dao.load( extender.getIdExtender(  ), plugin );
+        dao.delete( extender.getIdExtender( ), plugin );
+        extenderStored = dao.load( extender.getIdExtender( ), plugin );
         assertNull( extenderStored );
     }
 }

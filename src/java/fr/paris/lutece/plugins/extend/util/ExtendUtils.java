@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import javax.validation.ConstraintViolation;
 
-
 /**
  *
  * ExtendUtils
@@ -65,29 +64,33 @@ public final class ExtendUtils
     /**
      * Instantiates a new extend utils.
      */
-    private ExtendUtils(  )
+    private ExtendUtils( )
     {
     }
 
     /**
-    * Validate.
-    *
-    * @param <A> the generic type
-    * @param request the request
-    * @param bean the resource type
-    * @return the JSP error
-    */
+     * Validate.
+     *
+     * @param <A>
+     *            the generic type
+     * @param request
+     *            the request
+     * @param bean
+     *            the resource type
+     * @return the JSP error
+     */
     public static <A> String validate( HttpServletRequest request, A bean )
     {
         // Check mandatory fields
         Set<ConstraintViolation<A>> constraintViolations = BeanValidationUtil.validate( bean );
 
-        if ( constraintViolations.size(  ) > 0 )
+        if ( constraintViolations.size( ) > 0 )
         {
-            Object[] params = { buildStopMessage( constraintViolations ) };
+            Object [ ] params = {
+                    buildStopMessage( constraintViolations )
+            };
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_STOP_GENERIC_MESSAGE, params,
-                AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_STOP_GENERIC_MESSAGE, params, AdminMessage.TYPE_STOP );
         }
 
         return StringUtils.EMPTY;
@@ -96,8 +99,10 @@ public final class ExtendUtils
     /**
      * Validate.
      *
-     * @param request the request
-     * @param resourceType the resource type
+     * @param request
+     *            the request
+     * @param resourceType
+     *            the resource type
      * @return the string
      */
     public static String validateResourceType( HttpServletRequest request, ExtendableResourceType resourceType )
@@ -109,7 +114,7 @@ public final class ExtendUtils
             return strJspError;
         }
 
-        if ( StringUtils.isBlank( resourceType.getKey(  ) ) )
+        if ( StringUtils.isBlank( resourceType.getKey( ) ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -120,8 +125,10 @@ public final class ExtendUtils
     /**
      * Validate resource extender.
      *
-     * @param request the request
-     * @param resourceExtender the resource extender
+     * @param request
+     *            the request
+     * @param resourceExtender
+     *            the resource extender
      * @return the string
      */
     public static String validateResourceExtender( HttpServletRequest request, ResourceExtenderDTO resourceExtender )
@@ -133,9 +140,8 @@ public final class ExtendUtils
             return strJspError;
         }
 
-        if ( StringUtils.isBlank( resourceExtender.getExtenderType(  ) ) ||
-                StringUtils.isBlank( resourceExtender.getIdExtendableResource(  ) ) ||
-                StringUtils.isBlank( resourceExtender.getExtendableResourceType(  ) ) )
+        if ( StringUtils.isBlank( resourceExtender.getExtenderType( ) ) || StringUtils.isBlank( resourceExtender.getIdExtendableResource( ) )
+                || StringUtils.isBlank( resourceExtender.getExtendableResourceType( ) ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -146,23 +152,25 @@ public final class ExtendUtils
     /**
      * Builds the stop message.
      *
-     * @param <A> the generic type
-     * @param listErrors the list errors
+     * @param <A>
+     *            the generic type
+     * @param listErrors
+     *            the list errors
      * @return the string
      */
     public static <A> String buildStopMessage( Set<ConstraintViolation<A>> listErrors )
     {
-        StringBuilder sbError = new StringBuilder(  );
+        StringBuilder sbError = new StringBuilder( );
 
-        if ( ( listErrors != null ) && !listErrors.isEmpty(  ) )
+        if ( ( listErrors != null ) && !listErrors.isEmpty( ) )
         {
             for ( ConstraintViolation<A> error : listErrors )
             {
-                sbError.append( error.getMessage(  ) );
+                sbError.append( error.getMessage( ) );
                 sbError.append( HTML_BR );
             }
         }
 
-        return sbError.toString(  );
+        return sbError.toString( );
     }
 }

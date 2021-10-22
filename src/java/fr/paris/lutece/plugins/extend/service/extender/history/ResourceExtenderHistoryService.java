@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,6 @@ import javax.inject.Inject;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * ResourceExtenderHistoryService
@@ -64,27 +63,27 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
     private IResourceExtenderHistoryDAO _resourceExtenderHistoryDAO;
 
     /**
-         * {@inheritDoc}
-         */
+     * {@inheritDoc}
+     */
     @Override
-    public ResourceExtenderHistory create( String strExtenderType, String strIdExtendableResource,
-        String strExtendableResourceType, HttpServletRequest request )
+    public ResourceExtenderHistory create( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType,
+            HttpServletRequest request )
     {
-        ResourceExtenderHistory history = new ResourceExtenderHistory(  );
+        ResourceExtenderHistory history = new ResourceExtenderHistory( );
         history.setExtenderType( strExtenderType );
         history.setIdExtendableResource( strIdExtendableResource );
         history.setExtendableResourceType( strExtendableResourceType );
-        history.setIpAddress( request.getRemoteAddr(  ) );
+        history.setIpAddress( request.getRemoteAddr( ) );
 
         String strUserGuid = StringUtils.EMPTY;
 
-        if ( SecurityService.isAuthenticationEnable(  ) )
+        if ( SecurityService.isAuthenticationEnable( ) )
         {
-            LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
+            LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
 
             if ( user != null )
             {
-                strUserGuid = user.getName(  );
+                strUserGuid = user.getName( );
             }
         }
 
@@ -101,7 +100,7 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     public void create( ResourceExtenderHistory history )
     {
-        _resourceExtenderHistoryDAO.insert( history, ExtendPlugin.getPlugin(  ) );
+        _resourceExtenderHistoryDAO.insert( history, ExtendPlugin.getPlugin( ) );
     }
 
     /**
@@ -111,7 +110,7 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     public void remove( int nIdHistory )
     {
-        _resourceExtenderHistoryDAO.delete( nIdHistory, ExtendPlugin.getPlugin(  ) );
+        _resourceExtenderHistoryDAO.delete( nIdHistory, ExtendPlugin.getPlugin( ) );
     }
 
     /**
@@ -119,11 +118,9 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
      */
     @Override
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
-    public void removeByResource( String strExtenderType, String strIdExtendableResource,
-        String strExtendableResourceType )
+    public void removeByResource( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType )
     {
-        _resourceExtenderHistoryDAO.deleteByResource( strExtenderType, strIdExtendableResource,
-            strExtendableResourceType, ExtendPlugin.getPlugin(  ) );
+        _resourceExtenderHistoryDAO.deleteByResource( strExtenderType, strIdExtendableResource, strExtendableResourceType, ExtendPlugin.getPlugin( ) );
     }
 
     /**
@@ -132,7 +129,7 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
     @Override
     public ResourceExtenderHistory findByPrimary( int nIdHistory )
     {
-        return _resourceExtenderHistoryDAO.load( nIdHistory, ExtendPlugin.getPlugin(  ) );
+        return _resourceExtenderHistoryDAO.load( nIdHistory, ExtendPlugin.getPlugin( ) );
     }
 
     /**
@@ -141,6 +138,6 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
     @Override
     public List<ResourceExtenderHistory> findByFilter( ResourceExtenderHistoryFilter filter )
     {
-        return _resourceExtenderHistoryDAO.loadByFilter( filter, ExtendPlugin.getPlugin(  ) );
+        return _resourceExtenderHistoryDAO.loadByFilter( filter, ExtendPlugin.getPlugin( ) );
     }
 }

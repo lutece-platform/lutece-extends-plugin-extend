@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,11 +42,9 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
- * This class implements the resource extender component that does
- * not need a configuration.
+ * This class implements the resource extender component that does not need a configuration.
  *
  */
 public abstract class NoConfigResourceExtenderComponent extends AbstractResourceExtenderComponent

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,10 +35,8 @@ package fr.paris.lutece.plugins.extend.web.action;
 
 import fr.paris.lutece.portal.web.pluginaction.IPluginAction;
 
-
 /**
- * Interface of actions of manage extender screen
- * of plugin extend
+ * Interface of actions of manage extender screen of plugin extend
  */
 public interface IResourceExtenderPluginAction extends IPluginAction<IResourceExtenderSearchFields>
 {

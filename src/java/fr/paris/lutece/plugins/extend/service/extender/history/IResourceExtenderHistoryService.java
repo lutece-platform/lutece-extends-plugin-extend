@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * IResourceExtenderHistoryService.
  */
@@ -52,7 +51,8 @@ public interface IResourceExtenderHistoryService
     /**
      * Delete.
      *
-     * @param nIdResourceExtenderHistory the n id history
+     * @param nIdResourceExtenderHistory
+     *            the n id history
      */
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     void remove( int nIdResourceExtenderHistory );
@@ -60,9 +60,12 @@ public interface IResourceExtenderHistoryService
     /**
      * Delete.
      *
-     * @param strExtenderType the str extender type
-     * @param strIdExtendableResource the str id extendable resource
-     * @param strExtendableResourceType the str extendable resource type
+     * @param strExtenderType
+     *            the str extender type
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
      */
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     void removeByResource( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType );
@@ -70,19 +73,23 @@ public interface IResourceExtenderHistoryService
     /**
      * Creates the history from the HTTP request.
      *
-     * @param strExtenderType the str extender type
-     * @param strIdExtendableResource the str id extendable resource
-     * @param strExtendableResourceType the str extendable resource type
-     * @param request the request
+     * @param strExtenderType
+     *            the str extender type
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
+     * @param request
+     *            the request
      * @return The created history
      */
-    ResourceExtenderHistory create( String strExtenderType, String strIdExtendableResource,
-        String strExtendableResourceType, HttpServletRequest request );
+    ResourceExtenderHistory create( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType, HttpServletRequest request );
 
     /**
      * Insert.
      *
-     * @param history the history
+     * @param history
+     *            the history
      */
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     void create( ResourceExtenderHistory history );
@@ -90,7 +97,8 @@ public interface IResourceExtenderHistoryService
     /**
      * Load.
      *
-     * @param nIdResourceExtenderHistory the n id history
+     * @param nIdResourceExtenderHistory
+     *            the n id history
      * @return the history
      */
     ResourceExtenderHistory findByPrimary( int nIdResourceExtenderHistory );
@@ -98,7 +106,8 @@ public interface IResourceExtenderHistoryService
     /**
      * Load by filter.
      *
-     * @param filter the filter
+     * @param filter
+     *            the filter
      * @return the list
      */
     List<ResourceExtenderHistory> findByFilter( ResourceExtenderHistoryFilter filter );

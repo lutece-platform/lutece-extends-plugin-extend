@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.resource.IExtendableResourceService;
 
 import org.springframework.transaction.annotation.Transactional;
 
-
 /**
  *
  * IDefaultExtendableResourceService
@@ -47,17 +46,19 @@ import org.springframework.transaction.annotation.Transactional;
 public interface IDefaultExtendableResourceService extends IExtendableResourceService
 {
     /**
-    * Creates default resource.
-    *
-    * @param resource the resource
-    */
+     * Creates default resource.
+     *
+     * @param resource
+     *            the resource
+     */
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     void create( IExtendableResource resource );
 
     /**
      * Update.
      *
-     * @param resource the resource
+     * @param resource
+     *            the resource
      */
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     void update( IExtendableResource resource );
@@ -65,8 +66,10 @@ public interface IDefaultExtendableResourceService extends IExtendableResourceSe
     /**
      * Delete.
      *
-     * @param strIdResource the str id resource
-     * @param strResourceType the str resource type
+     * @param strIdResource
+     *            the str id resource
+     * @param strResourceType
+     *            the str resource type
      */
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     void remove( String strIdResource, String strResourceType );

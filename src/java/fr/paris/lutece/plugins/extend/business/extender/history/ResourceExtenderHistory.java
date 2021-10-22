@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
-
 /**
  * ResourceExtenderHistory.
  */
@@ -59,7 +58,7 @@ public class ResourceExtenderHistory
      *
      * @return the lIdHistory
      */
-    public long getIdHistory(  )
+    public long getIdHistory( )
     {
         return _lIdHistory;
     }
@@ -67,7 +66,8 @@ public class ResourceExtenderHistory
     /**
      * Sets the id history.
      *
-     * @param lIdHistory the lIdHistory to set
+     * @param lIdHistory
+     *            the lIdHistory to set
      */
     public void setIdHistory( long lIdHistory )
     {
@@ -79,7 +79,7 @@ public class ResourceExtenderHistory
      *
      * @return the strExtenderType
      */
-    public String getExtenderType(  )
+    public String getExtenderType( )
     {
         return _strExtenderType;
     }
@@ -87,7 +87,8 @@ public class ResourceExtenderHistory
     /**
      * Sets the extender type.
      *
-     * @param strExtenderType the strExtenderType to set
+     * @param strExtenderType
+     *            the strExtenderType to set
      */
     public void setExtenderType( String strExtenderType )
     {
@@ -99,7 +100,7 @@ public class ResourceExtenderHistory
      *
      * @return the strIdExtendableResource
      */
-    public String getIdExtendableResource(  )
+    public String getIdExtendableResource( )
     {
         return _strIdExtendableResource;
     }
@@ -107,7 +108,8 @@ public class ResourceExtenderHistory
     /**
      * Sets the id extendable resource.
      *
-     * @param strIdExtendableResource the strIdExtendableResource to set
+     * @param strIdExtendableResource
+     *            the strIdExtendableResource to set
      */
     public void setIdExtendableResource( String strIdExtendableResource )
     {
@@ -119,7 +121,7 @@ public class ResourceExtenderHistory
      *
      * @return the extendableResourceType
      */
-    public String getExtendableResourceType(  )
+    public String getExtendableResourceType( )
     {
         return _strExtendableResourceType;
     }
@@ -127,7 +129,8 @@ public class ResourceExtenderHistory
     /**
      * Sets the extendable resource type.
      *
-     * @param strExtendableResourceType the extendableResourceType to set
+     * @param strExtendableResourceType
+     *            the extendableResourceType to set
      */
     public void setExtendableResourceType( String strExtendableResourceType )
     {
@@ -139,7 +142,7 @@ public class ResourceExtenderHistory
      *
      * @return the strUserGuid
      */
-    public String getUserGuid(  )
+    public String getUserGuid( )
     {
         return _strUserGuid;
     }
@@ -147,7 +150,8 @@ public class ResourceExtenderHistory
     /**
      * Sets the user guid.
      *
-     * @param strUserGuid the strUserGuid to set
+     * @param strUserGuid
+     *            the strUserGuid to set
      */
     public void setUserGuid( String strUserGuid )
     {
@@ -159,7 +163,7 @@ public class ResourceExtenderHistory
      *
      * @return the strIpAddress
      */
-    public String getIpAddress(  )
+    public String getIpAddress( )
     {
         return _strIpAddress;
     }
@@ -167,7 +171,8 @@ public class ResourceExtenderHistory
     /**
      * Sets the ip address.
      *
-     * @param strIpAddress the strIpAddress to set
+     * @param strIpAddress
+     *            the strIpAddress to set
      */
     public void setIpAddress( String strIpAddress )
     {
@@ -179,18 +184,19 @@ public class ResourceExtenderHistory
      *
      * @return the dateCreation
      */
-    public Date getDateCreation(  )
+    public Date getDateCreation( )
     {
-        return (Date) _dateCreation.clone(  );
+        return (Date) _dateCreation.clone( );
     }
 
     /**
      * Sets the date creation.
      *
-     * @param dateCreation the dateCreation to set
+     * @param dateCreation
+     *            the dateCreation to set
      */
     public void setDateCreation( Date dateCreation )
     {
-        _dateCreation = (Date) dateCreation.clone(  );
+        _dateCreation = (Date) dateCreation.clone( );
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +46,6 @@ import java.io.Serializable;
 import javax.servlet.http.HttpServletRequest;
 
 import javax.validation.constraints.NotNull;
-
 
 /**
  * ResourceExtenderHistoryFilter.
@@ -108,7 +107,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * Instantiates a new resource extender history filter.
      */
-    public ResourceExtenderHistoryFilter(  )
+    public ResourceExtenderHistoryFilter( )
     {
         _lIdHistory = ALL;
         _strExtenderType = StringUtils.EMPTY;
@@ -132,7 +131,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return the lIdHistory
      */
-    public long getIdHistory(  )
+    public long getIdHistory( )
     {
         return _lIdHistory;
     }
@@ -140,7 +139,8 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * Sets the id history.
      *
-     * @param lIdHistory the lIdHistory to set
+     * @param lIdHistory
+     *            the lIdHistory to set
      */
     public void setIdHistory( long lIdHistory )
     {
@@ -152,7 +152,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsIdHistory(  )
+    public boolean containsIdHistory( )
     {
         return _lIdHistory > 0;
     }
@@ -162,7 +162,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return the strExtenderType
      */
-    public String getExtenderType(  )
+    public String getExtenderType( )
     {
         return _strExtenderType;
     }
@@ -170,7 +170,8 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * Sets the extender type.
      *
-     * @param strExtenderType the strExtenderType to set
+     * @param strExtenderType
+     *            the strExtenderType to set
      */
     public void setExtenderType( String strExtenderType )
     {
@@ -182,7 +183,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsExtenderType(  )
+    public boolean containsExtenderType( )
     {
         return StringUtils.isNotBlank( _strExtenderType );
     }
@@ -192,7 +193,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return the strIdExtendableResource
      */
-    public String getIdExtendableResource(  )
+    public String getIdExtendableResource( )
     {
         return _strIdExtendableResource;
     }
@@ -200,7 +201,8 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * Sets the id extendable resource.
      *
-     * @param strIdExtendableResource the strIdExtendableResource to set
+     * @param strIdExtendableResource
+     *            the strIdExtendableResource to set
      */
     public void setIdExtendableResource( String strIdExtendableResource )
     {
@@ -212,7 +214,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsIdExtendableResource(  )
+    public boolean containsIdExtendableResource( )
     {
         return StringUtils.isNotBlank( _strIdExtendableResource );
     }
@@ -222,7 +224,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return the extendableResourceType
      */
-    public String getExtendableResourceType(  )
+    public String getExtendableResourceType( )
     {
         return _strExtendableResourceType;
     }
@@ -230,7 +232,8 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * Sets the extendable resource type.
      *
-     * @param strExtendableResourceType the extendableResourceType to set
+     * @param strExtendableResourceType
+     *            the extendableResourceType to set
      */
     public void setExtendableResourceType( String strExtendableResourceType )
     {
@@ -242,7 +245,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsExtendableResourceType(  )
+    public boolean containsExtendableResourceType( )
     {
         return StringUtils.isNotBlank( _strExtendableResourceType );
     }
@@ -252,7 +255,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return the strUserGuid
      */
-    public String getUserGuid(  )
+    public String getUserGuid( )
     {
         return _strUserGuid;
     }
@@ -260,7 +263,8 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * Sets the user guid.
      *
-     * @param strUserGuid the strUserGuid to set
+     * @param strUserGuid
+     *            the strUserGuid to set
      */
     public void setUserGuid( String strUserGuid )
     {
@@ -272,7 +276,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsUserGuid(  )
+    public boolean containsUserGuid( )
     {
         return StringUtils.isNotBlank( _strUserGuid );
     }
@@ -282,7 +286,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return the strIpAddress
      */
-    public String getIpAddress(  )
+    public String getIpAddress( )
     {
         return _strIpAddress;
     }
@@ -290,7 +294,8 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * Sets the ip address.
      *
-     * @param strIpAddress the strIpAddress to set
+     * @param strIpAddress
+     *            the strIpAddress to set
      */
     public void setIpAddress( String strIpAddress )
     {
@@ -302,7 +307,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsIpAddress(  )
+    public boolean containsIpAddress( )
     {
         return StringUtils.isNotBlank( _strIpAddress );
     }
@@ -312,7 +317,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return the date creation
      */
-    public String getDateCreation(  )
+    public String getDateCreation( )
     {
         return _strDateCreation;
     }
@@ -320,7 +325,8 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * Sets the date creation.
      *
-     * @param strDateCreation the new date creation
+     * @param strDateCreation
+     *            the new date creation
      */
     public void setDateCreation( String strDateCreation )
     {
@@ -332,7 +338,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsDateCreation(  )
+    public boolean containsDateCreation( )
     {
         return StringUtils.isNotBlank( _strDateCreation );
     }
@@ -342,7 +348,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return the date creation
      */
-    public String getDateCreationBegin(  )
+    public String getDateCreationBegin( )
     {
         return _strDateCreationBegin;
     }
@@ -350,7 +356,8 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * Sets the date creation.
      *
-     * @param strDateCreationBegin the new date creation
+     * @param strDateCreationBegin
+     *            the new date creation
      */
     public void setDateCreationBegin( String strDateCreationBegin )
     {
@@ -362,7 +369,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsDateCreationBegin(  )
+    public boolean containsDateCreationBegin( )
     {
         return StringUtils.isNotBlank( _strDateCreationBegin );
     }
@@ -372,7 +379,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return the date creation
      */
-    public String getDateCreationEnd(  )
+    public String getDateCreationEnd( )
     {
         return _strDateCreationEnd;
     }
@@ -380,7 +387,8 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * Sets the date creation.
      *
-     * @param strDateCreationEnd the new date creation
+     * @param strDateCreationEnd
+     *            the new date creation
      */
     public void setDateCreationEnd( String strDateCreationEnd )
     {
@@ -392,20 +400,21 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsDateCreationEnd(  )
+    public boolean containsDateCreationEnd( )
     {
         return StringUtils.isNotBlank( _strDateCreationEnd );
     }
 
     /**
-     * Set true if the filter is applied to a wide search.
-     * <br/>
+     * Set true if the filter is applied to a wide search. <br/>
      * In other words, the SQL query will use
      * <ul>
      * <li>SQL <b>OR</b> if it is applied to a wide search</li>
      * <li>SQL <b>AND</b> if it is not applied to a wide search</li>
      * </ul>
-     * @param bIsWideSearch true if it a wide search, false otherwise
+     * 
+     * @param bIsWideSearch
+     *            true if it a wide search, false otherwise
      */
     public void setIsWideSearch( boolean bIsWideSearch )
     {
@@ -413,16 +422,16 @@ public class ResourceExtenderHistoryFilter implements Serializable
     }
 
     /**
-     * Check if the filter is applied to a wide search or not.
-     * <br/>
+     * Check if the filter is applied to a wide search or not. <br/>
      * In other words, the SQL query will use
      * <ul>
      * <li>SQL <b>OR</b> if it is applied to a wide search</li>
      * <li>SQL <b>AND</b> if it is not applied to a wide search</li>
      * </ul>
+     * 
      * @return true if it is applied to a wide search
      */
-    public boolean isWideSearch(  )
+    public boolean isWideSearch( )
     {
         return _bIsWideSearch;
     }
@@ -432,7 +441,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return the sorted attribute name
      */
-    public String getSortedAttributeName(  )
+    public String getSortedAttributeName( )
     {
         return _strSortedAttributeName;
     }
@@ -442,7 +451,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return the sorted attribute name for sql query
      */
-    public String getSortedAttributeNameForSQLQuery(  )
+    public String getSortedAttributeNameForSQLQuery( )
     {
         if ( PARAMETER_ID_RESOURCE.equals( _strSortedAttributeName ) )
         {
@@ -455,7 +464,8 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * Sets the sorted attribute name.
      *
-     * @param strSortedAttributeName the new sorted attribute name
+     * @param strSortedAttributeName
+     *            the new sorted attribute name
      */
     public void setSortedAttributeName( String strSortedAttributeName )
     {
@@ -465,7 +475,8 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * Sets the sorted attribute name.
      *
-     * @param request the request
+     * @param request
+     *            the request
      */
     public void setSortedAttributeName( HttpServletRequest request )
     {
@@ -486,7 +497,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsAttributeName(  )
+    public boolean containsAttributeName( )
     {
         return StringUtils.isNotBlank( _strSortedAttributeName );
     }
@@ -496,7 +507,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return true, if is asc sort
      */
-    public boolean isAscSort(  )
+    public boolean isAscSort( )
     {
         return _bIsAscSort;
     }
@@ -504,7 +515,8 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * Sets the asc sort.
      *
-     * @param bAscSort the new asc sort
+     * @param bAscSort
+     *            the new asc sort
      */
     public void setAscSort( boolean bAscSort )
     {
@@ -514,7 +526,8 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * Sets the asc sort.
      *
-     * @param request the request
+     * @param request
+     *            the request
      */
     public void setAscSort( HttpServletRequest request )
     {
@@ -527,13 +540,14 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * @return the operatorDateCreation
      */
-    public OperatorEnum getOperatorDateCreation(  )
+    public OperatorEnum getOperatorDateCreation( )
     {
         return _operatorDateCreation;
     }
 
     /**
-     * @param operatorDateCreation the operatorDateCreation to set
+     * @param operatorDateCreation
+     *            the operatorDateCreation to set
      */
     public void setOperatorDateCreation( OperatorEnum operatorDateCreation )
     {
@@ -545,7 +559,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return the group by attribute name
      */
-    public String getGroupByAttributeName(  )
+    public String getGroupByAttributeName( )
     {
         return _strGroupByAttributeName;
     }
@@ -553,7 +567,8 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * Sets the group by attribute name.
      *
-     * @param strGroupByAttributeName the new group by attribute name
+     * @param strGroupByAttributeName
+     *            the new group by attribute name
      */
     public void setGroupByAttributeName( String strGroupByAttributeName )
     {
@@ -565,21 +580,22 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsGroupByAttributeName(  )
+    public boolean containsGroupByAttributeName( )
     {
         return StringUtils.isNotBlank( _strGroupByAttributeName );
     }
 
     /**
-         * @return the nItemsPerPage
-         */
-    public int getItemsPerPage(  )
+     * @return the nItemsPerPage
+     */
+    public int getItemsPerPage( )
     {
         return _nItemsPerPage;
     }
 
     /**
-     * @param nItemsPerPage the nItemsPerPage to set
+     * @param nItemsPerPage
+     *            the nItemsPerPage to set
      */
     public void setItemsPerPage( int nItemsPerPage )
     {
@@ -591,7 +607,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsItemsPerPage(  )
+    public boolean containsItemsPerPage( )
     {
         return _nItemsPerPage != ALL;
     }
@@ -599,13 +615,14 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * @return the nPageIndex
      */
-    public int getPageIndex(  )
+    public int getPageIndex( )
     {
         return _nPageIndex;
     }
 
     /**
-     * @param nPageIndex the nPageIndex to set
+     * @param nPageIndex
+     *            the nPageIndex to set
      */
     public void setPageIndex( int nPageIndex )
     {
@@ -617,7 +634,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsPageIndex(  )
+    public boolean containsPageIndex( )
     {
         return _nPageIndex != ALL;
     }
@@ -625,7 +642,8 @@ public class ResourceExtenderHistoryFilter implements Serializable
     /**
      * Builds the sql query.
      *
-     * @param strSQL the str sql
+     * @param strSQL
+     *            the str sql
      * @return the string
      */
     public String buildSQLQuery( String strSQL )
@@ -633,31 +651,28 @@ public class ResourceExtenderHistoryFilter implements Serializable
         StringBuilder sbSQL = new StringBuilder( strSQL );
         int nIndex = 1;
 
-        nIndex = buildFilter( sbSQL, containsIdHistory(  ), SQL_FILTER_ID_HISTORY, nIndex );
-        nIndex = buildFilter( sbSQL, containsExtenderType(  ), SQL_FILTER_EXTENDER_TYPE, nIndex );
-        nIndex = buildFilter( sbSQL, containsIdExtendableResource(  ), SQL_FILTER_ID_RESOURCE, nIndex );
-        nIndex = buildFilter( sbSQL, containsExtendableResourceType(  ), SQL_FILTER_RESOURCE_TYPE, nIndex );
-        nIndex = buildFilter( sbSQL, containsUserGuid(  ), SQL_FILTER_USER_GUID, nIndex );
-        nIndex = buildFilter( sbSQL, containsIpAddress(  ), SQL_FILTER_IP_ADDRESS, nIndex );
-        nIndex = buildFilter( sbSQL, containsDateCreation(  ),
-                SQL_FILTER_DATE_CREATION + getOperatorDateCreation(  ) + QUESTION_MARK, nIndex );
-        nIndex = buildFilter( sbSQL, containsDateCreationBegin(  ),
-                SQL_FILTER_DATE_CREATION + OperatorEnum.GREATER_OR_EQUAL + QUESTION_MARK, nIndex );
-        buildFilter( sbSQL, containsDateCreationEnd(  ),
-            SQL_FILTER_DATE_CREATION + OperatorEnum.LOWER_OR_EQUAL + QUESTION_MARK, nIndex );
+        nIndex = buildFilter( sbSQL, containsIdHistory( ), SQL_FILTER_ID_HISTORY, nIndex );
+        nIndex = buildFilter( sbSQL, containsExtenderType( ), SQL_FILTER_EXTENDER_TYPE, nIndex );
+        nIndex = buildFilter( sbSQL, containsIdExtendableResource( ), SQL_FILTER_ID_RESOURCE, nIndex );
+        nIndex = buildFilter( sbSQL, containsExtendableResourceType( ), SQL_FILTER_RESOURCE_TYPE, nIndex );
+        nIndex = buildFilter( sbSQL, containsUserGuid( ), SQL_FILTER_USER_GUID, nIndex );
+        nIndex = buildFilter( sbSQL, containsIpAddress( ), SQL_FILTER_IP_ADDRESS, nIndex );
+        nIndex = buildFilter( sbSQL, containsDateCreation( ), SQL_FILTER_DATE_CREATION + getOperatorDateCreation( ) + QUESTION_MARK, nIndex );
+        nIndex = buildFilter( sbSQL, containsDateCreationBegin( ), SQL_FILTER_DATE_CREATION + OperatorEnum.GREATER_OR_EQUAL + QUESTION_MARK, nIndex );
+        buildFilter( sbSQL, containsDateCreationEnd( ), SQL_FILTER_DATE_CREATION + OperatorEnum.LOWER_OR_EQUAL + QUESTION_MARK, nIndex );
 
-        if ( containsGroupByAttributeName(  ) )
+        if ( containsGroupByAttributeName( ) )
         {
             sbSQL.append( SQL_GROUP_BY );
-            sbSQL.append( getGroupByAttributeName(  ) );
+            sbSQL.append( getGroupByAttributeName( ) );
         }
 
-        if ( containsAttributeName(  ) )
+        if ( containsAttributeName( ) )
         {
             sbSQL.append( SQL_ORDER_BY );
-            sbSQL.append( getSortedAttributeNameForSQLQuery(  ) );
+            sbSQL.append( getSortedAttributeNameForSQLQuery( ) );
 
-            if ( isAscSort(  ) )
+            if ( isAscSort( ) )
             {
                 sbSQL.append( SQL_ASC );
             }
@@ -667,80 +682,82 @@ public class ResourceExtenderHistoryFilter implements Serializable
             }
         }
 
-        if ( containsPageIndex(  ) && containsItemsPerPage(  ) )
+        if ( containsPageIndex( ) && containsItemsPerPage( ) )
         {
             sbSQL.append( " LIMIT " + _nItemsPerPage );
             sbSQL.append( " OFFSET " + ( ( _nPageIndex - 1 ) * _nItemsPerPage ) );
         }
 
-        return sbSQL.toString(  );
+        return sbSQL.toString( );
     }
 
     /**
-    * Sets the filter values.
-    *
-    * @param daoUtil the new filter values
-    */
+     * Sets the filter values.
+     *
+     * @param daoUtil
+     *            the new filter values
+     */
     public void setFilterValues( DAOUtil daoUtil )
     {
         int nIndex = 1;
 
-        if ( containsIdHistory(  ) )
+        if ( containsIdHistory( ) )
         {
-            daoUtil.setLong( nIndex++, getIdHistory(  ) );
+            daoUtil.setLong( nIndex++, getIdHistory( ) );
         }
 
-        if ( containsExtenderType(  ) )
+        if ( containsExtenderType( ) )
         {
-            daoUtil.setString( nIndex++, getExtenderType(  ) );
+            daoUtil.setString( nIndex++, getExtenderType( ) );
         }
 
-        if ( containsIdExtendableResource(  ) )
+        if ( containsIdExtendableResource( ) )
         {
-            daoUtil.setString( nIndex++, getIdExtendableResource(  ) );
+            daoUtil.setString( nIndex++, getIdExtendableResource( ) );
         }
 
-        if ( containsExtendableResourceType(  ) )
+        if ( containsExtendableResourceType( ) )
         {
-            daoUtil.setString( nIndex++, getExtendableResourceType(  ) );
+            daoUtil.setString( nIndex++, getExtendableResourceType( ) );
         }
 
-        if ( containsUserGuid(  ) )
+        if ( containsUserGuid( ) )
         {
-            daoUtil.setString( nIndex++, getUserGuid(  ) );
+            daoUtil.setString( nIndex++, getUserGuid( ) );
         }
 
-        if ( containsIpAddress(  ) )
+        if ( containsIpAddress( ) )
         {
-            daoUtil.setString( nIndex++, getIpAddress(  ) );
+            daoUtil.setString( nIndex++, getIpAddress( ) );
         }
 
-        if ( containsDateCreation(  ) )
+        if ( containsDateCreation( ) )
         {
-            daoUtil.setTimestamp( nIndex++,
-                DateUtil.formatTimestamp( getDateCreation(  ), I18nService.getDefaultLocale(  ) ) );
+            daoUtil.setTimestamp( nIndex++, DateUtil.formatTimestamp( getDateCreation( ), I18nService.getDefaultLocale( ) ) );
         }
 
-        if ( containsDateCreationBegin(  ) )
+        if ( containsDateCreationBegin( ) )
         {
-            daoUtil.setTimestamp( nIndex++,
-                DateUtil.formatTimestamp( getDateCreationBegin(  ), I18nService.getDefaultLocale(  ) ) );
+            daoUtil.setTimestamp( nIndex++, DateUtil.formatTimestamp( getDateCreationBegin( ), I18nService.getDefaultLocale( ) ) );
         }
 
-        if ( containsDateCreationEnd(  ) )
+        if ( containsDateCreationEnd( ) )
         {
-            daoUtil.setTimestamp( nIndex++,
-                DateUtil.formatTimestamp( getDateCreationEnd(  ), I18nService.getDefaultLocale(  ) ) );
+            daoUtil.setTimestamp( nIndex++, DateUtil.formatTimestamp( getDateCreationEnd( ), I18nService.getDefaultLocale( ) ) );
         }
     }
 
     /**
      * Builds the filter.
      *
-     * @param sbSQL the sb sql
-     * @param bAddFilter the b add filter
-     * @param strSQL the str sql
-     * @param nIndex the n index
+     * @param sbSQL
+     *            the sb sql
+     * @param bAddFilter
+     *            the b add filter
+     * @param strSQL
+     *            the str sql
+     * @param nIndex
+     *            the n index
      * @return the int
      */
     private int buildFilter( StringBuilder sbSQL, boolean bAddFilter, String strSQL, int nIndex )
@@ -749,7 +766,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
 
         if ( bAddFilter )
         {
-            nIndexTmp = addSQLWhereOr( isWideSearch(  ), sbSQL, nIndex );
+            nIndexTmp = addSQLWhereOr( isWideSearch( ), sbSQL, nIndex );
             sbSQL.append( strSQL );
         }
 
@@ -757,15 +774,18 @@ public class ResourceExtenderHistoryFilter implements Serializable
     }
 
     /**
-     * Add a <b>WHERE</b> or a <b>OR</b> depending of the index.
-     * <br/>
+     * Add a <b>WHERE</b> or a <b>OR</b> depending of the index. <br/>
      * <ul>
      * <li>if <code>nIndex</code> == 1, then we add a <b>WHERE</b></li>
      * <li>if <code>nIndex</code> != 1, then we add a <b>OR</b> or a <b>AND</b> depending of the wide search characteristic</li>
      * </ul>
-     * @param bIsWideSearch true if it is a wide search, false otherwise
-     * @param sbSQL the SQL query
-     * @param nIndex the index
+     * 
+     * @param bIsWideSearch
+     *            true if it is a wide search, false otherwise
+     * @param sbSQL
+     *            the SQL query
+     * @param nIndex
+     *            the index
      * @return the new index
      */
     private int addSQLWhereOr( boolean bIsWideSearch, StringBuilder sbSQL, int nIndex )

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2013, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,6 @@ import javax.inject.Named;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Manager for add on display
  */
@@ -66,14 +65,13 @@ public class HitAddOnService implements IResourceDisplayManager
 
             if ( hit != null )
             {
-                XmlUtil.addElement( strXml, TAG_NUMBER_HITS, hit.getNbHits(  ) );
+                XmlUtil.addElement( strXml, TAG_NUMBER_HITS, hit.getNbHits( ) );
             }
         }
     }
 
     @Override
-    public void buildPageAddOn( Map<String, Object> model, String strResourceType, int nIdResource,
-        String strPortletId, HttpServletRequest request )
+    public void buildPageAddOn( Map<String, Object> model, String strResourceType, int nIdResource, String strPortletId, HttpServletRequest request )
     {
         // TODO Auto-generated method stub
         return;

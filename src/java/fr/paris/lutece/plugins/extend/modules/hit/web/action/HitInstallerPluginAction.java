@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,14 +45,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  *
  * HitInstallerPluginAction
  *
  */
-public class HitInstallerPluginAction extends AbstractPluginAction<IExtendableResource>
-    implements IExtendableResourcePluginAction
+public class HitInstallerPluginAction extends AbstractPluginAction<IExtendableResource> implements IExtendableResourcePluginAction
 {
     private static final String ACTION_NAME = "Hit";
 
@@ -80,7 +78,7 @@ public class HitInstallerPluginAction extends AbstractPluginAction<IExtendableRe
      * {@inheritDoc}
      */
     @Override
-    public String getButtonTemplate(  )
+    public String getButtonTemplate( )
     {
         return TEMPLATE_BUTTON;
     }
@@ -89,7 +87,7 @@ public class HitInstallerPluginAction extends AbstractPluginAction<IExtendableRe
      * {@inheritDoc}
      */
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return ACTION_NAME;
     }
@@ -98,8 +96,8 @@ public class HitInstallerPluginAction extends AbstractPluginAction<IExtendableRe
      * {@inheritDoc}
      */
     @Override
-    public IPluginActionResult process( HttpServletRequest request, HttpServletResponse response, AdminUser adminUser,
-        IExtendableResource sessionFields ) throws AccessDeniedException
+    public IPluginActionResult process( HttpServletRequest request, HttpServletResponse response, AdminUser adminUser, IExtendableResource sessionFields )
+            throws AccessDeniedException
     {
         return null;
     }

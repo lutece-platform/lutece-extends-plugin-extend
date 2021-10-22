@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,7 +51,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  *
  * ExtendContent
@@ -65,30 +64,28 @@ public class ExtendContent extends HttpServlet
      * {@inheritDoc}
      */
     @Override
-    protected void doGet( HttpServletRequest request, HttpServletResponse response )
-        throws ServletException, IOException
+    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
-        ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO(  );
+        ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO( );
 
         try
         {
-            BeanUtils.populate( resourceExtender, request.getParameterMap(  ) );
+            BeanUtils.populate( resourceExtender, request.getParameterMap( ) );
         }
-        catch ( IllegalAccessException e )
+        catch( IllegalAccessException e )
         {
             AppLogService.error( "Unable to fetch data from request", e );
         }
-        catch ( InvocationTargetException e )
+        catch( InvocationTargetException e )
         {
             AppLogService.error( "Unable to fetch data from request", e );
         }
 
         IResourceExtenderService extenderService = SpringContextService.getBean( ResourceExtenderService.BEAN_SERVICE );
-        String strHtml = extenderService.getContent( resourceExtender.getIdExtendableResource(  ),
-                resourceExtender.getExtendableResourceType(  ), resourceExtender.getExtenderType(  ),
-                resourceExtender.getParameters(  ), request );
+        String strHtml = extenderService.getContent( resourceExtender.getIdExtendableResource( ), resourceExtender.getExtendableResourceType( ),
+                resourceExtender.getExtenderType( ), resourceExtender.getParameters( ), request );
 
-        PrintWriter out = response.getWriter(  );
+        PrintWriter out = response.getWriter( );
         out.println( strHtml );
     }
 }

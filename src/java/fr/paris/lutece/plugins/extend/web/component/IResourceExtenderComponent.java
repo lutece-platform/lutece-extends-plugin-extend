@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,6 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * IResourceExtenderComponent
@@ -55,44 +54,54 @@ public interface IResourceExtenderComponent
      *
      * @return the resource extender
      */
-    IResourceExtender getResourceExtender(  );
+    IResourceExtender getResourceExtender( );
 
     /**
      * Sets the resource extender.
      *
-     * @param extender the new resource extender
+     * @param extender
+     *            the new resource extender
      */
     void setResourceExtender( IResourceExtender extender );
 
     /**
      * Add to the the XML String additional datas.
      *
-     * @param strIdExtendableResource the str id extendable resource
-     * @param strExtendableResourceType the str extendable resource type
-     * @param strParameters the str parameters
-     * @param strXml The xml string use by stylesheet
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
+     * @param strParameters
+     *            the str parameters
+     * @param strXml
+     *            The xml string use by stylesheet
      */
-    void buildXmlAddOn( String strIdExtendableResource, String strExtendableResourceType, String strParameters,
-        StringBuffer strXml );
+    void buildXmlAddOn( String strIdExtendableResource, String strExtendableResourceType, String strParameters, StringBuffer strXml );
 
     /**
      * Add datas to the model use by document template.
      *
-     * @param strIdExtendableResource the str id extendable resource
-     * @param strExtendableResourceType the str extendable resource type
-     * @param strParameters the str parameters
-     * @param request The HTTP Request
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
+     * @param strParameters
+     *            the str parameters
+     * @param request
+     *            The HTTP Request
      * @return the page add on
      */
-    String getPageAddOn( String strIdExtendableResource, String strExtendableResourceType, String strParameters,
-        HttpServletRequest request );
+    String getPageAddOn( String strIdExtendableResource, String strExtendableResourceType, String strParameters, HttpServletRequest request );
 
     /**
      * Gets the config html.
      *
-     * @param resourceExtender the resource extender
-     * @param locale the locale
-     * @param request the request
+     * @param resourceExtender
+     *            the resource extender
+     * @param locale
+     *            the locale
+     * @param request
+     *            the request
      * @return the config html
      */
     String getConfigHtml( ResourceExtenderDTO resourceExtender, Locale locale, HttpServletRequest request );
@@ -100,9 +109,12 @@ public interface IResourceExtenderComponent
     /**
      * Gets the info html.
      *
-     * @param resourceExtender the resource extender
-     * @param locale the locale
-     * @param request the request
+     * @param resourceExtender
+     *            the resource extender
+     * @param locale
+     *            the locale
+     * @param request
+     *            the request
      * @return the info html
      */
     String getInfoHtml( ResourceExtenderDTO resourceExtender, Locale locale, HttpServletRequest request );
@@ -110,7 +122,8 @@ public interface IResourceExtenderComponent
     /**
      * Gets the config.
      *
-     * @param nIdExtender the n id extender
+     * @param nIdExtender
+     *            the n id extender
      * @return the config
      */
     IExtenderConfig getConfig( int nIdExtender );
@@ -118,10 +131,12 @@ public interface IResourceExtenderComponent
     /**
      * Do save config.
      *
-     * @param request the request
-     * @param config the config
-     * @throws ExtendErrorException the extend error exception
+     * @param request
+     *            the request
+     * @param config
+     *            the config
+     * @throws ExtendErrorException
+     *             the extend error exception
      */
-    void doSaveConfig( HttpServletRequest request, IExtenderConfig config )
-        throws ExtendErrorException;
+    void doSaveConfig( HttpServletRequest request, IExtenderConfig config ) throws ExtendErrorException;
 }
