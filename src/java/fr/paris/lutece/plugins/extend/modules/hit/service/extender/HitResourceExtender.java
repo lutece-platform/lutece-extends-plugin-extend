@@ -37,7 +37,7 @@ import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.modules.hit.service.IHitService;
 import fr.paris.lutece.plugins.extend.service.extender.AbstractResourceExtender;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 
