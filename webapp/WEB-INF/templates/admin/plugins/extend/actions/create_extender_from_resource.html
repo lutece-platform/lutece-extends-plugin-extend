@@ -9,12 +9,12 @@
 			<#nested>
 			<#if installed>
 				<#if unremovable?? && unremovable>
-					<@icon style='plug text-success' title='#i18n{extend.create_extender_from_resource.unremovableExtender}' /> 
+					<@icon style='check text-success' title='#i18n{extend.create_extender_from_resource.unremovableExtender}' /> 
 				<#else>
-					<@button type='submit' name='createExtenderFromResource' value='createExtenderFromResource' title=labelRemove hideTitle=['all'] color='danger' size='xs' buttonIcon='minus' />
+					<@button type='submit' name='createExtenderFromResource' value='createExtenderFromResource' title=labelRemove hideTitle=['all'] color='outline-link' size='xs' buttonIcon='minus text-danger has-text-danger' />
 				</#if>
 			<#else>
-				<@button type='submit' name='createExtenderFromResource' value='createExtenderFromResource' title=labelAdd hideTitle=['all'] color='success' size='xs' buttonIcon='plus' />
+				<@button type='submit' name='createExtenderFromResource' value='createExtenderFromResource' title=labelAdd hideTitle=['all'] color='oultine-link' size='xs' buttonIcon='plus text-success has-text-success' />
 			</#if>
 		</@div>
 	</@tform>
