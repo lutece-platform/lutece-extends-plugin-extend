@@ -2,14 +2,27 @@
 -- Build the js script
 -- extendTitle : Title 
 -- hasBoxTools : Has tools
--- extendBoxTools : Html content of boxtools
+-- manageByResource : Default false 
 -->
-<#macro extendBox cols=12 extendTitle='' hasBoxTools=false extendBoxTools=''>
+<#macro extendBox cols=12 extendTitle='' hasBoxTools=false manageByResource=false extendBoxTools='' skipHead=true >
 <@row>
-	<@columns sm=12>
+	<@columns>
 		<@box color='primary'>
-			<@boxHeader title=extendTitle boxTools=hasBoxTools>
-				${extendBoxTools!}
+			<@boxHeader title=extendTitle boxTools=hasBoxTools skipHeader=skipHead >
+				<#if extendBoxTools !='' && !manageByResource>
+					${extendBoxTools!}
+				<#elseif hasBoxTools>
+					<@tform type='inline' action='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp'>
+						<@input type='hidden' name='manageByResource' value='${manageByResource?c}' />
+						<@btnGroup>
+							<#list resourceExtenderActions?reverse as resourceExtenderAction>
+								<#if resourceExtenderAction.buttonTemplate?has_content>
+									<#include resourceExtenderAction.buttonTemplate />
+								</#if>
+							</#list>
+						</@btnGroup>
+					</@tform>
+				</#if>
 			</@boxHeader>	
 			<@boxBody>
 				<#nested>
@@ -18,7 +31,6 @@
 	</@columns>
 </@row>
 </#macro>
-
 <#--
 -- Build the js script
 -->
@@ -37,7 +49,6 @@ $( function (  ) {
 });
 </script>
 </#macro>
-
 <#--
 -- Build the attribute for sorting table
 -- @param filter the filter
@@ -58,7 +69,6 @@ $( function (  ) {
 </#if>
 <#return sortSearchAttribute />
 </#function>
-
 <#--
 -- Check if the given extender type has a config or not
 -- @param listExtender the list of extenders
@@ -75,7 +85,6 @@ $( function (  ) {
 </#if>
 <#return false />
 </#function>
-
 <#--
 -- Check if the given extender type has a history or not
 -- @param listExtender the list of extenders
@@ -92,7 +101,6 @@ $( function (  ) {
 </#if>
 <#return false />
 </#function>
-
 <#function isExtenderStateEnable listExtenders extenderType>
 <#if listExtenders?? && listExtenders?has_content>
 <#list listExtenders as extender>
@@ -103,7 +111,6 @@ $( function (  ) {
 </#if>
 <#return false />
 </#function>
-
 <#--
 -- Check if the user has the permission to see the button
 -- @param idExtender the id extender

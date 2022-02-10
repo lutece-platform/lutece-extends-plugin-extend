@@ -1,1 +1,31 @@
-<@button type='submit' name='createResourceExtender' value='createResourceExtender' title='#i18n{extend.create_resource_extender.labelCreateResourceExtender}' hideTitle=['xs','sm','md'] buttonIcon='plus' size='sm' />
+<@row>
+	<@columns sm=12>
+		<@box color='primary'>
+			<#assign boxTitle><#if manageByResource>#i18n{extend.create_resource_extender_by_resource.labelCreateResourceExtender}<#else>#i18n{extend.create_resource_extender_by_resource_type.labelCreateResourceExtender}</#if></#assign>
+			<@boxHeader title=boxTitle skipHeader=true />
+			<@boxBody>		
+				<@tform action='jsp/admin/plugins/extend/DoCreateResourceExtender.jsp'>
+					<@input type='hidden' name='from_url' value='${from_url!}' />	
+					<@formGroup labelFor='extenderType' labelKey='#i18n{extend.create_resource_extender.labelExtenderType}' mandatory=true>
+						<@select name='extenderType' items=extenderTypes class='w-25' />
+					</@formGroup>
+					<#if manageByResource>
+						<@formGroup labelFor='idExtendableResource' labelKey='#i18n{extend.create_resource_extender.labelIdExtendableResource}' mandatory=true>
+							<@input name='idExtendableResource' maxlength=255 class='w-25' />
+						</@formGroup>
+					<#else>
+						<@input type='hidden' name='idExtendableResource' value='*' />
+					</#if>
+					<@formGroup labelFor='extendableResourceType' labelKey='#i18n{extend.create_resource_extender.labelResourceType}' mandatory=true>
+						<@select name='extendableResourceType' items=resourceTypes class='w-25' />
+					</@formGroup>
+					<@formGroup>
+						<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelCreate}' name='createResourceExtender' value='createResourceExtender' />
+						<#assign urlBack><#if manageByResource>jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp<#else>jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp</#if></#assign>
+						<@aButton href=urlBack buttonIcon='close' title='#i18n{portal.admin.message.buttonCancel}' color='default' />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>
