@@ -39,6 +39,9 @@ import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.commons.collections.CollectionUtils;
 
 /**
  *
@@ -57,6 +60,8 @@ public class HitDAO implements IHitDAO
     private static final String SQL_QUERY_SELECT_ALL = " SELECT id_hit, id_resource, resource_type, nb_hits FROM extend_extender_hit ";
     private static final String SQL_QUERY_SELECT = SQL_QUERY_SELECT_ALL + " WHERE id_hit = ? ";
     private static final String SQL_QUERY_SELECT_BY_PARAMETERS = SQL_QUERY_SELECT_ALL + " WHERE id_resource = ? AND resource_type = ? ";
+    private static final String SQL_QUERY_SELECT_BY_ID_RESOURCE_LIST = SQL_QUERY_SELECT_ALL + " WHERE resource_type = ? AND id_resource IN ( ";
+    private static final String SQL_FILTER_ID_LIST_END = " ) ";
     private static final String SQL_LIMIT = " LIMIT ";
     private static final String CONSTANT_COMMA = ",";
     private static final String CONSTANT_QUESTION_MARK = "?";
@@ -278,4 +283,41 @@ public class HitDAO implements IHitDAO
 
         return listIds;
     }
+
+	@Override
+	public List<Hit> findByResourceList(List<String> listIdExtendableResource, String strExtendableResourceType,
+			Plugin plugin) {
+		List<Hit> listHit = new ArrayList<>( );
+        StringBuilder sbSql = new StringBuilder( SQL_QUERY_SELECT_BY_ID_RESOURCE_LIST );
+        if ( CollectionUtils.isNotEmpty( listIdExtendableResource ) )
+        {
+            sbSql.append( listIdExtendableResource.stream( ).map( s -> "?" ).collect( Collectors.joining( "," ) ) );
+            sbSql.append( SQL_FILTER_ID_LIST_END );
+        }
+    	        
+        try( DAOUtil daoUtil = new DAOUtil( sbSql.toString( ), plugin )){
+        	int nIndex = 0;
+    		
+	        daoUtil.setString( ++nIndex, strExtendableResourceType );
+	        for ( String id : listIdExtendableResource )
+	        {
+	            daoUtil.setString( ++nIndex, id );
+	        }
+	        daoUtil.executeQuery(  );
+	
+	        while ( daoUtil.next(  ) )
+	        {
+	            nIndex = 1;
+	
+	            Hit hit = new Hit( );
+	            hit.setIdHit( daoUtil.getInt( nIndex++ ) );
+	            hit.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
+	            hit.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
+	            hit.setNbHits( daoUtil.getInt( nIndex ) );
+	            listHit.add( hit );
+	        }
+
+        }
+        return listHit;
+	}
 }

@@ -118,4 +118,17 @@ public interface IHitService
      * @return The list of ids of resources ordered by the number hits
      */
     public List<Integer> findIdMostHitedResources( String strExtendableResourceType, int nItemsOffset, int nMaxItemsNumber );
+    
+
+    /**
+     * Find by list id extendable resource.
+     *
+     * @param listIdExtendableResource
+     *            the list of str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
+     * @return the hit list
+     */
+     List<Hit> findByResourceList( List<String> listIdExtendableResource, String strExtendableResourceType );
+
 }

@@ -122,4 +122,19 @@ public interface IHitDAO
      * @return The list of ids of resources ordered by the number hits
      */
     List<Integer> findIdMostHitedResources( String strExtendableResourceType, int nItemsOffset, int nMaxItemsNumber, Plugin plugin );
+
+    /**
+     * Get list of Hit by ids resources.
+     *
+     * @param listIdExtendableResource
+     *            the list of str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
+     * @param plugin
+     *            the plugin
+     * @return the hit list
+     */
+     List<Hit> findByResourceList( List<String> listIdExtendableResource, String strExtendableResourceType, Plugin plugin );
+
+
 }
