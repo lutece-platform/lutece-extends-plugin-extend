@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
-import fr.paris.lutece.plugins.extend.modules.hit.service.HitService;
-import fr.paris.lutece.plugins.extend.modules.hit.service.IHitService;
+import fr.paris.lutece.plugins.extend.modules.hit.business.Hit;
+import fr.paris.lutece.plugins.extend.modules.hit.business.HitHome;
 import fr.paris.lutece.plugins.extend.modules.hit.service.extender.HitResourceExtender;
 
 /**
@@ -148,19 +149,16 @@ public class ResourceExtenderServiceFacotory{
 	 * @return The list of Extender Type with (ExtenderType<Hit>)
 	 */
 	private static List<ExtenderType<?>> initExtenderType(  ) {
-
-		IHitService hitService = new HitService( );
-		return new ArrayList<>(Arrays.asList( 
-				
+		return new ArrayList<>(Arrays.asList( 				
 				new ExtenderType< >(
 						
 						HitResourceExtender.EXTENDER_TYPE,
-						hitService::findByParameters,
-						hitService::findByResourceList,
-						(  strIdExtendableResource,  strExtendableResourceType) -> String.valueOf (hitService.findByParameters(strIdExtendableResource, strExtendableResourceType).getNbHits( )),
-						(  strIdExtendableResource,  strExtendableResourceType) -> String.valueOf (hitService.findByParameters(strIdExtendableResource, strExtendableResourceType).getNbHits( ))					
-				 )
-				
-				)); 
+						(strIdExtendableResource,  strExtendableResourceType ) -> HitHome.findByParameters(strIdExtendableResource, strExtendableResourceType).orElse( null ),
+						HitHome::findByResourceList,
+						(strIdExtendableResource,  strExtendableResourceType) -> HitHome.findByParameters(strIdExtendableResource, strExtendableResourceType).map( hit -> hit != null?String.valueOf (hit.getNbHits( )):null).orElse(null),						
+						(strIdExtendableResource,  strExtendableResourceType) ->  HitHome.findByParameters(strIdExtendableResource, strExtendableResourceType).map( hit -> hit != null?String.valueOf (hit.getNbHits( )):null).orElse(null)
+							
+				)
+		)); 
 	}
 }

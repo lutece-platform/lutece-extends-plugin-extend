@@ -34,11 +34,8 @@
 package fr.paris.lutece.plugins.extend.modules.hit.service;
 
 import fr.paris.lutece.plugins.extend.modules.hit.business.Hit;
-import fr.paris.lutece.plugins.extend.modules.hit.business.IHitDAO;
-import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
+import fr.paris.lutece.plugins.extend.modules.hit.business.HitHome;
 import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  *
@@ -49,8 +46,7 @@ public class HitService implements IHitService
 {
     /** The Constant BEAN_SERVICE. */
     public static final String BEAN_SERVICE = "extend.hitService";
-    @Inject
-    private IHitDAO _hitDAO;
+
 
     /**
      * {@inheritDoc}
@@ -58,7 +54,7 @@ public class HitService implements IHitService
     @Override
     public void create( Hit hit )
     {
-        _hitDAO.insert( hit, ExtendPlugin.getPlugin( ) );
+    	HitHome.create( hit);
     }
 
     /**
@@ -67,7 +63,7 @@ public class HitService implements IHitService
     @Override
     public void update( Hit hit )
     {
-        _hitDAO.store( hit, ExtendPlugin.getPlugin( ) );
+    	HitHome.update( hit );
     }
 
     /**
@@ -76,7 +72,7 @@ public class HitService implements IHitService
     @Override
     public void remove( int nIdExtender )
     {
-        _hitDAO.delete( nIdExtender, ExtendPlugin.getPlugin( ) );
+    	HitHome.remove( nIdExtender  );
     }
 
     /**
@@ -85,7 +81,7 @@ public class HitService implements IHitService
     @Override
     public void removeByResource( String strIdResource, String strResourceType )
     {
-        _hitDAO.deleteByResource( strIdResource, strResourceType, ExtendPlugin.getPlugin( ) );
+    	HitHome.removeByResource( strIdResource, strResourceType );
     }
 
     /**
@@ -95,7 +91,7 @@ public class HitService implements IHitService
     public void incrementHit( Hit hit )
     {
         hit.setNbHits( hit.getNbHits( ) + 1 );
-        update( hit );
+        HitHome.update( hit );
     }
 
     /**
@@ -104,7 +100,7 @@ public class HitService implements IHitService
     @Override
     public Hit findByPrimaryKey( int nIdHit )
     {
-        return _hitDAO.load( nIdHit, ExtendPlugin.getPlugin( ) );
+        return HitHome.findByPrimaryKey( nIdHit  ).orElse( null );
     }
 
     /**
@@ -113,7 +109,7 @@ public class HitService implements IHitService
     @Override
     public Hit findByParameters( String strIdExtendableResource, String strExtendableResourceType )
     {
-        return _hitDAO.loadByParameters( strIdExtendableResource, strExtendableResourceType, ExtendPlugin.getPlugin( ) );
+        return HitHome.findByParameters( strIdExtendableResource, strExtendableResourceType ).orElse( null );
     }
 
     /**
@@ -122,7 +118,7 @@ public class HitService implements IHitService
     @Override
     public List<Integer> findIdMostHitedResources( String strExtendableResourceType, int nItemsOffset, int nMaxItemsNumber )
     {
-        return _hitDAO.findIdMostHitedResources( strExtendableResourceType, nItemsOffset, nMaxItemsNumber, ExtendPlugin.getPlugin( ) );
+        return HitHome.findIdMostHitedResources( strExtendableResourceType, nItemsOffset, nMaxItemsNumber );
     }
 
     /**
@@ -132,6 +128,6 @@ public class HitService implements IHitService
 	public List<Hit> findByResourceList(List<String> listIdExtendableResource, String strExtendableResourceType) 
 	{
 
-		return _hitDAO.findByResourceList( listIdExtendableResource, strExtendableResourceType, ExtendPlugin.getPlugin( ) );
+		return HitHome.findByResourceList( listIdExtendableResource, strExtendableResourceType );
 	}
 }
