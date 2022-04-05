@@ -1,4 +1,4 @@
-package fr.paris.lutece.plugins.extend.service.extender.factory;
+package fr.paris.lutece.plugins.extend.service.extender.facade;
 
 import java.util.List;
 import java.util.Objects;
@@ -6,12 +6,15 @@ import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 
 
+
 /**
  * Generic service for reading data extend
  * @param <T> the type of elements in this ExtenderType (example: Hit)
+ * @param IExtendableResourceResult the IExtendableResourceResult
  */
-public class ExtenderType<T>{
+public class ExtenderType< T extends IExtendableResourceResult >{
 	
+	Class<T>  _t ;
 	/**
 	 * The type of extender
 	 */
@@ -25,29 +28,34 @@ public class ExtenderType<T>{
 	 */
 	private BinaryOperator<String> _getInfoForRecap;
 	/**
-	 * BiFunction to get the optional extender type information object
+	 * BiFunction to get the list of extender type information object
 	 * @param <T> the type of the output arguments of the getInfoExtender
 	 */
-	private BiFunction<String, String, ? extends T > _getInfoExtender;
+	private BiFunction<String, String, List< T > > _getInfoExtender;
 	
 	/**
 	 * BiFunction to get the list of extender type information object
 	 * @param <T> the type of the output arguments of the getInfoExtenderByList
 	 */
-	private BiFunction<List<String>, String, List<T>> _getInfoExtenderByList;
+	private BiFunction<List<String>, String,  List<T> > _getInfoExtenderByList;
 
 	/**
 	 * Constructor (example: new ExtenderType (HitResourceExtender.EXTENDER_TYPE))
+	 * @param Class<T> 
+	 * 			the Class type 
 	 * @param strType
 	 * 			the type of extender
 	 */
-	public ExtenderType ( String strType ){
+	public ExtenderType ( Class<T>  t, String strType ){
 		Objects.requireNonNull( strType );
+		Objects.requireNonNull( t );
 		_strType= strType ;
+		_t= t;
 	}
 	/**
 	 * Constructor ExtenderType
 	 * 
+	 * @param Class<T> the Class type of the output arguments of the getInfoExtende and getInfoExtenderByList
 	 * @param strType
 	 * 		  the type of extender
 	 * @param getInfoExtender
@@ -58,17 +66,17 @@ public class ExtenderType<T>{
 	 * 			the BinaryOperator to get the information value associate to the ExtenderType to export in the file export
 	 * @param getInfoForRecap
 	 * 			the BinaryOperator to get the information value associate to the ExtenderType to write in the recap
-	 * @param <T> the type of the output arguments of the getInfoExtende and getInfoExtenderByList
-	 * @see ResourceExtenderServiceFacotory#initExtenderType constructor example
+	 * @see ResourceExtenderServiceFacade#initExtenderType constructor example
 	 */
-	public ExtenderType( String strType , BiFunction< String, String, ? extends T > getInfoExtender, BiFunction< List<String>, String, List<T> > getInfoExtenderByList, BinaryOperator<String > getInfoForExport, BinaryOperator< String > getInfoForRecap){
-		
+	public  ExtenderType( Class<T>  t, String strType , BiFunction< String, String, List< T > > getInfoExtender, BiFunction< List<String>, String, List<T> > getInfoExtenderByList, BinaryOperator<String > getInfoForExport, BinaryOperator< String > getInfoForRecap){
+		Objects.requireNonNull( t );
 		Objects.requireNonNull( strType );
 		Objects.requireNonNull( getInfoExtender );
 		Objects.requireNonNull( getInfoExtenderByList );
 		Objects.requireNonNull( getInfoForExport );
 		Objects.requireNonNull( getInfoForRecap );
 		
+		 _t= t;
 		 _strType= strType;
 		 _getInfoExtender = getInfoExtender;
 		 _getInfoExtenderByList= getInfoExtenderByList;
@@ -82,6 +90,14 @@ public class ExtenderType<T>{
 	public String getType( ){
 		
 		return _strType;
+	}
+	/**
+	 * Get the class type
+	 * @return _t
+	 */
+	public Class<T>  getClassType( ){
+		
+		return _t;
 	}
 	/**
 	 * Get the information value associate to the extenderType to export in the file export
@@ -130,7 +146,7 @@ public class ExtenderType<T>{
 	 * @throws InfoExtenderException
 	 * 				the InfoExtenderException
 	 */
-	public T getInfoExtender( String strIdExtendableResource , String strExtendableResourceType  ) throws InfoExtenderException{
+	public List<T> getInfoExtender( String strIdExtendableResource , String strExtendableResourceType  ) throws InfoExtenderException{
 		if(_getInfoExtender != null )
 			return _getInfoExtender.apply( strIdExtendableResource, strExtendableResourceType ); 
 		throw new InfoExtenderException("getInfoExtender service note found");
@@ -180,7 +196,7 @@ public class ExtenderType<T>{
 	 * @param biFunctionInfoExtender
 	 * 			the biFunctionInfoExtender
 	 */
-	public void setInfoExtender( BiFunction< String, String, ? extends T > biFunctionInfoExtender ){
+	public void setInfoExtender( BiFunction< String, String, List< T > > biFunctionInfoExtender ){
 		
 		Objects.requireNonNull( biFunctionInfoExtender );	
 		_getInfoExtender= biFunctionInfoExtender; 
@@ -192,7 +208,7 @@ public class ExtenderType<T>{
 	 * @param biFunctionInfoExtender
 	 * 			the biFunctionInfoExtender
 	 */
-	public void setInfoExtenderByList( BiFunction< List<String>, String, List<T> > biFunctionInfoExtender ){
+	public void setInfoExtenderByList( BiFunction< List<String>, String, List< T > > biFunctionInfoExtender ){
 		
 		Objects.requireNonNull( biFunctionInfoExtender );	
 		_getInfoExtenderByList= biFunctionInfoExtender; 

@@ -1,4 +1,4 @@
-package fr.paris.lutece.plugins.extend.service.extender.factory;
+package fr.paris.lutece.plugins.extend.service.extender.facade;
 
 public class InfoExtenderException extends Exception {
 

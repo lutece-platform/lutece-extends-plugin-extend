@@ -34,6 +34,7 @@
 package fr.paris.lutece.plugins.extend.business.extender.history;
 
 import java.util.Date;
+import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
@@ -184,9 +185,9 @@ public class ResourceExtenderHistory
      *
      * @return the dateCreation
      */
-    public Date getDateCreation( )
+    public Optional<Date> getDateCreation( )
     {
-        return (Date) _dateCreation.clone( );
+        return  Optional.ofNullable(_dateCreation);
     }
 
     /**
@@ -195,8 +196,8 @@ public class ResourceExtenderHistory
      * @param dateCreation
      *            the dateCreation to set
      */
-    public void setDateCreation( Date dateCreation )
+    public void setDateCreation( final Date dateCreation )
     {
-        _dateCreation = (Date) dateCreation.clone( );
+        _dateCreation = dateCreation ;
     }
 }

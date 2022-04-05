@@ -39,6 +39,9 @@ import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.commons.collections4.CollectionUtils;
 
 /**
  *
@@ -56,6 +59,7 @@ public class ResourceExtenderHistoryDAO implements IResourceExtenderHistoryDAO
     private static final String SQL_QUERY_DELETE = " DELETE FROM extend_resource_extender_history WHERE id_history = ? ";
     private static final String SQL_QUERY_DELETE_BY_RESOURCE = " DELETE FROM extend_resource_extender_history WHERE extender_type = ? AND resource_type = ? ";
     private static final String SQL_QUERY_FILTER_BY_ID_RESOURCE = " AND id_resource = ? ";
+    private static final String SQL_QUERY_FIND_BY_ID_LIST_RESOURCES = SQL_QUERY_SELECT_ALL + " WHERE extender_type= ? and  resource_type = ? and   id_resource IN ( ";
 
     /**
      * Generates a new primary key.
@@ -165,6 +169,52 @@ public class ResourceExtenderHistoryDAO implements IResourceExtenderHistoryDAO
 
         return listHistories;
     }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<ResourceExtenderHistory> loadByListIdResource( List<String> listIdResource, String strExtendableResourceType, String strExtenderType,  Plugin plugin )
+    {
+        List<ResourceExtenderHistory> listHistories = new ArrayList< >( );
+        
+		StringBuilder sbSql = new StringBuilder( SQL_QUERY_FIND_BY_ID_LIST_RESOURCES );
+	    if ( CollectionUtils.isNotEmpty( listIdResource ) )
+	    {
+	        sbSql.append( listIdResource.stream( ).map( s -> "?" ).collect( Collectors.joining( "," ) ) );
+	        sbSql.append( ")" );
+	    }
+		       
+	   try ( DAOUtil daoUtil = new DAOUtil( sbSql.toString() , plugin ))
+	   {
+	   	int nIndex= 0;
+	       daoUtil.setString( ++nIndex, strExtenderType );	
+	       daoUtil.setString( ++nIndex, strExtendableResourceType );	
+
+	       for ( String idResource : listIdResource )
+	       {
+	           daoUtil.setString( ++nIndex, idResource );
+	       }
+	       daoUtil.executeQuery(  );
+	
+	       while ( daoUtil.next( ) )
+	        {
+	            nIndex = 1;
+	            ResourceExtenderHistory history = new ResourceExtenderHistory( );
+	            history.setIdHistory( daoUtil.getLong( nIndex++ ) );
+	            history.setExtenderType( daoUtil.getString( nIndex++ ) );
+	            history.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
+	            history.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
+	            history.setUserGuid( daoUtil.getString( nIndex++ ) );
+	            history.setIpAddress( daoUtil.getString( nIndex++ ) );
+	            history.setDateCreation( daoUtil.getDate( nIndex ) );
+
+	            listHistories.add( history );
+	    
+	        }
+	       return listHistories;
+
+	   }
+	   }    
 
     /**
      * {@inheritDoc}

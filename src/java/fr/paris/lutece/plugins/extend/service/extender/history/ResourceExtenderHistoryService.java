@@ -97,6 +97,25 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
      * {@inheritDoc}
      */
     @Override
+    public ResourceExtenderHistory create( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType,
+            String strUserGuid )
+    {
+        ResourceExtenderHistory history = new ResourceExtenderHistory( );
+        history.setExtenderType( strExtenderType );
+        history.setIdExtendableResource( strIdExtendableResource );
+        history.setExtendableResourceType( strExtendableResourceType );
+        history.setIpAddress( StringUtils.EMPTY  );
+
+        history.setUserGuid( strUserGuid != null ? strUserGuid:StringUtils.EMPTY );
+        _resourceExtenderHistoryDAO.insert( history, ExtendPlugin.getPlugin( ) );
+
+        return history;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     public void create( ResourceExtenderHistory history )
     {
@@ -140,4 +159,11 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
     {
         return _resourceExtenderHistoryDAO.loadByFilter( filter, ExtendPlugin.getPlugin( ) );
     }
+
+	
+	@Override
+	public List<ResourceExtenderHistory> findByListIdResource(List<String> listIdResourceExtender, String strExtendableResourceType,
+			String strExtenderType ) {
+		return _resourceExtenderHistoryDAO.loadByListIdResource( listIdResourceExtender, strExtendableResourceType, strExtenderType, ExtendPlugin.getPlugin( )  );
+	}
 }

@@ -35,12 +35,14 @@ package fr.paris.lutece.plugins.extend.modules.hit.business;
 
 import javax.validation.constraints.NotNull;
 
+import fr.paris.lutece.plugins.extend.service.extender.facade.IExtendableResourceResult;
+
 /**
  *
  * InteractionHit
  *
  */
-public class Hit
+public class Hit implements IExtendableResourceResult
 {
     private int _nIdHit;
     @NotNull
@@ -69,6 +71,7 @@ public class Hit
     /**
      * @return the strIdExtendableResource
      */
+    @Override
     public String getIdExtendableResource( )
     {
         return _strIdExtendableResource;
@@ -86,6 +89,7 @@ public class Hit
     /**
      * @return the extendableResourceType
      */
+    @Override
     public String getExtendableResourceType( )
     {
         return _strExtendableResourceType;

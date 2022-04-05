@@ -99,4 +99,18 @@ public interface IResourceExtenderHistoryDAO
      * @return the list
      */
     List<ResourceExtenderHistory> loadByFilter( ResourceExtenderHistoryFilter filter, Plugin plugin );
+    /**
+     * Load by list id resources and extender type
+     * @param listIdResource
+     * 			the ids resource list
+     * @param strExtendableResourceType
+     * 			the extender resource type
+     * @param strExtenderType
+     * 			the extender type
+     * @param plugin
+     * 			the plugin
+     * @return	list of ResourceExtenderHistory
+     */
+    List<ResourceExtenderHistory> loadByListIdResource( List<String> listIdResource, String strExtendableResourceType, String strExtenderType,  Plugin plugin );
+
 }

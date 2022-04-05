@@ -1,30 +1,30 @@
-package fr.paris.lutece.plugins.extend.service.extender.factory;
+package fr.paris.lutece.plugins.extend.service.extender.facade;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import fr.paris.lutece.plugins.extend.modules.hit.business.Hit;
 import fr.paris.lutece.plugins.extend.modules.hit.business.HitHome;
 import fr.paris.lutece.plugins.extend.modules.hit.service.extender.HitResourceExtender;
 
 /**
- *	Factory Generic service for reading data extend
+ *	Facade service for reading data extend
  */
-public class ResourceExtenderServiceFacotory{
+public class ResourceExtenderServiceFacade{
 	
 	/**
 	 * The list of Extender Type (example: ExtenderType<Hit>, ExtenderType<Rating>........... )
 	 * @see ExtenderType
 	 */
-	private static List<ExtenderType<?>> _listExtenderType = initExtenderType( );
+	private static  List<ExtenderType<? extends IExtendableResourceResult>> _listExtenderType = initExtenderType( );
 	
 	/**
 	 * Private Constructor
 	 */
-	private ResourceExtenderServiceFacotory() {
+	private ResourceExtenderServiceFacade() {
 		
 	}
 
@@ -65,24 +65,24 @@ public class ResourceExtenderServiceFacotory{
 		
 	}
 	/**
-	 * Get optional extenderType(hit or rate) information object (example: Optional<Hit> or Optional<Rating>..)
+	 * Get list extenderType information object (example: List<Hit> or List<Rating>..)
 	 * @param extenderType
 	 * 				the extender type (example: hit, rating ....)
 	 * @param strIdExtendableResource
 	 * 					the idExtendableResource
 	 * @param strExtendableResourceType
 	 * 				the extendableResourceType 
-	 * @param ? 
+	 * @param T 
 	 * 			the extenderType information object (example: Hit)
-	 * @return the optional extenderType(example: hit or rate) information object (example: Optional<Hit> or Optional<Rating>..)
+	 * @return the list extenderType(example: hit or rate) information object (example: Optional<Hit> or Optional<Rating>..)
 	 * @throws InfoExtenderException
 	 * 				the InfoExtenderException
 	 */
-	public static Optional<?>  getInfoExtender( String extenderType, String strIdExtendableResource, String strExtendableResourceType ) throws InfoExtenderException {
-			
-		return  Optional.ofNullable(_listExtenderType.stream().filter( type ->  type.getType( ).equals( extenderType ))
-				.findAny().orElseThrow( InfoExtenderException::new ).getInfoExtender( strIdExtendableResource, strExtendableResourceType ));
-			
+	@SuppressWarnings("unchecked")
+	public static <T extends IExtendableResourceResult> List<T>  getInfoExtender( String extenderType, String strIdExtendableResource, String strExtendableResourceType ) throws InfoExtenderException {
+		
+		return  (List< T >) _listExtenderType.stream().filter( type ->  type.getType( ).equals( extenderType ))
+				.findAny().orElseThrow( InfoExtenderException::new ).getInfoExtender( strIdExtendableResource, strExtendableResourceType );			
 	}
 	/**
 	 * Get list extenderType information object (example: List<Hit> or List<Rating>..)
@@ -92,15 +92,16 @@ public class ResourceExtenderServiceFacotory{
 	 * 					the list of IdExtendableResource
 	 * @param strExtendableResourceType
 	 * 				the extendableResourceType 
-	 * @param ? 
+	 * @param T 
 	 * 			the extenderType information object (example: Hit)
 	 * @return list of extenderType information object (example: List<Hit> or List<Rating>..)
 	 * @throws InfoExtenderException
 	 * 				the InfoExtenderException
 	 */
-	public List<?> getInfoExtenderByList( String extenderType, List<String> listIdExtendableResource , String strExtendableResourceType  ) throws InfoExtenderException{
+	@SuppressWarnings("unchecked")
+	public <T extends IExtendableResourceResult> List<T> getInfoExtenderByList( String extenderType, List<String> listIdExtendableResource , String strExtendableResourceType  ) throws InfoExtenderException{
 	
-		return  _listExtenderType.stream().filter( type ->  type.getType( ).equals( extenderType ))
+		return  (List<T>) _listExtenderType.stream().filter( type ->  type.getType( ).equals( extenderType ))
 				.findAny().orElseThrow( InfoExtenderException::new ).getInfoExtenderByList( listIdExtendableResource, strExtendableResourceType );
 	
 	}
@@ -116,9 +117,9 @@ public class ResourceExtenderServiceFacotory{
 	 * @see ExtenderType<T>
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> Optional<ExtenderType<T>>  getIndexerType( Class<T> clazz ) {
+	public static <T extends IExtendableResourceResult> Optional<ExtenderType<T>>  getExtenderType( Class<T> clazz ) {
 
-		return  Optional.ofNullable((ExtenderType<T>) _listExtenderType.stream().filter( tp ->  tp.getClass( ).equals( clazz ) ).findAny().orElse( null ));	  		
+		return  Optional.ofNullable((ExtenderType<T>) _listExtenderType.stream().filter( tp ->  tp.getClassType( ).isAssignableFrom( clazz ) ).findAny().orElse( null ));	  		
 	}
 	/** 
 	 * Appends the extenderType element to the end of this list
@@ -127,9 +128,9 @@ public class ResourceExtenderServiceFacotory{
 	 * 			the extenderType information object (example: Hit)
 	 * @return true if this list changed as a result of the call
 	 */
-	public static boolean addExtenderType( final ExtenderType<?> extenderType ) {
+	public static <T extends IExtendableResourceResult> boolean addExtenderType( final ExtenderType<T> extenderType ) {
 			
-			if ( extenderType != null && extenderType.getType( ) != null && _listExtenderType.stream().noneMatch( type ->  type.getType().equals( extenderType.getType( ) ))) {
+			if ( extenderType != null && extenderType.getType( ) != null && _listExtenderType.stream().noneMatch( type ->  type.getClassType( ).isAssignableFrom( extenderType.getClassType( ) ) || extenderType.getClassType( ).isAssignableFrom( type.getClassType( ) ) || type.getType().equals( extenderType.getType( ) ))) {
 				_listExtenderType.add( extenderType );
 				return true;
 			}
@@ -140,7 +141,7 @@ public class ResourceExtenderServiceFacotory{
 	 * 			the extender type information object (example: Hit)
 	 * @return The list of Extender Type (example: ExtenderType<Hit>, ExtenderType<Rating>...)
 	 */
-	public static List<ExtenderType<?>> getLExtenderType() {
+	public static  List<ExtenderType<? extends IExtendableResourceResult>> getListExtenderType() {
 		
 		return _listExtenderType;
 	}
@@ -148,17 +149,18 @@ public class ResourceExtenderServiceFacotory{
 	 * initialization the list of Extender Type with ExtenderType<Hit>
 	 * @return The list of Extender Type with (ExtenderType<Hit>)
 	 */
-	private static List<ExtenderType<?>> initExtenderType(  ) {
+	private static  List<ExtenderType<? extends IExtendableResourceResult>> initExtenderType(  ) {
+		 
 		return new ArrayList<>(Arrays.asList( 				
 				new ExtenderType< >(
-						
+						Hit.class,
 						HitResourceExtender.EXTENDER_TYPE,
-						(strIdExtendableResource,  strExtendableResourceType ) -> HitHome.findByParameters(strIdExtendableResource, strExtendableResourceType).orElse( null ),
+						(strIdExtendableResource,  strExtendableResourceType ) -> HitHome.findByParameters(strIdExtendableResource, strExtendableResourceType).map(Collections::singletonList).orElseGet(Collections::emptyList),
 						HitHome::findByResourceList,
 						(strIdExtendableResource,  strExtendableResourceType) -> HitHome.findByParameters(strIdExtendableResource, strExtendableResourceType).map( hit -> hit != null?String.valueOf (hit.getNbHits( )):null).orElse(null),						
 						(strIdExtendableResource,  strExtendableResourceType) ->  HitHome.findByParameters(strIdExtendableResource, strExtendableResourceType).map( hit -> hit != null?String.valueOf (hit.getNbHits( )):null).orElse(null)
 							
 				)
-		)); 
+		));
 	}
 }

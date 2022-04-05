@@ -56,6 +56,16 @@ public interface IResourceExtenderHistoryService
      */
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     void remove( int nIdResourceExtenderHistory );
+    /**
+     * Delete.
+     *
+     * @param nIdResourceExtenderHistory
+     *            the n id history
+     */
+    default void remove( long nIdResourceExtenderHistory )
+    {
+    	 remove( Math.toIntExact( nIdResourceExtenderHistory ) );
+    }
 
     /**
      * Delete.
@@ -83,7 +93,23 @@ public interface IResourceExtenderHistoryService
      *            the request
      * @return The created history
      */
+    @Deprecated
     ResourceExtenderHistory create( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType, HttpServletRequest request );
+
+    /**
+     * Creates the history from the HTTP request.
+     *
+     * @param strExtenderType
+     *            the str extender type
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
+     * @param strUserGuid
+     *            the strUserGuid guid
+     * @return The created history
+     */
+    ResourceExtenderHistory create( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType, String strUserGuid );
 
     /**
      * Insert.
@@ -102,7 +128,33 @@ public interface IResourceExtenderHistoryService
      * @return the history
      */
     ResourceExtenderHistory findByPrimary( int nIdResourceExtenderHistory );
-
+    
+    /**
+     * Load.
+     *
+     * @param nIdResourceExtenderHistory
+     *            the n id history
+     * @return the history
+     */
+    default ResourceExtenderHistory findByPrimary( long nIdResourceExtenderHistory )
+    {
+    	return findByPrimary( Math.toIntExact( nIdResourceExtenderHistory )  );
+    }
+    
+    /**
+     * Load by list id resources and extender type
+     * @param listIdResource
+     * 			the ids resource list
+       * @param strExtendableResourceType
+     * 			the extender resource type
+     * @param strExtenderType
+     * 			the extender type
+     * @param plugin
+     * 			the plugin
+     * @return	list of ResourceExtenderHistory
+     */
+    List<ResourceExtenderHistory> findByListIdResource( List<String> listIdResourceExtender, String strExtendableResourceType, String strExtenderType );
+    
     /**
      * Load by filter.
      *
