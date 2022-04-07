@@ -37,6 +37,8 @@ import fr.paris.lutece.plugins.extend.business.extender.history.IResourceExtende
 import fr.paris.lutece.plugins.extend.business.extender.history.ResourceExtenderHistory;
 import fr.paris.lutece.plugins.extend.business.extender.history.ResourceExtenderHistoryFilter;
 import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
+import fr.paris.lutece.portal.business.event.ResourceEvent;
+import fr.paris.lutece.portal.service.event.ResourceEventManager;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 
@@ -107,8 +109,8 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
         history.setIpAddress( StringUtils.EMPTY  );
 
         history.setUserGuid( strUserGuid != null ? strUserGuid:StringUtils.EMPTY );
-        _resourceExtenderHistoryDAO.insert( history, ExtendPlugin.getPlugin( ) );
-
+        create( history  );
+                       
         return history;
     }
 
@@ -120,6 +122,8 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
     public void create( ResourceExtenderHistory history )
     {
         _resourceExtenderHistoryDAO.insert( history, ExtendPlugin.getPlugin( ) );
+        registerResourceEvent( history.getIdExtendableResource( ), history.getExtendableResourceType( ) );
+
     }
 
     /**
@@ -129,7 +133,11 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
     @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
     public void remove( int nIdHistory )
     {
-        _resourceExtenderHistoryDAO.delete( nIdHistory, ExtendPlugin.getPlugin( ) );
+    	ResourceExtenderHistory history= _resourceExtenderHistoryDAO.load( nIdHistory, ExtendPlugin.getPlugin( ) );
+    	if( history != null ) {
+    		_resourceExtenderHistoryDAO.delete( nIdHistory, ExtendPlugin.getPlugin( ) );
+    		registerResourceEvent( history.getIdExtendableResource( ), history.getExtendableResourceType( ) );
+    	}
     }
 
     /**
@@ -140,6 +148,7 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
     public void removeByResource( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType )
     {
         _resourceExtenderHistoryDAO.deleteByResource( strExtenderType, strIdExtendableResource, strExtendableResourceType, ExtendPlugin.getPlugin( ) );
+        registerResourceEvent( strIdExtendableResource, strExtendableResourceType );
     }
 
     /**
@@ -166,4 +175,20 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
 			String strExtenderType ) {
 		return _resourceExtenderHistoryDAO.loadByListIdResource( listIdResourceExtender, strExtendableResourceType, strExtenderType, ExtendPlugin.getPlugin( )  );
 	}
+	
+	 /**
+     * Create and process a ResourceEvent.
+     * 
+     * @param strIdResource
+     * @param strResourceType
+     */
+    private void registerResourceEvent( String strIdResource, String strResourceType )
+    {
+    	ResourceEvent formResponseEvent = new ResourceEvent( );
+	    formResponseEvent.setIdResource( strIdResource );
+	    formResponseEvent.setTypeResource( strResourceType );
+	
+	    ResourceEventManager.fireUpdatedResource( formResponseEvent );
+    	 
+    }
 }
