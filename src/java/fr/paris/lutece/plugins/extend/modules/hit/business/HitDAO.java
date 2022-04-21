@@ -291,32 +291,32 @@ public class HitDAO implements IHitDAO
         StringBuilder sbSql = new StringBuilder( SQL_QUERY_SELECT_BY_ID_RESOURCE_LIST );
         if ( CollectionUtils.isNotEmpty( listIdExtendableResource ) )
         {
-            sbSql.append( listIdExtendableResource.stream( ).map( s -> "?" ).collect( Collectors.joining( "," ) ) );
-            sbSql.append( SQL_FILTER_ID_LIST_END );
-        }
-    	        
-        try( DAOUtil daoUtil = new DAOUtil( sbSql.toString( ), plugin )){
-        	int nIndex = 0;
-    		
-	        daoUtil.setString( ++nIndex, strExtendableResourceType );
-	        for ( String id : listIdExtendableResource )
-	        {
-	            daoUtil.setString( ++nIndex, id );
-	        }
-	        daoUtil.executeQuery(  );
-	
-	        while ( daoUtil.next(  ) )
-	        {
-	            nIndex = 1;
-	
-	            Hit hit = new Hit( );
-	            hit.setIdHit( daoUtil.getInt( nIndex++ ) );
-	            hit.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
-	            hit.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
-	            hit.setNbHits( daoUtil.getInt( nIndex ) );
-	            listHit.add( hit );
-	        }
+            sbSql.append( listIdExtendableResource.stream( ).map( s -> "?" ).collect( Collectors.joining( "," ) ) );          
+            sbSql.append( SQL_FILTER_ID_LIST_END );    
+           
+            try( DAOUtil daoUtil = new DAOUtil( sbSql.toString( ), plugin )){
+	        	int nIndex = 0;
+	    		
+		        daoUtil.setString( ++nIndex, strExtendableResourceType );
+		        for ( String id : listIdExtendableResource )
+		        {
+		            daoUtil.setString( ++nIndex, id );
+		        }
+		        daoUtil.executeQuery(  );
+		
+		        while ( daoUtil.next(  ) )
+		        {
+		            nIndex = 1;
+		
+		            Hit hit = new Hit( );
+		            hit.setIdHit( daoUtil.getInt( nIndex++ ) );
+		            hit.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
+		            hit.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
+		            hit.setNbHits( daoUtil.getInt( nIndex ) );
+		            listHit.add( hit );
+		        }
 
+           }
         }
         return listHit;
 	}
