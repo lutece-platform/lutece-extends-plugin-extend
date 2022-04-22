@@ -182,38 +182,39 @@ public class ResourceExtenderHistoryDAO implements IResourceExtenderHistoryDAO
 	    {
 	        sbSql.append( listIdResource.stream( ).map( s -> "?" ).collect( Collectors.joining( "," ) ) );
 	        sbSql.append( ")" );
-	    }
-		       
-	   try ( DAOUtil daoUtil = new DAOUtil( sbSql.toString() , plugin ))
-	   {
-	   	int nIndex= 0;
-	       daoUtil.setString( ++nIndex, strExtenderType );	
-	       daoUtil.setString( ++nIndex, strExtendableResourceType );	
-
-	       for ( String idResource : listIdResource )
-	       {
-	           daoUtil.setString( ++nIndex, idResource );
-	       }
-	       daoUtil.executeQuery(  );
-	
-	       while ( daoUtil.next( ) )
-	        {
-	            nIndex = 1;
-	            ResourceExtenderHistory history = new ResourceExtenderHistory( );
-	            history.setIdHistory( daoUtil.getLong( nIndex++ ) );
-	            history.setExtenderType( daoUtil.getString( nIndex++ ) );
-	            history.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
-	            history.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
-	            history.setUserGuid( daoUtil.getString( nIndex++ ) );
-	            history.setIpAddress( daoUtil.getString( nIndex++ ) );
-	            history.setDateCreation( daoUtil.getDate( nIndex ) );
-
-	            listHistories.add( history );
 	    
-	        }
-	       return listHistories;
-
-	   }
+		       
+		   try ( DAOUtil daoUtil = new DAOUtil( sbSql.toString() , plugin ))
+		   {
+		   	int nIndex= 0;
+		       daoUtil.setString( ++nIndex, strExtenderType );	
+		       daoUtil.setString( ++nIndex, strExtendableResourceType );	
+	
+		       for ( String idResource : listIdResource )
+		       {
+		           daoUtil.setString( ++nIndex, idResource );
+		       }
+		       daoUtil.executeQuery(  );
+		
+		       while ( daoUtil.next( ) )
+		        {
+		            nIndex = 1;
+		            ResourceExtenderHistory history = new ResourceExtenderHistory( );
+		            history.setIdHistory( daoUtil.getLong( nIndex++ ) );
+		            history.setExtenderType( daoUtil.getString( nIndex++ ) );
+		            history.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
+		            history.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
+		            history.setUserGuid( daoUtil.getString( nIndex++ ) );
+		            history.setIpAddress( daoUtil.getString( nIndex++ ) );
+		            history.setDateCreation( daoUtil.getDate( nIndex ) );
+	
+		            listHistories.add( history );
+		    
+		        }
+		   }
+	    }
+	    return listHistories;
+	   
 	   }    
 
     /**
