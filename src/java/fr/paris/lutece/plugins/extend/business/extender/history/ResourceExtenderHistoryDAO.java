@@ -57,28 +57,29 @@ public class ResourceExtenderHistoryDAO implements IResourceExtenderHistoryDAO
     private static final String SQL_QUERY_DELETE = " DELETE FROM extend_resource_extender_history WHERE id_history = ? ";
     private static final String SQL_QUERY_DELETE_BY_RESOURCE = " DELETE FROM extend_resource_extender_history WHERE extender_type = ? AND resource_type = ? ";
     private static final String SQL_QUERY_FILTER_BY_ID_RESOURCE = " AND id_resource = ? ";
-
+    private static int _newPk = 0;
+	
     /**
     * Generates a new primary key.
     *
     * @param plugin the plugin
     * @return The new primary key
     */
-    private int newPrimaryKey( Plugin plugin )
+    private synchronized int newPrimaryKey( Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, plugin );
-        daoUtil.executeQuery(  );
-
-        int nKey = 1;
-
-        if ( daoUtil.next(  ) )
+        if ( _newPk == 0)
         {
-            nKey = daoUtil.getInt( 1 ) + 1;
+            DAOUtil daoUtil = new DAOUtil(SQL_QUERY_NEW_PK, plugin);
+            daoUtil.executeQuery();
+
+            if (daoUtil.next()) {
+                _newPk = daoUtil.getInt(1) + 1;
+            }
+            daoUtil.free();
         }
 
-        daoUtil.free(  );
-
-        return nKey;
+        _newPk = _newPk + 1 ;
+        return _newPk;
     }
 
     /**
