@@ -1,6 +1,6 @@
 <#macro createExtenderFromResource extenderType installed unremovable labelAdd labelRemove target='_top'>
 	<#assign extenderParams>target="${target}"</#assign>
-	<@tform type='inline' class='form-submenu' action='jsp/admin/resource/DoProcessExtendableResourceAction.jsp' params=extenderParams>
+	<@tform class='form-submenu' action='jsp/admin/resource/DoProcessExtendableResourceAction.jsp' params=extenderParams>
 		<@input type='hidden' name='extenderType' value='${extenderType}' />
 		<@input type='hidden' name='extendableResourceType' value='${extendableResourceType!}' />
 		<@input type='hidden' name='idExtendableResource' value='${idExtendableResource!}' />
