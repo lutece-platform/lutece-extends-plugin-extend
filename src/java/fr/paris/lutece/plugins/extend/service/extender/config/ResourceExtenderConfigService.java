@@ -33,18 +33,20 @@
  */
 package fr.paris.lutece.plugins.extend.service.extender.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.Assert;
+
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.business.extender.config.IExtenderConfig;
 import fr.paris.lutece.plugins.extend.business.extender.config.IExtenderConfigDAO;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderCacheService;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-
-import org.springframework.beans.factory.InitializingBean;
-
-import org.springframework.util.Assert;
-
-import javax.inject.Inject;
 
 /**
  *
@@ -68,6 +70,25 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
     public void setExtenderConfigDAO( IExtenderConfigDAO<IExtenderConfig> extenderConfigDAO )
     {
         _extenderConfigDAO = extenderConfigDAO;
+    }
+    
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public <T> List<T> findAll()
+    {
+    	List<T> list = new ArrayList<>();
+    	try
+        {
+    		list = (List<T>) _extenderConfigDAO.loadAll() ;
+        }
+        catch( Exception e )
+        {
+            AppLogService.error( e.getMessage( ), e );
+        }
+		return list;
     }
 
     /**

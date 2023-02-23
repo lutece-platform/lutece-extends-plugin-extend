@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.extend.service.extender.config;
 
+import java.util.List;
+
 import fr.paris.lutece.plugins.extend.business.extender.config.IExtenderConfig;
 
 /**
@@ -91,4 +93,12 @@ public interface IResourceExtenderConfigService
      * @return The resource
      */
     <T> T find( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType );
+    
+    /**
+     * loadAll
+     * 
+     * @return ConfigList
+     */
+    <T> List<T> findAll();
+    
 }
