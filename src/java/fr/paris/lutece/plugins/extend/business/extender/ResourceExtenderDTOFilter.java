@@ -64,7 +64,7 @@ public class ResourceExtenderDTOFilter implements Serializable
     private static final String SQL_FILTER_EXTENDER_TYPE = " extender_type = ? ";
     private static final String SQL_FILTER_ID_RESOURCE = " id_resource = ? ";
     private static final String SQL_FILTER_ID_RESOURCE_OR_WILDCARD = " id_resource IN ( ? , '" + WILDCARD_ID_RESOURCE + "' ) ";
-    private static final String SQL_FILTER_RESOURCE_TYPE = " resource_type = ? ";
+    private static final String SQL_FILTER_RESOURCE_TYPE = " resource_type LIKE ? ";
 
     // SQL ORDER BY
     private static final String SQL_ORDER_BY = " ORDER BY ";
@@ -398,7 +398,12 @@ public class ResourceExtenderDTOFilter implements Serializable
 
         if ( containsFilterExtendableResourceType( ) )
         {
-            daoUtil.setString( nIndex++, getFilterExtendableResourceType( ) );
+        	if( _strExtendableResourceType.equals( "*" ) ) {
+                daoUtil.setString( nIndex++, "%" );
+        	}
+        	else {
+        		daoUtil.setString( nIndex++, getFilterExtendableResourceType( ) );
+        	}
         }
     }
 
