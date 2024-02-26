@@ -6,13 +6,13 @@
 			<@tabLink tabClass='ms-auto' >
 				<@tform type='inline' class='d-flex justify-content-around align-items-center' action='jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp' params='style="height:100%;"'>
 					<@input type='hidden' name='manageByResource' value='true' />
-					<@formGroup formStyle='' labelFor='filterExtenderType' labelKey='#i18n{extend.manage_resource_extenders_by_resource.labelExtenderType}' hideLabel=['all'] placeHolder='#i18n{extend.manage_resource_extenders_by_resource.labelExtenderType}' rows=2>
+					<@formGroup labelFor='filterExtenderType' labelKey='#i18n{extend.manage_resource_extenders_by_resource.labelExtenderType}' hideLabel=['all'] placeHolder='#i18n{extend.manage_resource_extenders_by_resource.labelExtenderType}' rows=2>
 						<@select name='filterExtenderType' class='input-sm form-select-sm' default_value=filter.filterExtenderType! items=extenderTypesForFilter />
 					</@formGroup>
-					<@formGroup formStyle='' labelFor='filterExtendableResourceType' labelKey='#i18n{extend.manage_resource_extenders_by_resource.labelExtendableResourceType}' placeHolder='#i18n{extend.manage_resource_extenders_by_resource.labelExtendableResourceType}' hideLabel=['all'] rows=2>
+					<@formGroup labelFor='filterExtendableResourceType' labelKey='#i18n{extend.manage_resource_extenders_by_resource.labelExtendableResourceType}' placeHolder='#i18n{extend.manage_resource_extenders_by_resource.labelExtendableResourceType}' hideLabel=['all'] rows=2>
 						<@select name='filterExtendableResourceType' class='input-sm form-select-sm' default_value=filter.filterExtendableResourceType! items=resourceTypesForFilter />
 					</@formGroup>
-					<@formGroup formStyle='' rows=2 >
+					<@formGroup rows=2>
 						<@button type='submit' name='search' value='#i18n{extend.button.search}' title='#i18n{extend.button.search}' buttonIcon='search' />
 					</@formGroup>
 				</@tform>

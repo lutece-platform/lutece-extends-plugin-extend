@@ -5,10 +5,9 @@
 -- manageByResource : Default false 
 -->
 <#macro extendBox cols=12 extendTitle='' hasBoxTools=false manageByResource=false extendBoxTools='' skipHead=true >
-<@row>
-	<@columns>
-		<@box color='primary'>
-			<@boxHeader title=extendTitle boxTools=hasBoxTools skipHeader=skipHead >
+<@pageContainer>
+	<@pageColumn>
+		<@pageHeader title=extendTitle boxTools=hasBoxTools skipHeader=skipHead>
 				<#if extendBoxTools !='' && !manageByResource>
 					${extendBoxTools!}
 				<#elseif hasBoxTools>
@@ -23,13 +22,10 @@
 						</@btnGroup>
 					</@tform>
 				</#if>
-			</@boxHeader>	
-			<@boxBody>
-				<#nested>
-			</@boxBody>
-		</@box>
-	</@columns>
-</@row>
+		</@pageHeader>	
+		<#nested>
+	</@pageColumn>
+</@pageContainer>
 </#macro>
 <#--
 -- Build the js script
