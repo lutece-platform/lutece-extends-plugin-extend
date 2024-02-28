@@ -1,18 +1,18 @@
 <#assign bTools>
 	<#assign actionUrl>jsp/admin/plugins/extend/<#if manageByResource?? && manageByResource>ManageResourceExtendersByResource.jsp<#else>ManageResourceExtendersByResourceType.jsp</#if></#assign>
 	<@tform type='inline' action=actionUrl params=' target="_top"'>
-	<@input type='hidden' name='modifyDefaultConfig' value='${modifyDefaultConfig!}' />
-	<@input type='hidden' name='from_url' value='${from_url!}' />
-	<@inputGroup>
-		<@select name='extenderTypeModifyConfig' default_value=extenderTypeModifyConfig items=configurableExtenderTypes />			
-		<@inputGroupItem>
-			<@button type='submit' name='modifyDefaultConfig' value='modifyDefaultConfig' title='#i18n{portal.util.labelFilter}' hideTitle=['all'] buttonIcon='filter' size='sm' />
-		</@inputGroupItem>
-	</@inputGroup>
+		<@input type='hidden' name='modifyDefaultConfig' value='${modifyDefaultConfig!}' />
+		<@input type='hidden' name='from_url' value='${from_url!}' />
+		<@inputGroup>
+			<@select name='extenderTypeModifyConfig' default_value=extenderTypeModifyConfig items=configurableExtenderTypes />			
+			<@inputGroupItem type='btn'>
+				<@button type='submit' name='modifyDefaultConfig' value='modifyDefaultConfig' title='#i18n{portal.util.labelFilter}' hideTitle=['all'] buttonIcon='filter' />
+			</@inputGroupItem>
+		</@inputGroup>
 	</@tform>
 </#assign>
 <@extendBox extendTitle='#i18n{extend.resource_extender_info.pageTitle}' hasBoxTools=true extendBoxTools=bTools>
-	<@tform action='jsp/admin/plugins/extend/DoModifyDefaultConfig.jsp'>
+	<@tform action='jsp/admin/plugins/extend/DoModifyDefaultConfig.jsp' boxed=true>
 		<@input type='hidden' name='idExtender' value='-1' />
 		<@input type='hidden' name='extenderType' value='${resourceExtender.extenderType!}' />
 		<@input type='hidden' name='modifyDefaultConfig' value='${modifyDefaultConfig!}' />
@@ -26,7 +26,7 @@
 				${resourceExtenderConfig!}
 				<#-- END RESOURCE EXTENDER CONFIG -->
 				<@formGroup rows=2>
-					<@button type='submit' name='modify' value='#i18n{portal.util.labelModify}' title='#i18n{portal.util.labelModify}' buttonIcon='edit' />
+					<@button type='submit' name='modify' value='#i18n{portal.util.labelModify}' title='#i18n{portal.util.labelModify}' buttonIcon='device-floppy' />
 					<@button type='submit' name='cancel' value='#i18n{portal.util.labelCancel}' title='#i18n{portal.util.labelCancel}' color='default' buttonIcon='times' />
 				</@formGroup>
 			</@columns>
