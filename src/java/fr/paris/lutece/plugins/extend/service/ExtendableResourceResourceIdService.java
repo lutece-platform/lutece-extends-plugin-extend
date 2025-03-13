@@ -40,13 +40,14 @@ import fr.paris.lutece.portal.service.rbac.Permission;
 import fr.paris.lutece.portal.service.rbac.ResourceIdService;
 import fr.paris.lutece.portal.service.rbac.ResourceType;
 import fr.paris.lutece.portal.service.rbac.ResourceTypeManager;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Locale;
+
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  *
@@ -124,7 +125,7 @@ public class ExtendableResourceResourceIdService extends ResourceIdService
     @Override
     public ReferenceList getResourceIdList( Locale locale )
     {
-        IResourceExtenderService resourceExtenderService = SpringContextService.getBean( ResourceExtenderService.BEAN_SERVICE );
+        IResourceExtenderService resourceExtenderService = CDI.current( ).select( IResourceExtenderService.class ).get( );
 
         List<ResourceExtenderDTO> listResources = resourceExtenderService.findAll( );
 
@@ -154,7 +155,7 @@ public class ExtendableResourceResourceIdService extends ResourceIdService
         if ( StringUtils.isNotBlank( strId ) && StringUtils.isNumeric( strId ) )
         {
             int nId = Integer.parseInt( strId );
-            IResourceExtenderService resourceExtenderService = SpringContextService.getBean( ResourceExtenderService.BEAN_SERVICE );
+            IResourceExtenderService resourceExtenderService = CDI.current( ).select( IResourceExtenderService.class ).get( );
             ResourceExtenderDTO resource = resourceExtenderService.findByPrimaryKey( nId );
 
             if ( resource != null )

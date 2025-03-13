@@ -35,18 +35,22 @@ package fr.paris.lutece.plugins.extend.service.converter;
 
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 
-import org.springframework.beans.factory.InitializingBean;
-
-import org.springframework.util.Assert;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.util.StringTokenizer;
+
+import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  * ExtenderStringMapper.
  */
-public class ExtenderStringMapper implements IStringMapper<ResourceExtenderDTO>, InitializingBean
+
+@ApplicationScoped
+@Named( "extend.extenderStringMapper" )
+public class ExtenderStringMapper implements IStringMapper<ResourceExtenderDTO>
 {
-    private String _strDelimeter;
+    private String _strDelimeter = AppPropertiesService.getProperty( "extend.extenderStringMapper.delimeter", "," );
 
     /**
      * Sets the delimeter.
@@ -101,14 +105,5 @@ public class ExtenderStringMapper implements IStringMapper<ResourceExtenderDTO>,
         }
 
         return resourceExtender;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void afterPropertiesSet( ) throws Exception
-    {
-        Assert.notNull( _strDelimeter, "The property 'delimeter' must be set." );
     }
 }

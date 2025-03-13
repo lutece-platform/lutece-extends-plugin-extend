@@ -33,15 +33,31 @@
  */
 package fr.paris.lutece.plugins.extend.modules.hit.service.extender;
 
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
+import fr.paris.lutece.plugins.extend.modules.hit.business.Hit;
 import fr.paris.lutece.plugins.extend.modules.hit.service.IHitService;
+import fr.paris.lutece.plugins.extend.modules.hit.web.component.HitResourceExtenderComponent;
 import fr.paris.lutece.plugins.extend.service.extender.AbstractResourceExtender;
+import fr.paris.lutece.plugins.extend.web.component.IResourceExtenderComponent;
+
+import java.security.spec.ECFieldF2m;
 
 import org.apache.commons.lang3.StringUtils;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.Produces;
+import jakarta.enterprise.inject.spi.CDI;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
+import jakarta.annotation.PostConstruct;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+import java.util.Locale;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 
 /**
  *
@@ -49,12 +65,38 @@ import javax.servlet.http.HttpServletRequest;
  * Macro to use in the templates : <strong>@Extender[idResource,resourceType,hit,{show:true|false}]@</strong> <br />
  * Example : @Extender[22,document,hit,{show:true}]@
  */
+
+@ApplicationScoped
+@Named( "extend.hitResourceExtender" )
 public class HitResourceExtender extends AbstractResourceExtender
 {
     /** The Constant EXTENDER_TYPE. */
     public static final String EXTENDER_TYPE = "hit";
+
     @Inject
     private IHitService _hitService;
+
+    @Inject
+    @ConfigProperty( name = "extend.hit.titleKey", defaultValue = "module.extend.hit.extender.labelHit" )
+    private String titleKey;
+
+    private HitResourceExtenderComponent resourceExtenderComponent;
+
+    HitResourceExtender( )
+    {
+
+    }
+
+    @PostConstruct
+    public void producesHitResourceExtender( )
+    {
+        setResourceExtenderComponent( resourceExtenderComponent );
+        setKey( EXTENDER_TYPE );
+        setI18nTitleKey( I18nService.getLocalizedString( titleKey, Locale.getDefault( ) ) );
+        setConfigRequired( true );
+        setHistoryEnable( false );
+        setStateEnable( true );
+    }
 
     /**
      * {@inheritDoc}
@@ -95,9 +137,5 @@ public class HitResourceExtender extends AbstractResourceExtender
     public void doDeleteResourceAddOn( ResourceExtenderDTO extender )
     {
         _hitService.removeByResource( extender.getIdExtendableResource( ), extender.getExtendableResourceType( ) );
-
-        // Hit hit = _hitService.findByParameters( extender.getIdExtendableResource( ),
-        // extender.getExtendableResourceType( ) );
-        // _hitService.remove( hit.getIdHit( ) );
     }
 }

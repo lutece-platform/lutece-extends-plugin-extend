@@ -34,11 +34,12 @@
 package fr.paris.lutece.plugins.extend.service.converter;
 
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
+import fr.paris.lutece.plugins.extend.modules.hit.business.HitDAO;
 import fr.paris.lutece.plugins.extend.service.converter.IStringMapper;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.test.LuteceTestCase;
 
-import org.junit.Test;
+import fr.paris.lutece.test.LuteceTestCase;
+import jakarta.enterprise.inject.spi.CDI;
+import org.junit.jupiter.api.Test;
 
 /**
  *
@@ -47,8 +48,6 @@ import org.junit.Test;
  */
 public class ExtenderStringMapperTest extends LuteceTestCase
 {
-    private static final String BEAN_MAPPER = "extend.extenderStringMapper";
-
     // <idResource, resourceType, extenderType, parameters>
     private static final String STRING_TO_MAP = "2,resourceType-2,extenderType 2,{parameter_A = 2, parameter_B = 3}";
 
@@ -58,11 +57,11 @@ public class ExtenderStringMapperTest extends LuteceTestCase
     @Test
     public void testMap( )
     {
-        IStringMapper<ResourceExtenderDTO> map = SpringContextService.getBean( BEAN_MAPPER );
+        IStringMapper<ResourceExtenderDTO> map = CDI.current( ).select( ExtenderStringMapper.class ).get( );
 
         if ( map == null )
         {
-            fail( "The bean " + BEAN_MAPPER + " is not initialized." );
+            fail( "The bean ExtenderStringMapper is not initialized." );
         }
 
         ResourceExtenderDTO resourceExtender = map.map( STRING_TO_MAP );

@@ -43,7 +43,7 @@ import java.io.Serializable;
 
 import java.lang.reflect.InvocationTargetException;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -398,12 +398,14 @@ public class ResourceExtenderDTOFilter implements Serializable
 
         if ( containsFilterExtendableResourceType( ) )
         {
-        	if( _strExtendableResourceType.equals( "*" ) ) {
+            if ( _strExtendableResourceType.equals( "*" ) )
+            {
                 daoUtil.setString( nIndex++, "%" );
-        	}
-        	else {
-        		daoUtil.setString( nIndex++, getFilterExtendableResourceType( ) );
-        	}
+            }
+            else
+            {
+                daoUtil.setString( nIndex++, getFilterExtendableResourceType( ) );
+            }
         }
     }
 

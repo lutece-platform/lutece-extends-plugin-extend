@@ -44,25 +44,36 @@ import fr.paris.lutece.portal.service.security.SecurityService;
 
 import org.apache.commons.lang3.StringUtils;
 
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.enterprise.inject.spi.CDI;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *
  * ResourceExtenderHistoryService
  *
  */
+@ApplicationScoped
+@Named( "extend.resourceExtenderHistoryService" )
 public class ResourceExtenderHistoryService implements IResourceExtenderHistoryService
 {
     /** The Constant BBEAN_SERVICE. */
     public static final String BEAN_SERVICE = "extend.resourceExtenderHistoryService";
+
+    private IResourceExtenderHistoryDAO _resourceExtenderHistoryDAO = CDI.current( ).select( IResourceExtenderHistoryDAO.class ).get( );
+
     @Inject
-    private IResourceExtenderHistoryDAO _resourceExtenderHistoryDAO;
+    public ResourceExtenderHistoryService( )
+    {
+
+    }
 
     /**
      * {@inheritDoc}
@@ -99,18 +110,17 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
      * {@inheritDoc}
      */
     @Override
-    public ResourceExtenderHistory create( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType,
-            String strUserGuid )
+    public ResourceExtenderHistory create( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType, String strUserGuid )
     {
         ResourceExtenderHistory history = new ResourceExtenderHistory( );
         history.setExtenderType( strExtenderType );
         history.setIdExtendableResource( strIdExtendableResource );
         history.setExtendableResourceType( strExtendableResourceType );
-        history.setIpAddress( StringUtils.EMPTY  );
+        history.setIpAddress( StringUtils.EMPTY );
 
-        history.setUserGuid( strUserGuid != null ? strUserGuid:StringUtils.EMPTY );
-        create( history  );
-                       
+        history.setUserGuid( strUserGuid != null ? strUserGuid : StringUtils.EMPTY );
+        create( history );
+
         return history;
     }
 
@@ -118,7 +128,7 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
      * {@inheritDoc}
      */
     @Override
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     public void create( ResourceExtenderHistory history )
     {
         _resourceExtenderHistoryDAO.insert( history, ExtendPlugin.getPlugin( ) );
@@ -130,21 +140,22 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
      * {@inheritDoc}
      */
     @Override
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     public void remove( int nIdHistory )
     {
-    	ResourceExtenderHistory history= _resourceExtenderHistoryDAO.load( nIdHistory, ExtendPlugin.getPlugin( ) );
-    	if( history != null ) {
-    		_resourceExtenderHistoryDAO.delete( nIdHistory, ExtendPlugin.getPlugin( ) );
-    		registerResourceEvent( history.getIdExtendableResource( ), history.getExtendableResourceType( ) );
-    	}
+        ResourceExtenderHistory history = _resourceExtenderHistoryDAO.load( nIdHistory, ExtendPlugin.getPlugin( ) );
+        if ( history != null )
+        {
+            _resourceExtenderHistoryDAO.delete( nIdHistory, ExtendPlugin.getPlugin( ) );
+            registerResourceEvent( history.getIdExtendableResource( ), history.getExtendableResourceType( ) );
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     public void removeByResource( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType )
     {
         _resourceExtenderHistoryDAO.deleteByResource( strExtenderType, strIdExtendableResource, strExtendableResourceType, ExtendPlugin.getPlugin( ) );
@@ -169,14 +180,14 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
         return _resourceExtenderHistoryDAO.loadByFilter( filter, ExtendPlugin.getPlugin( ) );
     }
 
-	
-	@Override
-	public List<ResourceExtenderHistory> findByListIdResource(List<String> listIdResourceExtender, String strExtendableResourceType,
-			String strExtenderType ) {
-		return _resourceExtenderHistoryDAO.loadByListIdResource( listIdResourceExtender, strExtendableResourceType, strExtenderType, ExtendPlugin.getPlugin( )  );
-	}
-	
-	 /**
+    @Override
+    public List<ResourceExtenderHistory> findByListIdResource( List<String> listIdResourceExtender, String strExtendableResourceType, String strExtenderType )
+    {
+        return _resourceExtenderHistoryDAO.loadByListIdResource( listIdResourceExtender, strExtendableResourceType, strExtenderType,
+                ExtendPlugin.getPlugin( ) );
+    }
+
+    /**
      * Create and process a ResourceEvent.
      * 
      * @param strIdResource
@@ -184,11 +195,11 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
      */
     private void registerResourceEvent( String strIdResource, String strResourceType )
     {
-    	ResourceEvent formResponseEvent = new ResourceEvent( );
-	    formResponseEvent.setIdResource( strIdResource );
-	    formResponseEvent.setTypeResource( strResourceType );
-	
-	    ResourceEventManager.fireUpdatedResource( formResponseEvent );
-    	 
+        ResourceEvent formResponseEvent = new ResourceEvent( );
+        formResponseEvent.setIdResource( strIdResource );
+        formResponseEvent.setTypeResource( strResourceType );
+
+        ResourceEventManager.fireUpdatedResource( formResponseEvent );
+
     }
 }

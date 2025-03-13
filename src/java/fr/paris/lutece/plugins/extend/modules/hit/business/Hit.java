@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.plugins.extend.modules.hit.business;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import fr.paris.lutece.plugins.extend.service.extender.facade.IExtendableResourceResult;
 

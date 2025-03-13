@@ -1,23 +1,13 @@
-<%@page import="fr.paris.lutece.portal.web.pluginaction.IPluginActionResult"%>
+<%@ page errorPage="../../ErrorPage.jsp" %>
+<jsp:include page="../../AdminHeader.jsp" />
 
-<jsp:useBean id="resourceExtender" scope="session" class="fr.paris.lutece.plugins.extend.web.ResourceExtenderJspBean" />
+<%@page import="fr.paris.lutece.plugins.extend.web.ResourceExtenderJspBean"%>
 
-<% 
-	resourceExtender.init( request, resourceExtender.RIGHT_MANAGE_RESOURCE_EXTENDER );
-	IPluginActionResult result = resourceExtender.getViewExtenderHistory( request, response );
-	if ( result.getRedirect(  ) != null )
-	{
-		response.sendRedirect( result.getRedirect(  ) );
-	}
-	else if ( result.getHtmlContent(  ) != null )
-	{
-%>
-		<%@ page errorPage="../../ErrorPage.jsp" %>
-		<jsp:include page="../../AdminHeader.jsp" />
+${ resourceExtenderJspBean.init( pageContext.request, ResourceExtenderJspBean.RIGHT_MANAGE_RESOURCE_EXTENDER ) }
 
-		<%= result.getHtmlContent(  ) %>
+${ pageContext.setAttribute( 'pluginActionResult', resourceExtenderJspBean.getViewExtenderHistory( pageContext.request, pageContext.response ) ) }
+${ not empty pageContext.getAttribute( 'pluginActionResult' ).redirect ? pageContext.response.sendRedirect( pageContext.getAttribute( 'pluginActionResult' ).redirect ) : '' }
 
-		<%@ include file="../../AdminFooter.jsp" %>
-<%
-	}
-%>
+${ not empty pageContext.getAttribute( 'pluginActionResult' ).htmlContent ? pageContext.getAttribute( 'pluginActionResult' ).htmlContent : '' }
+
+<%@ include file="../../AdminFooter.jsp" %>

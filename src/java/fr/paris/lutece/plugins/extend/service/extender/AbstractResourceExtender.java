@@ -36,10 +36,6 @@ package fr.paris.lutece.plugins.extend.service.extender;
 import fr.paris.lutece.plugins.extend.web.component.IResourceExtenderComponent;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
-import org.springframework.beans.factory.InitializingBean;
-
-import org.springframework.util.Assert;
-
 import java.util.Locale;
 import org.apache.commons.lang3.StringUtils;
 
@@ -48,7 +44,7 @@ import org.apache.commons.lang3.StringUtils;
  * AbstractResourceExtender
  *
  */
-public abstract class AbstractResourceExtender implements IResourceExtender, InitializingBean
+public abstract class AbstractResourceExtender implements IResourceExtender
 {
     private String _strKey;
     private String _strI18nTitleKey;
@@ -163,17 +159,6 @@ public abstract class AbstractResourceExtender implements IResourceExtender, Ini
     public void setResourceExtenderComponent( IResourceExtenderComponent resourceExtenderComponent )
     {
         _resourceExtenderComponent = resourceExtenderComponent;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void afterPropertiesSet( ) throws Exception
-    {
-        Assert.notNull( _strKey, "The property 'key' must be provided" );
-        Assert.notNull( _strI18nTitleKey, "The property 'i18nTitleKey' must be provided" );
-        Assert.notNull( _resourceExtenderComponent, "The property 'resourceExtenderComponent' must be provided" );
     }
 
     /**

@@ -60,7 +60,6 @@ import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -79,14 +78,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  *
  * ResourceExtenderJspBean
  *
  */
+@SessionScoped
+@Named
 public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 {
     /** The Constant RIGHT_MANAGE_RESOURCE_EXTENDER_BY_RESOURCE. */
@@ -161,12 +165,25 @@ public class ResourceExtenderJspBean extends PluginAdminPageJspBean
 
     // VARIABLES
     private IResourceExtenderSearchFields _resourceExtenderSearchFields = new ResourceExtenderSearchFields( );
-    private IExtendableResourceTypeService _resourceTypeService = SpringContextService.getBean( ExtendableResourceTypeService.BEAN_SERVICE );
-    private IResourceExtenderService _extenderService = SpringContextService.getBean( ResourceExtenderService.BEAN_SERVICE );
-    private IResourceExtenderComponentManager _extenderComponentManager = SpringContextService.getBean( ResourceExtenderComponentManager.BEAN_MANAGER );
-    private IExtendableResourceManager _resourceManager = SpringContextService.getBean( ExtendableResourceManager.BEAN_MANAGER );
-    private IDefaultExtendableResourceService _defaultResourceService = SpringContextService.getBean( DefaultExtendableResourceService.BEAN_SERVICE );
-    private IResourceExtenderHistoryService _resourceExtenderHistoryService = SpringContextService.getBean( ResourceExtenderHistoryService.BEAN_SERVICE );
+
+    @Inject
+    private IExtendableResourceTypeService _resourceTypeService;
+
+    @Inject
+    private IResourceExtenderService _extenderService;
+
+    @Inject
+    private IResourceExtenderComponentManager _extenderComponentManager;
+
+    @Inject
+    private IExtendableResourceManager _resourceManager;
+
+    @Inject
+    private IDefaultExtendableResourceService _defaultResourceService;
+
+    @Inject
+    private IResourceExtenderHistoryService _resourceExtenderHistoryService;
+
     private UrlItem _lastUrl;
 
     /**

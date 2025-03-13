@@ -36,22 +36,20 @@ package fr.paris.lutece.plugins.extend.web.component;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtender;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.springframework.beans.factory.InitializingBean;
-
-import org.springframework.util.Assert;
-
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *
  * AbstractResourceExtenderComponent
  *
  */
-public abstract class AbstractResourceExtenderComponent implements IResourceExtenderComponent, InitializingBean
+public abstract class AbstractResourceExtenderComponent implements IResourceExtenderComponent
 {
+    @Inject
     private IResourceExtender _extender;
 
     /**
@@ -70,15 +68,6 @@ public abstract class AbstractResourceExtenderComponent implements IResourceExte
     public IResourceExtender getResourceExtender( )
     {
         return _extender;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void afterPropertiesSet( ) throws Exception
-    {
-        Assert.notNull( _extender, "The property 'extender' is required." );
     }
 
     /**

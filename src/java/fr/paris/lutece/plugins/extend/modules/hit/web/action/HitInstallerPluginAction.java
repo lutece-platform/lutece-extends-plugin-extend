@@ -42,14 +42,20 @@ import fr.paris.lutece.portal.web.resource.IExtendableResourcePluginAction;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  *
  * HitInstallerPluginAction
  *
  */
+
+@ApplicationScoped
+@Named( "extend.hitInstallerAction" )
 public class HitInstallerPluginAction extends AbstractPluginAction<IExtendableResource> implements IExtendableResourcePluginAction
 {
     private static final String ACTION_NAME = "Hit";

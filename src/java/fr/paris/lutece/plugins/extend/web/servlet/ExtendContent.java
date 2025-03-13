@@ -36,7 +36,6 @@ package fr.paris.lutece.plugins.extend.web.servlet;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
 import fr.paris.lutece.plugins.extend.service.extender.ResourceExtenderService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -46,10 +45,11 @@ import java.io.PrintWriter;
 
 import java.lang.reflect.InvocationTargetException;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  *
@@ -81,7 +81,7 @@ public class ExtendContent extends HttpServlet
             AppLogService.error( "Unable to fetch data from request", e );
         }
 
-        IResourceExtenderService extenderService = SpringContextService.getBean( ResourceExtenderService.BEAN_SERVICE );
+        IResourceExtenderService extenderService = CDI.current( ).select( ResourceExtenderService.class ).get( );
         String strHtml = extenderService.getContent( resourceExtender.getIdExtendableResource( ), resourceExtender.getExtendableResourceType( ),
                 resourceExtender.getExtenderType( ), resourceExtender.getParameters( ), request );
 

@@ -43,7 +43,6 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
@@ -58,7 +57,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  *
@@ -239,8 +239,8 @@ public class ResourceExtenderSearchFields implements IResourceExtenderSearchFiel
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_LIST_RESOURCES_EXTENDERS_PER_PAGE, 50 );
         _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
 
-        IResourceExtenderService resourceExtenderService = SpringContextService.getBean( ResourceExtenderService.BEAN_SERVICE );
-        IExtendableResourceTypeService resourceTypeService = SpringContextService.getBean( ExtendableResourceTypeService.BEAN_SERVICE );
+        IResourceExtenderService resourceExtenderService = CDI.current( ).select( ResourceExtenderService.class ).get( );
+        IExtendableResourceTypeService resourceTypeService = CDI.current( ).select( ExtendableResourceTypeService.class ).get( );
         List<Integer> listIdsExtenders = resourceExtenderService.findIdsByFilter( _filter );
 
         LocalizedPaginator<Integer> paginator = new LocalizedPaginator<Integer>( listIdsExtenders, getItemsPerPage( ), url.getUrl( ),
@@ -278,11 +278,10 @@ public class ResourceExtenderSearchFields implements IResourceExtenderSearchFiel
         {
             _filter = new ResourceExtenderDTOFilter( );
         }
-        else
-            if ( StringUtils.isBlank( request.getParameter( PARAMETER_SESSION ) ) || ( _filter == null ) )
-            {
-                _filter = new ResourceExtenderDTOFilter( );
-                _filter.init( request );
-            }
+        else if ( StringUtils.isBlank( request.getParameter( PARAMETER_SESSION ) ) || ( _filter == null ) )
+        {
+            _filter = new ResourceExtenderDTOFilter( );
+            _filter.init( request );
+        }
     }
 }

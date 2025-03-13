@@ -36,7 +36,7 @@ package fr.paris.lutece.plugins.extend.service;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.resource.IExtendableResourceService;
 
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.transaction.Transactional;
 
 /**
  *
@@ -51,7 +51,7 @@ public interface IDefaultExtendableResourceService extends IExtendableResourceSe
      * @param resource
      *            the resource
      */
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     void create( IExtendableResource resource );
 
     /**
@@ -60,7 +60,7 @@ public interface IDefaultExtendableResourceService extends IExtendableResourceSe
      * @param resource
      *            the resource
      */
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     void update( IExtendableResource resource );
 
     /**
@@ -71,6 +71,6 @@ public interface IDefaultExtendableResourceService extends IExtendableResourceSe
      * @param strResourceType
      *            the str resource type
      */
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     void remove( String strIdResource, String strResourceType );
 }

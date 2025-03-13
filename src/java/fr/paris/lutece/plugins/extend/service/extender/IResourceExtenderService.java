@@ -41,13 +41,13 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.util.ReferenceList;
 
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -62,7 +62,7 @@ public interface IResourceExtenderService
      * @param extender
      *            the extender
      */
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     void create( ResourceExtenderDTO extender );
 
     /**
@@ -71,7 +71,7 @@ public interface IResourceExtenderService
      * @param extender
      *            the extender
      */
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     void update( ResourceExtenderDTO extender );
 
     /**
@@ -80,7 +80,7 @@ public interface IResourceExtenderService
      * @param nIdExtender
      *            the n id extender
      */
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     void remove( int nIdExtender );
 
     /**

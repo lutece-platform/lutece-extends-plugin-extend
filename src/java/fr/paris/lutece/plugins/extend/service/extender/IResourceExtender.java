@@ -37,7 +37,7 @@ import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * IResourceExtender.

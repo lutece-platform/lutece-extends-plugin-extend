@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.plugins.extend.web;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Interface to add content to header of a page.

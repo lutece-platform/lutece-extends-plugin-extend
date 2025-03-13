@@ -44,7 +44,6 @@ import fr.paris.lutece.plugins.extend.util.ExtendErrorException;
 import fr.paris.lutece.plugins.extend.util.ExtendUtils;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -66,18 +65,26 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
+
+import jakarta.inject.Named;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  *
  * ResourceExtenderComponentManager
  *
  */
+
+@ApplicationScoped
+@Named( "extend.resourceExtenderComponentManager" )
 public class ResourceExtenderComponentManager implements IResourceExtenderComponentManager
 {
     /** The Constant BEAN_MANAGER. */
@@ -141,7 +148,10 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
     {
         if ( StringUtils.isNotBlank( strExtenderType ) )
         {
-            for ( IResourceExtenderComponent component : SpringContextService.getBeansOfType( IResourceExtenderComponent.class ) )
+            List<IResourceExtenderComponent> resourceExtenderComponentList = CDI.current( ).select( IResourceExtenderComponent.class ).stream( )
+                    .collect( Collectors.toList( ) );
+
+            for ( IResourceExtenderComponent component : resourceExtenderComponentList )
             {
                 if ( component.getResourceExtender( ).getKey( ).equals( strExtenderType ) )
                 {

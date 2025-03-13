@@ -40,17 +40,20 @@ import fr.paris.lutece.plugins.extend.service.extender.ResourceExtenderService;
 import fr.paris.lutece.plugins.extend.service.extender.history.IResourceExtenderHistoryService;
 import fr.paris.lutece.plugins.extend.service.extender.history.ResourceExtenderHistoryService;
 import fr.paris.lutece.portal.service.resource.IExtendableResourceRemovalListener;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.List;
 import java.util.Map;
+import jakarta.inject.Inject;
 
 /**
  * Remove extensions of resources when they are removed
  */
 public class ExtendableResourceRemovalListener implements IExtendableResourceRemovalListener
 {
+    @Inject
     private IResourceExtenderService _resourceExtenderService;
+
+    @Inject
     private IResourceExtenderHistoryService _resourceExtenderHistoryService;
 
     /**
@@ -109,7 +112,7 @@ public class ExtendableResourceRemovalListener implements IExtendableResourceRem
                 // Double null check to prevent concurrency errors
                 if ( _resourceExtenderService == null )
                 {
-                    _resourceExtenderService = SpringContextService.getBean( ResourceExtenderService.BEAN_SERVICE );
+                    // _resourceExtenderService = SpringContextService.getBean( ResourceExtenderService.BEAN_SERVICE );
                 }
             }
         }
@@ -131,7 +134,7 @@ public class ExtendableResourceRemovalListener implements IExtendableResourceRem
                 // Double null check to prevent concurrency errors
                 if ( _resourceExtenderHistoryService == null )
                 {
-                    _resourceExtenderHistoryService = SpringContextService.getBean( ResourceExtenderHistoryService.BEAN_SERVICE );
+                    // _resourceExtenderHistoryService = SpringContextService.getBean( ResourceExtenderHistoryService.BEAN_SERVICE );
                 }
             }
         }

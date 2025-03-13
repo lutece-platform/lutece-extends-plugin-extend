@@ -4,7 +4,7 @@
 --
 DROP TABLE IF EXISTS extend_resource_extender;
 CREATE TABLE extend_resource_extender (
-	id_extender INT DEFAULT 0 NOT NULL,
+	id_extender INT AUTO_INCREMENT,
 	extender_type VARCHAR(255) DEFAULT '' NOT NULL,
 	id_resource VARCHAR(100) DEFAULT '' NOT NULL,
 	resource_type VARCHAR(255) DEFAULT '' NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE extend_default_extendable_resource (
 --
 DROP TABLE IF EXISTS extend_extender_hit;
 CREATE TABLE extend_extender_hit (
-	id_hit INT DEFAULT 0 NOT NULL,
+	id_hit INT AUTO_INCREMENT,
 	id_resource VARCHAR(100) DEFAULT '' NOT NULL,
 	resource_type VARCHAR(255) DEFAULT '' NOT NULL,
 	nb_hits INT DEFAULT 0 NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE extend_extender_hit (
 --
 DROP TABLE IF EXISTS extend_resource_extender_history;
 CREATE TABLE extend_resource_extender_history (
-	id_history bigint DEFAULT 0 NOT NULL,
+	id_history bigint AUTO_INCREMENT,
 	extender_type VARCHAR(255) DEFAULT '' NOT NULL,
 	id_resource VARCHAR(100) DEFAULT '' NOT NULL,
 	resource_type VARCHAR(255) DEFAULT '' NOT NULL,

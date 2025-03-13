@@ -37,11 +37,11 @@ import fr.paris.lutece.plugins.extend.business.extender.history.ResourceExtender
 import fr.paris.lutece.plugins.extend.business.extender.history.ResourceExtenderHistoryFilter;
 import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * IResourceExtenderHistoryService.
@@ -54,8 +54,9 @@ public interface IResourceExtenderHistoryService
      * @param nIdResourceExtenderHistory
      *            the n id history
      */
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     void remove( int nIdResourceExtenderHistory );
+
     /**
      * Delete.
      *
@@ -64,7 +65,7 @@ public interface IResourceExtenderHistoryService
      */
     default void remove( long nIdResourceExtenderHistory )
     {
-    	 remove( Math.toIntExact( nIdResourceExtenderHistory ) );
+        remove( Math.toIntExact( nIdResourceExtenderHistory ) );
     }
 
     /**
@@ -77,7 +78,7 @@ public interface IResourceExtenderHistoryService
      * @param strExtendableResourceType
      *            the str extendable resource type
      */
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     void removeByResource( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType );
 
     /**
@@ -117,7 +118,7 @@ public interface IResourceExtenderHistoryService
      * @param history
      *            the history
      */
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     void create( ResourceExtenderHistory history );
 
     /**
@@ -128,7 +129,7 @@ public interface IResourceExtenderHistoryService
      * @return the history
      */
     ResourceExtenderHistory findByPrimary( int nIdResourceExtenderHistory );
-    
+
     /**
      * Load.
      *
@@ -138,23 +139,24 @@ public interface IResourceExtenderHistoryService
      */
     default ResourceExtenderHistory findByPrimary( long nIdResourceExtenderHistory )
     {
-    	return findByPrimary( Math.toIntExact( nIdResourceExtenderHistory )  );
+        return findByPrimary( Math.toIntExact( nIdResourceExtenderHistory ) );
     }
-    
+
     /**
      * Load by list id resources and extender type
+     * 
      * @param listIdResource
-     * 			the ids resource list
-       * @param strExtendableResourceType
-     * 			the extender resource type
+     *            the ids resource list
+     * @param strExtendableResourceType
+     *            the extender resource type
      * @param strExtenderType
-     * 			the extender type
+     *            the extender type
      * @param plugin
-     * 			the plugin
-     * @return	list of ResourceExtenderHistory
+     *            the plugin
+     * @return list of ResourceExtenderHistory
      */
     List<ResourceExtenderHistory> findByListIdResource( List<String> listIdResourceExtender, String strExtendableResourceType, String strExtenderType );
-    
+
     /**
      * Load by filter.
      *

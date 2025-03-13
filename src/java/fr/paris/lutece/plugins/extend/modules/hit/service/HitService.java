@@ -37,16 +37,20 @@ import fr.paris.lutece.plugins.extend.modules.hit.business.Hit;
 import fr.paris.lutece.plugins.extend.modules.hit.business.HitHome;
 import java.util.List;
 
+import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
+
 /**
  *
  * HitService
  *
  */
+@ApplicationScoped
+@Named( "extend.hitService" )
 public class HitService implements IHitService
 {
     /** The Constant BEAN_SERVICE. */
-    public static final String BEAN_SERVICE = "extend.hitService";
-
+    // public static final String BEAN_SERVICE = "extend.hitService";
 
     /**
      * {@inheritDoc}
@@ -54,7 +58,7 @@ public class HitService implements IHitService
     @Override
     public void create( Hit hit )
     {
-    	HitHome.create( hit);
+        HitHome.create( hit );
     }
 
     /**
@@ -63,7 +67,7 @@ public class HitService implements IHitService
     @Override
     public void update( Hit hit )
     {
-    	HitHome.update( hit );
+        HitHome.update( hit );
     }
 
     /**
@@ -72,7 +76,7 @@ public class HitService implements IHitService
     @Override
     public void remove( int nIdExtender )
     {
-    	HitHome.remove( nIdExtender  );
+        HitHome.remove( nIdExtender );
     }
 
     /**
@@ -81,7 +85,7 @@ public class HitService implements IHitService
     @Override
     public void removeByResource( String strIdResource, String strResourceType )
     {
-    	HitHome.removeByResource( strIdResource, strResourceType );
+        HitHome.removeByResource( strIdResource, strResourceType );
     }
 
     /**
@@ -100,7 +104,7 @@ public class HitService implements IHitService
     @Override
     public Hit findByPrimaryKey( int nIdHit )
     {
-        return HitHome.findByPrimaryKey( nIdHit  ).orElse( null );
+        return HitHome.findByPrimaryKey( nIdHit ).orElse( null );
     }
 
     /**
@@ -124,10 +128,10 @@ public class HitService implements IHitService
     /**
      * {@inheritDoc}
      */
-	@Override
-	public List<Hit> findByResourceList(List<String> listIdExtendableResource, String strExtendableResourceType) 
-	{
+    @Override
+    public List<Hit> findByResourceList( List<String> listIdExtendableResource, String strExtendableResourceType )
+    {
 
-		return HitHome.findByResourceList( listIdExtendableResource, strExtendableResourceType );
-	}
+        return HitHome.findByResourceList( listIdExtendableResource, strExtendableResourceType );
+    }
 }
