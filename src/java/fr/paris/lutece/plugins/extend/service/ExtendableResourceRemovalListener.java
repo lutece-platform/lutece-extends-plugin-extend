@@ -105,18 +105,6 @@ public class ExtendableResourceRemovalListener implements IExtendableResourceRem
      */
     private IResourceExtenderService getResourceExtenderService( )
     {
-        if ( _resourceExtenderService == null )
-        {
-            synchronized( this )
-            {
-                // Double null check to prevent concurrency errors
-                if ( _resourceExtenderService == null )
-                {
-                    // _resourceExtenderService = SpringContextService.getBean( ResourceExtenderService.BEAN_SERVICE );
-                }
-            }
-        }
-
         return _resourceExtenderService;
     }
 
@@ -127,18 +115,6 @@ public class ExtendableResourceRemovalListener implements IExtendableResourceRem
      */
     private IResourceExtenderHistoryService getResourceExtenderHistoryService( )
     {
-        if ( _resourceExtenderHistoryService == null )
-        {
-            synchronized( this )
-            {
-                // Double null check to prevent concurrency errors
-                if ( _resourceExtenderHistoryService == null )
-                {
-                    // _resourceExtenderHistoryService = SpringContextService.getBean( ResourceExtenderHistoryService.BEAN_SERVICE );
-                }
-            }
-        }
-
         return _resourceExtenderHistoryService;
     }
 }
