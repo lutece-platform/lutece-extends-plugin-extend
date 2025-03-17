@@ -331,8 +331,7 @@ public class ResourceExtenderService implements IResourceExtenderService
                 }
                 else
                 {
-                    AppLogService.error(
-                            "More than 2 ResourceExtenderDTO found for " + strExtenderType + "," + strIdExtendableResource + "," + strExtendableResourceType );
+                    AppLogService.error( "More than 2 ResourceExtenderDTO found for {0}, {1}, {2}.", strExtenderType, strIdExtendableResource, strExtendableResourceType );
                     return null;
                 }
 
