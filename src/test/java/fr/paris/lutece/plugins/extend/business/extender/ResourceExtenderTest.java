@@ -63,8 +63,11 @@ public class ResourceExtenderTest extends LuteceTestCase
     @Test
     public void testBusiness( )
     {
+        @Inject
+        IResourceExtenderDAO dao;
+
         Plugin plugin = PluginService.getPlugin( ExtendPlugin.PLUGIN_NAME );
-        IResourceExtenderDAO dao = CDI.current( ).select( ResourceExtenderDAO.class ).get( );
+        
 
         // Init object
         ResourceExtenderDTO extender = new ResourceExtenderDTO( );
