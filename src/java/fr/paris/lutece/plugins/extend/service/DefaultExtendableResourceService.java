@@ -65,7 +65,8 @@ public class DefaultExtendableResourceService implements IDefaultExtendableResou
     /** The Constant BEAN_SERVICE. */
     public static final String BEAN_SERVICE = "extend.defaultExtendableResourceService";
 
-    private IDefaultExtendableResourceDAO _extendableResourceDAO = CDI.current( ).select( IDefaultExtendableResourceDAO.class ).get( );
+    @Inject
+    private IDefaultExtendableResourceDAO _extendableResourceDAO;
 
     @Inject
     DefaultExtendableResourceService( )
