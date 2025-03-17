@@ -67,8 +67,9 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
     /** The Constant BBEAN_SERVICE. */
     public static final String BEAN_SERVICE = "extend.resourceExtenderHistoryService";
 
-    private IResourceExtenderHistoryDAO _resourceExtenderHistoryDAO = CDI.current( ).select( IResourceExtenderHistoryDAO.class ).get( );
-
+    @Inject
+    private IResourceExtenderHistoryDAO _resourceExtenderHistoryDAO;
+    
     @Inject
     public ResourceExtenderHistoryService( )
     {
