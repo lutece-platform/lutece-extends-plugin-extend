@@ -57,7 +57,8 @@ public class ExtenderStringMapperTest extends LuteceTestCase
     @Test
     public void testMap( )
     {
-        IStringMapper<ResourceExtenderDTO> map = CDI.current( ).select( ExtenderStringMapper.class ).get( );
+        @Inject
+        IStringMapper<ResourceExtenderDTO> map;
 
         if ( map == null )
         {
