@@ -58,9 +58,10 @@ public class HitTest extends LuteceTestCase
     private static final String RESOURCE_TYPE_BAR = "bar";
     private static final int NB_HITS_3 = 3;
 
-    /*
-     * @Inject private IHitDAO dao;
-     */
+    
+    @Inject 
+    private IHitDAO dao;
+    
 
     /**
      * Test business.

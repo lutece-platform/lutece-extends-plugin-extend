@@ -40,6 +40,7 @@ import fr.paris.lutece.plugins.extend.service.converter.IStringMapper;
 import fr.paris.lutece.test.LuteceTestCase;
 import jakarta.enterprise.inject.spi.CDI;
 import org.junit.jupiter.api.Test;
+import jakarta.inject.Inject;
 
 /**
  *
@@ -51,14 +52,15 @@ public class ExtenderStringMapperTest extends LuteceTestCase
     // <idResource, resourceType, extenderType, parameters>
     private static final String STRING_TO_MAP = "2,resourceType-2,extenderType 2,{parameter_A = 2, parameter_B = 3}";
 
+    @Inject
+    private IStringMapper<ResourceExtenderDTO> map;
+
     /**
      * Test map.
      */
     @Test
     public void testMap( )
     {
-        @Inject
-        IStringMapper<ResourceExtenderDTO> map;
 
         if ( map == null )
         {

@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.test.LuteceTestCase;
 import org.junit.jupiter.api.Test;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 
 /**
  *
@@ -57,14 +58,15 @@ public class ResourceExtenderTest extends LuteceTestCase
     private static final String RES_TYPE_1 = "RES_TYPE_1";
     private static final String RES_TYPE_2 = "RES_TYPE_2";
 
+    @Inject
+    private IResourceExtenderDAO dao;
+
     /**
      * Test business.
      */
     @Test
     public void testBusiness( )
     {
-        @Inject
-        IResourceExtenderDAO dao;
 
         Plugin plugin = PluginService.getPlugin( ExtendPlugin.PLUGIN_NAME );
         
