@@ -49,7 +49,6 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 public abstract class AbstractResourceExtenderComponent implements IResourceExtenderComponent
 {
-    @Inject
     private IResourceExtender _extender;
 
     /**

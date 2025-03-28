@@ -71,6 +71,7 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
 {
 
     @Inject
+    @Named( "extend.hitResourceExtender" )
     private IResourceExtender resourceExtender;
 
     // MARKS

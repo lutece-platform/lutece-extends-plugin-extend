@@ -52,7 +52,6 @@ import fr.paris.lutece.portal.service.cache.LuteceCache;
  * ResourceExtenderConfigService
  *
  */
-@ApplicationScoped
 @Named( "extend.resourceExtenderConfigService" )
 public class ResourceExtenderConfigService implements IResourceExtenderConfigService
 {

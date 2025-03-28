@@ -42,8 +42,6 @@ import fr.paris.lutece.plugins.extend.modules.hit.web.component.HitResourceExten
 import fr.paris.lutece.plugins.extend.service.extender.AbstractResourceExtender;
 import fr.paris.lutece.plugins.extend.web.component.IResourceExtenderComponent;
 
-import java.security.spec.ECFieldF2m;
-
 import org.apache.commons.lang3.StringUtils;
 
 import jakarta.inject.Inject;
@@ -80,6 +78,7 @@ public class HitResourceExtender extends AbstractResourceExtender
     @ConfigProperty( name = "extend.hit.titleKey", defaultValue = "module.extend.hit.extender.labelHit" )
     private String titleKey;
 
+    @Inject
     private HitResourceExtenderComponent resourceExtenderComponent;
 
     HitResourceExtender( )
