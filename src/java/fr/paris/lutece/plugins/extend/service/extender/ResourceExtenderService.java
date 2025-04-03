@@ -60,10 +60,12 @@ import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.inject.Named;
 import jakarta.inject.Inject;
+import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import fr.paris.lutece.portal.service.cache.Lutece107Cache;
 import fr.paris.lutece.portal.service.cache.LuteceCache;
+
 
 /**
  *
@@ -80,27 +82,18 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Inject
     private IResourceExtenderDAO _extenderDAO;
 
-    @Named( "extend.extendableResourceTypeService" )
+    @Inject
     private IExtendableResourceTypeService _extendableResourceTypeService;
 
-    @Named( "extend.extendableResourceManager" )
+    @Inject
     private IExtendableResourceManager _extendableResourceManager;
+
+    @Inject
+    private Instance<IResourceExtender> _resourceServices;
 
     @Inject
     @LuteceCache( cacheName = "extenderCache", keyType = String.class, valueType = Object.class, enable = true )
     Lutece107Cache<String, Object> _extenderCache;
-
-    @Inject
-    public ResourceExtenderService( IExtendableResourceTypeService extendableResourceTypeService, IExtendableResourceManager extendableResourceManager )
-    {
-        _extendableResourceTypeService = extendableResourceTypeService;
-        _extendableResourceManager = extendableResourceManager;
-    }
-
-    public ResourceExtenderService( )
-    {
-
-    }
 
     /**
      * {@inheritDoc}
@@ -331,7 +324,7 @@ public class ResourceExtenderService implements IResourceExtenderService
                 }
                 else
                 {
-                    AppLogService.error( "More than 2 ResourceExtenderDTO found for {0}, {1}, {2}.", strExtenderType, strIdExtendableResource, strExtendableResourceType );
+                    AppLogService.error( "More than 2 ResourceExtenderDTO found for {}, {}, {}.", strExtenderType, strIdExtendableResource, strExtendableResourceType );
                     return null;
                 }
 
@@ -473,7 +466,7 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Override
     public List<IResourceExtender> getResourceExtenders( )
     {
-        return CDI.current( ).select( IResourceExtender.class ).stream( ).collect( Collectors.toList( ) );
+        return _resourceServices.stream( ).collect( Collectors.toList( ) );
     }
 
     /**
