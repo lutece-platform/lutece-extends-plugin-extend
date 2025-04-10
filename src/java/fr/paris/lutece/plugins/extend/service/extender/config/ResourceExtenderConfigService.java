@@ -67,6 +67,7 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
      * @param extenderConfigDAO
      *            the extender config DAO
      */
+    
     public void setExtenderConfigDAO( IExtenderConfigDAO<IExtenderConfig> extenderConfigDAO ) throws Exception
     {
         if( extenderConfigDAO == null )
