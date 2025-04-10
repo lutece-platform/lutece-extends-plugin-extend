@@ -37,7 +37,6 @@ import fr.paris.lutece.plugins.extend.modules.hit.business.Hit;
 import fr.paris.lutece.plugins.extend.modules.hit.business.HitHome;
 import java.util.List;
 
-import jakarta.inject.Named;
 import jakarta.enterprise.context.ApplicationScoped;
 
 /**
@@ -46,7 +45,6 @@ import jakarta.enterprise.context.ApplicationScoped;
  *
  */
 @ApplicationScoped
-@Named( "extend.hitService" )
 public class HitService implements IHitService
 {
     /** The Constant BEAN_SERVICE. */

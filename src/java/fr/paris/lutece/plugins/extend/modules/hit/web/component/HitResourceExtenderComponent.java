@@ -54,6 +54,7 @@ import java.util.Map;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -72,7 +73,7 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
 
     @Inject
     @Named( "extend.hitResourceExtender" )
-    private IResourceExtender resourceExtender;
+    private IResourceExtender _resourceExtender;
 
     // MARKS
     private static final String MARK_HIT = "hit";
@@ -91,6 +92,24 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
 
     @Inject
     private IResourceExtenderHistoryService _resourceHistoryService;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setResourceExtender( IResourceExtender extender )
+    {
+        _resourceExtender = extender;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IResourceExtender getResourceExtender( )
+    {
+        return _resourceExtender;
+    }
 
     @Override
     public IExtenderConfig getConfig( int nIdExtender )

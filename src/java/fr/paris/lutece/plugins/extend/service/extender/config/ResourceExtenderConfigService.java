@@ -39,7 +39,7 @@ import fr.paris.lutece.plugins.extend.business.extender.config.IExtenderConfigDA
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderCacheService;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
 import jakarta.inject.Inject;
@@ -57,12 +57,9 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
 {
     private IExtenderConfigDAO<IExtenderConfig> _extenderConfigDAO;
 
-    @Inject
     private IResourceExtenderService _extenderService;
 
-    @Inject
-    @LuteceCache( cacheName = "extenderCache", keyType = String.class, valueType = Object.class, enable = true )
-    Lutece107Cache<String, Object> _extenderCache;
+    Lutece107Cache<String, Object> _extendConfigCache;
 
     /**
      * Set the extender config DAO
@@ -70,9 +67,31 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
      * @param extenderConfigDAO
      *            the extender config DAO
      */
-    public void setExtenderConfigDAO( IExtenderConfigDAO<IExtenderConfig> extenderConfigDAO )
+    public void setExtenderConfigDAO( IExtenderConfigDAO<IExtenderConfig> extenderConfigDAO ) throws Exception
     {
-        _extenderConfigDAO = extenderConfigDAO;
+        if( extenderConfigDAO == null )
+        {
+            throw new Exception( "The property 'extenderConfigDAO' must be set." );
+        }
+        else {
+            _extenderConfigDAO = extenderConfigDAO;
+        }
+    }
+
+    public void setExtenderCache( Lutece107Cache< String, Object> extendConfigCache )
+    {
+        _extendConfigCache = extendConfigCache;
+    }
+
+    /**
+     * Set the extender service
+     * 
+     * @param extenderService
+     *            the extender service
+     */
+    public void setExtenderService( IResourceExtenderService extenderService )
+    {
+        _extenderService = extenderService;
     }
 
     /**
@@ -96,7 +115,7 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
         if ( config != null )
         {
             _extenderConfigDAO.store( config );
-            _extenderCache.remove( getCacheKey( config.getIdExtender( ) ) );
+            _extendConfigCache.remove( getCacheKey( config.getIdExtender( ) ) );
         }
     }
 
@@ -107,7 +126,7 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
     public void remove( int nIdExtender )
     {
         _extenderConfigDAO.delete( nIdExtender );
-        _extenderCache.remove( getCacheKey( nIdExtender ) );
+        _extendConfigCache.remove( getCacheKey( nIdExtender ) );
     }
 
     /**
@@ -117,11 +136,11 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
     public <T> T find( int nIdExtender )
     {
         String strKey = getCacheKey( nIdExtender );
-        IExtenderConfig config = (IExtenderConfig) _extenderCache.get( strKey );
+        IExtenderConfig config = (IExtenderConfig) _extendConfigCache.get( strKey );
         if ( config == null )
         {
             config = _extenderConfigDAO.load( nIdExtender );
-            _extenderCache.put( strKey, config );
+            _extendConfigCache.put( strKey, config );
         }
         return getConfigBean( config );
     }

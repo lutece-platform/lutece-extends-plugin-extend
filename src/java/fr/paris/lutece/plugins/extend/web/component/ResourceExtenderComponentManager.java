@@ -74,8 +74,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 
 import jakarta.inject.Named;
+import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.enterprise.context.ApplicationScoped;
+
+import jakarta.enterprise.inject.Instance;
 
 /**
  *
@@ -135,6 +138,9 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
     @Inject
     private IResourceExtenderHistoryService _resourceHistoryService;
 
+    @Inject
+    private Instance<IResourceExtenderComponent> resourceExtenderComponentList;
+
     // VARIABLES
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
@@ -148,9 +154,6 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
     {
         if ( StringUtils.isNotBlank( strExtenderType ) )
         {
-            List<IResourceExtenderComponent> resourceExtenderComponentList = CDI.current( ).select( IResourceExtenderComponent.class ).stream( )
-                    .collect( Collectors.toList( ) );
-
             for ( IResourceExtenderComponent component : resourceExtenderComponentList )
             {
                 if ( component.getResourceExtender( ).getKey( ).equals( strExtenderType ) )

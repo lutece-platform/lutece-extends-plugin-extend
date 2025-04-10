@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.spi.CDI;
 
 /**
@@ -59,13 +60,16 @@ public class ExtendableResourceManager implements IExtendableResourceManager
     @Inject
     private IDefaultExtendableResourceService _defaultService;
 
+    @Inject
+    private Instance<IExtendableResourceService> extendableResourceServices;
+
     /**
      * {@inheritDoc}
      */
     @Override
     public List<IExtendableResourceService> getExtendableResourceServices( )
     {
-        return CDI.current( ).select( IExtendableResourceService.class ).stream( ).collect( Collectors.toList( ) );
+        return extendableResourceServices.stream( ).collect( Collectors.toList( ) );
     }
 
     /**

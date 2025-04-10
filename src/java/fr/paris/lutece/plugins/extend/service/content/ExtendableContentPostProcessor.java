@@ -47,6 +47,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,7 +56,7 @@ import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import jakarta.servlet.http.HttpServletRequest;
-
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
 
@@ -97,12 +98,21 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor
     @Inject
     private IStringMapper<ResourceExtenderDTO> _mapper;
 
-    private String _strRegexPattern = AppPropertiesService.getProperty( PROPERTY_REGEX_PATTERN, "@Extender\\[([^\\]@]*)\\]@" );
-    private Pattern _regexPattern = Pattern.compile( _strRegexPattern );
+    private String _strRegexPattern = AppPropertiesService.getProperty( PROPERTY_REGEX_PATTERN, "" );
+    
+    private Pattern _regexPattern;
 
-    private String _strExtenderParameterRegexPattern = AppPropertiesService.getProperty( PROPERTY_EXTENDER_PARAMETER_REGEX_PATTERN,
-            "@ExtenderParameter\\[([^\\]@]*)\\]@" );
-    private Pattern _extendedParameterRegexPattern = Pattern.compile( _strExtenderParameterRegexPattern );
+    private String _strExtenderParameterRegexPattern = AppPropertiesService.getProperty( PROPERTY_EXTENDER_PARAMETER_REGEX_PATTERN, "" );
+    private Pattern _extendedParameterRegexPattern;
+
+    @Inject
+    public ExtendableContentPostProcessor(
+        @ConfigProperty( name = PROPERTY_REGEX_PATTERN ) String strRegexPattern,
+        @ConfigProperty( name = PROPERTY_EXTENDER_PARAMETER_REGEX_PATTERN ) String strExtenderParameterRegexPattern )
+    {
+        setRegexPattern( strRegexPattern );
+        setExtenderParameterRegexPattern( strExtenderParameterRegexPattern );
+    }
 
     /**
      * Sets the regex pattern.

@@ -49,26 +49,6 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 public abstract class AbstractResourceExtenderComponent implements IResourceExtenderComponent
 {
-    private IResourceExtender _extender;
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setResourceExtender( IResourceExtender extender )
-    {
-        _extender = extender;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public IResourceExtender getResourceExtender( )
-    {
-        return _extender;
-    }
-
     /**
      * Get the URL to use for post backs
      * 

@@ -57,7 +57,6 @@ public class HitAddOnService implements IResourceDisplayManager
     private static final String TAG_NUMBER_HITS = "document-number-hits";
 
     @Inject
-    @Named( "extend.hitService" )
     private IHitService _hitService;
 
     @Override

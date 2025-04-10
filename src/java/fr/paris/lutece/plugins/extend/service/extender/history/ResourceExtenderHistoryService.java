@@ -69,12 +69,6 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
 
     @Inject
     private IResourceExtenderHistoryDAO _resourceExtenderHistoryDAO;
-    
-    @Inject
-    public ResourceExtenderHistoryService( )
-    {
-
-    }
 
     /**
      * {@inheritDoc}

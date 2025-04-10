@@ -81,11 +81,6 @@ public class HitResourceExtender extends AbstractResourceExtender
     @Inject
     private HitResourceExtenderComponent resourceExtenderComponent;
 
-    HitResourceExtender( )
-    {
-
-    }
-
     @PostConstruct
     public void producesHitResourceExtender( )
     {
