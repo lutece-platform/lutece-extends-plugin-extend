@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.plugins.extend.service.extender.config;
 
+import java.util.Objects;
+
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.business.extender.config.IExtenderConfig;
 import fr.paris.lutece.plugins.extend.business.extender.config.IExtenderConfigDAO;
@@ -68,15 +70,10 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
      *            the extender config DAO
      */
     
-    public void setExtenderConfigDAO( IExtenderConfigDAO<IExtenderConfig> extenderConfigDAO ) throws Exception
+    public void setExtenderConfigDAO( IExtenderConfigDAO<IExtenderConfig> extenderConfigDAO )
     {
-        if( extenderConfigDAO == null )
-        {
-            throw new Exception( "The property 'extenderConfigDAO' must be set." );
-        }
-        else {
-            _extenderConfigDAO = extenderConfigDAO;
-        }
+        Objects.requireNonNull( extenderConfigDAO, "extenderConfigDAO cannot be null" );
+        _extenderConfigDAO = extenderConfigDAO;
     }
 
     public void setExtenderCache( Lutece107Cache< String, Object> extendConfigCache )

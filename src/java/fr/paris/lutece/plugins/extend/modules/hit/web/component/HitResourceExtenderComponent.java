@@ -97,15 +97,6 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
      * {@inheritDoc}
      */
     @Override
-    public void setResourceExtender( IResourceExtender extender )
-    {
-        _resourceExtender = extender;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public IResourceExtender getResourceExtender( )
     {
         return _resourceExtender;

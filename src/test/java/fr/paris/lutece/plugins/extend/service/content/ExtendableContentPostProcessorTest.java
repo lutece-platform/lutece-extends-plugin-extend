@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.content.ContentPostProcessor;
 import fr.paris.lutece.test.LuteceTestCase;
 import org.junit.jupiter.api.Test;
 
+import jakarta.inject.Inject;
 import jakarta.enterprise.inject.spi.CDI;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 

@@ -58,14 +58,6 @@ public interface IResourceExtenderComponent
     IResourceExtender getResourceExtender( );
 
     /**
-     * Sets the resource extender.
-     *
-     * @param extender
-     *            the new resource extender
-     */
-    void setResourceExtender( IResourceExtender extender );
-
-    /**
      * Add to the the XML String additional datas.
      *
      * @param strIdExtendableResource
