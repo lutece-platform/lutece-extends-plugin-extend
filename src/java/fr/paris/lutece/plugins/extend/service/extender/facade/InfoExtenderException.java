@@ -1,14 +1,14 @@
 package fr.paris.lutece.plugins.extend.service.extender.facade;
 
-public class InfoExtenderException extends Exception {
+public class InfoExtenderException extends Exception
+{
 
-	/**
-	 * Serial Version 
-	 */
-	private static final long serialVersionUID = 3026283101427078494L;
+    /**
+     * Serial Version
+     */
+    private static final long serialVersionUID = 3026283101427078494L;
 
-	
-	/**
+    /**
      * Constructor
      *
      * @param strMessage
@@ -19,13 +19,14 @@ public class InfoExtenderException extends Exception {
 
         super( strMessage );
     }
+
     /**
      * Constructor
      *
      */
-    public InfoExtenderException(  )
+    public InfoExtenderException( )
     {
 
-        super(  );
+        super( );
     }
 }

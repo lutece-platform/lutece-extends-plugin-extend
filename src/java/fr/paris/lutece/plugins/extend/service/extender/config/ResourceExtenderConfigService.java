@@ -33,31 +33,35 @@
  */
 package fr.paris.lutece.plugins.extend.service.extender.config;
 
+import java.util.Objects;
+
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.business.extender.config.IExtenderConfig;
 import fr.paris.lutece.plugins.extend.business.extender.config.IExtenderConfigDAO;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderCacheService;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
+import jakarta.inject.Inject;
 
-import org.springframework.beans.factory.InitializingBean;
-
-import org.springframework.util.Assert;
-
-import javax.inject.Inject;
+import fr.paris.lutece.portal.service.cache.Lutece107Cache;
+import fr.paris.lutece.portal.service.cache.LuteceCache;
 
 /**
  *
  * ResourceExtenderConfigService
  *
  */
-public class ResourceExtenderConfigService implements IResourceExtenderConfigService, InitializingBean
+@Named( "extend.resourceExtenderConfigService" )
+public class ResourceExtenderConfigService implements IResourceExtenderConfigService
 {
     private IExtenderConfigDAO<IExtenderConfig> _extenderConfigDAO;
-    @Inject
+
     private IResourceExtenderService _extenderService;
-    @Inject
-    private IResourceExtenderCacheService _extenderCache;
+
+    Lutece107Cache<String, Object> _extendConfigCache;
 
     /**
      * Set the extender config DAO
@@ -65,9 +69,27 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
      * @param extenderConfigDAO
      *            the extender config DAO
      */
+    
     public void setExtenderConfigDAO( IExtenderConfigDAO<IExtenderConfig> extenderConfigDAO )
     {
+        Objects.requireNonNull( extenderConfigDAO, "extenderConfigDAO cannot be null" );
         _extenderConfigDAO = extenderConfigDAO;
+    }
+
+    public void setExtenderCache( Lutece107Cache< String, Object> extendConfigCache )
+    {
+        _extendConfigCache = extendConfigCache;
+    }
+
+    /**
+     * Set the extender service
+     * 
+     * @param extenderService
+     *            the extender service
+     */
+    public void setExtenderService( IResourceExtenderService extenderService )
+    {
+        _extenderService = extenderService;
     }
 
     /**
@@ -91,7 +113,7 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
         if ( config != null )
         {
             _extenderConfigDAO.store( config );
-            _extenderCache.removeKey( getCacheKey( config.getIdExtender( ) ) );
+            _extendConfigCache.remove( getCacheKey( config.getIdExtender( ) ) );
         }
     }
 
@@ -102,7 +124,7 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
     public void remove( int nIdExtender )
     {
         _extenderConfigDAO.delete( nIdExtender );
-        _extenderCache.removeKey( getCacheKey( nIdExtender ) );
+        _extendConfigCache.remove( getCacheKey( nIdExtender ) );
     }
 
     /**
@@ -112,11 +134,11 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
     public <T> T find( int nIdExtender )
     {
         String strKey = getCacheKey( nIdExtender );
-        IExtenderConfig config = (IExtenderConfig) _extenderCache.getFromCache( strKey );
+        IExtenderConfig config = (IExtenderConfig) _extendConfigCache.get( strKey );
         if ( config == null )
         {
             config = _extenderConfigDAO.load( nIdExtender );
-            _extenderCache.putInCache( strKey, config );
+            _extendConfigCache.put( strKey, config );
         }
         return getConfigBean( config );
     }
@@ -184,14 +206,5 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
     protected IExtenderConfigDAO<IExtenderConfig> getDAO( )
     {
         return _extenderConfigDAO;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void afterPropertiesSet( ) throws Exception
-    {
-        Assert.notNull( _extenderConfigDAO, "The property 'extenderConfigDAO' must be set." );
     }
 }

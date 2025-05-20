@@ -134,7 +134,6 @@ public interface IHitDAO
      *            the plugin
      * @return the hit list
      */
-     List<Hit> findByResourceList( List<String> listIdExtendableResource, String strExtendableResourceType, Plugin plugin );
-
+    List<Hit> findByResourceList( List<String> listIdExtendableResource, String strExtendableResourceType, Plugin plugin );
 
 }

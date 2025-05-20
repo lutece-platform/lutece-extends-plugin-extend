@@ -35,23 +35,33 @@ package fr.paris.lutece.plugins.extend.service;
 
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.resource.IExtendableResourceService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  *
  * ExtendableResourceManager
  *
  */
+@ApplicationScoped
+@Named( "extend.extendableResourceManager" )
 public class ExtendableResourceManager implements IExtendableResourceManager
 {
     /** The Constant BEAN_MANAGER. */
     public static final String BEAN_MANAGER = "extend.extendableResourceManager";
+
     @Inject
     private IDefaultExtendableResourceService _defaultService;
+
+    @Inject
+    private Instance<IExtendableResourceService> extendableResourceServices;
 
     /**
      * {@inheritDoc}
@@ -59,7 +69,7 @@ public class ExtendableResourceManager implements IExtendableResourceManager
     @Override
     public List<IExtendableResourceService> getExtendableResourceServices( )
     {
-        return SpringContextService.getBeansOfType( IExtendableResourceService.class );
+        return extendableResourceServices.stream( ).collect( Collectors.toList( ) );
     }
 
     /**

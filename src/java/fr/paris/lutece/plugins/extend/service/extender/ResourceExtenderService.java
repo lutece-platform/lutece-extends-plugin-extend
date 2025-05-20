@@ -44,44 +44,62 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.ReferenceList;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.transaction.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.enterprise.inject.Instance;
+import jakarta.enterprise.context.ApplicationScoped;
+
+import fr.paris.lutece.portal.service.cache.Lutece107Cache;
+import fr.paris.lutece.portal.service.cache.LuteceCache;
+
 
 /**
  *
  * ResourceExtenderService
  *
  */
+@ApplicationScoped
+@Named( "extend.resourceExtenderService" )
 public class ResourceExtenderService implements IResourceExtenderService
 {
     /** The Constant BEAN_SERVICE. */
-    public static final String BEAN_SERVICE = "extend.resourceExtenderService";
+    // public static final String BEAN_SERVICE = "extend.resourceExtenderService";
+
     @Inject
     private IResourceExtenderDAO _extenderDAO;
+
     @Inject
     private IExtendableResourceTypeService _extendableResourceTypeService;
+
     @Inject
     private IExtendableResourceManager _extendableResourceManager;
+
     @Inject
-    private IResourceExtenderCacheService _extenderCache;
+    private Instance<IResourceExtender> _resourceServices;
+
+    @Inject
+    @LuteceCache( cacheName = "extenderCache", keyType = String.class, valueType = Object.class, enable = true )
+    Lutece107Cache<String, Object> _extenderCache;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     public void create( ResourceExtenderDTO extender )
     {
         // Check if the resource type exists or not
@@ -96,7 +114,7 @@ public class ResourceExtenderService implements IResourceExtenderService
      * {@inheritDoc}
      */
     @Override
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     public void update( ResourceExtenderDTO extender )
     {
         // Check if the resource type exists or not
@@ -112,7 +130,7 @@ public class ResourceExtenderService implements IResourceExtenderService
      * {@inheritDoc}
      */
     @Override
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     public void remove( int nIdExtender )
     {
         _extenderDAO.delete( nIdExtender, ExtendPlugin.getPlugin( ) );
@@ -129,7 +147,7 @@ public class ResourceExtenderService implements IResourceExtenderService
     {
         String strKey = new StringBuilder( "Authorized_" ).append( strExtenderType ).append( '_' ).append( strIdExtendableResource ).append( '_' )
                 .append( strExtendableResourceType ).toString( );
-        Boolean isAuthorized = (Boolean) _extenderCache.getFromCache( strKey );
+        Boolean isAuthorized = (Boolean) _extenderCache.get( strKey );
         if ( isAuthorized == null )
         {
             ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType, strIdExtendableResource, strExtendableResourceType );
@@ -140,7 +158,7 @@ public class ResourceExtenderService implements IResourceExtenderService
 
             isAuthorized = ( listResources != null ) && !listResources.isEmpty( );
 
-            _extenderCache.putInCache( strKey, isAuthorized );
+            _extenderCache.put( strKey, isAuthorized );
         }
 
         return isAuthorized;
@@ -277,7 +295,7 @@ public class ResourceExtenderService implements IResourceExtenderService
         String strKey = new StringBuilder( "ResourceExtenderDTO_" ).append( strExtenderType ).append( '_' ).append( strIdExtendableResource ).append( '_' )
                 .append( strExtendableResourceType ).toString( );
 
-        ResourceExtenderDTO found = (ResourceExtenderDTO) _extenderCache.getFromCache( strKey );
+        ResourceExtenderDTO found = (ResourceExtenderDTO) _extenderCache.get( strKey );
 
         if ( found == null )
         {
@@ -293,28 +311,26 @@ public class ResourceExtenderService implements IResourceExtenderService
                 {
                     found = listResources.get( 0 );
                 }
-                else
-                    if ( listResources.size( ) == 2 )
+                else if ( listResources.size( ) == 2 )
+                {
+                    if ( listResources.get( 0 ).getIdExtendableResource( ).equals( strIdExtendableResource ) )
                     {
-                        if ( listResources.get( 0 ).getIdExtendableResource( ).equals( strIdExtendableResource ) )
-                        {
-                            found = listResources.get( 0 );
-                        }
-                        else
-                        {
-                            found = listResources.get( 1 );
-                        }
+                        found = listResources.get( 0 );
                     }
                     else
                     {
-                        AppLogService.error( "More than 2 ResourceExtenderDTO found for " + strExtenderType + "," + strIdExtendableResource + ","
-                                + strExtendableResourceType );
-                        return null;
+                        found = listResources.get( 1 );
                     }
+                }
+                else
+                {
+                    AppLogService.error( "More than 2 ResourceExtenderDTO found for {}, {}, {}.", strExtenderType, strIdExtendableResource, strExtendableResourceType );
+                    return null;
+                }
 
                 found.setName( getExtendableResourceName( found ) );
 
-                _extenderCache.putInCache( strKey, found );
+                _extenderCache.put( strKey, found );
             }
         }
 
@@ -450,7 +466,7 @@ public class ResourceExtenderService implements IResourceExtenderService
     @Override
     public List<IResourceExtender> getResourceExtenders( )
     {
-        return SpringContextService.getBeansOfType( IResourceExtender.class );
+        return _resourceServices.stream( ).collect( Collectors.toList( ) );
     }
 
     /**

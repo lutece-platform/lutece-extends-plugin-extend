@@ -36,15 +36,19 @@ package fr.paris.lutece.plugins.extend.business.extender;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  *
  * ExtenderResourceDAO
  *
  */
+@ApplicationScoped
 public class ResourceExtenderDAO implements IResourceExtenderDAO
 {
     private static final String SQL_QUERY_NEW_PK = " SELECT max( id_extender ) FROM extend_resource_extender ";
@@ -52,7 +56,7 @@ public class ResourceExtenderDAO implements IResourceExtenderDAO
     private static final String SQL_QUERY_SELECT_ID_EXTENDER = " SELECT id_extender FROM extend_resource_extender ";
     private static final String SQL_QUERY_SELECT = SQL_QUERY_SELECT_ALL + " WHERE id_extender = ? ";
     private static final String SQL_QUERY_UPDATE = " UPDATE extend_resource_extender SET extender_type = ?, id_resource = ?, resource_type = ?, is_active = ? WHERE id_extender = ? ";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO extend_resource_extender (id_extender, extender_type, id_resource, resource_type) VALUES ( ?,?,?,? ) ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO extend_resource_extender (extender_type, id_resource, resource_type) VALUES ( ?,?,? ) ";
     private static final String SQL_QUERY_DELETE = " DELETE FROM extend_resource_extender where id_extender = ? ";
 
     // FILTERS
@@ -66,46 +70,25 @@ public class ResourceExtenderDAO implements IResourceExtenderDAO
     private static final String COMMA = " , ";
 
     /**
-     * New primary key
-     * 
-     * @param plugin
-     *            the plugin
-     * @return a new primary key
-     */
-    private int newPrimaryKey( Plugin plugin )
-    {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, plugin );
-        daoUtil.executeQuery( );
-
-        int nKey = 1;
-
-        if ( daoUtil.next( ) )
-        {
-            nKey = daoUtil.getInt( 1 ) + 1;
-        }
-
-        daoUtil.free( );
-
-        return nKey;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public synchronized void insert( ResourceExtenderDTO extender, Plugin plugin )
     {
         int nIndex = 1;
-        int nIdExtender = newPrimaryKey( plugin );
-        extender.setIdExtender( nIdExtender );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
-        daoUtil.setInt( nIndex++, extender.getIdExtender( ) );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS, plugin );
         daoUtil.setString( nIndex++, extender.getExtenderType( ) );
         daoUtil.setString( nIndex++, extender.getIdExtendableResource( ) );
         daoUtil.setString( nIndex, extender.getExtendableResourceType( ) );
 
         daoUtil.executeUpdate( );
+
+        if ( daoUtil.nextGeneratedKey( ) )
+        {
+            extender.setIdExtender( daoUtil.getGeneratedKeyInt( 1 ) );
+        }
+
         daoUtil.free( );
     }
 

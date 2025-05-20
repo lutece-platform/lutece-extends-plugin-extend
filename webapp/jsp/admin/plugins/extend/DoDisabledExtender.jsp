@@ -1,6 +1,6 @@
-%@ page errorPage="../../ErrorPage.jsp" %>
-<jsp:useBean id="resourceExtender" scope="session" class="fr.paris.lutece.plugins.extend.web.ResourceExtenderJspBean" />
-<% 
-	resourceExtender.init( request, resourceExtender.RIGHT_MANAGE_RESOURCE_EXTENDER );
- 	response.sendRedirect( resourceExtender.doDisabledExtender( request) );
-%>
+<%@ page errorPage="../../ErrorPage.jsp" %>
+
+<%@page import="fr.paris.lutece.plugins.extend.web.ResourceExtenderJspBean"%>
+
+${ resourceExtenderJspBean.init( pageContext.request, ResourceExtenderJspBean.RIGHT_MANAGE_RESOURCE_EXTENDER ) }
+${ pageContext.response.sendRedirect( resourceExtenderJspBean.doDisabledExtender( pageContext.request )) }

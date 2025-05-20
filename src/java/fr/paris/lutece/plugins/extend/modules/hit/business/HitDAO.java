@@ -37,9 +37,12 @@ import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilte
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import jakarta.enterprise.context.ApplicationScoped;
 
 import org.apache.commons.collections.CollectionUtils;
 
@@ -48,10 +51,12 @@ import org.apache.commons.collections.CollectionUtils;
  * InteractionHitDAO
  *
  */
+
+@ApplicationScoped
 public class HitDAO implements IHitDAO
 {
     private static final String SQL_QUERY_NEW_PK = " SELECT max( id_hit ) FROM extend_extender_hit ";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO extend_extender_hit (id_hit, id_resource, resource_type, nb_hits) VALUES ( ?,?,?,? ) ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO extend_extender_hit (id_resource, resource_type, nb_hits) VALUES ( ?,?,? ) ";
     private static final String SQL_QUERY_UPDATE = " UPDATE extend_extender_hit SET id_resource = ?, resource_type = ?, nb_hits = ? WHERE id_hit = ? ";
     private static final String SQL_QUERY_DELETE = " DELETE FROM extend_extender_hit WHERE id_hit = ? ";
     private static final String SQL_QUERY_DELETE_BY_RESOURCE = " DELETE FROM extend_extender_hit WHERE resource_type = ? ";
@@ -67,46 +72,25 @@ public class HitDAO implements IHitDAO
     private static final String CONSTANT_QUESTION_MARK = "?";
 
     /**
-     * New primary key
-     * 
-     * @param plugin
-     *            the plugin
-     * @return a new primary key
-     */
-    private int newPrimaryKey( Plugin plugin )
-    {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK, plugin );
-        daoUtil.executeQuery( );
-
-        int nKey = 1;
-
-        if ( daoUtil.next( ) )
-        {
-            nKey = daoUtil.getInt( 1 ) + 1;
-        }
-
-        daoUtil.free( );
-
-        return nKey;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public synchronized void insert( Hit hit, Plugin plugin )
     {
-        hit.setIdHit( newPrimaryKey( plugin ) );
-
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS, plugin );
         int nIndex = 1;
 
-        daoUtil.setInt( nIndex++, hit.getIdHit( ) );
         daoUtil.setString( nIndex++, hit.getIdExtendableResource( ) );
         daoUtil.setString( nIndex++, hit.getExtendableResourceType( ) );
         daoUtil.setInt( nIndex, hit.getNbHits( ) );
 
         daoUtil.executeUpdate( );
+
+        if ( daoUtil.nextGeneratedKey( ) )
+        {
+            hit.setIdHit( daoUtil.getGeneratedKeyInt( 1 ) );
+        }
+
         daoUtil.free( );
     }
 
@@ -284,40 +268,41 @@ public class HitDAO implements IHitDAO
         return listIds;
     }
 
-	@Override
-	public List<Hit> findByResourceList(List<String> listIdExtendableResource, String strExtendableResourceType,
-			Plugin plugin) {
-		List<Hit> listHit = new ArrayList<>( );
+    @Override
+    public List<Hit> findByResourceList( List<String> listIdExtendableResource, String strExtendableResourceType, Plugin plugin )
+    {
+        List<Hit> listHit = new ArrayList<>( );
         StringBuilder sbSql = new StringBuilder( SQL_QUERY_SELECT_BY_ID_RESOURCE_LIST );
         if ( CollectionUtils.isNotEmpty( listIdExtendableResource ) )
         {
-            sbSql.append( listIdExtendableResource.stream( ).map( s -> "?" ).collect( Collectors.joining( "," ) ) );          
-            sbSql.append( SQL_FILTER_ID_LIST_END );    
-           
-            try( DAOUtil daoUtil = new DAOUtil( sbSql.toString( ), plugin )){
-	        	int nIndex = 0;
-	    		
-		        daoUtil.setString( ++nIndex, strExtendableResourceType );
-		        for ( String id : listIdExtendableResource )
-		        {
-		            daoUtil.setString( ++nIndex, id );
-		        }
-		        daoUtil.executeQuery(  );
-		
-		        while ( daoUtil.next(  ) )
-		        {
-		            nIndex = 1;
-		
-		            Hit hit = new Hit( );
-		            hit.setIdHit( daoUtil.getInt( nIndex++ ) );
-		            hit.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
-		            hit.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
-		            hit.setNbHits( daoUtil.getInt( nIndex ) );
-		            listHit.add( hit );
-		        }
+            sbSql.append( listIdExtendableResource.stream( ).map( s -> "?" ).collect( Collectors.joining( "," ) ) );
+            sbSql.append( SQL_FILTER_ID_LIST_END );
 
-           }
+            try ( DAOUtil daoUtil = new DAOUtil( sbSql.toString( ), plugin ) )
+            {
+                int nIndex = 0;
+
+                daoUtil.setString( ++nIndex, strExtendableResourceType );
+                for ( String id : listIdExtendableResource )
+                {
+                    daoUtil.setString( ++nIndex, id );
+                }
+                daoUtil.executeQuery( );
+
+                while ( daoUtil.next( ) )
+                {
+                    nIndex = 1;
+
+                    Hit hit = new Hit( );
+                    hit.setIdHit( daoUtil.getInt( nIndex++ ) );
+                    hit.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
+                    hit.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
+                    hit.setNbHits( daoUtil.getInt( nIndex ) );
+                    listHit.add( hit );
+                }
+
+            }
         }
         return listHit;
-	}
+    }
 }

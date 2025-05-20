@@ -33,13 +33,15 @@
  */
 package fr.paris.lutece.plugins.extend.business.extender;
 
+import fr.paris.lutece.plugins.extend.modules.hit.business.HitDAO;
 import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.test.LuteceTestCase;
 
-import org.junit.Test;
+import fr.paris.lutece.test.LuteceTestCase;
+import org.junit.jupiter.api.Test;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 
 /**
  *
@@ -56,14 +58,18 @@ public class ResourceExtenderTest extends LuteceTestCase
     private static final String RES_TYPE_1 = "RES_TYPE_1";
     private static final String RES_TYPE_2 = "RES_TYPE_2";
 
+    @Inject
+    private IResourceExtenderDAO dao;
+
     /**
      * Test business.
      */
     @Test
     public void testBusiness( )
     {
+
         Plugin plugin = PluginService.getPlugin( ExtendPlugin.PLUGIN_NAME );
-        IResourceExtenderDAO dao = SpringContextService.getBean( "extend.resourceExtenderDAO" );
+        
 
         // Init object
         ResourceExtenderDTO extender = new ResourceExtenderDTO( );

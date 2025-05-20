@@ -1,8 +1,9 @@
 package fr.paris.lutece.plugins.extend.service.extender.facade;
 
-public interface IExtendableResourceResult {
-	
-	/**
+public interface IExtendableResourceResult
+{
+
+    /**
      * Gets the id.
      *
      * @return The id

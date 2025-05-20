@@ -34,11 +34,13 @@
 package fr.paris.lutece.plugins.extend.service.content;
 
 import fr.paris.lutece.portal.service.content.ContentPostProcessor;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
 
-import org.junit.Test;
+import fr.paris.lutece.test.LuteceTestCase;
+import org.junit.jupiter.api.Test;
+
+import jakarta.inject.Inject;
+import jakarta.enterprise.inject.spi.CDI;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 /**
  *
@@ -50,20 +52,23 @@ public class ExtendableContentPostProcessorTest extends LuteceTestCase
     private static final String HTML = "<html><head><base href=\"http://localhost:8080/lutece\"/></head><body><h1>Test</h1>@extendable[1,resourceType,hit,parameters]@<p>@extendable[2,resourceType-2,extenderType 2,{parameter_A = 2, parameter_B = 3}]@</p></body></html>";
     private static final String BEAN_CONTENT_POST_PROCESS = "extend.extendableContentPostProcessor";
 
+    @Inject
+    private ContentPostProcessor _processor;
+
     /**
      * Test process.
      */
     @Test
     public void testProcess( )
     {
-        ContentPostProcessor processor = SpringContextService.getBean( BEAN_CONTENT_POST_PROCESS );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
 
-        if ( processor == null )
+        if ( _processor == null )
         {
             fail( "ContentPostProcessor " + BEAN_CONTENT_POST_PROCESS + " not initialized." );
         }
 
-        String strOutput = processor.process( new MokeHttpServletRequest( ), HTML );
+        String strOutput = _processor.process( request, HTML );
         System.out.println( "Original HTML content :\n" + HTML );
         System.out.println( "Result HTML content :\n" + strOutput );
     }

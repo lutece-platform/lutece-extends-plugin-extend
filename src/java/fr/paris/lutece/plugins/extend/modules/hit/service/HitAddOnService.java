@@ -39,20 +39,24 @@ import fr.paris.lutece.util.xml.XmlUtil;
 
 import java.util.Map;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  * Manager for add on display
  */
+
+@ApplicationScoped
+@Named( "extend.hitAddOnService" )
 public class HitAddOnService implements IResourceDisplayManager
 {
     public static final String PROPERTY_RESOURCE_TYPE = "document";
     private static final String TAG_NUMBER_HITS = "document-number-hits";
+
     @Inject
-    @Named( HitService.BEAN_SERVICE )
     private IHitService _hitService;
 
     @Override

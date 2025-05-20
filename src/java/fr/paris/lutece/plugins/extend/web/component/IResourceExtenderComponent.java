@@ -40,7 +40,7 @@ import fr.paris.lutece.plugins.extend.util.ExtendErrorException;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -49,20 +49,13 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface IResourceExtenderComponent
 {
+
     /**
      * Gets the resource extender.
      *
      * @return the resource extender
      */
     IResourceExtender getResourceExtender( );
-
-    /**
-     * Sets the resource extender.
-     *
-     * @param extender
-     *            the new resource extender
-     */
-    void setResourceExtender( IResourceExtender extender );
 
     /**
      * Add to the the XML String additional datas.

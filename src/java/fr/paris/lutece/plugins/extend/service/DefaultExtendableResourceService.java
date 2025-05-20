@@ -34,13 +34,17 @@
 package fr.paris.lutece.plugins.extend.service;
 
 import fr.paris.lutece.plugins.extend.business.IDefaultExtendableResourceDAO;
+import fr.paris.lutece.plugins.extend.business.extender.history.IResourceExtenderHistoryDAO;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.transaction.Transactional;
 
 import java.util.Locale;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  *
@@ -53,12 +57,22 @@ import javax.inject.Inject;
  * </ul>
  *
  */
+
+@ApplicationScoped
+@Named( "extend.defaultExtendableResourceService" )
 public class DefaultExtendableResourceService implements IDefaultExtendableResourceService
 {
     /** The Constant BEAN_SERVICE. */
     public static final String BEAN_SERVICE = "extend.defaultExtendableResourceService";
+
     @Inject
     private IDefaultExtendableResourceDAO _extendableResourceDAO;
+
+    @Inject
+    DefaultExtendableResourceService( )
+    {
+
+    }
 
     /**
      * {@inheritDoc}
@@ -83,7 +97,7 @@ public class DefaultExtendableResourceService implements IDefaultExtendableResou
      * {@inheritDoc}
      */
     @Override
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     public void create( IExtendableResource resource )
     {
         _extendableResourceDAO.insert( resource, ExtendPlugin.getPlugin( ) );
@@ -93,7 +107,7 @@ public class DefaultExtendableResourceService implements IDefaultExtendableResou
      * {@inheritDoc}
      */
     @Override
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     public void update( IExtendableResource resource )
     {
         _extendableResourceDAO.store( resource, ExtendPlugin.getPlugin( ) );
@@ -103,7 +117,7 @@ public class DefaultExtendableResourceService implements IDefaultExtendableResou
      * {@inheritDoc}
      */
     @Override
-    @Transactional( ExtendPlugin.TRANSACTION_MANAGER )
+    @Transactional
     public void remove( String strIdResource, String strResourceType )
     {
         _extendableResourceDAO.delete( strIdResource, strResourceType, ExtendPlugin.getPlugin( ) );

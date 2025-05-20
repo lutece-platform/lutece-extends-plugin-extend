@@ -34,11 +34,16 @@
 package fr.paris.lutece.plugins.extend.service.extender;
 
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 
 /**
  * Cache service for Extender
  */
-public class ResourceExtenderCacheService extends AbstractCacheableService implements IResourceExtenderCacheService
+
+@SessionScoped
+@Named( "extend.resourceExtenderCacheService" )
+public abstract class ResourceExtenderCacheService extends AbstractCacheableService implements IResourceExtenderCacheService
 {
 
     private static final String CACHE_NAME = "Extender Service Cache";

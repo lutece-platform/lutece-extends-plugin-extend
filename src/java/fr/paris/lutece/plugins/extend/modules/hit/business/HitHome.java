@@ -5,20 +5,23 @@ import java.util.Optional;
 
 import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 
-public class HitHome {
+import jakarta.enterprise.inject.spi.CDI;
 
-    private static IHitDAO _hitDAO = SpringContextService.getBean( "extend.hitDAO" );
+public class HitHome
+{
+
+    private static IHitDAO _hitDAO = CDI.current( ).select( HitDAO.class ).get( );
     private static Plugin _plugin = ExtendPlugin.getPlugin( );
 
     /**
      * Private constructor
      */
-    private HitHome ()
+    private HitHome( )
     {
-    	
-    }    
+
+    }
+
     /**
      * Creates the a hit extender.
      *
@@ -29,6 +32,7 @@ public class HitHome {
     {
         _hitDAO.insert( hit, _plugin );
     }
+
     /**
      * Update a hit extender.
      *
@@ -39,16 +43,18 @@ public class HitHome {
     {
         _hitDAO.store( hit, _plugin );
     }
+
     /**
-    * Removes a hit extender.
-    *
-    * @param nIdHit
-    *            the n id hit
-    */
+     * Removes a hit extender.
+     *
+     * @param nIdHit
+     *            the n id hit
+     */
     public static void remove( int nIdExtender )
     {
-        _hitDAO.delete( nIdExtender,_plugin );
+        _hitDAO.delete( nIdExtender, _plugin );
     }
+
     /**
      * Removes a hit extender by id resource and resource type.
      * 
@@ -61,6 +67,7 @@ public class HitHome {
     {
         _hitDAO.deleteByResource( strIdResource, strResourceType, _plugin );
     }
+
     /**
      * Find.
      *
@@ -70,8 +77,9 @@ public class HitHome {
      */
     public static Optional<Hit> findByPrimaryKey( int nIdHit )
     {
-        return Optional.ofNullable(_hitDAO.load( nIdHit, _plugin ));
+        return Optional.ofNullable( _hitDAO.load( nIdHit, _plugin ) );
     }
+
     /**
      * Find by id extender.
      *
@@ -83,8 +91,9 @@ public class HitHome {
      */
     public static Optional<Hit> findByParameters( String strIdExtendableResource, String strExtendableResourceType )
     {
-        return Optional.ofNullable(_hitDAO.loadByParameters( strIdExtendableResource, strExtendableResourceType, _plugin ));
+        return Optional.ofNullable( _hitDAO.loadByParameters( strIdExtendableResource, strExtendableResourceType, _plugin ) );
     }
+
     /**
      * Get the ids of resources ordered by their number of hits
      * 
@@ -100,6 +109,7 @@ public class HitHome {
     {
         return _hitDAO.findIdMostHitedResources( strExtendableResourceType, nItemsOffset, nMaxItemsNumber, _plugin );
     }
+
     /**
      * Find by list id extendable resource.
      *
@@ -109,9 +119,9 @@ public class HitHome {
      *            the str extendable resource type
      * @return the hit list
      */
-	public static List<Hit> findByResourceList(List<String> listIdExtendableResource, String strExtendableResourceType) 
-	{
+    public static List<Hit> findByResourceList( List<String> listIdExtendableResource, String strExtendableResourceType )
+    {
 
-		return _hitDAO.findByResourceList( listIdExtendableResource, strExtendableResourceType, _plugin );
-	}
+        return _hitDAO.findByResourceList( listIdExtendableResource, strExtendableResourceType, _plugin );
+    }
 }

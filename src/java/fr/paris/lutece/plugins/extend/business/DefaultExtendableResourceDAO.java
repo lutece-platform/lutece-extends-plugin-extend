@@ -37,11 +37,14 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
 /**
  *
  * DefaultExtendableResourceDAO
  *
  */
+@ApplicationScoped
 public class DefaultExtendableResourceDAO implements IDefaultExtendableResourceDAO
 {
     private static final String SQL_QUERY_INSERT = " INSERT INTO extend_default_extendable_resource (id_resource, resource_type, name) VALUES ( ?,?,? ) ";

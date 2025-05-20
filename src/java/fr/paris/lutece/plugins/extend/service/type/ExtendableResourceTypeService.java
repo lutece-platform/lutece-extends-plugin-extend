@@ -35,7 +35,6 @@ package fr.paris.lutece.plugins.extend.service.type;
 
 import fr.paris.lutece.plugins.extend.business.type.ExtendableResourceType;
 import fr.paris.lutece.portal.service.resource.IExtendableResourceService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
 
 import org.apache.commons.lang3.StringUtils;
@@ -43,17 +42,31 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
+import jakarta.inject.Inject;
 
 /**
  *
  * ExtendableResourceTypeService
  *
  */
+
+@ApplicationScoped
+@Named( "extend.extendableResourceTypeService" )
 public class ExtendableResourceTypeService implements IExtendableResourceTypeService
 {
     /** The Constant BEAN_SERVICE. */
     public static final String BEAN_SERVICE = "extend.extendableResourceTypeService";
+
+    @Inject
+    ExtendableResourceTypeService( )
+    {
+
+    }
 
     /**
      * {@inheritDoc}
@@ -61,15 +74,17 @@ public class ExtendableResourceTypeService implements IExtendableResourceTypeSer
     @Override
     public ExtendableResourceType findByPrimaryKey( String strKey, Locale locale )
     {
-        List<IExtendableResourceService> listExtendableResources = SpringContextService.getBeansOfType( IExtendableResourceService.class );
+        List<IExtendableResourceService> listExtendableResources = CDI.current( ).select( IExtendableResourceService.class ).stream( )
+                .collect( Collectors.toList( ) );
+
         ExtendableResourceType resourceType = null;
 
         for ( IExtendableResourceService resource : listExtendableResources )
         {
-            if ( StringUtils.equals( resource.getResourceType(  ), strKey ) || resource.isInvoked( strKey ))
+            if ( StringUtils.equals( resource.getResourceType( ), strKey ) || resource.isInvoked( strKey ) )
             {
-                resourceType = new ExtendableResourceType(  );
-                resourceType.setKey( resource.getResourceType(  ) );
+                resourceType = new ExtendableResourceType( );
+                resourceType.setKey( resource.getResourceType( ) );
                 resourceType.setDescription( resource.getResourceTypeDescription( locale ) );
             }
         }
@@ -83,15 +98,16 @@ public class ExtendableResourceTypeService implements IExtendableResourceTypeSer
     @Override
     public List<ExtendableResourceType> findAll( Locale locale )
     {
-        List<IExtendableResourceService> listExtendableResources = SpringContextService.getBeansOfType( IExtendableResourceService.class );
-        List<ExtendableResourceType> listResourceTypes = new ArrayList<ExtendableResourceType>(  );
+        List<IExtendableResourceService> listExtendableResources = CDI.current( ).select( IExtendableResourceService.class ).stream( )
+                .collect( Collectors.toList( ) );
+        List<ExtendableResourceType> listResourceTypes = new ArrayList<ExtendableResourceType>( );
 
         for ( IExtendableResourceService resource : listExtendableResources )
         {
-            if ( StringUtils.isNotEmpty( resource.getResourceType(  ) ) )
+            if ( StringUtils.isNotEmpty( resource.getResourceType( ) ) )
             {
-                ExtendableResourceType resourceType = new ExtendableResourceType(  );
-                resourceType.setKey( resource.getResourceType(  ) );
+                ExtendableResourceType resourceType = new ExtendableResourceType( );
+                resourceType.setKey( resource.getResourceType( ) );
                 resourceType.setDescription( resource.getResourceTypeDescription( locale ) );
                 listResourceTypes.add( resourceType );
             }
@@ -106,11 +122,11 @@ public class ExtendableResourceTypeService implements IExtendableResourceTypeSer
     @Override
     public ReferenceList findAllAsRef( Locale locale )
     {
-        ReferenceList ref = new ReferenceList(  );
+        ReferenceList ref = new ReferenceList( );
 
         for ( ExtendableResourceType resourceType : findAll( locale ) )
         {
-            ref.addItem( resourceType.getKey(  ), resourceType.getDescription(  ) );
+            ref.addItem( resourceType.getKey( ), resourceType.getDescription( ) );
         }
 
         return ref;

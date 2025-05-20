@@ -35,12 +35,13 @@ package fr.paris.lutece.plugins.extend.web;
 
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * Class that generates included content of page header.
@@ -57,7 +58,7 @@ public class ExtendPageIncluder implements PageInclude
     {
         StringBuilder sbMeta = new StringBuilder( );
 
-        List<IExtendPageInclude> listPageInclude = SpringContextService.getBeansOfType( IExtendPageInclude.class );
+        List<IExtendPageInclude> listPageInclude = CDI.current( ).select( IExtendPageInclude.class ).stream( ).collect( Collectors.toList( ) );
 
         for ( IExtendPageInclude pageInclude : listPageInclude )
         {

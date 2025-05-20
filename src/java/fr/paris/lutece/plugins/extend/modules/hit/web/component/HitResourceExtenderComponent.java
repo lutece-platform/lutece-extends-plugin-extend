@@ -38,6 +38,7 @@ import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.modules.hit.business.Hit;
 import fr.paris.lutece.plugins.extend.modules.hit.service.IHitService;
 import fr.paris.lutece.plugins.extend.modules.hit.service.extender.HitResourceExtender;
+import fr.paris.lutece.plugins.extend.service.extender.IResourceExtender;
 import fr.paris.lutece.plugins.extend.service.extender.history.IResourceExtenderHistoryService;
 import fr.paris.lutece.plugins.extend.util.JSONUtils;
 import fr.paris.lutece.plugins.extend.web.component.NoConfigResourceExtenderComponent;
@@ -51,17 +52,29 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+
+import fr.paris.lutece.plugins.extend.business.extender.config.IExtenderConfig;
 
 /**
  *
  * HitResourceExtenderComponent
  *
  */
+
+@ApplicationScoped
 public class HitResourceExtenderComponent extends NoConfigResourceExtenderComponent
 {
+
+    @Inject
+    @Named( "extend.hitResourceExtender" )
+    private IResourceExtender _resourceExtender;
+
     // MARKS
     private static final String MARK_HIT = "hit";
 
@@ -76,8 +89,24 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
     // SERVICES
     @Inject
     private IHitService _hitService;
+
     @Inject
     private IResourceExtenderHistoryService _resourceHistoryService;
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public IResourceExtender getResourceExtender( )
+    {
+        return _resourceExtender;
+    }
+
+    @Override
+    public IExtenderConfig getConfig( int nIdExtender )
+    {
+        return null;
+    }
 
     /**
      * {@inheritDoc}

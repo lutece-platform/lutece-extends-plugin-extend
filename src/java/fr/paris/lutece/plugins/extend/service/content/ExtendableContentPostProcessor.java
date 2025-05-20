@@ -46,25 +46,29 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 
 import org.apache.commons.lang3.StringUtils;
 
-import org.springframework.beans.factory.InitializingBean;
-
-import org.springframework.util.Assert;
-
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
 
 /**
  *
  * This content post processor replace all macro of type @Extender[idResource,resourceType,extenderType,parameters]@ to the associated extender content.
  *
  */
-public class ExtendableContentPostProcessor implements ContentPostProcessor, InitializingBean
+
+@ApplicationScoped
+@Named( "extend.extendableContentPostProcessor" )
+public class ExtendableContentPostProcessor implements ContentPostProcessor
 {
     /**
      * Name of this bean
@@ -76,6 +80,8 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
 
     // PROPERTIES
     private static final String PROPERTY_CLIENT_SIDE = "extend.contentPostProcessor.clientSide";
+    private static final String PROPERTY_REGEX_PATTERN = "extend.extendableContentPostProcessor.regexPattern";
+    private static final String PROPERTY_EXTENDER_PARAMETER_REGEX_PATTERN = "extend.extendableContentPostProcessor.extenderParameterRegexPattern";
 
     // MARKS
     private static final String MARK_REGEX_PATTERN = "extendRegexPattern";
@@ -85,14 +91,28 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
 
     // TEMPLATES
     private static final String TEMPLATE_CONTENT_POST_PROCESSOR = "skin/plugins/extend/extendable_content_post_processor.html";
+
     @Inject
     private IResourceExtenderService _extenderService;
+
     @Inject
     private IStringMapper<ResourceExtenderDTO> _mapper;
-    private String _strRegexPattern;
+
+    private String _strRegexPattern = AppPropertiesService.getProperty( PROPERTY_REGEX_PATTERN, "" );
+    
     private Pattern _regexPattern;
-    private String _strExtenderParameterRegexPattern;
+
+    private String _strExtenderParameterRegexPattern = AppPropertiesService.getProperty( PROPERTY_EXTENDER_PARAMETER_REGEX_PATTERN, "" );
     private Pattern _extendedParameterRegexPattern;
+
+    @Inject
+    public ExtendableContentPostProcessor(
+        @ConfigProperty( name = PROPERTY_REGEX_PATTERN ) String strRegexPattern,
+        @ConfigProperty( name = PROPERTY_EXTENDER_PARAMETER_REGEX_PATTERN ) String strExtenderParameterRegexPattern )
+    {
+        setRegexPattern( strRegexPattern );
+        setExtenderParameterRegexPattern( strExtenderParameterRegexPattern );
+    }
 
     /**
      * Sets the regex pattern.
@@ -244,14 +264,5 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor, Ini
         }
 
         return strHtmlContent;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void afterPropertiesSet( ) throws Exception
-    {
-        Assert.notNull( _strRegexPattern, "The property 'regexPattern' is required." );
     }
 }

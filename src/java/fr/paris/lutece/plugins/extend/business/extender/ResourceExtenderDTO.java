@@ -35,7 +35,7 @@ package fr.paris.lutece.plugins.extend.business.extender;
 
 import fr.paris.lutece.portal.service.rbac.RBACResource;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  *
