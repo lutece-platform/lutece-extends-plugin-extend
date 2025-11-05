@@ -163,6 +163,11 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor
     {
         String strHtmlContent = strContent;
 
+        if (strHtmlContent == null) 
+        {
+            return null;
+        }
+
         // Check if the process is carried out in client or server side
         boolean bClientSide = Boolean.valueOf( AppPropertiesService.getProperty( PROPERTY_CLIENT_SIDE, "false" ) );
 
