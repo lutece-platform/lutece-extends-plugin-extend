@@ -54,7 +54,6 @@ import org.apache.commons.collections.CollectionUtils;
 @ApplicationScoped
 public class ResourceExtenderHistoryDAO implements IResourceExtenderHistoryDAO
 {
-    private static final String SQL_QUERY_NEW_PK = " SELECT max( id_history ) FROM extend_resource_extender_history ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO extend_resource_extender_history ( extender_type, id_resource, resource_type, user_guid, ip_address ) "
             + " VALUES ( ?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_SELECT_ALL = " SELECT id_history, extender_type, id_resource, resource_type, user_guid, ip_address, date_creation "
