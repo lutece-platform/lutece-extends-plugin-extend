@@ -33,13 +33,17 @@
  */
 package fr.paris.lutece.plugins.extend.business.extender.config;
 
+import java.io.Serializable;
+
 /**
  *
  * ExtenderConfig
  *
  */
-public abstract class ExtenderConfig implements IExtenderConfig
+public abstract class ExtenderConfig implements IExtenderConfig, Serializable
 {
+    private static final long serialVersionUID = 1L;
+
     private int _nIdExtender;
 
     /**

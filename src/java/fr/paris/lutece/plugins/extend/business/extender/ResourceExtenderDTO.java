@@ -37,13 +37,16 @@ import fr.paris.lutece.portal.service.rbac.RBACResource;
 
 import jakarta.validation.constraints.NotNull;
 
+import java.io.Serializable;
+
 /**
  *
  * ResourceExtenderDTO
  *
  */
-public class ResourceExtenderDTO implements RBACResource
+public class ResourceExtenderDTO implements RBACResource, Serializable
 {
+    private static final long serialVersionUID = 1L;
     /** The Constant RESOURCE_TYPE. */
     public static final String RESOURCE_TYPE = "EXTEND_EXTENDABLE_RESOURCE";
     private int _nIdExtender;
