@@ -8,20 +8,20 @@
 <@pageContainer>
 	<@pageColumn>
 		<@pageHeader title=extendTitle boxTools=hasBoxTools skipHeader=skipHead>
-				<#if extendBoxTools !='' && !manageByResource>
-					${extendBoxTools!}
-				<#elseif hasBoxTools>
-					<@tform type='inline' action='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp'>
-						<@input type='hidden' name='manageByResource' value='${manageByResource?c}' />
-						<@btnGroup>
-							<#list resourceExtenderActions?reverse as resourceExtenderAction>
-								<#if resourceExtenderAction.buttonTemplate?has_content>
-									<#include resourceExtenderAction.buttonTemplate />
-								</#if>
-							</#list>
-						</@btnGroup>
-					</@tform>
-				</#if>
+		<#if extendBoxTools !='' && !manageByResource>
+			${extendBoxTools!}
+		<#elseif hasBoxTools>
+			<@tform type='inline' action='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp'>
+				<@input type='hidden' name='manageByResource' value='${manageByResource?c}' />
+				<@btnGroup>
+					<#list resourceExtenderActions?reverse as resourceExtenderAction>
+						<#if resourceExtenderAction.buttonTemplate?has_content>
+							<#include resourceExtenderAction.buttonTemplate />
+						</#if>
+					</#list>
+				</@btnGroup>
+			</@tform>
+		</#if>
 		</@pageHeader>	
 		<#nested>
 	</@pageColumn>
@@ -33,13 +33,15 @@
 <#macro extendScript>
 <script type="text/javascript">
 function isIniFrame() {	 return window.self !== window.top ? true : false;	}
-$( function (  ) {
-	if ( isIniFrame() ){
-		$('nav').hide();
-		$('#admin-wrapper').css( 'margin', '0' );
-		$('.content-header').hide();
-		$('header').hide();
-		$('footer').hide();
+document.addEventListener('DOMContentLoaded', function() {
+	if (isIniFrame()) {
+		document.querySelector('nav').style.display = 'none';
+		const adminWrapper = document.getElementById('admin-wrapper');
+		if (adminWrapper) adminWrapper.style.margin = '0';
+		const contentHeader = document.querySelector('.content-header');
+		if (contentHeader) contentHeader.style.display = 'none';
+		document.querySelector('header').style.display = 'none';
+		document.querySelector('footer').style.display = 'none';
 	}
 	<#nested>
 });
