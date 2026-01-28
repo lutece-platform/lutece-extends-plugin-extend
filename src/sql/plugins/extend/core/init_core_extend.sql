@@ -1,6 +1,6 @@
---liquibase formatted sql
---changeset extend:init_core_extend.sql
---preconditions onFail:MARK_RAN onError:WARN
+-- liquibase formatted sql
+-- changeset extend:init_core_extend.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 --
 -- Init  table core_admin_right
 --
