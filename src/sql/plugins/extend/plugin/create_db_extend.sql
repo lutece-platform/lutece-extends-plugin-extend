@@ -1,6 +1,6 @@
---liquibase formatted sql
---changeset extend:create_db_extend.sql
---preconditions onFail:MARK_RAN onError:WARN
+-- liquibase formatted sql
+-- changeset extend:create_db_extend.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 --
 -- Structure for table extend_resource_extender
 -- This table is used to enable extender for the given resources
