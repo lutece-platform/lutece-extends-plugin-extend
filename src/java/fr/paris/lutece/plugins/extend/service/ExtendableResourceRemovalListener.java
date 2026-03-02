@@ -36,18 +36,19 @@ package fr.paris.lutece.plugins.extend.service;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilter;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
-import fr.paris.lutece.plugins.extend.service.extender.ResourceExtenderService;
 import fr.paris.lutece.plugins.extend.service.extender.history.IResourceExtenderHistoryService;
-import fr.paris.lutece.plugins.extend.service.extender.history.ResourceExtenderHistoryService;
 import fr.paris.lutece.portal.service.resource.IExtendableResourceRemovalListener;
 
 import java.util.List;
 import java.util.Map;
+
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 /**
  * Remove extensions of resources when they are removed
  */
+@ApplicationScoped
 public class ExtendableResourceRemovalListener implements IExtendableResourceRemovalListener
 {
     @Inject
