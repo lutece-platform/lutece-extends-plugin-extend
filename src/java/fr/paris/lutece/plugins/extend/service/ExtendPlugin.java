@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.resource.ExtendableResourceRemovalListenerService;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  *
@@ -57,7 +58,8 @@ public class ExtendPlugin extends PluginDefaultImplementation
     @Override
     public void init( )
     {
-        ExtendableResourceRemovalListenerService.registerListener( new ExtendableResourceRemovalListener( ) );
+        ExtendableResourceRemovalListener listener = CDI.current( ).select( ExtendableResourceRemovalListener.class ).get( );
+        ExtendableResourceRemovalListenerService.registerListener( listener );
     }
 
     /**
