@@ -92,8 +92,8 @@ public class HitService implements IHitService
     @Override
     public void incrementHit( Hit hit )
     {
+        HitHome.increment( hit.getIdHit( ) );
         hit.setNbHits( hit.getNbHits( ) + 1 );
-        HitHome.update( hit );
     }
 
     /**

@@ -73,7 +73,7 @@ public class ResourceExtenderDAO implements IResourceExtenderDAO
      * {@inheritDoc}
      */
     @Override
-    public synchronized void insert( ResourceExtenderDTO extender, Plugin plugin )
+    public void insert( ResourceExtenderDTO extender, Plugin plugin )
     {
         int nIndex = 1;
 

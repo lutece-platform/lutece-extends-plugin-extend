@@ -45,6 +45,17 @@ public class HitHome
     }
 
     /**
+     * Adds one hit, in the database
+     *
+     * @param nIdHit
+     *            the hit id
+     */
+    public static void increment( int nIdHit )
+    {
+        _hitDAO.increment( nIdHit, _plugin );
+    }
+
+    /**
      * Removes a hit extender.
      *
      * @param nIdHit

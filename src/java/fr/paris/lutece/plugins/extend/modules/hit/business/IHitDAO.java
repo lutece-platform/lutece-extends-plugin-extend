@@ -63,6 +63,16 @@ public interface IHitDAO
     void store( Hit hit, Plugin plugin );
 
     /**
+     * Adds one hit, in the database (no lost increment between concurrent requests or instances)
+     *
+     * @param nIdHit
+     *            the hit id
+     * @param plugin
+     *            the plugin
+     */
+    void increment( int nIdHit, Plugin plugin );
+
+    /**
      * Delete.
      *
      * @param nIdHit

@@ -56,7 +56,7 @@ public class DefaultExtendableResourceDAO implements IDefaultExtendableResourceD
      * {@inheritDoc}
      */
     @Override
-    public synchronized void insert( IExtendableResource resource, Plugin plugin )
+    public void insert( IExtendableResource resource, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, plugin );
         int nIndex = 1;

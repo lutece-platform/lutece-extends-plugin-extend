@@ -69,7 +69,7 @@ public class ResourceExtenderHistoryDAO implements IResourceExtenderHistoryDAO
      * {@inheritDoc}
      */
     @Override
-    public synchronized void insert( ResourceExtenderHistory history, Plugin plugin )
+    public void insert( ResourceExtenderHistory history, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS, plugin );
 

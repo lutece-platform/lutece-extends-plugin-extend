@@ -58,6 +58,7 @@ public class HitDAO implements IHitDAO
     private static final String SQL_QUERY_NEW_PK = " SELECT max( id_hit ) FROM extend_extender_hit ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO extend_extender_hit (id_resource, resource_type, nb_hits) VALUES ( ?,?,? ) ";
     private static final String SQL_QUERY_UPDATE = " UPDATE extend_extender_hit SET id_resource = ?, resource_type = ?, nb_hits = ? WHERE id_hit = ? ";
+    private static final String SQL_QUERY_INCREMENT = " UPDATE extend_extender_hit SET nb_hits = nb_hits + 1 WHERE id_hit = ? ";
     private static final String SQL_QUERY_DELETE = " DELETE FROM extend_extender_hit WHERE id_hit = ? ";
     private static final String SQL_QUERY_DELETE_BY_RESOURCE = " DELETE FROM extend_extender_hit WHERE resource_type = ? ";
     private static final String SQL_QUERY_FILTER_BY_ID_RESOURCE = " AND id_resource = ? ";
@@ -75,7 +76,7 @@ public class HitDAO implements IHitDAO
      * {@inheritDoc}
      */
     @Override
-    public synchronized void insert( Hit hit, Plugin plugin )
+    public void insert( Hit hit, Plugin plugin )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS, plugin );
         int nIndex = 1;
@@ -111,6 +112,19 @@ public class HitDAO implements IHitDAO
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void increment( int nIdHit, Plugin plugin )
+    {
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INCREMENT, plugin ) )
+        {
+            daoUtil.setInt( 1, nIdHit );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
