@@ -71,24 +71,24 @@ public class ResourceExtenderHistoryDAO implements IResourceExtenderHistoryDAO
     @Override
     public void insert( ResourceExtenderHistory history, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS, plugin );
-
-        int nIndex = 1;
-
-        daoUtil.setString( nIndex++, history.getExtenderType( ) );
-        daoUtil.setString( nIndex++, history.getIdExtendableResource( ) );
-        daoUtil.setString( nIndex++, history.getExtendableResourceType( ) );
-        daoUtil.setString( nIndex++, history.getUserGuid( ) );
-        daoUtil.setString( nIndex, history.getIpAddress( ) );
-
-        daoUtil.executeUpdate( );
-
-        if ( daoUtil.nextGeneratedKey( ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS, plugin ) )
         {
-            history.setIdHistory( daoUtil.getGeneratedKeyInt( 1 ) );
-        }
 
-        daoUtil.free( );
+            int nIndex = 1;
+
+            daoUtil.setString( nIndex++, history.getExtenderType( ) );
+            daoUtil.setString( nIndex++, history.getIdExtendableResource( ) );
+            daoUtil.setString( nIndex++, history.getExtendableResourceType( ) );
+            daoUtil.setString( nIndex++, history.getUserGuid( ) );
+            daoUtil.setString( nIndex, history.getIpAddress( ) );
+
+            daoUtil.executeUpdate( );
+
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                history.setIdHistory( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
+        }
     }
 
     /**
@@ -97,28 +97,28 @@ public class ResourceExtenderHistoryDAO implements IResourceExtenderHistoryDAO
     @Override
     public ResourceExtenderHistory load( int nIdHistory, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
-        daoUtil.setInt( 1, nIdHistory );
-        daoUtil.executeQuery( );
-
-        ResourceExtenderHistory history = null;
-
-        if ( daoUtil.next( ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin ) )
         {
-            int nIndex = 1;
-            history = new ResourceExtenderHistory( );
-            history.setIdHistory( daoUtil.getLong( nIndex++ ) );
-            history.setExtenderType( daoUtil.getString( nIndex++ ) );
-            history.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
-            history.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
-            history.setUserGuid( daoUtil.getString( nIndex++ ) );
-            history.setIpAddress( daoUtil.getString( nIndex++ ) );
-            history.setDateCreation( daoUtil.getTimestamp( nIndex ) );
+            daoUtil.setInt( 1, nIdHistory );
+            daoUtil.executeQuery( );
+
+            ResourceExtenderHistory history = null;
+
+            if ( daoUtil.next( ) )
+            {
+                int nIndex = 1;
+                history = new ResourceExtenderHistory( );
+                history.setIdHistory( daoUtil.getLong( nIndex++ ) );
+                history.setExtenderType( daoUtil.getString( nIndex++ ) );
+                history.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
+                history.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
+                history.setUserGuid( daoUtil.getString( nIndex++ ) );
+                history.setIpAddress( daoUtil.getString( nIndex++ ) );
+                history.setDateCreation( daoUtil.getTimestamp( nIndex ) );
+            }
+
+            return history;
         }
-
-        daoUtil.free( );
-
-        return history;
     }
 
     /**
@@ -128,28 +128,28 @@ public class ResourceExtenderHistoryDAO implements IResourceExtenderHistoryDAO
     public List<ResourceExtenderHistory> loadByFilter( ResourceExtenderHistoryFilter filter, Plugin plugin )
     {
         List<ResourceExtenderHistory> listHistories = new ArrayList<ResourceExtenderHistory>( );
-        DAOUtil daoUtil = new DAOUtil( filter.buildSQLQuery( SQL_QUERY_SELECT_ALL ), plugin );
-        filter.setFilterValues( daoUtil );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        try ( DAOUtil daoUtil = new DAOUtil( filter.buildSQLQuery( SQL_QUERY_SELECT_ALL ), plugin ) )
         {
-            int nIndex = 1;
-            ResourceExtenderHistory history = new ResourceExtenderHistory( );
-            history.setIdHistory( daoUtil.getLong( nIndex++ ) );
-            history.setExtenderType( daoUtil.getString( nIndex++ ) );
-            history.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
-            history.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
-            history.setUserGuid( daoUtil.getString( nIndex++ ) );
-            history.setIpAddress( daoUtil.getString( nIndex++ ) );
-            history.setDateCreation( daoUtil.getDate( nIndex ) );
+            filter.setFilterValues( daoUtil );
+            daoUtil.executeQuery( );
 
-            listHistories.add( history );
+            while ( daoUtil.next( ) )
+            {
+                int nIndex = 1;
+                ResourceExtenderHistory history = new ResourceExtenderHistory( );
+                history.setIdHistory( daoUtil.getLong( nIndex++ ) );
+                history.setExtenderType( daoUtil.getString( nIndex++ ) );
+                history.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
+                history.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
+                history.setUserGuid( daoUtil.getString( nIndex++ ) );
+                history.setIpAddress( daoUtil.getString( nIndex++ ) );
+                history.setDateCreation( daoUtil.getTimestamp( nIndex ) );
+
+                listHistories.add( history );
+            }
+
+            return listHistories;
         }
-
-        daoUtil.free( );
-
-        return listHistories;
     }
 
     /**
@@ -189,7 +189,7 @@ public class ResourceExtenderHistoryDAO implements IResourceExtenderHistoryDAO
                     history.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
                     history.setUserGuid( daoUtil.getString( nIndex++ ) );
                     history.setIpAddress( daoUtil.getString( nIndex++ ) );
-                    history.setDateCreation( daoUtil.getDate( nIndex ) );
+                    history.setDateCreation( daoUtil.getTimestamp( nIndex ) );
 
                     listHistories.add( history );
 
@@ -206,11 +206,12 @@ public class ResourceExtenderHistoryDAO implements IResourceExtenderHistoryDAO
     @Override
     public void delete( int nIdHistory, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
-        daoUtil.setInt( 1, nIdHistory );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin ) )
+        {
+            daoUtil.setInt( 1, nIdHistory );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -226,17 +227,18 @@ public class ResourceExtenderHistoryDAO implements IResourceExtenderHistoryDAO
             sbSql.append( SQL_QUERY_FILTER_BY_ID_RESOURCE );
         }
 
-        DAOUtil daoUtil = new DAOUtil( sbSql.toString( ), plugin );
-        int nIndex = 1;
-        daoUtil.setString( nIndex++, strExtenderType );
-        daoUtil.setString( nIndex++, strExtendableResourceType );
-
-        if ( !ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE.equals( strIdExtendableResource ) )
+        try ( DAOUtil daoUtil = new DAOUtil( sbSql.toString( ), plugin ) )
         {
-            daoUtil.setString( nIndex, strIdExtendableResource );
-        }
+            int nIndex = 1;
+            daoUtil.setString( nIndex++, strExtenderType );
+            daoUtil.setString( nIndex++, strExtendableResourceType );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            if ( !ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE.equals( strIdExtendableResource ) )
+            {
+                daoUtil.setString( nIndex, strIdExtendableResource );
+            }
+
+            daoUtil.executeUpdate( );
+        }
     }
 }

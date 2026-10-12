@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.extend.util;
 
+import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.core.JsonParser.Feature;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,6 +47,8 @@ import fr.paris.lutece.portal.service.util.AppLogService;
  */
 public final class JSONUtils
 {
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper( ).configure( Feature.ALLOW_UNQUOTED_FIELD_NAMES, true );
+
     /**
      * Instantiates a new jSON utils.
      */
@@ -58,15 +61,18 @@ public final class JSONUtils
      *
      * @param strParameters
      *            the str parameters
-     * @return the jSON object
+     * @return the jSON object, or null when there are no parameters or they cannot be read
      */
     public static ObjectNode parseParameters( String strParameters )
     {
+        if ( StringUtils.isBlank( strParameters ) )
+        {
+            return null;
+        }
+
         try
         {
-            ObjectMapper objectMapper = new ObjectMapper( );
-            objectMapper.configure( Feature.ALLOW_UNQUOTED_FIELD_NAMES, true );
-            return objectMapper.readValue( strParameters, ObjectNode.class );
+            return OBJECT_MAPPER.readValue( strParameters, ObjectNode.class );
         }
         catch( IllegalArgumentException | JsonProcessingException iae )
         {

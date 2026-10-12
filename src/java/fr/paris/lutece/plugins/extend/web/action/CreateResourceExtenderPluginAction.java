@@ -48,11 +48,16 @@ import java.util.Map;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
+
 /**
  *
  * CreateResourceExtenderPluginAction
  *
  */
+@ApplicationScoped
+@Named( "extend.createResourceExtenderPluginAction" )
 public class CreateResourceExtenderPluginAction extends AbstractPluginAction<IResourceExtenderSearchFields> implements IResourceExtenderPluginAction
 {
     private static final String ACTION_NAME = "Create resource extender";
@@ -67,7 +72,7 @@ public class CreateResourceExtenderPluginAction extends AbstractPluginAction<IRe
     private static final String TEMPLATE_BUTTON = "actions/create_resource_extender.html";
 
     // JSP
-    private static final String JSP_URL = "jsp/admin/plugins/extend/GetCreateResourceExtender.jsp";
+    private static final String JSP_URL = "jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp?view=createResourceExtender";
 
     // CONSTANT
     private static final String CONSTANT_AND = "&";

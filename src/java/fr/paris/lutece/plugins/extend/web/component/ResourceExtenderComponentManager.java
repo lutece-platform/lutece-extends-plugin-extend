@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.extend.web.component;
 
+import org.apache.commons.lang3.Strings;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.business.extender.config.IExtenderConfig;
 import fr.paris.lutece.plugins.extend.business.extender.history.ResourceExtenderHistory;
@@ -123,7 +124,7 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
     private static final String TEMPLATE_RESOURCE_EXTENDER_HISTORY = "admin/plugins/extend/resource_extender_history.html";
 
     // JSP
-    private static final String JSP_URL_VIEW_EXTENDER_HISTORY = "jsp/admin/plugins/extend/ViewExtenderHistory.jsp";
+    private static final String JSP_URL_VIEW_EXTENDER_HISTORY = "jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp?view=viewExtenderHistory";
 
     // MESSAGES
     private static final String MESSAGE_STOP_GENERIC_MESSAGE = "extend.message.stop.genericMessage";
@@ -141,10 +142,6 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
     @Inject
     private Instance<IResourceExtenderComponent> resourceExtenderComponentList;
 
-    // VARIABLES
-    private int _nItemsPerPage;
-    private int _nDefaultItemsPerPage;
-    private String _strCurrentPageIndex;
 
     /**
      * {@inheritDoc}
@@ -220,7 +217,7 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
                 model.put( MARK_RESOURCE_EXTENDER, resourceExtender );
                 model.put( MARK_LOCALE, locale );
                 model.put( MARK_RESOURCE_EXTENDER_CONFIG, component.getConfigHtml( resourceExtender, locale, request ) );
-                model.put( MARK_FROM_URL, StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND, CONSTANT_AND_HTML ) );
+                model.put( MARK_FROM_URL, Strings.CS.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND, CONSTANT_AND_HTML ) );
 
                 HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESOURCE_EXTENDER_CONFIG, locale, model );
 
@@ -249,7 +246,7 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
             model.put( MARK_RESOURCE_EXTENDER, resourceExtender );
             model.put( MARK_LOCALE, locale );
             model.put( MARK_RESOURCE_EXTENDER_CONFIG, component.getConfigHtml( resourceExtender, locale, request ) );
-            model.put( MARK_FROM_URL, StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND, CONSTANT_AND_HTML ) );
+            model.put( MARK_FROM_URL, Strings.CS.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND, CONSTANT_AND_HTML ) );
             model.put( MARK_EXTENDER_TYPE_MODIFY_CONFIG, strExtenderType );
             model.put( PARAMETER_MANAGE_BY_RESOURCE, Boolean.parseBoolean( request.getParameter( PARAMETER_MANAGE_BY_RESOURCE ) ) );
 
@@ -293,7 +290,8 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
                 model.put( MARK_RESOURCE_EXTENDER, resourceExtender );
                 model.put( MARK_LOCALE, locale );
                 model.put( MARK_RESOURCE_EXTENDER_INFO, component.getInfoHtml( resourceExtender, locale, request ) );
-                model.put( MARK_FROM_URL, StringUtils.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND_HTML, CONSTANT_AND ) );
+                ExtendUtils.fillTypeLabels( model::put, List.of( resourceExtender ), locale );
+                model.put( MARK_FROM_URL, Strings.CS.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND_HTML, CONSTANT_AND ) );
 
                 HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESOURCE_EXTENDER_INFO, locale, model );
 
@@ -321,16 +319,15 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
 
             List<ResourceExtenderHistory> listHistories = _resourceHistoryService.findByFilter( filter );
 
-            // PAGINATOR
-            _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-            _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_LIST_HISTORIES_PER_PAGE, 50 );
-            _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
+            String strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, null );
+            int nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_DEFAULT_LIST_HISTORIES_PER_PAGE, 50 );
+            int nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, nDefaultItemsPerPage, nDefaultItemsPerPage );
 
             UrlItem url = new UrlItem( JSP_URL_VIEW_EXTENDER_HISTORY );
             url.addParameter( PARAMETER_ID_EXTENDER, resourceExtender.getIdExtender( ) );
 
-            LocalizedPaginator<ResourceExtenderHistory> paginator = new LocalizedPaginator<ResourceExtenderHistory>( listHistories, _nItemsPerPage,
-                    url.getUrl( ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, request.getLocale( ) );
+            LocalizedPaginator<ResourceExtenderHistory> paginator = new LocalizedPaginator<ResourceExtenderHistory>( listHistories, nItemsPerPage,
+                    url.getUrl( ), Paginator.PARAMETER_PAGE_INDEX, strCurrentPageIndex, request.getLocale( ) );
 
             Map<String, Object> model = new HashMap<String, Object>( );
             model.put( MARK_LIST_HISTORIES, paginator.getPageItems( ) );
@@ -338,6 +335,7 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
             model.put( MARK_LOCALE, locale );
             model.put( MARK_PAGINATOR, paginator );
             model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( paginator.getItemsPerPage( ) ) );
+            ExtendUtils.fillTypeLabels( model::put, List.of( resourceExtender ), locale );
 
             HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESOURCE_EXTENDER_HISTORY, locale, model );
 

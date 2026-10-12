@@ -54,8 +54,6 @@ import jakarta.inject.Named;
 import jakarta.annotation.PostConstruct;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import java.util.Locale;
-import fr.paris.lutece.portal.service.i18n.I18nService;
 
 /**
  *
@@ -79,16 +77,23 @@ public class HitResourceExtender extends AbstractResourceExtender
     private String titleKey;
 
     @Inject
+    @ConfigProperty( name = "extend.hit.historyEnable", defaultValue = "true" )
+    private boolean _bHistoryEnable;
+
+    @Inject
     private HitResourceExtenderComponent resourceExtenderComponent;
 
+    /**
+     * Sets up the hit extender: its key, its title key and its options.
+     */
     @PostConstruct
     public void producesHitResourceExtender( )
     {
         setResourceExtenderComponent( resourceExtenderComponent );
         setKey( EXTENDER_TYPE );
-        setI18nTitleKey( I18nService.getLocalizedString( titleKey, Locale.getDefault( ) ) );
-        setConfigRequired( true );
-        setHistoryEnable( false );
+        setI18nTitleKey( titleKey );
+        setConfigRequired( false );
+        setHistoryEnable( _bHistoryEnable );
         setStateEnable( true );
     }
 

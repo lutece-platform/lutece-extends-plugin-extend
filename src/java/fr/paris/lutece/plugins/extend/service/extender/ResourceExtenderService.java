@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.extend.service.extender;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.plugins.extend.business.extender.IResourceExtenderDAO;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilter;
@@ -103,10 +104,10 @@ public class ResourceExtenderService implements IResourceExtenderService
     public void create( ResourceExtenderDTO extender )
     {
         // Check if the resource type exists or not
-        if ( ( extender != null )
-                && ( _extendableResourceTypeService.findByPrimaryKey( extender.getExtendableResourceType( ), Locale.getDefault( ) ) != null ) )
+        if ( isExtendable( extender ) )
         {
             _extenderDAO.insert( extender, ExtendPlugin.getPlugin( ) );
+            _extenderCache.resetCache( );
         }
     }
 
@@ -118,8 +119,7 @@ public class ResourceExtenderService implements IResourceExtenderService
     public void update( ResourceExtenderDTO extender )
     {
         // Check if the resource type exists or not
-        if ( ( extender != null )
-                && ( _extendableResourceTypeService.findByPrimaryKey( extender.getExtendableResourceType( ), Locale.getDefault( ) ) != null ) )
+        if ( isExtendable( extender ) )
         {
             _extenderDAO.store( extender, ExtendPlugin.getPlugin( ) );
             _extenderCache.resetCache( );
@@ -195,6 +195,20 @@ public class ResourceExtenderService implements IResourceExtenderService
         return ( listResources != null ) && !listResources.isEmpty( );
     }
 
+    /**
+     * Tells whether an extender may be stored: its resource type is served by a resource service, or its resource exists as a default resource.
+     *
+     * @param extender
+     *            the extender
+     * @return true when the extender may be stored
+     */
+    private boolean isExtendable( ResourceExtenderDTO extender )
+    {
+        return ( extender != null )
+                && ( ( _extendableResourceTypeService.findByPrimaryKey( extender.getExtendableResourceType( ), Locale.getDefault( ) ) != null ) || ( _extendableResourceManager
+                        .getResource( extender.getIdExtendableResource( ), extender.getExtendableResourceType( ) ) != null ) );
+    }
+
     // FINDERS
 
     /**
@@ -204,7 +218,11 @@ public class ResourceExtenderService implements IResourceExtenderService
     public ResourceExtenderDTO findByPrimaryKey( int nIdExtender )
     {
         ResourceExtenderDTO resourceExtender = _extenderDAO.load( nIdExtender, ExtendPlugin.getPlugin( ) );
-        resourceExtender.setName( getExtendableResourceName( resourceExtender ) );
+
+        if ( resourceExtender != null )
+        {
+            resourceExtender.setName( getExtendableResourceName( resourceExtender ) );
+        }
 
         return resourceExtender;
     }
@@ -305,33 +323,39 @@ public class ResourceExtenderService implements IResourceExtenderService
 
             List<ResourceExtenderDTO> listResources = findByFilter( filter );
 
-            if ( listResources != null )
+            if ( ( listResources == null ) || listResources.isEmpty( ) )
             {
-                if ( listResources.size( ) == 1 )
+                AppLogService.debug( "No ResourceExtenderDTO found for {}, {}, {}.", strExtenderType, strIdExtendableResource, strExtendableResourceType );
+
+                return null;
+            }
+
+            if ( listResources.size( ) == 1 )
+            {
+                found = listResources.get( 0 );
+            }
+            else if ( listResources.size( ) == 2 )
+            {
+                if ( listResources.get( 0 ).getIdExtendableResource( ).equals( strIdExtendableResource ) )
                 {
                     found = listResources.get( 0 );
                 }
-                else if ( listResources.size( ) == 2 )
-                {
-                    if ( listResources.get( 0 ).getIdExtendableResource( ).equals( strIdExtendableResource ) )
-                    {
-                        found = listResources.get( 0 );
-                    }
-                    else
-                    {
-                        found = listResources.get( 1 );
-                    }
-                }
                 else
                 {
-                    AppLogService.error( "More than 2 ResourceExtenderDTO found for {}, {}, {}.", strExtenderType, strIdExtendableResource, strExtendableResourceType );
-                    return null;
+                    found = listResources.get( 1 );
                 }
-
-                found.setName( getExtendableResourceName( found ) );
-
-                _extenderCache.put( strKey, found );
             }
+            else
+            {
+                AppLogService.getLogger( ).warn( "More than 2 ResourceExtenderDTO found for {}, {}, {}.", strExtenderType, strIdExtendableResource,
+                        strExtendableResourceType );
+
+                return null;
+            }
+
+            found.setName( getExtendableResourceName( found ) );
+
+            _extenderCache.put( strKey, found );
         }
 
         return found;
@@ -555,13 +579,13 @@ public class ResourceExtenderService implements IResourceExtenderService
         {
             Map<String, Boolean> mapPermissions = new HashMap<String, Boolean>( );
             mapPermissions.put( ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, RBACService.isAuthorized(
-                    ResourceExtenderDTO.RESOURCE_TYPE, Integer.toString( nId ), ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, user ) );
+                    ResourceExtenderDTO.RESOURCE_TYPE, Integer.toString( nId ), ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, (User) user ) );
             mapPermissions.put( ExtendableResourceResourceIdService.PERMISSION_VIEW_INFO, RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE,
-                    Integer.toString( nId ), ExtendableResourceResourceIdService.PERMISSION_VIEW_INFO, user ) );
+                    Integer.toString( nId ), ExtendableResourceResourceIdService.PERMISSION_VIEW_INFO, (User) user ) );
             mapPermissions.put( ExtendableResourceResourceIdService.PERMISSION_VIEW_HISTORY, RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE,
-                    Integer.toString( nId ), ExtendableResourceResourceIdService.PERMISSION_VIEW_HISTORY, user ) );
+                    Integer.toString( nId ), ExtendableResourceResourceIdService.PERMISSION_VIEW_HISTORY, (User) user ) );
             mapPermissions.put( ExtendableResourceResourceIdService.PERMISSION_DELETE, RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE,
-                    Integer.toString( nId ), ExtendableResourceResourceIdService.PERMISSION_DELETE, user ) );
+                    Integer.toString( nId ), ExtendableResourceResourceIdService.PERMISSION_DELETE, (User) user ) );
 
             mapActionPermissions.put( Integer.toString( nId ), mapPermissions );
         }

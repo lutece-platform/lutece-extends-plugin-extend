@@ -35,6 +35,7 @@ package fr.paris.lutece.plugins.extend.modules.hit.web.component;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
+import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilter;
 import fr.paris.lutece.plugins.extend.modules.hit.business.Hit;
 import fr.paris.lutece.plugins.extend.modules.hit.service.IHitService;
 import fr.paris.lutece.plugins.extend.modules.hit.service.extender.HitResourceExtender;
@@ -42,6 +43,8 @@ import fr.paris.lutece.plugins.extend.service.extender.IResourceExtender;
 import fr.paris.lutece.plugins.extend.service.extender.history.IResourceExtenderHistoryService;
 import fr.paris.lutece.plugins.extend.util.JSONUtils;
 import fr.paris.lutece.plugins.extend.web.component.NoConfigResourceExtenderComponent;
+import fr.paris.lutece.portal.service.security.LuteceUser;
+import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -141,7 +144,8 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
         }
 
         // Add to the resource extender history
-        _resourceHistoryService.create( HitResourceExtender.EXTENDER_TYPE, strIdExtendableResource, strExtendableResourceType, request );
+        _resourceHistoryService.create( HitResourceExtender.EXTENDER_TYPE, strIdExtendableResource, strExtendableResourceType, getUserGuid( request ),
+                request.getRemoteAddr( ) );
 
         if ( showInFO( strParameters ) )
         {
@@ -157,24 +161,39 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
     }
 
     /**
-     * {@inheritDoc}
+     * Builds the view count of the resource: 0 for a resource never viewed, nothing for all resources or all types.
+     *
+     * @param resourceExtender
+     *            the resource extender
+     * @param locale
+     *            the locale
+     * @param request
+     *            the request
+     * @return the HTML of the view count
      */
     @Override
     public String getInfoHtml( ResourceExtenderDTO resourceExtender, Locale locale, HttpServletRequest request )
     {
-        Hit hit = _hitService.findByParameters( resourceExtender.getIdExtendableResource( ), resourceExtender.getExtendableResourceType( ) );
-
-        if ( hit != null )
+        if ( ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE.equals( resourceExtender.getIdExtendableResource( ) )
+                || ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE.equals( resourceExtender.getExtendableResourceType( ) ) )
         {
-            Map<String, Object> model = new HashMap<String, Object>( );
-            model.put( MARK_HIT, hit );
-
-            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_INFO, locale, model );
-
-            return template.getHtml( );
+            return StringUtils.EMPTY;
         }
 
-        return StringUtils.EMPTY;
+        Hit hit = _hitService.findByParameters( resourceExtender.getIdExtendableResource( ), resourceExtender.getExtendableResourceType( ) );
+
+        if ( hit == null )
+        {
+            hit = new Hit( );
+            hit.setNbHits( 0 );
+        }
+
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_HIT, hit );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_INFO, locale, model );
+
+        return template.getHtml( );
     }
 
     /**
@@ -197,7 +216,7 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
             }
             else
             {
-                AppLogService.debug( "No " + JSON_KEY_SHOW + " found in " + jsonParameters );
+                AppLogService.debug( "No {} found in {}", JSON_KEY_SHOW, jsonParameters );
             }
         }
 
@@ -224,10 +243,32 @@ public class HitResourceExtenderComponent extends NoConfigResourceExtenderCompon
             }
             else
             {
-                AppLogService.debug( "No " + JSON_KEY_INCREMENT + " found in " + jsonParameters );
+                AppLogService.debug( "No {} found in {}", JSON_KEY_INCREMENT, jsonParameters );
             }
         }
 
         return bIncrement;
+    }
+
+    /**
+     * Gets the name of the front office user who sent the request.
+     *
+     * @param request
+     *            the request
+     * @return the name of the user, empty when nobody is authenticated
+     */
+    private static String getUserGuid( HttpServletRequest request )
+    {
+        if ( SecurityService.isAuthenticationEnable( ) )
+        {
+            LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
+
+            if ( user != null )
+            {
+                return user.getName( );
+            }
+        }
+
+        return StringUtils.EMPTY;
     }
 }

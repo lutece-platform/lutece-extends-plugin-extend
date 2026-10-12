@@ -38,7 +38,8 @@ import fr.paris.lutece.plugins.extend.business.extender.history.ResourceExtender
 import fr.paris.lutece.plugins.extend.business.extender.history.ResourceExtenderHistoryFilter;
 import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 import fr.paris.lutece.portal.business.event.ResourceEvent;
-import fr.paris.lutece.portal.service.event.ResourceEventManager;
+import fr.paris.lutece.portal.service.event.EventAction;
+import fr.paris.lutece.portal.service.event.Type;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 
@@ -51,7 +52,7 @@ import java.util.List;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.enterprise.inject.spi.CDI;
+import jakarta.enterprise.event.Event;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -70,10 +71,15 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
     @Inject
     private IResourceExtenderHistoryDAO _resourceExtenderHistoryDAO;
 
+    @Inject
+    @Type( EventAction.UPDATE )
+    private Event<ResourceEvent> _updatedResourceEvent;
+
     /**
      * {@inheritDoc}
      */
     @Override
+    @Deprecated
     public ResourceExtenderHistory create( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType,
             HttpServletRequest request )
     {
@@ -175,6 +181,9 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
         return _resourceExtenderHistoryDAO.loadByFilter( filter, ExtendPlugin.getPlugin( ) );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<ResourceExtenderHistory> findByListIdResource( List<String> listIdResourceExtender, String strExtendableResourceType, String strExtenderType )
     {
@@ -183,10 +192,12 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
     }
 
     /**
-     * Create and process a ResourceEvent.
+     * Fires the update event of an extended resource.
      * 
      * @param strIdResource
+     *            the id of the resource
      * @param strResourceType
+     *            the type of the resource
      */
     private void registerResourceEvent( String strIdResource, String strResourceType )
     {
@@ -194,7 +205,7 @@ public class ResourceExtenderHistoryService implements IResourceExtenderHistoryS
         formResponseEvent.setIdResource( strIdResource );
         formResponseEvent.setTypeResource( strResourceType );
 
-        ResourceEventManager.fireUpdatedResource( formResponseEvent );
+        _updatedResourceEvent.fire( formResponseEvent );
 
     }
 }

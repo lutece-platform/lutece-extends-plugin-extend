@@ -78,21 +78,21 @@ public class HitDAO implements IHitDAO
     @Override
     public void insert( Hit hit, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS, plugin );
-        int nIndex = 1;
-
-        daoUtil.setString( nIndex++, hit.getIdExtendableResource( ) );
-        daoUtil.setString( nIndex++, hit.getExtendableResourceType( ) );
-        daoUtil.setInt( nIndex, hit.getNbHits( ) );
-
-        daoUtil.executeUpdate( );
-
-        if ( daoUtil.nextGeneratedKey( ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS, plugin ) )
         {
-            hit.setIdHit( daoUtil.getGeneratedKeyInt( 1 ) );
-        }
+            int nIndex = 1;
 
-        daoUtil.free( );
+            daoUtil.setString( nIndex++, hit.getIdExtendableResource( ) );
+            daoUtil.setString( nIndex++, hit.getExtendableResourceType( ) );
+            daoUtil.setInt( nIndex, hit.getNbHits( ) );
+
+            daoUtil.executeUpdate( );
+
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                hit.setIdHit( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
+        }
     }
 
     /**
@@ -101,17 +101,18 @@ public class HitDAO implements IHitDAO
     @Override
     public void store( Hit hit, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin );
-        int nIndex = 1;
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE, plugin ) )
+        {
+            int nIndex = 1;
 
-        daoUtil.setString( nIndex++, hit.getIdExtendableResource( ) );
-        daoUtil.setString( nIndex++, hit.getExtendableResourceType( ) );
-        daoUtil.setInt( nIndex++, hit.getNbHits( ) );
+            daoUtil.setString( nIndex++, hit.getIdExtendableResource( ) );
+            daoUtil.setString( nIndex++, hit.getExtendableResourceType( ) );
+            daoUtil.setInt( nIndex++, hit.getNbHits( ) );
 
-        daoUtil.setInt( nIndex, hit.getIdHit( ) );
+            daoUtil.setInt( nIndex, hit.getIdHit( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -133,12 +134,13 @@ public class HitDAO implements IHitDAO
     @Override
     public void delete( int nIdHit, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE, plugin ) )
+        {
 
-        daoUtil.setInt( 1, nIdHit );
+            daoUtil.setInt( 1, nIdHit );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -154,18 +156,19 @@ public class HitDAO implements IHitDAO
             sbSql.append( SQL_QUERY_FILTER_BY_ID_RESOURCE );
         }
 
-        DAOUtil daoUtil = new DAOUtil( sbSql.toString( ), plugin );
-
-        int nIndex = 0;
-        daoUtil.setString( ++nIndex, strResourceType );
-
-        if ( !ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE.equals( strIdResource ) )
+        try ( DAOUtil daoUtil = new DAOUtil( sbSql.toString( ), plugin ) )
         {
-            daoUtil.setString( ++nIndex, strIdResource );
-        }
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            int nIndex = 0;
+            daoUtil.setString( ++nIndex, strResourceType );
+
+            if ( !ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE.equals( strIdResource ) )
+            {
+                daoUtil.setString( ++nIndex, strIdResource );
+            }
+
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -174,26 +177,26 @@ public class HitDAO implements IHitDAO
     @Override
     public Hit load( int nIdHit, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin );
-        daoUtil.setInt( 1, nIdHit );
-        daoUtil.executeQuery( );
-
-        Hit hit = null;
-
-        int nIndex = 1;
-
-        if ( daoUtil.next( ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT, plugin ) )
         {
-            hit = new Hit( );
-            hit.setIdHit( daoUtil.getInt( nIndex++ ) );
-            hit.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
-            hit.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
-            hit.setNbHits( daoUtil.getInt( nIndex ) );
+            daoUtil.setInt( 1, nIdHit );
+            daoUtil.executeQuery( );
+
+            Hit hit = null;
+
+            int nIndex = 1;
+
+            if ( daoUtil.next( ) )
+            {
+                hit = new Hit( );
+                hit.setIdHit( daoUtil.getInt( nIndex++ ) );
+                hit.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
+                hit.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
+                hit.setNbHits( daoUtil.getInt( nIndex ) );
+            }
+
+            return hit;
         }
-
-        daoUtil.free( );
-
-        return hit;
     }
 
     /**
@@ -202,27 +205,27 @@ public class HitDAO implements IHitDAO
     @Override
     public Hit loadByParameters( String strIdExtendableResource, String strExtendableResourceType, Plugin plugin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_PARAMETERS, plugin );
-        int nIndex = 1;
-        daoUtil.setString( nIndex++, strIdExtendableResource );
-        daoUtil.setString( nIndex, strExtendableResourceType );
-        daoUtil.executeQuery( );
-
-        Hit hit = null;
-
-        if ( daoUtil.next( ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_PARAMETERS, plugin ) )
         {
-            nIndex = 1;
-            hit = new Hit( );
-            hit.setIdHit( daoUtil.getInt( nIndex++ ) );
-            hit.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
-            hit.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
-            hit.setNbHits( daoUtil.getInt( nIndex ) );
+            int nIndex = 1;
+            daoUtil.setString( nIndex++, strIdExtendableResource );
+            daoUtil.setString( nIndex, strExtendableResourceType );
+            daoUtil.executeQuery( );
+
+            Hit hit = null;
+
+            if ( daoUtil.next( ) )
+            {
+                nIndex = 1;
+                hit = new Hit( );
+                hit.setIdHit( daoUtil.getInt( nIndex++ ) );
+                hit.setIdExtendableResource( daoUtil.getString( nIndex++ ) );
+                hit.setExtendableResourceType( daoUtil.getString( nIndex++ ) );
+                hit.setNbHits( daoUtil.getInt( nIndex ) );
+            }
+
+            return hit;
         }
-
-        daoUtil.free( );
-
-        return hit;
     }
 
     /**
@@ -257,29 +260,29 @@ public class HitDAO implements IHitDAO
         }
 
         int nIndex = 1;
-        DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ), plugin );
-        daoUtil.setString( nIndex++, strExtendableResourceType );
-
-        if ( nMaxItemsNumber > 0 )
+        try ( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ), plugin ) )
         {
-            if ( nItemsOffset > 0 )
+            daoUtil.setString( nIndex++, strExtendableResourceType );
+
+            if ( nMaxItemsNumber > 0 )
             {
-                daoUtil.setInt( nIndex++, nItemsOffset );
+                if ( nItemsOffset > 0 )
+                {
+                    daoUtil.setInt( nIndex++, nItemsOffset );
+                }
+
+                daoUtil.setInt( nIndex, nMaxItemsNumber );
             }
 
-            daoUtil.setInt( nIndex, nMaxItemsNumber );
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                listIds.add( daoUtil.getInt( 1 ) );
+            }
+
+            return listIds;
         }
-
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
-        {
-            listIds.add( daoUtil.getInt( 1 ) );
-        }
-
-        daoUtil.free( );
-
-        return listIds;
     }
 
     @Override

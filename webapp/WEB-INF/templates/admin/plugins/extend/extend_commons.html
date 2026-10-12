@@ -7,7 +7,7 @@
 <#macro extendBox cols=12 extendTitle='' hasBoxTools=false manageByResource=false extendBoxTools='' skipHead=true >
 <@pageContainer>
 	<@pageColumn>
-		<@pageHeader title=extendTitle boxTools=hasBoxTools skipHeader=skipHead>
+		<@pageHeader title=extendTitle>
 		<#if extendBoxTools !='' && !manageByResource>
 			${extendBoxTools!}
 		<#elseif hasBoxTools>
@@ -108,6 +108,22 @@ document.addEventListener('DOMContentLoaded', function() {
 </#list>
 </#if>
 <#return false />
+</#function>
+<#--
+-- Label of an extender type, or its code when no extender answers it
+-- @param extenderType the extender type
+-- @return the label
+-->
+<#function extendExtenderTypeLabel extenderType>
+<#return (extenderTypeLabels[extenderType])!extenderType />
+</#function>
+<#--
+-- Label of a resource type, or its code when no resource service knows it
+-- @param resourceType the resource type
+-- @return the label
+-->
+<#function extendResourceTypeLabel resourceType>
+<#return (resourceTypeLabels[resourceType])!resourceType />
 </#function>
 <#--
 -- Check if the user has the permission to see the button

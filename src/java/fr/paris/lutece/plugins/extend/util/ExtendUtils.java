@@ -34,7 +34,12 @@
 package fr.paris.lutece.plugins.extend.util;
 
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
+import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilter;
 import fr.paris.lutece.plugins.extend.business.type.ExtendableResourceType;
+import fr.paris.lutece.plugins.extend.service.extender.IResourceExtender;
+import fr.paris.lutece.plugins.extend.service.extender.ResourceExtenderService;
+import fr.paris.lutece.plugins.extend.service.type.ExtendableResourceTypeService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -42,8 +47,14 @@ import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import jakarta.validation.ConstraintViolation;
@@ -60,6 +71,11 @@ public final class ExtendUtils
 
     // MESSAGES
     private static final String MESSAGE_STOP_GENERIC_MESSAGE = "extend.message.stop.genericMessage";
+    private static final String MESSAGE_ALL_RESOURCE_TYPES = "extend.labelAllResourceTypes";
+
+    // MARKS
+    private static final String MARK_EXTENDER_TYPE_LABELS = "extenderTypeLabels";
+    private static final String MARK_RESOURCE_TYPE_LABELS = "resourceTypeLabels";
 
     /**
      * Instantiates a new extend utils.
@@ -172,5 +188,77 @@ public final class ExtendUtils
         }
 
         return sbError.toString( );
+    }
+
+    /**
+     * Returns the label of an extender type, or its code when no extender answers it.
+     *
+     * @param strExtenderType
+     *            the extender type
+     * @param locale
+     *            the locale
+     * @return the label
+     */
+    public static String getExtenderTypeLabel( String strExtenderType, Locale locale )
+    {
+        IResourceExtender extender = CDI.current( ).select( ResourceExtenderService.class ).get( ).getResourceExtender( strExtenderType );
+        String strLabel = ( extender != null ) ? extender.getTitle( locale ) : null;
+
+        return StringUtils.isNotBlank( strLabel ) ? strLabel : strExtenderType;
+    }
+
+    /**
+     * Returns the label the resource service gives a resource type, or its code when no service knows it.
+     *
+     * @param strResourceType
+     *            the resource type
+     * @param locale
+     *            the locale
+     * @return the label
+     */
+    public static String getResourceTypeLabel( String strResourceType, Locale locale )
+    {
+        if ( ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE.equals( strResourceType ) )
+        {
+            return I18nService.getLocalizedString( MESSAGE_ALL_RESOURCE_TYPES, locale );
+        }
+
+        ExtendableResourceType resourceType = CDI.current( ).select( ExtendableResourceTypeService.class ).get( ).findByPrimaryKey( strResourceType,
+                locale );
+        String strLabel = ( resourceType != null ) ? resourceType.getDescription( ) : null;
+
+        return StringUtils.isNotBlank( strLabel ) ? strLabel : strResourceType;
+    }
+
+    /**
+     * Puts in the model the labels of the extender types and resource types of the given extenders, by code.
+     *
+     * @param model
+     *            the put operation of the model
+     * @param listExtenders
+     *            the extenders
+     * @param locale
+     *            the locale
+     */
+    public static void fillTypeLabels( BiConsumer<String, Object> model, Collection<ResourceExtenderDTO> listExtenders, Locale locale )
+    {
+        Map<String, String> mapExtenderTypeLabels = new HashMap<>( );
+        Map<String, String> mapResourceTypeLabels = new HashMap<>( );
+
+        for ( ResourceExtenderDTO extender : listExtenders )
+        {
+            if ( extender.getExtenderType( ) != null )
+            {
+                mapExtenderTypeLabels.computeIfAbsent( extender.getExtenderType( ), strType -> getExtenderTypeLabel( strType, locale ) );
+            }
+
+            if ( extender.getExtendableResourceType( ) != null )
+            {
+                mapResourceTypeLabels.computeIfAbsent( extender.getExtendableResourceType( ), strType -> getResourceTypeLabel( strType, locale ) );
+            }
+        }
+
+        model.accept( MARK_EXTENDER_TYPE_LABELS, mapExtenderTypeLabels );
+        model.accept( MARK_RESOURCE_TYPE_LABELS, mapResourceTypeLabels );
     }
 }
