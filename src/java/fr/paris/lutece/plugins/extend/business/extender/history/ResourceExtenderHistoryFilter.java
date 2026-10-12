@@ -42,6 +42,7 @@ import fr.paris.lutece.util.sql.DAOUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -659,7 +660,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
         nIndex = buildFilter( sbSQL, containsIpAddress( ), SQL_FILTER_IP_ADDRESS, nIndex );
         nIndex = buildFilter( sbSQL, containsDateCreation( ), SQL_FILTER_DATE_CREATION + getOperatorDateCreation( ) + QUESTION_MARK, nIndex );
         nIndex = buildFilter( sbSQL, containsDateCreationBegin( ), SQL_FILTER_DATE_CREATION + OperatorEnum.GREATER_OR_EQUAL + QUESTION_MARK, nIndex );
-        buildFilter( sbSQL, containsDateCreationEnd( ), SQL_FILTER_DATE_CREATION + OperatorEnum.LOWER_OR_EQUAL + QUESTION_MARK, nIndex );
+        buildFilter( sbSQL, containsDateCreationEnd( ), SQL_FILTER_DATE_CREATION + OperatorEnum.LOWER + QUESTION_MARK, nIndex );
 
         if ( containsGroupByAttributeName( ) )
         {
@@ -689,6 +690,24 @@ public class ResourceExtenderHistoryFilter implements Serializable
         }
 
         return sbSQL.toString( );
+    }
+
+    /**
+     * Gives the upper bound of the creation date: the first instant of the day after the end date, so that the end date
+     * is included in the search.
+     *
+     * @return the first instant of the day after the end date, or null when the end date cannot be parsed
+     */
+    private Timestamp getEndOfDateCreationEnd( )
+    {
+        Timestamp dateEnd = DateUtil.formatTimestamp( getDateCreationEnd( ), I18nService.getDefaultLocale( ) );
+
+        if ( dateEnd == null )
+        {
+            return null;
+        }
+
+        return Timestamp.valueOf( dateEnd.toLocalDateTime( ).toLocalDate( ).plusDays( 1 ).atStartOfDay( ) );
     }
 
     /**
@@ -743,7 +762,7 @@ public class ResourceExtenderHistoryFilter implements Serializable
 
         if ( containsDateCreationEnd( ) )
         {
-            daoUtil.setTimestamp( nIndex++, DateUtil.formatTimestamp( getDateCreationEnd( ), I18nService.getDefaultLocale( ) ) );
+            daoUtil.setTimestamp( nIndex++, getEndOfDateCreationEnd( ) );
         }
     }
 

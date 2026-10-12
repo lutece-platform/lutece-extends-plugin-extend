@@ -1,62 +1,70 @@
+<#assign manageUrl='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp' />
+<#assign viewUrl='${manageUrl}?view=manageResourceExtendersByResourceType' />
 <@extendBox extendTitle='#i18n{extend.manage_resource_extenders_by_resource_type.pageTitle}' hasBoxTools=true manageByResource=false>
 	<@tabs>
 		<@tabList>
-			<@tabLink href='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp' title='#i18n{extend.manage_resource_extenders_by_resource.pageTitle}' />
-			<@tabLink active=true href='jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp' title='#i18n{extend.manage_resource_extenders_by_resource_type.pageTitle}' />
-			<@tabLink tabClass='ms-auto' >
-				<@tform type='inline' class='d-flex justify-content-around align-items-center' action='jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp' params='style="height:100%;"'>
-					<@input type='hidden' name='manageByResource' value='true' />
-					<@formGroup labelFor='filterExtenderType' labelKey='#i18n{extend.manage_resource_extenders_by_resource.labelExtenderType}' hideLabel=['all'] placeHolder='#i18n{extend.manage_resource_extenders_by_resource.labelExtenderType}' rows=2>
-						<@select name='filterExtenderType' class='input-sm form-select-sm' default_value=filter.filterExtenderType! items=extenderTypesForFilter />
+			<@tabLink href='${manageUrl}?view=manageResourceExtendersByResource' title='#i18n{extend.manage_resource_extenders_by_resource.pageTitle}' />
+			<@tabLink active=true href=viewUrl title='#i18n{extend.manage_resource_extenders_by_resource_type.pageTitle}' />
+		</@tabList>
+		<@div class='d-flex justify-content-between align-items-center my-2'>
+			<@button type='button' title='#i18n{extend.button.search}' buttonIcon='search' size='sm' params='data-bs-toggle="modal" data-bs-target="#searchExtendersModal"' />
+			<@div class='d-flex align-items-center'>
+				<@p class='mb-0 ms-3 me-1'>#i18n{extend.manage_resource_extenders_by_resource_type.labelExtenderType}</@p>
+				<@sort jsp_url=viewUrl attribute="extender_type" />
+				<@p class='mb-0 ms-3 me-1'>#i18n{extend.manage_resource_extenders_by_resource_type.labelExtendableResourceType}</@p>
+				<@sort jsp_url=viewUrl attribute="resource_type" />
+			</@div>
+		</@div>
+		<@modal id='searchExtendersModal'>
+			<@modalHeader modalTitle='#i18n{extend.button.search}' />
+			<@modalBody>
+				<@tform action=manageUrl>
+					<@input type='hidden' name='view' value='manageResourceExtendersByResourceType' />
+					<@input type='hidden' name='manageByResource' value='false' />
+					<@formGroup labelFor='filterExtenderType' labelKey='#i18n{extend.manage_resource_extenders_by_resource.labelExtenderType}'>
+						<@select name='filterExtenderType' default_value=filter.filterExtenderType! items=extenderTypesForFilter />
 					</@formGroup>
-					<@formGroup labelFor='filterExtendableResourceType' labelKey='#i18n{extend.manage_resource_extenders_by_resource.labelExtendableResourceType}' placeHolder='#i18n{extend.manage_resource_extenders_by_resource.labelExtendableResourceType}' hideLabel=['all'] rows=2>
-						<@select name='filterExtendableResourceType' class='input-sm form-select-sm' default_value=filter.filterExtendableResourceType! items=resourceTypesForFilter />
+					<@formGroup labelFor='filterExtendableResourceType' labelKey='#i18n{extend.manage_resource_extenders_by_resource.labelExtendableResourceType}'>
+						<@select name='filterExtendableResourceType' default_value=filter.filterExtendableResourceType! items=resourceTypesForFilter />
 					</@formGroup>
-					<@formGroup rows=2>
-						<@button type='submit' name='search' value='#i18n{extend.button.search}' title='#i18n{extend.button.search}' buttonIcon='search' />
+					<@formGroup>
+						<@button type='submit' name='search' value='search' title='#i18n{extend.button.search}' buttonIcon='search' />
 					</@formGroup>
 				</@tform>
-			</@tabLink>
-		</@tabList>
-		<@table params=' caption="#i18n{extend.manage_resource_extenders_by_resource_type.pageTitle}"'>
-			<@tr>
-				<@th scope="col">
-					#i18n{extend.manage_resource_extenders_by_resource_type.labelExtenderType}
-					<@sort jsp_url="jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp" attribute="extender_type" />
-				</@th>
-				<@th scope="col">
-					#i18n{extend.manage_resource_extenders_by_resource_type.labelExtendableResourceType}
-					<@sort jsp_url="jsp/admin/plugins/extend/ManageResourceExtendersByResourceType.jsp" attribute="resource_type" />
-				</@th>
-				<@th scope="col">#i18n{extend.manage_resource_extenders_by_resource_type.labelActions}</@th>
-			</@tr>
-			<#if listResourceExtenders?? && listResourceExtenders?has_content>
+			</@modalBody>
+		</@modal>
+		<#if listResourceExtenders?? && listResourceExtenders?has_content>
+			<@manageFeature>
 				<#list listResourceExtenders as resourceExtender>
-					<@tr>
-						<@td>${resourceExtender.extenderType!}</@td>
-						<@td>${resourceExtender.extendableResourceType!}</@td>
-						<@td>
-						<#if isExtenderConfigRequired( listExtenders, resourceExtender.extenderType ) && isAuthorized( resourceExtender.idExtender!, 'MODIFY_CONFIG', mapActionPermissions! )>
-							<@aButton href='jsp/admin/plugins/extend/ModifyExtenderConfig.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{extend.button.modifyConfig}' hideTitle=['all'] buttonIcon='edit' size='sm' />
-							<#if isExtenderStateEnable( listExtenders, resourceExtender.extenderType ) && resourceExtender.idExtendableResource?? >
-								<#if resourceExtender.isActive>
-									<@aButton href='jsp/admin/plugins/extend/DisabledExtender.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelDisabled}' hideTitle=['all'] buttonIcon='stop' size='sm' color='danger' />
-								<#else>
-									<@aButton href='jsp/admin/plugins/extend/EnabledExtender.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelEnabled}' hideTitle=['all'] buttonIcon='play' size='sm' color='success' />
+					<@manageFeatureItem>
+						<@manageFeatureItemColumn auto=true flex=false>
+							<@p class='fw-bold mb-0'>${extendExtenderTypeLabel( resourceExtender.extenderType! )}</@p>
+							<@p class='mb-0'>${extendResourceTypeLabel( resourceExtender.extendableResourceType! )}</@p>
+						</@manageFeatureItemColumn>
+						<@manageFeatureItemColumn align='end'>
+							<#if isExtenderConfigRequired( listExtenders, resourceExtender.extenderType ) && isAuthorized( resourceExtender.idExtender!, 'MODIFY_CONFIG', mapActionPermissions! )>
+								<@aButton href='${manageUrl}?view=modifyExtenderConfig&idExtender=${resourceExtender.idExtender!}' title='#i18n{extend.button.modifyConfig}' hideTitle=['all'] buttonIcon='edit' size='sm' class='me-1' />
+								<#if isExtenderStateEnable( listExtenders, resourceExtender.extenderType ) && resourceExtender.idExtendableResource??>
+									<#if resourceExtender.isActive>
+										<@aButton href='${manageUrl}?view=confirmDisableExtender&idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelDisabled}' hideTitle=['all'] buttonIcon='player-stop' size='sm' color='warning' class='me-1' />
+									<#else>
+										<@aButton href='${manageUrl}?view=confirmEnableExtender&idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelEnabled}' hideTitle=['all'] buttonIcon='player-play' size='sm' color='success' class='me-1' />
+									</#if>
+								</#if>
+								<#if resourceExtender.idExtendableResource != '*' && isAuthorized( resourceExtender.idExtender!, 'VIEW_INFO', mapActionPermissions! )>
+									<@aButton href='${manageUrl}?view=viewExtenderInfo&idExtender=${resourceExtender.idExtender!}' title='#i18n{extend.button.info}' hideTitle=['all'] buttonIcon='eye' size='sm' class='me-1' />
 								</#if>
 							</#if>
-							<#if resourceExtender.idExtendableResource != '*' && isAuthorized( resourceExtender.idExtender!, 'VIEW_INFO', mapActionPermissions! )>
-								<@aButton href='jsp/admin/plugins/extend/ViewExtenderInfo.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{extend.button.info}' hideTitle=['all'] buttonIcon='eye' size='sm' />
+							<#if isAuthorized( resourceExtender.idExtender!, 'DELETE', mapActionPermissions! )>
+								<@aButton href='${manageUrl}?view=confirmRemoveResourceExtender&idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' size='sm' color='danger' />
 							</#if>
-						</#if>
-						<#if isAuthorized( resourceExtender.idExtender!, 'DELETE', mapActionPermissions! )>
-							<@aButton href='jsp/admin/plugins/extend/ConfirmRemoveResourceExtender.jsp?idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' size='sm' color='danger' />
-						</#if>
-						</@td>
-					</@tr>
+						</@manageFeatureItemColumn>
+					</@manageFeatureItem>
 				</#list>
-			</#if>
-		</@table>
-		<@paginationAdmin paginator=paginator combo=1 />
+			</@manageFeature>
+			<@paginationAdmin paginator=paginator combo=1 />
+		<#else>
+			<@empty title='#i18n{portal.util.labelNoItem}' iconName='puzzle-off' />
+		</#if>
 	</@tabs>
 </@extendBox>

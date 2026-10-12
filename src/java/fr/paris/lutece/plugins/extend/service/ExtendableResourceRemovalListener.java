@@ -37,13 +37,17 @@ import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilter;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
 import fr.paris.lutece.plugins.extend.service.extender.history.IResourceExtenderHistoryService;
+import fr.paris.lutece.portal.service.resource.ExtendableResourceRemovalListenerService;
 import fr.paris.lutece.portal.service.resource.IExtendableResourceRemovalListener;
 
 import java.util.List;
 import java.util.Map;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Initialized;
+import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
+import jakarta.servlet.ServletContext;
 
 /**
  * Remove extensions of resources when they are removed
@@ -56,6 +60,17 @@ public class ExtendableResourceRemovalListener implements IExtendableResourceRem
 
     @Inject
     private IResourceExtenderHistoryService _resourceExtenderHistoryService;
+
+    /**
+     * Registers this listener when the application starts.
+     *
+     * @param context
+     *            the servlet context
+     */
+    public void initializedService( @Observes @Initialized( ApplicationScoped.class ) ServletContext context )
+    {
+        ExtendableResourceRemovalListenerService.registerListener( this );
+    }
 
     /**
      * {@inheritDoc}

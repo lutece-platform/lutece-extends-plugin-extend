@@ -31,3 +31,11 @@ INSERT INTO core_admin_role_resource (rbac_id,role_key,resource_type,resource_id
 --
 INSERT INTO core_user_role (role_key,id_user) VALUES ('extend_manager',1);
 INSERT INTO core_user_role (role_key,id_user) VALUES ('extend_manager',2);
+
+-- changeset extend:init_core_extend-rev1.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+UPDATE core_admin_right SET icon_url = 'ti ti-puzzle' WHERE id_right = 'RESOURCE_EXTENDER_MANAGEMENT';
+
+-- changeset extend:init_core_extend-rev2.sql
+-- preconditions onFail:MARK_RAN onError:WARN
+UPDATE core_admin_role SET role_description = 'Gestion des types de ressources d''extend' WHERE role_key = 'extend_manager' AND role_description = 'Gestion des type de ressource d''extend';

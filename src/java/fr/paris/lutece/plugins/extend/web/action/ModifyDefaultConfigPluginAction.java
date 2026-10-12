@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.extend.web.action;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.plugins.extend.business.type.ExtendableResourceType;
 import fr.paris.lutece.plugins.extend.service.ExtendableResourceResourceIdService;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtender;
@@ -62,14 +63,17 @@ import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
+
 
 /**
  *
  * CreateResourceTypePluginAction
  *
  */
+@ApplicationScoped
+@Named( "extend.modifyDefaultConfigPluginAction" )
 public class ModifyDefaultConfigPluginAction extends AbstractPluginAction<IResourceExtenderSearchFields> implements IResourceExtenderPluginAction
 {
     private static final String ACTION_NAME = "Modify default configuration";
@@ -91,7 +95,7 @@ public class ModifyDefaultConfigPluginAction extends AbstractPluginAction<IResou
     private static final String MESSAGE_NO_EXTENDER_TYPE_SELECTED = "extend.modify_default_config.noExtenderTypeSelected";
 
     // JSP
-    private static final String JSP_URL = "jsp/admin/plugins/extend/GetModifyDefaultConfig.jsp";
+    private static final String JSP_URL = "jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp?view=modifyDefaultConfig";
 
     // CONSTANT
     private static final String CONSTANT_AND = "&";
@@ -106,7 +110,7 @@ public class ModifyDefaultConfigPluginAction extends AbstractPluginAction<IResou
     public void fillModel( HttpServletRequest request, AdminUser adminUser, Map<String, Object> model )
     {
         model.put( MARK_PERMISSION_MODIFY_CONFIG, RBACService.isAuthorized( ExtendableResourceType.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, adminUser ) );
+                ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION, (User) adminUser ) );
 
         List<IResourceExtender> listExtenders = _extenderService.getResourceExtenders( );
         ReferenceList refListExtenderTypes = new ReferenceList( );

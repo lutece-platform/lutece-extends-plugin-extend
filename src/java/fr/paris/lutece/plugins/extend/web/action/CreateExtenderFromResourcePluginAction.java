@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.extend.web.action;
 
+import org.apache.commons.lang3.Strings;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilter;
 import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
@@ -92,8 +93,8 @@ public class CreateExtenderFromResourcePluginAction extends AbstractPluginAction
     private static final String MARK_EXTENDER_TYPES_INSTALLED = "extenderTypesInstalled";
 
     // JSP
-    private static final String JSP_URL = "jsp/admin/plugins/extend/DoCreateResourceExtender.jsp";
-    private static final String JSP_URL_REMOVE = "jsp/admin/plugins/extend/ConfirmRemoveResourceExtender.jsp";
+    private static final String JSP_URL = "jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp?view=confirmCreateResourceExtender";
+    private static final String JSP_URL_REMOVE = "jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp?view=confirmRemoveResourceExtender";
 
     // CONSTANT
     private static final String CONSTANT_AND = "&";
@@ -182,7 +183,7 @@ public class CreateExtenderFromResourcePluginAction extends AbstractPluginAction
             url.addParameter( PARAMETER_SEARCH, PARAMETER_SEARCH );
         }
 
-        url.addParameter( PARAMETER_FROM_URL, StringUtils.replace( request.getHeader( PARAMETER_REFERER ), CONSTANT_AND, CONSTANT_AND_HTML ) );
+        url.addParameter( PARAMETER_FROM_URL, Strings.CS.replace( request.getHeader( PARAMETER_REFERER ), CONSTANT_AND, CONSTANT_AND_HTML ) );
 
         DefaultPluginActionResult result = new DefaultPluginActionResult( );
         result.setRedirect( url.getUrl( ) );

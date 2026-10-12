@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.extend.service.type;
 
+import org.apache.commons.lang3.Strings;
 import fr.paris.lutece.plugins.extend.business.type.ExtendableResourceType;
 import fr.paris.lutece.portal.service.resource.IExtendableResourceService;
 import fr.paris.lutece.util.ReferenceList;
@@ -42,9 +43,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
-import jakarta.enterprise.inject.spi.CDI;
+import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
 import jakarta.inject.Inject;
@@ -63,6 +63,9 @@ public class ExtendableResourceTypeService implements IExtendableResourceTypeSer
     public static final String BEAN_SERVICE = "extend.extendableResourceTypeService";
 
     @Inject
+    private Instance<IExtendableResourceService> _extendableResourceServices;
+
+    @Inject
     ExtendableResourceTypeService( )
     {
 
@@ -74,14 +77,11 @@ public class ExtendableResourceTypeService implements IExtendableResourceTypeSer
     @Override
     public ExtendableResourceType findByPrimaryKey( String strKey, Locale locale )
     {
-        List<IExtendableResourceService> listExtendableResources = CDI.current( ).select( IExtendableResourceService.class ).stream( )
-                .collect( Collectors.toList( ) );
-
         ExtendableResourceType resourceType = null;
 
-        for ( IExtendableResourceService resource : listExtendableResources )
+        for ( IExtendableResourceService resource : _extendableResourceServices )
         {
-            if ( StringUtils.equals( resource.getResourceType( ), strKey ) || resource.isInvoked( strKey ) )
+            if ( Strings.CS.equals( resource.getResourceType( ), strKey ) || resource.isInvoked( strKey ) )
             {
                 resourceType = new ExtendableResourceType( );
                 resourceType.setKey( resource.getResourceType( ) );
@@ -98,11 +98,9 @@ public class ExtendableResourceTypeService implements IExtendableResourceTypeSer
     @Override
     public List<ExtendableResourceType> findAll( Locale locale )
     {
-        List<IExtendableResourceService> listExtendableResources = CDI.current( ).select( IExtendableResourceService.class ).stream( )
-                .collect( Collectors.toList( ) );
         List<ExtendableResourceType> listResourceTypes = new ArrayList<ExtendableResourceType>( );
 
-        for ( IExtendableResourceService resource : listExtendableResources )
+        for ( IExtendableResourceService resource : _extendableResourceServices )
         {
             if ( StringUtils.isNotEmpty( resource.getResourceType( ) ) )
             {

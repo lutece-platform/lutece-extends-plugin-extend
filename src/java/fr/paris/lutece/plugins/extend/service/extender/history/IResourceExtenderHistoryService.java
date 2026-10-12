@@ -98,6 +98,35 @@ public interface IResourceExtenderHistoryService
     ResourceExtenderHistory create( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType, HttpServletRequest request );
 
     /**
+     * Creates the history of a user and the address the request came from.
+     *
+     * @param strExtenderType
+     *            the extender type
+     * @param strIdExtendableResource
+     *            the id of the extendable resource
+     * @param strExtendableResourceType
+     *            the extendable resource type
+     * @param strUserGuid
+     *            the guid of the user, empty for an anonymous one
+     * @param strIpAddress
+     *            the address the request came from
+     * @return The created history
+     */
+    default ResourceExtenderHistory create( String strExtenderType, String strIdExtendableResource, String strExtendableResourceType, String strUserGuid,
+            String strIpAddress )
+    {
+        ResourceExtenderHistory history = new ResourceExtenderHistory( );
+        history.setExtenderType( strExtenderType );
+        history.setIdExtendableResource( strIdExtendableResource );
+        history.setExtendableResourceType( strExtendableResourceType );
+        history.setUserGuid( ( strUserGuid != null ) ? strUserGuid : "" );
+        history.setIpAddress( ( strIpAddress != null ) ? strIpAddress : "" );
+        create( history );
+
+        return history;
+    }
+
+    /**
      * Creates the history from the HTTP request.
      *
      * @param strExtenderType

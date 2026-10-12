@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -59,6 +60,7 @@ import jakarta.enterprise.inject.spi.CDI;
 public class ExtendContent extends HttpServlet
 {
     private static final long serialVersionUID = 21000508333817457L;
+    private static final String CONTENT_TYPE_HTML = "text/html";
 
     /**
      * {@inheritDoc}
@@ -84,6 +86,9 @@ public class ExtendContent extends HttpServlet
         IResourceExtenderService extenderService = CDI.current( ).select( ResourceExtenderService.class ).get( );
         String strHtml = extenderService.getContent( resourceExtender.getIdExtendableResource( ), resourceExtender.getExtendableResourceType( ),
                 resourceExtender.getExtenderType( ), resourceExtender.getParameters( ), request );
+
+        response.setContentType( CONTENT_TYPE_HTML );
+        response.setCharacterEncoding( StandardCharsets.UTF_8.name( ) );
 
         PrintWriter out = response.getWriter( );
         out.println( strHtml );

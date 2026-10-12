@@ -38,7 +38,6 @@ import java.util.Objects;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.business.extender.config.IExtenderConfig;
 import fr.paris.lutece.plugins.extend.business.extender.config.IExtenderConfigDAO;
-import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderCacheService;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import jakarta.annotation.PostConstruct;
@@ -138,21 +137,27 @@ public class ResourceExtenderConfigService implements IResourceExtenderConfigSer
         if ( config == null )
         {
             config = _extenderConfigDAO.load( nIdExtender );
-            _extendConfigCache.put( strKey, config );
+
+            if ( config != null )
+            {
+                _extendConfigCache.put( strKey, config );
+            }
         }
         return getConfigBean( config );
     }
 
     /**
-     * Get a cache key for the extender config
+     * Get a cache key for the extender config, scoped by the config DAO so that services of different extender types
+     * sharing the same cache never read each other's configs
      * 
      * @param nIdExtender
      *            id of the extender
      * @return the cache key
      */
-    private String getCacheKey( int nIdExtender )
+    String getCacheKey( int nIdExtender )
     {
-        return new StringBuilder( "ExtenderConfig_" ).append( nIdExtender ).toString( );
+        return new StringBuilder( "ExtenderConfig_" ).append( _extenderConfigDAO.getClass( ).getName( ) ).append( '_' ).append( nIdExtender )
+                .toString( );
     }
 
     /**

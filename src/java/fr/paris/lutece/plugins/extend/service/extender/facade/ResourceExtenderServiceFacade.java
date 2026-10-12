@@ -15,6 +15,7 @@ import fr.paris.lutece.plugins.extend.modules.hit.service.extender.HitResourceEx
  */
 public class ResourceExtenderServiceFacade
 {
+    private static final String HIT_COUNT_NONE = "0";
 
     /**
      * The list of Extender Type (example: ExtenderType<Hit>, ExtenderType<Rating>........... )
@@ -176,7 +177,7 @@ public class ResourceExtenderServiceFacade
     }
 
     /**
-     * initialization the list of Extender Type with ExtenderType<Hit>
+     * initialization the list of Extender Type with ExtenderType<Hit>; a resource never viewed counts 0 views
      * 
      * @return The list of Extender Type with (ExtenderType<Hit>)
      */
@@ -188,9 +189,9 @@ public class ResourceExtenderServiceFacade
                         .map( Collections::singletonList ).orElseGet( Collections::emptyList ),
                 HitHome::findByResourceList,
                 ( strIdExtendableResource, strExtendableResourceType ) -> HitHome.findByParameters( strIdExtendableResource, strExtendableResourceType )
-                        .map( hit -> hit != null ? String.valueOf( hit.getNbHits( ) ) : null ).orElse( null ),
+                        .map( hit -> String.valueOf( hit.getNbHits( ) ) ).orElse( HIT_COUNT_NONE ),
                 ( strIdExtendableResource, strExtendableResourceType ) -> HitHome.findByParameters( strIdExtendableResource, strExtendableResourceType )
-                        .map( hit -> hit != null ? String.valueOf( hit.getNbHits( ) ) : null ).orElse( null )
+                        .map( hit -> String.valueOf( hit.getNbHits( ) ) ).orElse( HIT_COUNT_NONE )
 
         ) ) );
     }

@@ -3,7 +3,7 @@
     <!-- Plugin Informations -->
     <name>extend</name>
     <class>fr.paris.lutece.plugins.extend.service.ExtendPlugin</class>
-    <version>2.0.1-SNAPSHOT</version>
+    <version>2.0.2-SNAPSHOT</version>
     <description>extend.plugin.description</description>
     <provider>extend.plugin.provider</provider>
     <documentation/>
@@ -28,7 +28,8 @@
             <feature-description>extend.adminFeature.resource_extenders_management.description</feature-description>
             <feature-level>2</feature-level>
             <feature-url>jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp</feature-url>
-            <feature-icon-url>images/admin/skin/plugins/extend/extend.png</feature-icon-url>
+            <feature-group>CONTENT</feature-group>
+            <icon-url>ti ti-puzzle</icon-url>
             <feature-documentation-url>jsp/admin/documentation/AdminDocumentation.jsp?doc=admin-extend</feature-documentation-url>
         </admin-feature>
     </admin-features>

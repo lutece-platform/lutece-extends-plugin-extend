@@ -39,6 +39,7 @@ import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
 import fr.paris.lutece.plugins.extend.service.extender.ResourceExtenderService;
 import fr.paris.lutece.plugins.extend.service.type.ExtendableResourceTypeService;
 import fr.paris.lutece.plugins.extend.service.type.IExtendableResourceTypeService;
+import fr.paris.lutece.plugins.extend.util.ExtendUtils;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -266,6 +267,7 @@ public class ResourceExtenderSearchFields implements IResourceExtenderSearchFiel
         model.put( MARK_RESOURCE_TYPES_FOR_FILTER, listResourceTypes );
         model.put( MARK_EXTENDER_TYPES_FOR_FILTER, listExtenderTypes );
         model.put( MARK_MAP_ACTION_PERMISSIONS, mapActionPermissions );
+        ExtendUtils.fillTypeLabels( model::put, listResourceExtenders, AdminUserService.getLocale( request ) );
     }
 
     /**

@@ -36,8 +36,6 @@ package fr.paris.lutece.plugins.extend.service;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation;
 import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.resource.ExtendableResourceRemovalListenerService;
-import jakarta.enterprise.inject.spi.CDI;
 
 /**
  *
@@ -51,16 +49,6 @@ public class ExtendPlugin extends PluginDefaultImplementation
 
     /** The Constant TRANSACTION_MANAGER. */
     public static final String TRANSACTION_MANAGER = PLUGIN_NAME + ".transactionManager";
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void init( )
-    {
-        ExtendableResourceRemovalListener listener = CDI.current( ).select( ExtendableResourceRemovalListener.class ).get( );
-        ExtendableResourceRemovalListenerService.registerListener( listener );
-    }
 
     /**
      * Gets the plugin.

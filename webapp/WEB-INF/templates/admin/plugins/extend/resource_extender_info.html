@@ -2,14 +2,25 @@
 	<#assign actionUrl><#if from_url?? && from_url?has_content && from_url != "null">${from_url}<#else>jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp</#if></#assign>
 	<@tform type='inline' action=actionUrl params=' target="_top"'>
 		<@input type='hidden' name='session' value='session' />
-		<@button type='submit' name='back' value='#i18n{extend.button.back}' title='#i18n{extend.button.back}' color='default' buttonIcon='times' />
+		<@button type='submit' name='back' value='#i18n{extend.button.back}' title='#i18n{extend.button.back}' color='light' buttonIcon='arrow-left' />
 	</@tform>
 </#assign>
 <@extendBox extendTitle='#i18n{extend.resource_extender_info.pageTitle}' hasBoxTools=true extendBoxTools=bTools >
-	<!-- <h4>${resourceExtender.extendableResourceType!?capitalize}  ${resourceExtender.idExtendableResource!} </h4> -->
-	<!-- #i18n{extend.resource_extender_info.labelExtenderType} #i18n{extend.resource_extender_info.labelIdExtendableResource} #i18n{extend.resource_extender_info.labelExtendableResourceType} ${resourceExtender.extendableResourceType!}  -->
+	<@table class='mb-4'>
+		<@tr>
+			<@th scope='col'>#i18n{extend.resource_extender_info.labelExtenderType}</@th>
+			<@th scope='col'>#i18n{extend.resource_extender_info.labelIdExtendableResource}</@th>
+			<@th scope='col'>#i18n{extend.resource_extender_info.labelExtendableResourceType}</@th>
+		</@tr>
+		<@tableHeadBodySeparator />
+		<@tr>
+			<@td>${extendExtenderTypeLabel( resourceExtender.extenderType! )}</@td>
+			<@td><#if resourceExtender.idExtendableResource! == '*'>#i18n{extend.labelAllResources}<#else>${resourceExtender.idExtendableResource!}</#if><#if resourceExtender.name?has_content> (${resourceExtender.name})</#if></@td>
+			<@td>${extendResourceTypeLabel( resourceExtender.extendableResourceType! )}</@td>
+		</@tr>
+	</@table>
 	<#-- BEGIN RESOURCE EXTENDER INFO -->
-	${resourceExtenderInfo!}
+	<#noautoesc>${resourceExtenderInfo!}</#noautoesc>
 	<#-- END RESOURCE EXTENDER INFO -->
 </@extendBox>
 <@extendScript />

@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.extend.service.content;
 
+import org.apache.commons.lang3.Strings;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.service.converter.IStringMapper;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
@@ -215,7 +216,7 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor
 
                 // 2) Get all information (idResource, resourceType, extenderType, params)
                 ResourceExtenderDTO resourceExtender = _mapper.map( match.group( 1 ) );
-                boolean bParameteredId = StringUtils.equalsIgnoreCase( resourceExtender.getIdExtendableResource( ), EXTEND_PARAMETERED_ID );
+                boolean bParameteredId = Strings.CI.equals( resourceExtender.getIdExtendableResource( ), EXTEND_PARAMETERED_ID );
 
                 if ( bParameteredId )
                 {
@@ -232,8 +233,8 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor
                     {
                         ResourceExtenderDTO realResourceExtender = _mapper.map( parameterMatch.group( 1 ) );
 
-                        if ( StringUtils.equals( realResourceExtender.getExtendableResourceType( ), resourceExtender.getExtendableResourceType( ) )
-                                && StringUtils.equals( realResourceExtender.getExtenderType( ), resourceExtender.getExtenderType( ) ) )
+                        if ( Strings.CS.equals( realResourceExtender.getExtendableResourceType( ), resourceExtender.getExtendableResourceType( ) )
+                                && Strings.CS.equals( realResourceExtender.getExtenderType( ), resourceExtender.getExtenderType( ) ) )
                         {
                             resourceExtender.setIdExtendableResource( realResourceExtender.getIdExtendableResource( ) );
 
@@ -244,10 +245,10 @@ public class ExtendableContentPostProcessor implements ContentPostProcessor
 
                 String strHtml = StringUtils.EMPTY;
 
-                if ( !bParameteredId || !StringUtils.equalsIgnoreCase( resourceExtender.getIdExtendableResource( ), EXTEND_PARAMETERED_ID ) )
+                if ( !bParameteredId || !Strings.CI.equals( resourceExtender.getIdExtendableResource( ), EXTEND_PARAMETERED_ID ) )
                 {
                     // 3) Get the html content from the given information
-                    if ( !StringUtils.equals( resourceExtender.getExtendableResourceType( ), Page.RESOURCE_TYPE )
+                    if ( !Strings.CS.equals( resourceExtender.getExtendableResourceType( ), Page.RESOURCE_TYPE )
                             || ( StringUtils.isBlank( request.getParameter( PARAM_PAGE ) )
                                     && StringUtils.isBlank( request.getParameter( PARAM_PORTLET_ID ) ) ) )
                     {
