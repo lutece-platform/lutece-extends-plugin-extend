@@ -78,7 +78,8 @@ public class HitTest extends LuteceTestCase
         hit.setExtendableResourceType( RESOURCE_TYPE_FOO );
         hit.setNbHits( NB_HITS_2 );
         
-        // Test create dao.insert( hit, plugin );
+        // Test create
+        dao.insert( hit, plugin );
         Hit hitStored = dao.load( hit.getIdHit( ), plugin ); 
         assertEquals( hit.getIdHit( ), hitStored.getIdHit( ) ); 
         assertEquals( hit.getIdExtendableResource( ), hitStored.getIdExtendableResource( ) ); 
@@ -97,7 +98,13 @@ public class HitTest extends LuteceTestCase
         assertEquals( hit.getExtendableResourceType( ), hitStored.getExtendableResourceType( ) ); 
         assertEquals( hit.getNbHits( ), hitStored.getNbHits( ) );
 
-        // Test finders 
+        // Test increment
+        dao.increment( hit.getIdHit( ), plugin );
+        dao.increment( hit.getIdHit( ), plugin );
+        hitStored = dao.load( hit.getIdHit( ), plugin );
+        assertEquals( NB_HITS_3 + 2, hitStored.getNbHits( ) );
+
+        // Test finders
         dao.loadByParameters( ID_RESOURCE_20, RESOURCE_TYPE_BAR, plugin );
 
         // Test remove 
