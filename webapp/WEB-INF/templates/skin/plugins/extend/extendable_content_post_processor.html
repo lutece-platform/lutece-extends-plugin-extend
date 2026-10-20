@@ -1,43 +1,58 @@
 <script>
 document.addEventListener('DOMContentLoaded', function(){
 <#--
-- Replace all @Extendable[<idResource>,<resourceType>,<extenderType>,<params>]@ to the according social
-- content.
-- 1 - Fetch all markers
-- 2 - For each marker :
-- 2A - Build the parameters <idResource>, <resourceType>, <extenderType>, <params>
-- 2B - Build the social content given the previous parameters
-- 2C - Replace the marker by the content
--->	
-<#-- 1 - Fetch all markers -->
-var matches = document.body.innerHTML.match(new RegExp('${(extendRegexPattern!'')?js_string?no_esc}'));
-	if (matches) {
-		var params = matches[1].split(',');
-		<#-- 2A - Build the parameters <idResource>, <resourceType>, <extenderType>, <params> -->
-		if (params.length >= 3) {
-			var idExtendableResource = params[0];
-			var extendableResourceType = params[1];
-			var extenderType = params[2];
-			var parameters = params.length > 3 ? params[3] : '';
-			<#-- 2B - Build the social content given the previous parameters -->
-			var queryParams = new URLSearchParams({
-				idExtendableResource: idExtendableResource,
-				extendableResourceType: extendableResourceType,
-				extenderType: extenderType,
-				parameters: parameters
+- Replace the first @Extendable[<idResource>,<resourceType>,<extenderType>,<params>]@ marker by the according social
+- content. Only the text node of the marker is replaced: the rest of the page is not rebuilt, so the focus, the event
+- listeners and the values typed in the forms are kept.
+- 1 - Find the text node holding the marker
+- 2 - Build the parameters <idResource>, <resourceType>, <extenderType>, <params>
+- 3 - Fetch the social content given the previous parameters
+- 4 - Replace the marker by the content
+-->
+	var markerRegex = new RegExp('${(extendRegexPattern!'')?js_string?no_esc}');
+	<#-- 1 - Find the text node holding the marker (not inside a script, a style or a text area) -->
+	var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+		acceptNode: function (node) {
+			var parentName = node.parentNode ? node.parentNode.nodeName : '';
+			if (parentName === 'SCRIPT' || parentName === 'STYLE' || parentName === 'TEXTAREA') {
+				return NodeFilter.FILTER_REJECT;
+			}
+			return markerRegex.test(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+		}
+	});
+	var markerNode = walker.nextNode();
+	if (!markerNode) {
+		return;
+	}
+	var matches = markerNode.nodeValue.match(markerRegex);
+	<#-- 4 - Replace the marker, and only the marker, by the HTML of the server (empty in case of error) -->
+	function replaceMarker(socialContent) {
+		var marker = markerNode.splitText(matches.index);
+		marker.splitText(matches[0].length);
+		var fragment = document.createDocumentFragment();
+		if (socialContent) {
+			<#-- The leading body tag keeps a leading style, link or script of the content in the parsed body. As with the former innerHTML, a script of the content is not run. -->
+			var parsed = new DOMParser().parseFromString('<body>' + socialContent, 'text/html');
+			while (parsed.body.firstChild) {
+				fragment.appendChild(document.adoptNode(parsed.body.firstChild));
+			}
+		}
+		marker.replaceWith(fragment);
+	}
+	var params = matches[1].split(',');
+	<#-- 2 - Build the parameters <idResource>, <resourceType>, <extenderType>, <params> -->
+	if (params.length >= 3) {
+		var queryParams = new URLSearchParams({
+			idExtendableResource: params[0],
+			extendableResourceType: params[1],
+			extenderType: params[2],
+			parameters: params.length > 3 ? params[3] : ''
 		});
-			
+		<#-- 3 - Fetch the social content given the previous parameters -->
 		fetch('${(baseUrl!'')?js_string?no_esc}servlet/plugins/extend?' + queryParams)
 			.then(response => response.text())
-			.then(socialContent => {
-				<#-- 2C - Replace the marker by the content -->
-				document.body.innerHTML = document.body.innerHTML.replace(matches[0], socialContent);
-			})
-			.catch(() => {
-				<#-- Replace as an empty string in case of error -->
-				document.body.innerHTML = document.body.innerHTML.replace(matches[0], '');
-			});
-		}
+			.then(replaceMarker)
+			.catch(() => replaceMarker(''));
 	}
 });
 </script>

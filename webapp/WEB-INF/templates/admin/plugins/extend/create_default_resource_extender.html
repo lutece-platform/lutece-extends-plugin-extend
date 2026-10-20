@@ -8,15 +8,14 @@
 			<@input type='hidden' name='idExtendableResource' value='${resourceExtender.idExtendableResource!}' />
 			<@input type='hidden' name='extendableResourceType' value='${resourceExtender.extendableResourceType!}' />
 
-			<@formGroup labelFor='extenderType' labelKey='#i18n{extend.create_default_resource_extender.labelExtenderType}'>
-				<@staticText>${extendExtenderTypeLabel( resourceExtender.extenderType! )}</@staticText>
-			</@formGroup>
-			<@formGroup labelFor='idExtendableResource' labelKey='#i18n{extend.create_default_resource_extender.labelIdExtendableResource}'>
-				<@staticText>${resourceExtender.idExtendableResource!}</@staticText>
-			</@formGroup>
-			<@formGroup labelFor='extendableResourceType' labelKey='#i18n{extend.create_default_resource_extender.labelExtendableResourceType}'>
-				<@staticText>${extendResourceTypeLabel( resourceExtender.extendableResourceType! )}</@staticText>
-			</@formGroup>
+			<dl class="mb-3">
+				<dt class="form-label">#i18n{extend.create_default_resource_extender.labelExtenderType}</dt>
+				<dd class="form-control-plaintext">${extendExtenderTypeLabel( resourceExtender.extenderType! )}</dd>
+				<dt class="form-label">#i18n{extend.create_default_resource_extender.labelIdExtendableResource}</dt>
+				<dd class="form-control-plaintext">${resourceExtender.idExtendableResource!}</dd>
+				<dt class="form-label">#i18n{extend.create_default_resource_extender.labelExtendableResourceType}</dt>
+				<dd class="form-control-plaintext">${extendResourceTypeLabel( resourceExtender.extendableResourceType! )}</dd>
+			</dl>
 			<@formGroup labelFor='name' labelKey='#i18n{extend.create_default_resource_extender.labelName}' mandatory=true>
 				<@input type='text' name='name' value='' maxlength=255 />
 			</@formGroup>
