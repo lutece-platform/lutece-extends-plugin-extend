@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function(){
 - 2C - Replace the marker by the content
 -->	
 <#-- 1 - Fetch all markers -->
-var matches = document.body.innerHTML.match(/${extendRegexPattern!}/);
+var matches = document.body.innerHTML.match(new RegExp('${(extendRegexPattern!'')?js_string?no_esc}'));
 	if (matches) {
 		var params = matches[1].split(',');
 		<#-- 2A - Build the parameters <idResource>, <resourceType>, <extenderType>, <params> -->
@@ -27,7 +27,7 @@ var matches = document.body.innerHTML.match(/${extendRegexPattern!}/);
 				parameters: parameters
 		});
 			
-		fetch('${baseUrl}servlet/plugins/extend?' + queryParams)
+		fetch('${(baseUrl!'')?js_string?no_esc}servlet/plugins/extend?' + queryParams)
 			.then(response => response.text())
 			.then(socialContent => {
 				<#-- 2C - Replace the marker by the content -->
