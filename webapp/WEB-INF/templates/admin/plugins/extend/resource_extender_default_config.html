@@ -1,6 +1,6 @@
 <#assign bTools>
-	<#assign actionUrl>jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp<#if !(manageByResource?? && manageByResource)>?view=manageResourceExtendersByResourceType</#if></#assign>
-	<@tform type='inline' action=actionUrl params=' target="_top"'>
+	<#assign actionUrl = 'jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp' + ( manageByResource?? && manageByResource )?then( '', '?view=manageResourceExtendersByResourceType' ) />
+	<@tform type='inline' action=actionUrl params={"target": "_top"}>
 		<@input type='hidden' name='modifyDefaultConfig' value='${modifyDefaultConfig!}' />
 		<@input type='hidden' name='from_url' value='${from_url!}' />
 		<@inputGroup>
@@ -13,7 +13,7 @@
 </#assign>
 <#assign hasConfigurableTypes = (configurableExtenderTypes?? && configurableExtenderTypes?has_content) />
 <@extendBox extendTitle='#i18n{extend.resource_extender_config.pageTitle}' hasBoxTools=hasConfigurableTypes extendBoxTools=hasConfigurableTypes?then(bTools, '')>
-	<#if (resourceExtenderConfig!'')?trim?has_content>
+	<#if resourceExtenderConfig?has_content>
 		<@tform action='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp' boxed=true>
 			<@input type='hidden' name='action' value='modifyDefaultConfig' />
 			<@input type='hidden' name='idExtender' value='-1' />
@@ -25,7 +25,7 @@
 			<@row>
 				<@columns>
 					<#-- BEGIN RESOURCE EXTENDER CONFIG -->
-					<#noautoesc>${resourceExtenderConfig!}</#noautoesc>
+					${resourceExtenderConfig!}
 					<#-- END RESOURCE EXTENDER CONFIG -->
 					<@formGroup rows=2>
 						<@button type='submit' name='modify' value='#i18n{portal.util.labelModify}' title='#i18n{portal.util.labelModify}' buttonIcon='device-floppy' />

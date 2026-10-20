@@ -1,5 +1,5 @@
-<#assign boxTitle><#if manageByResource>#i18n{extend.create_resource_extender_by_resource.labelCreateResourceExtender}<#else>#i18n{extend.create_resource_extender_by_resource_type.labelCreateResourceExtender}</#if></#assign>
-<#assign urlBack><#if manageByResource>jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp?view=manageResourceExtendersByResource<#else>jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp?view=manageResourceExtendersByResourceType</#if></#assign>
+<#assign boxTitle = manageByResource?then( '#i18n{extend.create_resource_extender_by_resource.labelCreateResourceExtender}', '#i18n{extend.create_resource_extender_by_resource_type.labelCreateResourceExtender}' ) />
+<#assign urlBack = 'jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp?view=' + manageByResource?then( 'manageResourceExtendersByResource', 'manageResourceExtendersByResourceType' ) />
 <@pageContainer>
 	<@pageColumn>
 		<@pageHeader title=boxTitle />

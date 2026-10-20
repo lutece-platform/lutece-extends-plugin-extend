@@ -1,6 +1,6 @@
 <#assign bTools>
-	<#assign actionUrl><#if from_url?? && from_url?has_content && from_url != "null">${from_url}<#else>jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp</#if></#assign>
-	<@tform type='inline' action=actionUrl params=' target="_top"'>
+	<#assign actionUrl = ( from_url?? && from_url?has_content && from_url != "null" )?then( safeUrl( from_url!, 'jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp' ), 'jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp' ) />
+	<@tform type='inline' action=actionUrl params={"target": "_top"}>
 		<@input type='hidden' name='session' value='session' />
 		<@button type='submit' name='back' value='#i18n{extend.button.back}' title='#i18n{extend.button.back}' color='light' buttonIcon='arrow-left' />
 	</@tform>
@@ -20,7 +20,7 @@
 		</@tr>
 	</@table>
 	<#if listHistories?? && listHistories?has_content>
-	<@table params='caption="#i18n{extend.resource_extender_history.pageTitle}"' >
+	<@table caption='#i18n{extend.resource_extender_history.pageTitle}'>
 		<@tr>
 			<@th scope='col'>#i18n{extend.resource_extender_history.labelIpAddress}</@th>
 			<@th scope='col'>#i18n{extend.resource_extender_history.labelUserGuid}</@th>

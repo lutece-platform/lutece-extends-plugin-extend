@@ -8,7 +8,7 @@
 <@pageContainer>
 	<@pageColumn>
 		<@pageHeader title=extendTitle>
-		<#if extendBoxTools !='' && !manageByResource>
+		<#if extendBoxTools?has_content && !manageByResource>
 			${extendBoxTools!}
 		<#elseif hasBoxTools>
 			<@tform type='inline' action='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp'>
@@ -56,13 +56,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <#assign sortSearchAttribute = "" />
 <#if filter??>
 <#if filter.filterExtenderType?? && filter.filterExtenderType != "">
-	<#assign sortSearchAttribute = sortSearchAttribute + "&amp;filterExtenderType=" + filter.filterExtenderType />
+	<#assign sortSearchAttribute = sortSearchAttribute + "&filterExtenderType=" + filter.filterExtenderType?url />
 </#if>
 <#if filter.filterIdExtendableResource?? && filter.filterIdExtendableResource != "">
-	<#assign sortSearchAttribute = sortSearchAttribute + "&amp;filterIdExtendableResource=" + filter.filterIdExtendableResource />
+	<#assign sortSearchAttribute = sortSearchAttribute + "&filterIdExtendableResource=" + filter.filterIdExtendableResource?url />
 </#if>
 <#if filter.filterExtendableResourceType?? && filter.filterExtendableResourceType != "">
-	<#assign sortSearchAttribute = sortSearchAttribute + "&amp;filterExtendableResourceType=" + filter.filterExtendableResourceType />
+	<#assign sortSearchAttribute = sortSearchAttribute + "&filterExtendableResourceType=" + filter.filterExtendableResourceType?url />
 </#if>
 </#if>
 <#return sortSearchAttribute />

@@ -1,13 +1,13 @@
 <@pageContainer>
 	<@pageColumn>
 		<@pageHeader title='#i18n{extend.resource_extender_config.pageTitle}' />
-		<#if (resourceExtenderConfig!'')?trim?has_content>
-			<@tform type='form' action='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp' params=' target="_top"' boxed=true>
+		<#if resourceExtenderConfig?has_content>
+			<@tform type='form' action='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp' params={"target": "_top"} boxed=true>
 				<@input type='hidden' name='action' value='modifyExtenderConfig' />
 				<@input type='hidden' name='idExtender' value='${resourceExtender.idExtender!}' />
 				<#if from_url?? && from_url?has_content && from_url != "null"><@input type='hidden' name='from_url' value='${from_url!}' /></#if>
 				<#-- BEGIN RESOURCE EXTENDER CONFIG -->
-				<#noautoesc>${resourceExtenderConfig!}</#noautoesc>
+				${resourceExtenderConfig!}
 				<#-- END RESOURCE EXTENDER CONFIG -->
 				<@formGroup rows=2 class='mt-3' >
 					<@button type='submit' name='modify' value='#i18n{portal.util.labelModify}' title='#i18n{portal.util.labelModify}' color='primary' buttonIcon='device-floppy' />
