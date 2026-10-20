@@ -72,7 +72,6 @@ import fr.paris.lutece.portal.web.pluginaction.PluginActionManager;
 import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -1099,7 +1098,7 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
      */
     private static String getFromUrl( HttpServletRequest request )
     {
-        String strUrl = Strings.CS.replace( StringEscapeUtils.unescapeHtml4( request.getParameter( PARAMETER_FROM_URL ) ), CONSTANT_AND_HTML, CONSTANT_AND );
+        String strUrl = Strings.CS.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND_HTML, CONSTANT_AND );
 
         if ( StringUtils.isEmpty( strUrl ) || Strings.CI.equals( strUrl, CONSTANT_NULL ) )
         {
