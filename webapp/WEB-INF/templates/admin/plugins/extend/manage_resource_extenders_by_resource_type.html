@@ -7,7 +7,7 @@
 			<@tabLink active=true href=viewUrl title='#i18n{extend.manage_resource_extenders_by_resource_type.pageTitle}' />
 		</@tabList>
 		<@div class='d-flex justify-content-between align-items-center my-2'>
-			<@button type='button' title='#i18n{extend.button.search}' buttonIcon='search' size='sm' params='data-bs-toggle="modal" data-bs-target="#searchExtendersModal"' />
+			<@button type='button' title='#i18n{extend.button.search}' buttonIcon='search' size='sm' params={"data-bs-toggle": "modal", "data-bs-target": "#searchExtendersModal"} />
 			<@div class='d-flex align-items-center'>
 				<@p class='mb-0 ms-3 me-1'>#i18n{extend.manage_resource_extenders_by_resource_type.labelExtenderType}</@p>
 				<@sort jsp_url=viewUrl attribute="extender_type" />
