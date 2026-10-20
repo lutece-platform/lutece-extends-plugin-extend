@@ -45,7 +45,8 @@ public interface IExtendPageInclude
      * 
      * @param request
      *            The request
-     * @return The html code to include to the header of the page.
+     * @return The html code to include to the header of the page: HTML the module built from escaped values (meta tags),
+     *         put in the page model as markup ({@code extend_meta}) and written as HTML
      */
     String getIncludeString( HttpServletRequest request );
 }

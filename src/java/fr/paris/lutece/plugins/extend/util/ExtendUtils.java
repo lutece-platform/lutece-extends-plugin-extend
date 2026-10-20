@@ -42,6 +42,7 @@ import fr.paris.lutece.plugins.extend.service.type.ExtendableResourceTypeService
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.message.MessageHtml;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
 
@@ -103,7 +104,7 @@ public final class ExtendUtils
         if ( constraintViolations.size( ) > 0 )
         {
             Object [ ] params = {
-                    buildStopMessage( constraintViolations )
+                    MessageHtml.of( buildStopMessage( constraintViolations ) )
             };
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_STOP_GENERIC_MESSAGE, params, AdminMessage.TYPE_STOP );
@@ -166,13 +167,14 @@ public final class ExtendUtils
     }
 
     /**
-     * Builds the stop message.
+     * Builds the stop message: the messages of the constraint violations, each followed by {@code <br />}. The result is
+     * HTML: pass it to a message as {@code MessageHtml.of( ... )}.
      *
      * @param <A>
      *            the generic type
      * @param listErrors
      *            the list errors
-     * @return the string
+     * @return the HTML of the message
      */
     public static <A> String buildStopMessage( Set<ConstraintViolation<A>> listErrors )
     {

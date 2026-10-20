@@ -96,7 +96,9 @@ public interface IResourceExtender
      *            the str parameters
      * @param request
      *            the request
-     * @return the content
+     * @return the content: HTML rendered by the extender, which replaces the marker of the resource in the front office page
+     *         (server side, after the page is rendered) or is returned by the servlet of plugin-extend (client side); it is
+     *         inserted as is, so every value it holds must have been escaped by the template that rendered it
      */
     String getContent( String strIdExtendableResource, String strExtendableResourceType, String strParameters, HttpServletRequest request );
 
