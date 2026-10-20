@@ -46,6 +46,7 @@ import fr.paris.lutece.plugins.extend.util.ExtendUtils;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
@@ -216,7 +217,7 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
                 Map<String, Object> model = new HashMap<String, Object>( );
                 model.put( MARK_RESOURCE_EXTENDER, resourceExtender );
                 model.put( MARK_LOCALE, locale );
-                model.put( MARK_RESOURCE_EXTENDER_CONFIG, component.getConfigHtml( resourceExtender, locale, request ) );
+                putHtml( model, MARK_RESOURCE_EXTENDER_CONFIG, component.getConfigHtml( resourceExtender, locale, request ) );
                 model.put( MARK_FROM_URL, Strings.CS.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND, CONSTANT_AND_HTML ) );
 
                 HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESOURCE_EXTENDER_CONFIG, locale, model );
@@ -245,7 +246,7 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
             Map<String, Object> model = new HashMap<String, Object>( );
             model.put( MARK_RESOURCE_EXTENDER, resourceExtender );
             model.put( MARK_LOCALE, locale );
-            model.put( MARK_RESOURCE_EXTENDER_CONFIG, component.getConfigHtml( resourceExtender, locale, request ) );
+            putHtml( model, MARK_RESOURCE_EXTENDER_CONFIG, component.getConfigHtml( resourceExtender, locale, request ) );
             model.put( MARK_FROM_URL, Strings.CS.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND, CONSTANT_AND_HTML ) );
             model.put( MARK_EXTENDER_TYPE_MODIFY_CONFIG, strExtenderType );
             model.put( PARAMETER_MANAGE_BY_RESOURCE, Boolean.parseBoolean( request.getParameter( PARAMETER_MANAGE_BY_RESOURCE ) ) );
@@ -289,7 +290,7 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
                 Map<String, Object> model = new HashMap<String, Object>( );
                 model.put( MARK_RESOURCE_EXTENDER, resourceExtender );
                 model.put( MARK_LOCALE, locale );
-                model.put( MARK_RESOURCE_EXTENDER_INFO, component.getInfoHtml( resourceExtender, locale, request ) );
+                putHtml( model, MARK_RESOURCE_EXTENDER_INFO, component.getInfoHtml( resourceExtender, locale, request ) );
                 ExtendUtils.fillTypeLabels( model::put, List.of( resourceExtender ), locale );
                 model.put( MARK_FROM_URL, Strings.CS.replace( request.getParameter( PARAMETER_FROM_URL ), CONSTANT_AND_HTML, CONSTANT_AND ) );
 
@@ -343,6 +344,25 @@ public class ResourceExtenderComponentManager implements IResourceExtenderCompon
         }
 
         return StringUtils.EMPTY;
+    }
+
+    /**
+     * Puts the HTML an extender component built in the model, as markup: the template writes it as HTML. A blank fragment
+     * is left out of the model, so that the template shows its empty state.
+     *
+     * @param model
+     *            the model
+     * @param strMark
+     *            the mark
+     * @param strHtml
+     *            the HTML built by the extender component
+     */
+    static void putHtml( Map<String, Object> model, String strMark, String strHtml )
+    {
+        if ( StringUtils.isNotBlank( strHtml ) )
+        {
+            model.put( strMark, HtmlMarkup.of( strHtml ) );
+        }
     }
 
     /**

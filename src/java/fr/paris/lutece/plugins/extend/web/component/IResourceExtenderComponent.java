@@ -43,9 +43,14 @@ import java.util.Locale;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- *
- * IResourceExtenderComponent
- *
+ * IResourceExtenderComponent.
+ * <p>
+ * HTML escaping contract: the methods returning HTML ({@link #getPageAddOn}, {@link #getConfigHtml},
+ * {@link #getInfoHtml}) return HTML the component rendered, usually with {@code template.getHtml( )}, from a template
+ * where every value is auto-escaped. plugin-extend marks this HTML as markup where it puts it in its own models
+ * ({@code HtmlMarkup.of}), so a component returns it as a {@code String}, never escapes it again, and never puts in
+ * it a value it did not escape (a value typed by a user, a request parameter) outside a template.
+ * </p>
  */
 public interface IResourceExtenderComponent
 {
@@ -82,7 +87,7 @@ public interface IResourceExtenderComponent
      *            the str parameters
      * @param request
      *            The HTTP Request
-     * @return the page add on
+     * @return the page add on: HTML rendered by the component, inserted as HTML in the page of the resource
      */
     String getPageAddOn( String strIdExtendableResource, String strExtendableResourceType, String strParameters, HttpServletRequest request );
 
@@ -95,7 +100,8 @@ public interface IResourceExtenderComponent
      *            the locale
      * @param request
      *            the request
-     * @return the config html
+     * @return the config html: the fields of the configuration form, HTML rendered by the component, written as HTML in
+     *         the configuration page of plugin-extend; blank when the extender has no configuration
      */
     String getConfigHtml( ResourceExtenderDTO resourceExtender, Locale locale, HttpServletRequest request );
 
@@ -108,7 +114,8 @@ public interface IResourceExtenderComponent
      *            the locale
      * @param request
      *            the request
-     * @return the info html
+     * @return the info html: HTML rendered by the component, written as HTML in the information page of plugin-extend;
+     *         blank when there is nothing to show
      */
     String getInfoHtml( ResourceExtenderDTO resourceExtender, Locale locale, HttpServletRequest request );
 

@@ -55,7 +55,9 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.message.MessageHtml;
 import fr.paris.lutece.portal.service.rbac.RBACService;
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
@@ -841,7 +843,8 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
     }
 
     /**
-     * Renders a page whose body another component built, so the forms it holds carry the security token.
+     * Renders a page whose body another component built, so the forms it holds carry the security token. The body is a
+     * page the application rendered: it is written as HTML.
      *
      * @param model
      *            the model
@@ -853,7 +856,7 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
      */
     private String getContentPage( Models model, String strPageTitleProperty, String strContent )
     {
-        model.put( MARK_EXTENDER_CONTENT, strContent );
+        model.put( MARK_EXTENDER_CONTENT, HtmlMarkup.of( strContent ) );
 
         return getPage( strPageTitleProperty, TEMPLATE_RESOURCE_EXTENDER_CONTENT );
     }
@@ -997,8 +1000,9 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
         {
             AppLogService.debug( e.getErrorMessage( ), e );
 
+            // the message of the exception is HTML the application built (i18n messages, list of the constraint violations)
             Object [ ] params = {
-                    e.getErrorMessage( )
+                    MessageHtml.of( e.getErrorMessage( ) )
             };
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_STOP_GENERIC_MESSAGE, params, AdminMessage.TYPE_STOP );

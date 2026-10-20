@@ -34,9 +34,9 @@
 package fr.paris.lutece.plugins.extend.util;
 
 /**
- *
- * ExtendErrorException
- *
+ * ExtendErrorException. Its message is HTML the application built (an i18n message, a list of constraint violations
+ * separated by {@code <br />}): it is shown as HTML in the stop message of the back office. Never put a value typed by a
+ * user in it.
  */
 public class ExtendErrorException extends Exception
 {

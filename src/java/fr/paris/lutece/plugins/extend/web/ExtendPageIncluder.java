@@ -35,6 +35,7 @@ package fr.paris.lutece.plugins.extend.web;
 
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
+import fr.paris.lutece.portal.service.template.HtmlMarkup;
 
 import java.util.List;
 import java.util.Map;
@@ -65,6 +66,7 @@ public class ExtendPageIncluder implements PageInclude
             sbMeta.append( pageInclude.getIncludeString( request ) );
         }
 
-        rootModel.put( MARK_EXTEND_META, sbMeta.toString( ) );
+        // the include strings are HTML the extender modules build (meta tags of the page head)
+        rootModel.put( MARK_EXTEND_META, HtmlMarkup.of( sbMeta.toString( ) ) );
     }
 }
