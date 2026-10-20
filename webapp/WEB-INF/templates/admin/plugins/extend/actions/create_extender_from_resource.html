@@ -8,7 +8,7 @@
 		<#nested>
 		<#if installed>
 			<#if unremovable?? && unremovable>
-				<@tag color='success' title='#i18n{extend.create_extender_from_resource.unremovableExtender}' tagIcon='lock-check'/>
+				<@tag color='success'><@icon style='lock-check' title='#i18n{extend.create_extender_from_resource.unremovableExtender}' /></@tag>
 			<#else>
 				<@button type='submit' name='createExtenderFromResource' value='createExtenderFromResource' title=labelRemove hideTitle=['all'] color='outline-link' size='xs' buttonIcon='minus text-danger has-text-danger' />
 			</#if>

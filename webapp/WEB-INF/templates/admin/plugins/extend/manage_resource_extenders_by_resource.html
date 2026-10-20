@@ -10,11 +10,11 @@
 			<@button type='button' title='#i18n{extend.button.search}' buttonIcon='search' size='sm' params={"data-bs-toggle": "modal", "data-bs-target": "#searchExtendersModal"} />
 			<@div class='d-flex align-items-center'>
 				<@p class='mb-0 ms-3 me-1'>#i18n{extend.manage_resource_extenders_by_resource.labelExtenderType}</@p>
-				<@sort jsp_url=manageUrl attribute="extender_type${sortSearchAttribute!}" />
+				<@sort jsp_url=manageUrl attribute="extender_type${sortSearchAttribute!}" columnLabel='#i18n{extend.manage_resource_extenders_by_resource.labelExtenderType}' />
 				<@p class='mb-0 ms-3 me-1'>#i18n{extend.manage_resource_extenders_by_resource.labelIdExtendableResource}</@p>
-				<@sort jsp_url=manageUrl attribute="id_resource${sortSearchAttribute!}" />
+				<@sort jsp_url=manageUrl attribute="id_resource${sortSearchAttribute!}" columnLabel='#i18n{extend.manage_resource_extenders_by_resource.labelIdExtendableResource}' />
 				<@p class='mb-0 ms-3 me-1'>#i18n{extend.manage_resource_extenders_by_resource.labelExtendableResourceType}</@p>
-				<@sort jsp_url=manageUrl attribute="resource_type${sortSearchAttribute!}" />
+				<@sort jsp_url=manageUrl attribute="resource_type${sortSearchAttribute!}" columnLabel='#i18n{extend.manage_resource_extenders_by_resource.labelExtendableResourceType}' />
 			</@div>
 		</@div>
 		<@modal id='searchExtendersModal'>
@@ -47,20 +47,20 @@
 						</@manageFeatureItemColumn>
 						<@manageFeatureItemColumn align='end'>
 							<#if isExtenderConfigRequired( listExtenders, resourceExtender.extenderType ) && isAuthorized( resourceExtender.idExtender!, 'MODIFY_CONFIG', mapActionPermissions! )>
-								<@aButton href='${manageUrl}?view=modifyExtenderConfig&idExtender=${resourceExtender.idExtender!}' title='#i18n{extend.button.modifyConfig}' hideTitle=['all'] buttonIcon='edit' size='sm' class='me-1' />
+								<@aButton href='${manageUrl}?view=modifyExtenderConfig&idExtender=${resourceExtender.idExtender!}' title='#i18n{extend.button.modifyConfig}' hideTitle=['all'] buttonIcon='edit' size='sm' class='me-1'><span class="visually-hidden">#i18n{extend.button.modifyConfig} ${resourceExtender.name!}</span></@aButton>
 							</#if>
 							<#if resourceExtender.idExtendableResource != '*' && isAuthorized( resourceExtender.idExtender!, 'VIEW_INFO', mapActionPermissions! )>
-								<@aButton href='${manageUrl}?view=viewExtenderInfo&idExtender=${resourceExtender.idExtender!}' title='#i18n{extend.button.info}' hideTitle=['all'] buttonIcon='eye' size='sm' class='me-1' />
+								<@aButton href='${manageUrl}?view=viewExtenderInfo&idExtender=${resourceExtender.idExtender!}' title='#i18n{extend.button.info}' hideTitle=['all'] buttonIcon='eye' size='sm' class='me-1'><span class="visually-hidden">#i18n{extend.button.info} ${resourceExtender.name!}</span></@aButton>
 							</#if>
 							<#if isExtenderStateEnable( listExtenders, resourceExtender.extenderType ) && resourceExtender.idExtendableResource??>
 								<#if resourceExtender.isActive>
-									<@aButton href='${manageUrl}?view=confirmDisableExtender&idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelDisabled}' hideTitle=['all'] buttonIcon='player-stop' size='sm' color='warning' class='me-1' />
+									<@aButton href='${manageUrl}?view=confirmDisableExtender&idExtender=${resourceExtender.idExtender!}' title='#i18n{extend.button.disable}' hideTitle=['all'] buttonIcon='player-stop' size='sm' color='warning' class='me-1'><span class="visually-hidden">#i18n{extend.button.disable} ${resourceExtender.name!}</span></@aButton>
 								<#else>
-									<@aButton href='${manageUrl}?view=confirmEnableExtender&idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelEnabled}' hideTitle=['all'] buttonIcon='player-play' size='sm' color='success' class='me-1' />
+									<@aButton href='${manageUrl}?view=confirmEnableExtender&idExtender=${resourceExtender.idExtender!}' title='#i18n{extend.button.enable}' hideTitle=['all'] buttonIcon='player-play' size='sm' color='success' class='me-1'><span class="visually-hidden">#i18n{extend.button.enable} ${resourceExtender.name!}</span></@aButton>
 								</#if>
 							</#if>
 							<#if isAuthorized( resourceExtender.idExtender!, 'DELETE', mapActionPermissions! )>
-								<@aButton href='${manageUrl}?view=confirmRemoveResourceExtender&idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' size='sm' color='danger' />
+								<@aButton href='${manageUrl}?view=confirmRemoveResourceExtender&idExtender=${resourceExtender.idExtender!}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' size='sm' color='danger'><span class="visually-hidden">#i18n{portal.util.labelDelete} ${resourceExtender.name!}</span></@aButton>
 							</#if>
 						</@manageFeatureItemColumn>
 					</@manageFeatureItem>
