@@ -94,6 +94,25 @@ public final class ExtendUtils
      *            the request
      * @param bean
      *            the resource type
+     * @return the JSP error
+     * @deprecated use {@link #validate(HttpServletRequest, Object, String)} with the URL of the screen of the form: without it, the button of the error message only goes
+     *             back in the history
+     */
+    @Deprecated
+    public static <A> String validate( HttpServletRequest request, A bean )
+    {
+        return validate( request, bean, null );
+    }
+
+    /**
+     * Validate.
+     *
+     * @param <A>
+     *            the generic type
+     * @param request
+     *            the request
+     * @param bean
+     *            the resource type
      * @param strReturnUrl
      *            the URL of the screen of the form, opened by the button of an error message when there is no page to go back to
      * @return the JSP error
@@ -122,6 +141,23 @@ public final class ExtendUtils
      *            the request
      * @param resourceType
      *            the resource type
+     * @return the string
+     * @deprecated use {@link #validateResourceType(HttpServletRequest, ExtendableResourceType, String)} with the URL of the screen of the form: without it, the button of the error message only goes
+     *             back in the history
+     */
+    @Deprecated
+    public static String validateResourceType( HttpServletRequest request, ExtendableResourceType resourceType )
+    {
+        return validateResourceType( request, resourceType, null );
+    }
+
+    /**
+     * Validate.
+     *
+     * @param request
+     *            the request
+     * @param resourceType
+     *            the resource type
      * @param strReturnUrl
      *            the URL of the screen of the form, opened by the button of an error message when there is no page to go back to
      * @return the string
@@ -141,6 +177,23 @@ public final class ExtendUtils
         }
 
         return StringUtils.EMPTY;
+    }
+
+    /**
+     * Validate resource extender.
+     *
+     * @param request
+     *            the request
+     * @param resourceExtender
+     *            the resource extender
+     * @return the string
+     * @deprecated use {@link #validateResourceExtender(HttpServletRequest, ResourceExtenderDTO, String)} with the URL of the screen of the form: without it, the button of the error message only goes
+     *             back in the history
+     */
+    @Deprecated
+    public static String validateResourceExtender( HttpServletRequest request, ResourceExtenderDTO resourceExtender )
+    {
+        return validateResourceExtender( request, resourceExtender, null );
     }
 
     /**

@@ -98,4 +98,19 @@ public class ExtendUtilsTest extends LuteceTestCase
         assertTrue( strUrl.endsWith( AdminMessageService.getMessageRelativeUrl( ) ), strUrl );
         assertEquals( strReturnUrl, AdminMessageService.getMessage( request ).getBackUrl( ) );
     }
+
+    /**
+     * The former signature still refuses an extender without type nor resource, and its message only goes back in the history.
+     */
+    @Test
+    @SuppressWarnings( "deprecation" )
+    public void testValidateResourceExtenderFormerSignatureGoesBackInTheHistory( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+
+        String strUrl = ExtendUtils.validateResourceExtender( request, new ResourceExtenderDTO( ) );
+
+        assertTrue( strUrl.endsWith( AdminMessageService.getMessageRelativeUrl( ) ), strUrl );
+        assertNull( AdminMessageService.getMessage( request ).getBackUrl( ) );
+    }
 }
