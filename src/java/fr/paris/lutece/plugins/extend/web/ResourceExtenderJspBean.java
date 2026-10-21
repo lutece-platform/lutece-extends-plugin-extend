@@ -351,7 +351,8 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
 
         if ( StringUtils.isAnyBlank( strExtenderType, strIdExtendableResource, strExtendableResourceType ) )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    getManageReturnUrl( request ) ) );
         }
 
         UrlItem url = new UrlItem( getActionUrl( ACTION_CREATE_RESOURCE_EXTENDER ) );
@@ -397,7 +398,7 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
         ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO( );
         populate( resourceExtender, request );
 
-        String strJspError = ExtendUtils.validateResourceExtender( request, resourceExtender );
+        String strJspError = ExtendUtils.validateResourceExtender( request, resourceExtender, getCreateReturnUrl( request ) );
 
         if ( StringUtils.isNotBlank( strJspError ) )
         {
@@ -406,7 +407,8 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
 
         if ( _extenderService.isAuthorizedToAllResources( resourceExtender.getExtendableResourceType( ), resourceExtender.getExtenderType( ) ) )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_EXTENDER_TO_ALL_RESOURCES_ALREADY_EXISTS, AdminMessage.TYPE_INFO ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_EXTENDER_TO_ALL_RESOURCES_ALREADY_EXISTS,
+                    AdminMessage.TYPE_INFO, getCreateReturnUrl( request ) ) );
         }
 
         if ( _extenderService.isAuthorized( resourceExtender.getIdExtendableResource( ), resourceExtender.getExtendableResourceType( ),
@@ -418,7 +420,8 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
             };
 
             return redirect( request,
-                    AdminMessageService.getMessageUrl( request, MESSAGE_EXTENDER_WITH_ID_RESOURCES_ALREADY_EXISTS, params, AdminMessage.TYPE_INFO ) );
+                    AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_EXTENDER_WITH_ID_RESOURCES_ALREADY_EXISTS, params,
+                            AdminMessage.TYPE_INFO, getCreateReturnUrl( request ) ) );
         }
 
         if ( _resourceManager.useDefaultExtendableResourceService( resourceExtender.getIdExtendableResource( ),
@@ -445,7 +448,7 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
         ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO( );
         populate( resourceExtender, request );
 
-        String strJspError = ExtendUtils.validateResourceExtender( request, resourceExtender );
+        String strJspError = ExtendUtils.validateResourceExtender( request, resourceExtender, getCreateReturnUrl( request ) );
 
         if ( StringUtils.isNotBlank( strJspError ) )
         {
@@ -477,7 +480,7 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
         ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO( );
         populate( resourceExtender, request );
 
-        String strJspError = ExtendUtils.validateResourceExtender( request, resourceExtender );
+        String strJspError = ExtendUtils.validateResourceExtender( request, resourceExtender, getCreateReturnUrl( request ) );
 
         if ( StringUtils.isNotBlank( strJspError ) )
         {
@@ -486,7 +489,8 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
 
         if ( StringUtils.isBlank( resourceExtender.getName( ) ) )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    getCreateReturnUrl( request ) ) );
         }
 
         DefaultExtendableResource resource = new DefaultExtendableResource( resourceExtender );
@@ -500,7 +504,8 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
             AppLogService.error( "{} when creating a default resource extender", ex.getMessage( ), ex );
             _defaultResourceService.remove( resource.getIdExtendableResource( ), resource.getExtendableResourceType( ) );
 
-            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_GENERIC_MESSAGE, AdminMessage.TYPE_ERROR ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_ERROR_GENERIC_MESSAGE, AdminMessage.TYPE_ERROR,
+                    getManageReturnUrl( request ) ) );
         }
 
         return redirect( request, createResourceExtender( request, resourceExtender ) );
@@ -520,7 +525,8 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
 
         if ( !StringUtils.isNumeric( strIdExtender ) )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    getManageReturnUrl( request ) ) );
         }
 
         UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_RESOURCE_EXTENDER ) );
@@ -545,12 +551,14 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
 
         if ( !StringUtils.isNumeric( strIdExtender ) )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    getManageReturnUrl( request ) ) );
         }
 
         if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, strIdExtender, ExtendableResourceResourceIdService.PERMISSION_DELETE, (User) getUser( ) ) )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP,
+                    getManageReturnUrl( request ) ) );
         }
 
         int nIdExtender = Integer.parseInt( strIdExtender );
@@ -566,7 +574,8 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
             {
                 AppLogService.error( "{} when deleting a resource extender", ex.getMessage( ), ex );
 
-                return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_GENERIC_MESSAGE, AdminMessage.TYPE_ERROR ) );
+                return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_ERROR_GENERIC_MESSAGE,
+                        AdminMessage.TYPE_ERROR, getManageReturnUrl( request ) ) );
             }
 
             _extenderService.doDeleteResourceAddOn( resourceExtender );
@@ -589,7 +598,8 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
                 {
                     AppLogService.error( "{} when deleting a default resource extender", ex.getMessage( ), ex );
 
-                    return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_GENERIC_MESSAGE, AdminMessage.TYPE_ERROR ) );
+                    return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_ERROR_GENERIC_MESSAGE,
+                            AdminMessage.TYPE_ERROR, getManageReturnUrl( request ) ) );
                 }
             }
         }
@@ -665,20 +675,23 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
 
         if ( !StringUtils.isNumeric( strIdExtender ) )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    getManageReturnUrl( request ) ) );
         }
 
         if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, strIdExtender, ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION,
                 (User) getUser( ) ) )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP,
+                    getManageReturnUrl( request ) ) );
         }
 
         ResourceExtenderDTO resourceExtender = _extenderService.findByPrimaryKey( Integer.parseInt( strIdExtender ) );
 
         if ( resourceExtender == null )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_EXTENDER_NOT_FOUND, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_EXTENDER_NOT_FOUND, AdminMessage.TYPE_STOP,
+                    getManageReturnUrl( request ) ) );
         }
 
         return getContentPage( model, PROPERTY_EXTENDER_CONFIG_PAGE_TITLE, _extenderComponentManager.getConfigHtml( resourceExtender, getLocale( ), request ) );
@@ -698,25 +711,28 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
 
         if ( !StringUtils.isNumeric( strIdExtender ) )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    getManageReturnUrl( request ) ) );
         }
 
         if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, strIdExtender, ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION,
                 (User) getUser( ) ) )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP,
+                    getManageReturnUrl( request ) ) );
         }
 
         ResourceExtenderDTO resourceExtender = _extenderService.findByPrimaryKey( Integer.parseInt( strIdExtender ) );
 
         if ( resourceExtender == null )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_EXTENDER_NOT_FOUND, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_EXTENDER_NOT_FOUND, AdminMessage.TYPE_STOP,
+                    getManageReturnUrl( request ) ) );
         }
 
         if ( StringUtils.isBlank( request.getParameter( PARAMETER_CANCEL ) ) )
         {
-            String strError = saveConfig( request, resourceExtender );
+            String strError = saveConfig( request, resourceExtender, getModifyConfigReturnUrl( request, resourceExtender.getIdExtender( ) ) );
 
             if ( strError != null )
             {
@@ -742,14 +758,16 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
         if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, null, ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION,
                 (User) getUser( ) ) )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP,
+                    getManageReturnUrl( request ) ) );
         }
 
         String strExtenderType = request.getParameter( PARAMETER_EXTENDER_TYPE_DEFAULT_CONFIG );
 
         if ( StringUtils.isEmpty( strExtenderType ) )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    getManageReturnUrl( request ) ) );
         }
 
         return getContentPage( model, PROPERTY_EXTENDER_CONFIG_PAGE_TITLE,
@@ -772,20 +790,22 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
 
             if ( StringUtils.isBlank( strExtenderType ) )
             {
-                return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
+                return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                        getManageReturnUrl( request ) ) );
             }
 
             if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, null, ExtendableResourceResourceIdService.PERMISSION_MODIFY_CONFIGURATION,
                     (User) getUser( ) ) )
             {
-                return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP ) );
+                return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP,
+                        getManageReturnUrl( request ) ) );
             }
 
             ResourceExtenderDTO resourceExtender = new ResourceExtenderDTO( );
             resourceExtender.setIdExtender( -1 );
             resourceExtender.setExtenderType( strExtenderType );
 
-            String strError = saveConfig( request, resourceExtender );
+            String strError = saveConfig( request, resourceExtender, getModifyDefaultConfigReturnUrl( request, strExtenderType ) );
 
             if ( strError != null )
             {
@@ -899,7 +919,8 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
 
             if ( resourceExtender == null )
             {
-                redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_EXTENDER_NOT_FOUND, AdminMessage.TYPE_STOP ) );
+                redirect( request, AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_EXTENDER_NOT_FOUND, AdminMessage.TYPE_STOP,
+                        getManageReturnUrl( request ) ) );
 
                 return null;
             }
@@ -907,7 +928,8 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
 
         if ( !RBACService.isAuthorized( ResourceExtenderDTO.RESOURCE_TYPE, strIdExtender, strPermission, (User) getUser( ) ) )
         {
-            redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP ) );
+            redirect( request, AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_UNAUTHORIZED_ACTION, AdminMessage.TYPE_STOP,
+                    getManageReturnUrl( request ) ) );
 
             return null;
         }
@@ -917,9 +939,10 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
             resourceExtender = new ResourceExtenderDTO( );
             populate( resourceExtender, request );
 
-            if ( StringUtils.isNotBlank( ExtendUtils.validateResourceExtender( request, resourceExtender ) ) )
+            if ( StringUtils.isNotBlank( ExtendUtils.validateResourceExtender( request, resourceExtender, getManageReturnUrl( request ) ) ) )
             {
-                redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
+                redirect( request, AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                        getManageReturnUrl( request ) ) );
 
                 return null;
             }
@@ -945,7 +968,8 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
 
         if ( !StringUtils.isNumeric( strIdExtender ) )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP,
+                    getManageReturnUrl( request ) ) );
         }
 
         UrlItem url = new UrlItem( getActionUrl( strAction ) );
@@ -971,7 +995,8 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
 
         if ( resourceExtender == null )
         {
-            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_EXTENDER_NOT_FOUND, AdminMessage.TYPE_STOP ) );
+            return redirect( request, AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_EXTENDER_NOT_FOUND, AdminMessage.TYPE_STOP,
+                    getManageReturnUrl( request ) ) );
         }
 
         resourceExtender.setIsActive( bActive );
@@ -987,9 +1012,11 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
      *            the request
      * @param resourceExtender
      *            the extender
+     * @param strReturnUrl
+     *            the URL of the screen of the form, opened by the button of an error message when there is no page to go back to
      * @return the url of the error message, or null when the configuration is saved
      */
-    private String saveConfig( HttpServletRequest request, ResourceExtenderDTO resourceExtender )
+    private String saveConfig( HttpServletRequest request, ResourceExtenderDTO resourceExtender, String strReturnUrl )
     {
         try
         {
@@ -1004,7 +1031,8 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
                     MessageHtml.of( e.getErrorMessage( ) )
             };
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_STOP_GENERIC_MESSAGE, params, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_STOP_GENERIC_MESSAGE, params, AdminMessage.TYPE_STOP,
+                    strReturnUrl );
         }
 
         return null;
@@ -1031,6 +1059,72 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
         }
 
         return url;
+    }
+
+    /**
+     * Gets the url of the list of the extenders by resource, opened by the button of an error message when there is no page to go back to.
+     *
+     * @param request
+     *            the request
+     * @return the url
+     */
+    private String getManageReturnUrl( HttpServletRequest request )
+    {
+        return getManageUrl( request, VIEW_MANAGE_RESOURCE_EXTENDERS_BY_RESOURCE, true ).getUrl( );
+    }
+
+    /**
+     * Gets the url of the form creating an extender, opened by the button of an error message when there is no page to go back to.
+     *
+     * @param request
+     *            the request
+     * @return the url
+     */
+    private String getCreateReturnUrl( HttpServletRequest request )
+    {
+        return AppPathService.getBaseUrl( request ) + getViewFullUrl( VIEW_CREATE_RESOURCE_EXTENDER );
+    }
+
+    /**
+     * Gets the url of the configuration form of an extender, opened by the button of an error message when there is no page to go back to.
+     *
+     * @param request
+     *            the request
+     * @param nIdExtender
+     *            the id of the extender
+     * @return the url
+     */
+    private String getModifyConfigReturnUrl( HttpServletRequest request, int nIdExtender )
+    {
+        UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + getViewFullUrl( VIEW_MODIFY_EXTENDER_CONFIG ) );
+        url.addParameter( PARAMETER_ID_EXTENDER, nIdExtender );
+
+        return url.getUrl( );
+    }
+
+    /**
+     * Gets the url of the default configuration form of an extender type, opened by the button of an error message when there is no page to
+     * go back to: the type is the key of a known extender, the list of the extenders otherwise.
+     *
+     * @param request
+     *            the request
+     * @param strExtenderType
+     *            the extender type
+     * @return the url
+     */
+    private String getModifyDefaultConfigReturnUrl( HttpServletRequest request, String strExtenderType )
+    {
+        IResourceExtender extender = _extenderService.getResourceExtender( strExtenderType );
+
+        if ( extender == null )
+        {
+            return getManageReturnUrl( request );
+        }
+
+        UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + getViewFullUrl( VIEW_MODIFY_DEFAULT_CONFIG ) );
+        url.addParameter( PARAMETER_EXTENDER_TYPE_DEFAULT_CONFIG, extender.getKey( ) );
+
+        return url.getUrl( );
     }
 
     /**
@@ -1165,7 +1259,8 @@ public class ResourceExtenderJspBean extends MVCAdminJspBean
             AppLogService.error( "{} when creating a resource extender", ex.getMessage( ), ex );
             _extenderService.remove( resourceExtender.getIdExtender( ) );
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_GENERIC_MESSAGE, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_ERROR_GENERIC_MESSAGE, AdminMessage.TYPE_ERROR,
+                    getManageReturnUrl( request ) );
         }
 
         _extenderService.doCreateResourceAddOn( resourceExtender );
