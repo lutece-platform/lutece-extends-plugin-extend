@@ -94,9 +94,11 @@ public final class ExtendUtils
      *            the request
      * @param bean
      *            the resource type
+     * @param strReturnUrl
+     *            the URL of the screen of the form, opened by the button of an error message when there is no page to go back to
      * @return the JSP error
      */
-    public static <A> String validate( HttpServletRequest request, A bean )
+    public static <A> String validate( HttpServletRequest request, A bean, String strReturnUrl )
     {
         // Check mandatory fields
         Set<ConstraintViolation<A>> constraintViolations = BeanValidationUtil.validate( bean );
@@ -107,7 +109,7 @@ public final class ExtendUtils
                     MessageHtml.of( buildStopMessage( constraintViolations ) )
             };
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_STOP_GENERIC_MESSAGE, params, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_STOP_GENERIC_MESSAGE, params, AdminMessage.TYPE_STOP, strReturnUrl );
         }
 
         return StringUtils.EMPTY;
@@ -120,11 +122,13 @@ public final class ExtendUtils
      *            the request
      * @param resourceType
      *            the resource type
+     * @param strReturnUrl
+     *            the URL of the screen of the form, opened by the button of an error message when there is no page to go back to
      * @return the string
      */
-    public static String validateResourceType( HttpServletRequest request, ExtendableResourceType resourceType )
+    public static String validateResourceType( HttpServletRequest request, ExtendableResourceType resourceType, String strReturnUrl )
     {
-        String strJspError = validate( request, resourceType );
+        String strJspError = validate( request, resourceType, strReturnUrl );
 
         if ( StringUtils.isNotBlank( strJspError ) )
         {
@@ -133,7 +137,7 @@ public final class ExtendUtils
 
         if ( StringUtils.isBlank( resourceType.getKey( ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP, strReturnUrl );
         }
 
         return StringUtils.EMPTY;
@@ -146,11 +150,13 @@ public final class ExtendUtils
      *            the request
      * @param resourceExtender
      *            the resource extender
+     * @param strReturnUrl
+     *            the URL of the screen of the form, opened by the button of an error message when there is no page to go back to
      * @return the string
      */
-    public static String validateResourceExtender( HttpServletRequest request, ResourceExtenderDTO resourceExtender )
+    public static String validateResourceExtender( HttpServletRequest request, ResourceExtenderDTO resourceExtender, String strReturnUrl )
     {
-        String strJspError = validate( request, resourceExtender );
+        String strJspError = validate( request, resourceExtender, strReturnUrl );
 
         if ( StringUtils.isNotBlank( strJspError ) )
         {
@@ -160,7 +166,7 @@ public final class ExtendUtils
         if ( StringUtils.isBlank( resourceExtender.getExtenderType( ) ) || StringUtils.isBlank( resourceExtender.getIdExtendableResource( ) )
                 || StringUtils.isBlank( resourceExtender.getExtendableResourceType( ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrlReturningTo( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP, strReturnUrl );
         }
 
         return StringUtils.EMPTY;

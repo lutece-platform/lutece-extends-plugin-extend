@@ -38,6 +38,7 @@ import fr.paris.lutece.plugins.extend.business.type.ExtendableResourceType;
 import fr.paris.lutece.plugins.extend.service.ExtendableResourceResourceIdService;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtender;
 import fr.paris.lutece.plugins.extend.service.extender.IResourceExtenderService;
+import fr.paris.lutece.plugins.extend.web.ResourceExtenderJspBean;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -169,7 +170,8 @@ public class ModifyDefaultConfigPluginAction extends AbstractPluginAction<IResou
 
         if ( StringUtils.isBlank( strExtenderType ) )
         {
-            result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_NO_EXTENDER_TYPE_SELECTED, AdminMessage.TYPE_STOP ) );
+            result.setRedirect( AdminMessageService.getMessageUrlReturningTo( request, MESSAGE_NO_EXTENDER_TYPE_SELECTED, AdminMessage.TYPE_STOP,
+                    AppPathService.getBaseUrl( request ) + ResourceExtenderJspBean.CONTROLLER_PATH + ResourceExtenderJspBean.JSP_MANAGE_RESOURCE_EXTENDERS ) );
 
             return result;
         }

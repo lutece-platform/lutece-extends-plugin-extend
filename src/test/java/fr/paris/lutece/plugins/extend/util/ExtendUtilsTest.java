@@ -34,7 +34,9 @@
 package fr.paris.lutece.plugins.extend.util;
 
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -80,5 +82,20 @@ public class ExtendUtilsTest extends LuteceTestCase
     public void testWildcardResourceTypeLabel( )
     {
         assertEquals( "Tous les types de ressource", ExtendUtils.getResourceTypeLabel( "*", Locale.FRENCH ) );
+    }
+
+    /**
+     * An extender without type nor resource is refused, and the button of the message returns to the screen the caller gives.
+     */
+    @Test
+    public void testValidateResourceExtenderReturnsToTheGivenScreen( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        String strReturnUrl = "http://localhost/lutece/jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp?view=createResourceExtender";
+
+        String strUrl = ExtendUtils.validateResourceExtender( request, new ResourceExtenderDTO( ), strReturnUrl );
+
+        assertTrue( strUrl.endsWith( AdminMessageService.getMessageRelativeUrl( ) ), strUrl );
+        assertEquals( strReturnUrl, AdminMessageService.getMessage( request ).getBackUrl( ) );
     }
 }
