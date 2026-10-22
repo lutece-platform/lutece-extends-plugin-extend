@@ -421,13 +421,16 @@ public class ResourceExtenderService implements IResourceExtenderService
             mapExtenderTypesInstalled.put( extender.getExtenderType( ), Boolean.FALSE );
         }
 
-        filter.setFilterIdExtendableResource( ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE );
-        filter.setFilterExtendableResourceType( strExtendableResourceType );
-        listResourceExtender = _extenderDAO.loadByFilter( filter, plugin );
-
-        for ( ResourceExtenderDTO extender : listResourceExtender )
+        if ( !ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE.equals( strIdExtendableResource ) )
         {
-            mapExtenderTypesInstalled.put( extender.getExtenderType( ), Boolean.TRUE );
+            filter.setFilterIdExtendableResource( ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE );
+            filter.setFilterExtendableResourceType( strExtendableResourceType );
+            listResourceExtender = _extenderDAO.loadByFilter( filter, plugin );
+
+            for ( ResourceExtenderDTO extender : listResourceExtender )
+            {
+                mapExtenderTypesInstalled.put( extender.getExtenderType( ), Boolean.TRUE );
+            }
         }
 
         return mapExtenderTypesInstalled;

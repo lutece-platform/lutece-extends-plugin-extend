@@ -34,6 +34,8 @@
 package fr.paris.lutece.plugins.extend.service.extender;
 
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
+import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilter;
+import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.test.LuteceTestCase;
 
@@ -41,6 +43,7 @@ import jakarta.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.LogEvent;
@@ -110,6 +113,31 @@ public class ResourceExtenderServiceTest extends LuteceTestCase
         finally
         {
             _extenderService.remove( extenderAgain.getIdExtender( ) );
+        }
+    }
+
+    /**
+     * An extender declared for every resource of a type is removable from the screen of that type (resource id '*'), and only shown as enabled by
+     * default (not removable) on the screen of one resource of the type.
+     */
+    @Test
+    public void testWildcardExtenderRemovableFromWildcardResource( )
+    {
+        ResourceExtenderDTO extender = newExtender( );
+        extender.setIdExtendableResource( ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE );
+        _extenderService.create( extender );
+        try
+        {
+            Map<String, Boolean> mapWildcard = _extenderService.getExtenderTypesInstalled( ResourceExtenderDTOFilter.WILDCARD_ID_RESOURCE, RESOURCE_TYPE,
+                    ExtendPlugin.getPlugin( ) );
+            assertEquals( Boolean.FALSE, mapWildcard.get( EXTENDER_TYPE ) );
+
+            Map<String, Boolean> mapResource = _extenderService.getExtenderTypesInstalled( ID_RESOURCE, RESOURCE_TYPE, ExtendPlugin.getPlugin( ) );
+            assertEquals( Boolean.TRUE, mapResource.get( EXTENDER_TYPE ) );
+        }
+        finally
+        {
+            _extenderService.remove( extender.getIdExtender( ) );
         }
     }
 
