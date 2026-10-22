@@ -35,9 +35,11 @@ package fr.paris.lutece.plugins.extend.service.extender;
 
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTO;
 import fr.paris.lutece.plugins.extend.business.extender.ResourceExtenderDTOFilter;
+import fr.paris.lutece.plugins.extend.modules.hit.service.IHitService;
 import fr.paris.lutece.plugins.extend.service.ExtendPlugin;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 import jakarta.inject.Inject;
 
@@ -63,6 +65,8 @@ public class ResourceExtenderServiceTest extends LuteceTestCase
 
     @Inject
     private IResourceExtenderService _extenderService;
+    @Inject
+    private IHitService _hitService;
 
     /**
      * An extender found nowhere is answered null without an error in the log.
@@ -138,6 +142,32 @@ public class ResourceExtenderServiceTest extends LuteceTestCase
         finally
         {
             _extenderService.remove( extender.getIdExtender( ) );
+        }
+    }
+
+    /**
+     * The extender type all, written by the page template of the core (@Extender[id,PAGE,all]@), renders every extender added to the resource: here the
+     * hit extender, whose content counts the hit of the page. A resource without extender gets an empty content.
+     */
+    @Test
+    public void testContentOfAllExtendersRendersTheExtendersOfTheResource( )
+    {
+        ResourceExtenderDTO extender = newExtender( );
+        _extenderService.create( extender );
+        try
+        {
+            assertNull( _hitService.findByParameters( ID_RESOURCE, RESOURCE_TYPE ) );
+
+            _extenderService.getContent( ID_RESOURCE, RESOURCE_TYPE, ResourceExtenderService.EXTENDER_TYPE_ALL, null, new MockHttpServletRequest( ) );
+
+            assertNotNull( _hitService.findByParameters( ID_RESOURCE, RESOURCE_TYPE ) );
+            assertEquals( "", _extenderService.getContent( ID_RESOURCE + "0", RESOURCE_TYPE, ResourceExtenderService.EXTENDER_TYPE_ALL, null,
+                    new MockHttpServletRequest( ) ) );
+        }
+        finally
+        {
+            _extenderService.remove( extender.getIdExtender( ) );
+            _hitService.removeByResource( ID_RESOURCE, RESOURCE_TYPE );
         }
     }
 

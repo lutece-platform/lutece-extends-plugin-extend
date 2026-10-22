@@ -77,6 +77,9 @@ import fr.paris.lutece.portal.service.cache.LuteceCache;
 @Named( "extend.resourceExtenderService" )
 public class ResourceExtenderService implements IResourceExtenderService
 {
+    /** Extender type of the markers that render every extender of a resource */
+    public static final String EXTENDER_TYPE_ALL = "all";
+
     /** The Constant BEAN_SERVICE. */
     // public static final String BEAN_SERVICE = "extend.resourceExtenderService";
 
@@ -437,12 +440,18 @@ public class ResourceExtenderService implements IResourceExtenderService
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc} The extender type {@value #EXTENDER_TYPE_ALL}, written by the page template of the core (<code>@Extender[id,PAGE,all]@</code>),
+     * renders the content of every extender added to the resource, or to every resource of its type.
      */
     @Override
     public String getContent( String strIdExtendableResource, String strExtendableResourceType, String strExtenderType, String strParameters,
             HttpServletRequest request )
     {
+        if ( EXTENDER_TYPE_ALL.equals( strExtenderType ) )
+        {
+            return getContentOfAllExtenders( strIdExtendableResource, strExtendableResourceType, strParameters, request );
+        }
+
         if ( isAuthorized( strIdExtendableResource, strExtendableResourceType, strExtenderType ) )
         {
             for ( IResourceExtender extender : getResourceExtenders( ) )
@@ -455,6 +464,35 @@ public class ResourceExtenderService implements IResourceExtenderService
         }
 
         return StringUtils.EMPTY;
+    }
+
+    /**
+     * Gets the content of every extender added to the resource, or to every resource of its type, in the order of the extenders of the application
+     *
+     * @param strIdExtendableResource
+     *            the id of the extendable resource
+     * @param strExtendableResourceType
+     *            the type of the extendable resource
+     * @param strParameters
+     *            the parameters of the marker
+     * @param request
+     *            the request
+     * @return the contents of the extenders of the resource
+     */
+    private String getContentOfAllExtenders( String strIdExtendableResource, String strExtendableResourceType, String strParameters,
+            HttpServletRequest request )
+    {
+        StringBuilder sbContent = new StringBuilder( );
+        for ( IResourceExtender extender : getResourceExtenders( ) )
+        {
+            if ( isAuthorized( strIdExtendableResource, strExtendableResourceType, extender.getKey( ) ) )
+            {
+                sbContent.append( StringUtils.defaultString(
+                        extender.getContent( strIdExtendableResource, strExtendableResourceType, strParameters, request ) ) );
+            }
+        }
+
+        return sbContent.toString( );
     }
 
     /**
