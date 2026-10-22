@@ -172,6 +172,37 @@ public class ResourceExtenderServiceTest extends LuteceTestCase
     }
 
     /**
+     * A disabled extender is not displayed in the front office, neither by its own marker nor by the type all; it still counts as installed for the
+     * back office, which refuses to add the same extender twice.
+     */
+    @Test
+    public void testDisabledExtenderNotDisplayed( )
+    {
+        ResourceExtenderDTO extender = newExtender( );
+        _extenderService.create( extender );
+        try
+        {
+            extender.setIsActive( false );
+            _extenderService.update( extender );
+
+            _extenderService.getContent( ID_RESOURCE, RESOURCE_TYPE, EXTENDER_TYPE, null, new MockHttpServletRequest( ) );
+            _extenderService.getContent( ID_RESOURCE, RESOURCE_TYPE, ResourceExtenderService.EXTENDER_TYPE_ALL, null, new MockHttpServletRequest( ) );
+            assertNull( _hitService.findByParameters( ID_RESOURCE, RESOURCE_TYPE ) );
+            assertTrue( _extenderService.isAuthorized( ID_RESOURCE, RESOURCE_TYPE, EXTENDER_TYPE ) );
+
+            extender.setIsActive( true );
+            _extenderService.update( extender );
+            _extenderService.getContent( ID_RESOURCE, RESOURCE_TYPE, EXTENDER_TYPE, null, new MockHttpServletRequest( ) );
+            assertNotNull( _hitService.findByParameters( ID_RESOURCE, RESOURCE_TYPE ) );
+        }
+        finally
+        {
+            _extenderService.remove( extender.getIdExtender( ) );
+            _hitService.removeByResource( ID_RESOURCE, RESOURCE_TYPE );
+        }
+    }
+
+    /**
      * Builds an extender of the test resource.
      *
      * @return the extender

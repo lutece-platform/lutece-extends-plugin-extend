@@ -168,6 +168,37 @@ public class ResourceExtenderService implements IResourceExtenderService
     }
 
     /**
+     * Checks whether an enabled extender of the given type is added to the resource or to every resource of its type: a disabled extender is not
+     * displayed, although it still counts as installed for {@link #isAuthorized(String, String, String)}.
+     *
+     * @param strIdExtendableResource
+     *            the id of the extendable resource
+     * @param strExtendableResourceType
+     *            the type of the extendable resource
+     * @param strExtenderType
+     *            the extender type
+     * @return true if an enabled extender is found
+     */
+    private boolean isEnabled( String strIdExtendableResource, String strExtendableResourceType, String strExtenderType )
+    {
+        String strKey = new StringBuilder( "Enabled_" ).append( strExtenderType ).append( '_' ).append( strIdExtendableResource ).append( '_' )
+                .append( strExtendableResourceType ).toString( );
+        Boolean isEnabled = (Boolean) _extenderCache.get( strKey );
+        if ( isEnabled == null )
+        {
+            ResourceExtenderDTOFilter filter = new ResourceExtenderDTOFilter( strExtenderType, strIdExtendableResource, strExtendableResourceType );
+            filter.setWideSearch( false );
+            filter.setIncludeWildcardResource( true );
+
+            isEnabled = _extenderDAO.loadByFilter( filter, ExtendPlugin.getPlugin( ) ).stream( ).anyMatch( ResourceExtenderDTO::isIsActive );
+
+            _extenderCache.put( strKey, isEnabled );
+        }
+
+        return isEnabled;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -452,7 +483,7 @@ public class ResourceExtenderService implements IResourceExtenderService
             return getContentOfAllExtenders( strIdExtendableResource, strExtendableResourceType, strParameters, request );
         }
 
-        if ( isAuthorized( strIdExtendableResource, strExtendableResourceType, strExtenderType ) )
+        if ( isEnabled( strIdExtendableResource, strExtendableResourceType, strExtenderType ) )
         {
             for ( IResourceExtender extender : getResourceExtenders( ) )
             {
@@ -485,7 +516,7 @@ public class ResourceExtenderService implements IResourceExtenderService
         StringBuilder sbContent = new StringBuilder( );
         for ( IResourceExtender extender : getResourceExtenders( ) )
         {
-            if ( isAuthorized( strIdExtendableResource, strExtendableResourceType, extender.getKey( ) ) )
+            if ( isEnabled( strIdExtendableResource, strExtendableResourceType, extender.getKey( ) ) )
             {
                 sbContent.append( StringUtils.defaultString(
                         extender.getContent( strIdExtendableResource, strExtendableResourceType, strParameters, request ) ) );
